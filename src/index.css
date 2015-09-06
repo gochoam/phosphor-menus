@@ -30,13 +30,13 @@
 }
 
 
-.p-MenuItem.p-mod-hidden,
-.p-MenuItem.p-mod-force-hidden {
+.p-Menu-item.p-mod-hidden,
+.p-Menu-item.p-mod-force-hidden {
   display: none;
 }
 
 
-.p-MenuItem > span {
+.p-Menu-item > span {
   display: table-cell;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -45,7 +45,7 @@
 
 .p-Menu-item-icon {
   width: 21px;
-  padding-left: 2px
+  padding-left: 2px;
   padding-right: 2px;
   text-align: center;
 }
