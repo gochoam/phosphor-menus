@@ -7,5 +7,7 @@
 |----------------------------------------------------------------------------*/
 'use strict';
 
+import './index.css';
+
 export * from './menu';
 export * from './menuitem';
