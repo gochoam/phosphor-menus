@@ -1100,8 +1100,11 @@ function clientViewportRect(): Rect {
 
 /**
  * Mount the menu as hidden and compute its optimal size.
+ *
+ * If the vertical scrollbar become visible, the menu will be expanded
+ * by the scrollbar width to prevent clipping the contents of the menu.
  */
-function attachAndMeasure(menu: Menu, rect: Rect, minY: number): Size {
+function mountAndMeasure(menu: Menu, maxHeight: number): Size {
   var node = menu.node;
   var style = node.style;
   style.top = '';
@@ -1109,28 +1112,23 @@ function attachAndMeasure(menu: Menu, rect: Rect, minY: number): Size {
   style.width = '';
   style.height = '';
   style.visibility = 'hidden';
+  style.maxHeight = maxHeight + 'px';
   attachWidget(menu, document.body);
-  document.body.appendChild(menu.node);
-  var width = Math.ceil(node.offsetWidth);
-  var height = Math.ceil(node.offsetHeight);
-  var maxHeight = rect.height - minY;
-  if (height > maxHeight) {
-    height = maxHeight;
-    width += 17; // adjust for scrollbar
+  if (node.scrollHeight > maxHeight) {
+    style.width = 2 * node.offsetWidth - node.clientWidth + 'px';
   }
-  return { width: width, height: height };
+  var rect = node.getBoundingClientRect();
+  return { width: rect.width, height: rect.height };
 }
 
 
 /**
- * Show the menu with the specified geometry.
+ * Show the menu at the specified position.
  */
-function showMenu(menu: Menu, x: number, y: number, w: number, h: number): void {
+function showMenu(menu: Menu, x: number, y: number): void {
   var style = menu.node.style;
   style.top = Math.max(0, y) + 'px';
   style.left = Math.max(0, x) + 'px';
-  style.width = w + 'px';
-  style.height = h + 'px';
   style.visibility = '';
 }
 
@@ -1140,7 +1138,7 @@ function showMenu(menu: Menu, x: number, y: number, w: number, h: number): void 
  */
 function openRootMenu(menu: Menu, x: number, y: number, forceX: boolean, forceY: boolean): void {
   var rect = clientViewportRect();
-  var size = attachAndMeasure(menu, rect, forceY ? y : 0);
+  var size = mountAndMeasure(menu, rect.height - (forceY ? y : 0));
   if (!forceX && (x + size.width > rect.x + rect.width)) {
     x = rect.x + rect.width - size.width;
   }
@@ -1151,7 +1149,7 @@ function openRootMenu(menu: Menu, x: number, y: number, forceX: boolean, forceY:
       y = y - size.height;
     }
   }
-  showMenu(menu, x, y, size.width, size.height);
+  showMenu(menu, x, y);
 }
 
 
@@ -1160,7 +1158,7 @@ function openRootMenu(menu: Menu, x: number, y: number, forceX: boolean, forceY:
  */
 function openSubmenu(menu: Menu, item: HTMLElement): void {
   var rect = clientViewportRect();
-  var size = attachAndMeasure(menu, rect, 0);
+  var size = mountAndMeasure(menu, rect.height);
   var box = boxSizing(menu.node);
   var itemRect = item.getBoundingClientRect();
   var x = itemRect.right - SUBMENU_OVERLAP;
@@ -1171,5 +1169,5 @@ function openSubmenu(menu: Menu, item: HTMLElement): void {
   if (y + size.height > rect.y + rect.height) {
     y = itemRect.bottom + box.borderBottom + box.paddingBottom - size.height;
   }
-  showMenu(menu, x, y, size.width, size.height);
+  showMenu(menu, x, y);
 }
