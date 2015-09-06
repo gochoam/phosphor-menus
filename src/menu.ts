@@ -34,6 +34,8 @@ import {
   MenuItem
 } from './menuitem';
 
+import './index.css';
+
 
 /**
  * `p-Menu`: the class name added to Menu instances.
