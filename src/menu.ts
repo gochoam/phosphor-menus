@@ -147,8 +147,8 @@ const SUBMENU_OVERLAP = 3;
  * A widget which displays menu items as a popup menu.
  *
  * #### Notes
- * A `Menu` widget does not support children. Adding child widgets to a
- * `Menu` will  result in undefined behavior.
+ * A `Menu` widget does not support children, and adding child widgets
+ *  to a `Menu` will  result in undefined behavior.
  */
 export
 class Menu extends Widget {
@@ -171,10 +171,14 @@ class Menu extends Widget {
   static closedSignal = new Signal<Menu, void>();
 
   /**
+   * The property descriptor for the active item index.
    *
+   * The controls which menu item is the active item.
+   *
+   * **See also:** [[activeIndex]]
    */
   static activeIndexProperty = new Property<Menu, number>({
-    value: null,
+    value: -1,
     coerce: coerceActiveIndex,
     changed: onActiveIndexChanged,
   });
@@ -250,14 +254,20 @@ class Menu extends Widget {
   }
 
   /**
+   * Get the index of the active menu item.
    *
+   * #### Notes
+   * This is a pure delegate to the [[activeIndexProperty]].
    */
   get activeIndex(): number {
     return Menu.activeIndexProperty.get(this);
   }
 
   /**
+   * Set the index of the active menu item.
    *
+   * #### Notes
+   * This is a pure delegate to the [[activeIndexProperty]].
    */
   set activeIndex(value: number) {
     Menu.activeIndexProperty.set(this, value);
@@ -365,7 +375,7 @@ class Menu extends Widget {
    * **See also:** [[addItem]], [[moveItem]]
    */
   insertItem(index: number, item: MenuItem): number {
-    this.close();
+    this.close(true);
     this.removeItem(item);
     var node = createItemNode(item);
     arrays.insert(this._items, index, item);
@@ -393,7 +403,7 @@ class Menu extends Widget {
    * **See also:** [[addItem]], [[insertItem]]
    */
   moveItem(fromIndex: number, toIndex: number): boolean {
-    this.close();
+    this.close(true);
     var i = fromIndex | 0;
     var j = toIndex | 0;
     if (!arrays.move(this._items, i, j)) {
@@ -418,7 +428,7 @@ class Menu extends Widget {
    * **See also:** [[removeItem]], [[clearItems]]
    */
   removeItemAt(index: number): MenuItem {
-    this.close();
+    this.close(true);
     var item = arrays.removeAt(this._items, index);
     if (!item) {
       return void 0;
@@ -515,9 +525,7 @@ class Menu extends Widget {
    * **See also:** [[popup]]
    */
   open(x: number, y: number, forceX = false, forceY = false): void {
-    if (!this.isAttached) {
-      openRootMenu(this, x, y, forceX, forceY);
-    }
+    if (!this.isAttached) openRootMenu(this, x, y, forceX, forceY);
   }
 
   /**
@@ -593,38 +601,24 @@ class Menu extends Widget {
    * This event listener is attached to the child item nodes.
    */
   private _evtMouseEnter(event: MouseEvent): void {
-    // Ensure the ancestor chain is properly highlighted.
     this._syncAncestors();
-
-    // Schedule a close for the open child menu, if any.
     this._closeChildMenu();
-
-    // Cancel the previous open request, if any.
     this._cancelPendingOpen();
 
-    // Find the item index corresponding to the node.
     var node = <HTMLElement>event.currentTarget;
     var index = this._nodes.indexOf(node);
-
-    // Clear the active item if the node is not tracked.
     if (index === -1) {
       this.activeIndex = -1;
       return;
     }
 
-    // Clear the active item if the target item is a separator.
     var item = this._items[index];
     if (item.type === MenuItem.Separator) {
       this.activeIndex = -1;
       return;
     }
 
-    // Otherwise, activate the new item.
     this.activeIndex = index;
-
-    // If the item has a submenu, it should be opened. If the item
-    // is already open, the close request from above is cancelled.
-    // Otherwise, the new item is scheduled to be opened.
     if (item.submenu && !item.disabled) {
       if (item === this._childItem) {
         this._cancelPendingClose();
@@ -692,7 +686,7 @@ class Menu extends Widget {
       hit = hitTest(menu.node, x, y);
       menu = menu._childMenu;
     }
-    if (!hit) this.close();
+    if (!hit) this.close(true);
   }
 
   /**
@@ -710,11 +704,11 @@ class Menu extends Widget {
       break;
     case 27:  // Escape
       event.preventDefault();
-      leaf.close();
+      leaf.close(true);
       break;
     case 37:  // Left Arrow
       event.preventDefault();
-      if (leaf !== this) leaf.close();
+      if (leaf !== this) leaf.close(true);
       break;
     case 38:  // Up Arrow
       event.preventDefault();
@@ -802,7 +796,7 @@ class Menu extends Widget {
       this._openChildMenu(item, this._nodes[index], false);
       this._childMenu._activateNextItem();
     } else {
-      this.rootMenu.close();
+      this.rootMenu.close(true);
       item.trigger();
     }
   }
@@ -877,7 +871,7 @@ class Menu extends Widget {
     this._closeTimerId = setTimeout(() => {
       this._closeTimerId = 0;
       if (this._childMenu) {
-        this._childMenu.close();
+        this._childMenu.close(true);
         this._childMenu = null;
         this._childItem = null;
       }
@@ -894,7 +888,7 @@ class Menu extends Widget {
     this._cancelPendingClose();
     this.activeIndex = -1;
     if (this._childMenu) {
-      this._childMenu.close();
+      this._childMenu.close(true);
       this._childMenu = null;
       this._childItem = null;
     }
@@ -968,7 +962,7 @@ class Menu extends Widget {
     if (i === -1) {
       return;
     }
-    this.close();
+    this.close(true);
     initItemNode(item, this._nodes[i]);
     this._collapseSeparators();
   }
@@ -984,17 +978,17 @@ class Menu extends Widget {
 
 
 /**
- *
+ * The coerce handler for the [[activeIndex]] property.
  */
 function coerceActiveIndex(owner: Menu, value: number): number {
-  var j = value | 0;
-  var it = owner.itemAt(j);
-  return (!it || it.hidden || it.type === MenuItem.Separator) ? -1 : j;
+  var i = value | 0;
+  var item = owner.itemAt(i);
+  return (!item || item.hidden || item.type === MenuItem.Separator) ? -1 : i;
 }
 
 
 /**
- *
+ * The change handler for the [[activeIndex]] property.
  */
 function onActiveIndexChanged(owner: Menu, i: number, j: number): void {
   var oldNode = (<any>owner)._nodes[i];
