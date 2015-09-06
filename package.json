@@ -26,11 +26,14 @@
   },
   "scripts": {
     "clean": "rimraf lib && rimraf test/build && rimraf test/coverage",
+    "clean:example": "rimraf example/*.js",
     "build:src": "tsc --project src",
     "build:test": "tsc --project test/src",
     "build:css": "node scripts/copycss.js",
+    "build:example": "tsc --project example && browserify example/index.js -t browserify-css -o example/bundle.js",
     "build": "npm run build:src && npm run build:test && npm run build:css",
     "docs": "rimraf docs/api && typedoc --options scripts/tdoptions.json",
+    "postinstall": "npm dedupe",
     "prepublish": "npm run build",
     "test:chrome": "karma start --browsers=Chrome test/karma.conf.js",
     "test:coverage": "karma start test/karma-cov.conf.js",
@@ -49,7 +52,9 @@
   ],
   "keywords": [
     "ui",
-    "menus"
+    "menu",
+    "menus",
+    "menubar"
   ],
   "author": "S. Chris Colbert <sccolbert@gmail.com>",
   "license": "BSD-3-Clause",
