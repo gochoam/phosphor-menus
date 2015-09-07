@@ -27,8 +27,12 @@ import {
 } from 'phosphor-signaling';
 
 import {
-  Widget, attachWidget
+  attachWidget, detachWidget
 } from 'phosphor-widget';
+
+import {
+  ItemMessage, MenuBase
+} from './menubase';
 
 import {
   MenuItem
@@ -145,11 +149,11 @@ const SUBMENU_OVERLAP = 3;
  * A widget which displays menu items as a popup menu.
  *
  * #### Notes
- * A `Menu` widget does not support children, and adding child widgets
- *  to a `Menu` will  result in undefined behavior.
+ * A `Menu` widget does not support child widgets. Adding children
+ * to a `Menu` will result in undefined behavior.
  */
 export
-class Menu extends Widget {
+class Menu extends MenuBase {
   /**
    * Create the DOM node for a menu.
    */
@@ -169,19 +173,6 @@ class Menu extends Widget {
   static closedSignal = new Signal<Menu, void>();
 
   /**
-   * The property descriptor for the active item index.
-   *
-   * The controls which menu item is the active item.
-   *
-   * **See also:** [[activeIndex]]
-   */
-  static activeIndexProperty = new Property<Menu, number>({
-    value: -1,
-    coerce: coerceActiveIndex,
-    changed: onActiveIndexChanged,
-  });
-
-  /**
    * Construct a new menu.
    */
   constructor() {
@@ -194,7 +185,6 @@ class Menu extends Widget {
    */
   dispose(): void {
     this.close(true);
-    this._items.length = 0;
     this._nodes.length = 0;
     super.dispose();
   }
@@ -249,221 +239,6 @@ class Menu extends Widget {
       menu = menu._childMenu;
     }
     return menu;
-  }
-
-  /**
-   * Get the index of the active menu item.
-   *
-   * #### Notes
-   * This is a pure delegate to the [[activeIndexProperty]].
-   */
-  get activeIndex(): number {
-    return Menu.activeIndexProperty.get(this);
-  }
-
-  /**
-   * Set the index of the active menu item.
-   *
-   * #### Notes
-   * This is a pure delegate to the [[activeIndexProperty]].
-   */
-  set activeIndex(value: number) {
-    Menu.activeIndexProperty.set(this, value);
-  }
-
-  /**
-   * Get a shallow copy of the array of menu items.
-   *
-   * #### Notes
-   * When only iterating over the items, it can be faster to use
-   * the item query methods, which do not perform a copy.
-   *
-   * **See also:** [[itemCount]], [[itemAt]]
-   */
-  get items(): MenuItem[] {
-    return this._items.slice();
-  }
-
-  /**
-   * Set the menu items for the menu.
-   *
-   * #### Notes
-   * This will clear the current items and add the specified items.
-   * Depending on the desired outcome, it can be more efficient to
-   * use one of the item manipulation methods.
-   *
-   * **See also:** [[addItem]], [[insertItem]], [[removeItem]]
-   */
-  set items(items: MenuItem[]) {
-    this.clearItems();
-    items.forEach(item => this.addItem(item));
-  }
-
-  /**
-   * Get the number of menu items in the menu.
-   *
-   * #### Notes
-   * This is a read-only property.
-   *
-   * **See also:** [[items]], [[itemAt]]
-   */
-  get itemCount(): number {
-    return this._items.length;
-  }
-
-  /**
-   * Get the menu item at a specific index.
-   *
-   * @param index - The index of the menu item of interest.
-   *
-   * @returns The item at the specified index, or `undefined` if the
-   *   index is out of range.
-   *
-   * **See also:** [[itemCount]], [[itemIndex]]
-   */
-  itemAt(index: number): MenuItem {
-    return this._items[index | 0];
-  }
-
-  /**
-   * Get the index of a specific menu item.
-   *
-   * @param item - The menu item of interest.
-   *
-   * @returns The index of the specified item, or -1 if the item is
-   *   not contained within the menu.
-   *
-   * **See also:** [[itemCount]], [[itemAt]]
-   */
-  itemIndex(item: MenuItem): number {
-    return this._items.indexOf(item);
-  }
-
-  /**
-   * Add a menu item to the end of the menu.
-   *
-   * @param item - The menu item to add to the menu.
-   *
-   * @returns The new index of the item.
-   *
-   * #### Notes
-   * If the item is already contained within the menu, it will first
-   * be removed.
-   *
-   * **See also:** [[insertItem]], [[moveItem]]
-   */
-  addItem(item: MenuItem): number {
-    return this.insertItem(this._items.length, item);
-  }
-
-  /**
-   * Insert a menu item into the menu at the given index.
-   *
-   * @param index - The index at which to insert the item. This will be
-   *   clamped to the bounds of the menu.
-   *
-   * @param item - The menu item to add to the menu.
-   *
-   * @returns The new index of the item.
-   *
-   * #### Notes
-   * If the item is already contained within the menu, it will first
-   * be removed.
-   *
-   * **See also:** [[addItem]], [[moveItem]]
-   */
-  insertItem(index: number, item: MenuItem): number {
-    this.close(true);
-    this.removeItem(item);
-    var node = createItemNode(item);
-    arrays.insert(this._items, index, item);
-    var i = arrays.insert(this._nodes, index, node);
-    this.node.firstChild.insertBefore(node, this._nodes[i + 1]);
-    Property.getChanged(item).connect(this._onPropertyChanged, this);
-    node.addEventListener('mouseenter', this);
-    this._collapseSeparators();
-    return i;
-  }
-
-  /**
-   * Move a menu item from one index to another.
-   *
-   * @param fromIndex - The index of the item to move.
-   *
-   * @param toIndex - The target index of the item.
-   *
-   * @returns `true` if the move was successful, or `false` if either
-   *   index is out of range.
-   *
-   * #### Notes
-   * This can be more efficient than re-inserting an existing item.
-   *
-   * **See also:** [[addItem]], [[insertItem]]
-   */
-  moveItem(fromIndex: number, toIndex: number): boolean {
-    this.close(true);
-    var i = fromIndex | 0;
-    var j = toIndex | 0;
-    if (!arrays.move(this._items, i, j)) {
-      return false;
-    }
-    if (i !== j) {
-      arrays.move(this._nodes, i, j);
-      this.node.firstChild.insertBefore(this._nodes[j], this._nodes[j + 1]);
-      this._collapseSeparators();
-    }
-    return true;
-  }
-
-  /**
-   * Remove the menu item at a specific index.
-   *
-   * @param index - The index of the menu item of interest.
-   *
-   * @returns The removed item, or `undefined` if the index is out
-   *   of range.
-   *
-   * **See also:** [[removeItem]], [[clearItems]]
-   */
-  removeItemAt(index: number): MenuItem {
-    this.close(true);
-    var item = arrays.removeAt(this._items, index);
-    if (!item) {
-      return void 0;
-    }
-    var node = arrays.removeAt(this._nodes, index);
-    this.node.firstChild.removeChild(node);
-    Property.getChanged(item).disconnect(this._onPropertyChanged, this);
-    node.removeEventListener('mouseenter', this);
-    this._collapseSeparators();
-    return item;
-  }
-
-  /**
-   * Remove a specific menu item from the menu.
-   *
-   * @param item - The menu item of interest.
-   *
-   * @returns The index which the item occupied, or `-1` if the
-   *   item is not contained by the menu.
-   *
-   * **See also:** [[removeItemAt]], [[clearItems]]
-   */
-  removeItem(item: MenuItem): number {
-    var i = this._items.indexOf(item);
-    if (i !== -1) this.removeItemAt(i);
-    return i;
-  }
-
-  /**
-   * Remove all menu items from the menu.
-   *
-   * **See also:** [[removeItem]], [[removeItemAt]]
-   */
-  clearItems(): void {
-    while (this._items.length > 0) {
-      this.removeItemAt(this._items.length - 1);
-    }
   }
 
   /**
@@ -523,7 +298,9 @@ class Menu extends Widget {
    * **See also:** [[popup]]
    */
   open(x: number, y: number, forceX = false, forceY = false): void {
-    if (!this.isAttached) openRootMenu(this, x, y, forceX, forceY);
+    if (!this.isAttached) {
+      openRootMenu(this, x, y, forceX, forceY);
+    }
   }
 
   /**
@@ -563,6 +340,57 @@ class Menu extends Widget {
   }
 
   /**
+   * A message handler invoked on an `'item-added'` message.
+   */
+  protected onItemAdded(msg: ItemMessage): void {
+    var node = createItemNode(msg.item);
+    var next = this._nodes[msg.currentIndex];
+    arrays.insert(this._nodes, msg.currentIndex, node);
+    this.node.firstChild.insertBefore(node, next);
+    Property.getChanged(msg.item).connect(this._onPropertyChanged, this);
+    node.addEventListener('mouseenter', this);
+    this._collapseSeparators();
+  }
+
+  /**
+   * A message handler invoked on an `'item-removed'` message.
+   */
+  protected onItemRemoved(msg: ItemMessage): void {
+    var node = arrays.removeAt(this._nodes, msg.previousIndex);
+    this.node.firstChild.removeChild(node);
+    Property.getChanged(msg.item).disconnect(this._onPropertyChanged, this);
+    node.removeEventListener('mouseenter', this);
+    this._collapseSeparators();
+  }
+
+  /**
+   * A message handler invoked on an `'item-moved'` message.
+   */
+  protected onItemMoved(msg: ItemMessage): void {
+    arrays.move(this._nodes, msg.previousIndex, msg.currentIndex);
+    var node = this._nodes[msg.currentIndex];
+    var next = this._nodes[msg.currentIndex + 1];
+    this.node.firstChild.insertBefore(node, next);
+    this._collapseSeparators();
+  }
+
+  /**
+   * A message handler invoked on an `'item-open-request'` message.
+   */
+  protected onItemOpenRequest(msg: ItemMessage): void {
+    this._openChildMenu(msg.item, this._nodes[msg.currentIndex], false);
+    this._childMenu.activateNextItem();
+  }
+
+  /**
+   * A message handler invoked on an `'item-trigger-request'` message.
+   */
+  protected onItemTriggerRequest(msg: ItemMessage): void {
+    this.rootMenu.close(true);
+    msg.item.trigger();
+  }
+
+  /**
    * A message handler invoked on an `'after-attach'` message.
    */
   protected onAfterAttach(msg: Message): void {
@@ -587,10 +415,43 @@ class Menu extends Widget {
    * A message handler invoked on a `'close-request'` message.
    */
   protected onCloseRequest(msg: Message): void {
-    super.onCloseRequest(msg);
-    this._reset();
-    this._removeFromParent();
-    this.closed.emit(void 0);
+    this._cancelPendingOpen();
+    this._cancelPendingClose();
+    this.activeIndex = -1;
+
+    var childMenu = this._childMenu;
+    if (childMenu) {
+      this._childMenu = null;
+      this._childItem = null;
+      childMenu.close(true);
+    }
+
+    var parentMenu = this._parentMenu;
+    if (parentMenu) {
+      this._parentMenu = null;
+      parentMenu._cancelPendingOpen();
+      parentMenu._cancelPendingClose();
+      parentMenu._childMenu = null;
+      parentMenu._childItem = null;
+    }
+
+    if (this.parent) {
+      this.parent = null;
+      this.closed.emit(void 0);
+    } else if (this.isAttached) {
+      detachWidget(this);
+      this.closed.emit(void 0);
+    }
+  }
+
+  /**
+   * A method invoked when the active index changes.
+   */
+  protected onActiveIndexChanged(old: number, index: number): void {
+    var oldNode = this._nodes[old];
+    var newNode = this._nodes[index];
+    if (oldNode) oldNode.classList.remove(ACTIVE_CLASS);
+    if (newNode) newNode.classList.add(ACTIVE_CLASS);
   }
 
   /**
@@ -602,22 +463,10 @@ class Menu extends Widget {
     this._syncAncestors();
     this._closeChildMenu();
     this._cancelPendingOpen();
-
     var node = <HTMLElement>event.currentTarget;
-    var index = this._nodes.indexOf(node);
-    if (index === -1) {
-      this.activeIndex = -1;
-      return;
-    }
-
-    var item = this._items[index];
-    if (item.type === MenuItem.Separator) {
-      this.activeIndex = -1;
-      return;
-    }
-
-    this.activeIndex = index;
-    if (item.submenu && !item.disabled) {
+    this.activeIndex = this._nodes.indexOf(node);
+    var item = this.itemAt(this.activeIndex);
+    if (item && item.submenu) {
       if (item === this._childItem) {
         this._cancelPendingClose();
       } else {
@@ -655,7 +504,7 @@ class Menu extends Widget {
     var y = event.clientY;
     var i = arrays.findIndex(this._nodes, node => hitTest(node, x, y));
     if (i === this.activeIndex) {
-      this._triggerActiveItem();
+      this.triggerActiveItem();
     }
   }
 
@@ -698,7 +547,7 @@ class Menu extends Widget {
     switch (event.keyCode) {
     case 13:  // Enter
       event.preventDefault();
-      leaf._triggerActiveItem();
+      leaf.triggerActiveItem();
       break;
     case 27:  // Escape
       event.preventDefault();
@@ -710,15 +559,15 @@ class Menu extends Widget {
       break;
     case 38:  // Up Arrow
       event.preventDefault();
-      leaf._activatePreviousItem();
+      leaf.activatePreviousItem();
       break;
     case 39:  // Right Arrow
       event.preventDefault();
-      leaf._openActiveItem();
+      leaf.openActiveItem();
       break;
     case 40:  // Down Arrow
       event.preventDefault();
-      leaf._activateNextItem();
+      leaf.activateNextItem();
       break;
     }
   }
@@ -731,72 +580,7 @@ class Menu extends Widget {
   private _evtKeyPress(event: KeyboardEvent): void {
     event.preventDefault();
     event.stopPropagation();
-    var str = String.fromCharCode(event.charCode);
-    this.leafMenu._activateMnemonicItem(str);
-  }
-
-  /**
-   * Activate the next non-separator menu item.
-   */
-  private _activateNextItem(): void {
-    var k = this.activeIndex + 1;
-    var start = k >= this._items.length ? 0 : k;
-    var i = arrays.findIndex(this._items, isSelectableItem, start, true);
-    this.activeIndex = i;
-  }
-
-  /**
-   * Activate the previous non-separator menu item.
-   */
-  private _activatePreviousItem(): void {
-    var k = this.activeIndex;
-    var start = k <= 0 ? this._items.length - 1 : k - 1;
-    var i = arrays.rfindIndex(this._items, isSelectableItem, start, true);
-    this.activeIndex = i;
-  }
-
-  /**
-   * Activate the next menu item with the given mnemonic key.
-   */
-  private _activateMnemonicItem(key: string): void {
-    var upperKey = key.toUpperCase();
-    var k = this.activeIndex + 1;
-    var start = k >= this._items.length ? 0 : k;
-    var i = arrays.findIndex(this._items, item => {
-      return isKeyableItem(item) && item.mnemonic.toUpperCase() === upperKey;
-    }, start, true);
-    this.activeIndex = i;
-  }
-
-  /**
-   * Open the submenu of the active menu item.
-   */
-  private _openActiveItem(): void {
-    var index = this.activeIndex;
-    var item = this._items[index];
-    if (!item || !item.submenu || item.disabled) {
-      return;
-    }
-    this._openChildMenu(item, this._nodes[index], false);
-    this._childMenu._activateNextItem();
-  }
-
-  /**
-   * Trigger (or open) the active menu item.
-   */
-  private _triggerActiveItem(): void {
-    var index = this.activeIndex;
-    var item = this._items[index];
-    if (!item || item.disabled) {
-      return;
-    }
-    if (item.submenu) {
-      this._openChildMenu(item, this._nodes[index], false);
-      this._childMenu._activateNextItem();
-    } else {
-      this.rootMenu.close(true);
-      item.trigger();
-    }
+    this.leafMenu.activateMnemonicItem(String.fromCharCode(event.charCode));
   }
 
   /**
@@ -809,21 +593,18 @@ class Menu extends Widget {
   private _syncAncestors(): void {
     var menu = this._parentMenu;
     while (menu) {
-      menu._cancelPendingOpen();
-      menu._cancelPendingClose();
       menu._syncChildItem();
       menu = menu._parentMenu;
     }
   }
 
   /**
-   * Synchronize the active item with the item for the child menu.
-   *
-   * This ensures that the active item is the child menu item.
+   * Synchronize the active index with the current child item.
    */
   private _syncChildItem(): void {
-    var i = this._items.indexOf(this._childItem);
-    if (i !== -1) this.activeIndex = i;
+    this._cancelPendingOpen();
+    this._cancelPendingClose();
+    this.activeIndex = this.itemIndex(this._childItem);
   }
 
   /**
@@ -877,37 +658,6 @@ class Menu extends Widget {
   }
 
   /**
-   * Reset the state of the menu.
-   *
-   * This deactivates the current item and closes the child menu.
-   */
-  private _reset(): void {
-    this._cancelPendingOpen();
-    this._cancelPendingClose();
-    this.activeIndex = -1;
-    if (this._childMenu) {
-      this._childMenu.close(true);
-      this._childMenu = null;
-      this._childItem = null;
-    }
-  }
-
-  /**
-   * Remove the menu from its parent menu.
-   */
-  private _removeFromParent(): void {
-    var parent = this._parentMenu;
-    if (!parent) {
-      return;
-    }
-    this._parentMenu = null;
-    parent._cancelPendingOpen();
-    parent._cancelPendingClose();
-    parent._childMenu = null;
-    parent._childItem = null;
-  }
-
-  /**
    * Cancel any pending child menu open task.
    */
   private _cancelPendingOpen(): void {
@@ -935,19 +685,48 @@ class Menu extends Widget {
    * leading and trailing separator nodes.
    */
   private _collapseSeparators(): void {
-    var hideSeparator = true;
-    var lastSelectable = arrays.rfindIndex(this._items, isSelectableItem);
-    for (var i = 0, n = this._items.length; i < n; ++i) {
-      var item = this._items[i];
-      if (item.type === MenuItem.Separator) {
-        if (hideSeparator || i > lastSelectable) {
-          this._nodes[i].classList.add(FORCE_HIDDEN_CLASS);
-        } else if (!item.hidden) {
-          this._nodes[i].classList.remove(FORCE_HIDDEN_CLASS);
-          hideSeparator = true;
-        }
-      } else if (!item.hidden) {
-        hideSeparator = false;
+    // Reset the force hidden state.
+    for (var k = 0, n = this.itemCount; k < n; ++k) {
+      this._nodes[k].classList.remove(FORCE_HIDDEN_CLASS);
+    }
+
+    // Force hide the leading visible separators.
+    var i: number;
+    for (i = 0, n = this.itemCount; i < n; ++i) {
+      var item = this.itemAt(i);
+      if (item.hidden) {
+        continue;
+      }
+      if (item.type !== MenuItem.Separator) {
+        break;
+      }
+      this._nodes[i].classList.add(FORCE_HIDDEN_CLASS);
+    }
+
+    // Force hide the trailing visible separators.
+    var j: number;
+    for (j = this.itemCount - 1; j >= 0; --j) {
+      var item = this.itemAt(j);
+      if (item.hidden) {
+        continue;
+      }
+      if (item.type !== MenuItem.Separator) {
+        break;
+      }
+      this._nodes[j].classList.add(FORCE_HIDDEN_CLASS);
+    }
+
+    // Force hide the remaining consecutive visible separators.
+    var lastWasSep = false;
+    while (++i < j) {
+      var item = this.itemAt(i);
+      if (item.hidden) {
+        continue;
+      }
+      if (lastWasSep && item.type === MenuItem.Separator) {
+        this._nodes[i].classList.add(FORCE_HIDDEN_CLASS);
+      } else {
+        lastWasSep = item.type === MenuItem.Separator;
       }
     }
   }
@@ -955,13 +734,10 @@ class Menu extends Widget {
   /**
    * Handle the property changed signal from a menu item.
    */
-  private _onPropertyChanged(item: MenuItem): void {
-    var i = this._items.indexOf(item);
-    if (i === -1) {
-      return;
-    }
+  private _onPropertyChanged(item: MenuItem, args: any): void {
     this.close(true);
-    initItemNode(item, this._nodes[i]);
+    var index = this.itemIndex(item);
+    initItemNode(item, this._nodes[index]);
     this._collapseSeparators();
   }
 
@@ -970,29 +746,7 @@ class Menu extends Widget {
   private _parentMenu: Menu = null;
   private _childMenu: Menu = null;
   private _childItem: MenuItem = null;
-  private _items: MenuItem[] = [];
   private _nodes: HTMLElement[] = [];
-}
-
-
-/**
- * The coerce handler for the [[activeIndex]] property.
- */
-function coerceActiveIndex(owner: Menu, value: number): number {
-  var i = value | 0;
-  var item = owner.itemAt(i);
-  return (!item || item.hidden || item.type === MenuItem.Separator) ? -1 : i;
-}
-
-
-/**
- * The change handler for the [[activeIndex]] property.
- */
-function onActiveIndexChanged(owner: Menu, i: number, j: number): void {
-  var oldNode = (<any>owner)._nodes[i];
-  var newNode = (<any>owner)._nodes[j];
-  if (oldNode) oldNode.classList.remove(ACTIVE_CLASS);
-  if (newNode) newNode.classList.add(ACTIVE_CLASS);
 }
 
 
@@ -1054,14 +808,6 @@ function initItemNode(item: MenuItem, node: HTMLElement): void {
  */
 function isSelectableItem(item: MenuItem): boolean {
   return !item.hidden && item.type !== MenuItem.Separator;
-}
-
-
-/**
- * Test whether a menu item is keyable for a mnemonic.
- */
-function isKeyableItem(item: MenuItem): boolean {
-  return !item.disabled && isSelectableItem(item);
 }
 
 
