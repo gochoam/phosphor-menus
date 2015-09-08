@@ -772,30 +772,37 @@ function createItemNode(item: MenuItem): HTMLElement {
  * Initialize the DOM node for the given menu item.
  */
 function initItemNode(item: MenuItem, node: HTMLElement): void {
-  var parts = [MENU_ITEM_CLASS];
-  if (item.className) {
-    parts.push(item.className);
-  }
+  var textNode = (<HTMLElement>node.children[1]);
+  var shortNode = (<HTMLElement>node.children[2]);
+  var classParts = [MENU_ITEM_CLASS];
   if (item.type === MenuItem.Check) {
-    parts.push(CHECK_TYPE_CLASS);
+    textNode.textContent = item.text;
+    shortNode.textContent = item.shortcut;
+    classParts.push(CHECK_TYPE_CLASS);
   } else if (item.type === MenuItem.Separator) {
-    parts.push(SEPARATOR_TYPE_CLASS);
+    textNode.textContent = '';
+    shortNode.textContent = '';
+    classParts.push(SEPARATOR_TYPE_CLASS);
+  } else {
+    textNode.textContent = item.text;
+    shortNode.textContent = item.shortcut;
   }
   if (item.checked) {
-    parts.push(CHECKED_CLASS);
+    classParts.push(CHECKED_CLASS);
   }
   if (item.disabled) {
-    parts.push(DISABLED_CLASS);
+    classParts.push(DISABLED_CLASS);
   }
   if (item.hidden) {
-    parts.push(HIDDEN_CLASS);
+    classParts.push(HIDDEN_CLASS);
   }
   if (item.submenu) {
-    parts.push(HAS_SUBMENU_CLASS);
+    classParts.push(HAS_SUBMENU_CLASS);
   }
-  node.className = parts.join(' ');
-  (<HTMLElement>node.children[1]).textContent = item.text;
-  (<HTMLElement>node.children[2]).textContent = item.shortcut;
+  if (item.className) {
+    classParts.push(item.className);
+  }
+  node.className = classParts.join(' ');
 }
 
 
