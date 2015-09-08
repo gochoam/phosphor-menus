@@ -678,11 +678,7 @@ class Menu extends MenuBase {
   }
 
   /**
-   * Collapse neighboring visible separators.
-   *
-   * This force-hides select separator nodes such that there are never
-   * multiple visible separator siblings. It also force-hides all
-   * leading and trailing separator nodes.
+   * Collapse leading, trailing, and adjacent visible separators.
    */
   private _collapseSeparators(): void {
     // Reset the force hidden state.
