@@ -730,7 +730,7 @@ class Menu extends MenuBase {
   /**
    * Handle the property changed signal from a menu item.
    */
-  private _onPropertyChanged(item: MenuItem, args: any): void {
+  private _onPropertyChanged(item: MenuItem): void {
     this.close(true);
     var index = this.itemIndex(item);
     initItemNode(item, this._nodes[index]);
