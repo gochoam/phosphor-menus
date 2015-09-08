@@ -56,7 +56,15 @@
   "files": [
     "lib/index.js",
     "lib/index.css",
-    "lib/index.d.ts"
+    "lib/index.d.ts",
+    "lib/menu.js",
+    "lib/menu.d.ts",
+    "lib/menubar.js",
+    "lib/menubar.d.ts",
+    "lib/menubase.js",
+    "lib/menubase.d.ts",
+    "lib/menuitem.js",
+    "lib/menuitem.d.ts"
   ],
   "keywords": [
     "ui",
