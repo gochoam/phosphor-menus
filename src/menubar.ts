@@ -222,15 +222,9 @@ class MenuBar extends MenuBase {
    * A message handler invoked on an `'item-open-request'` message.
    */
   protected onItemOpenRequest(msg: ItemMessage): void {
-    // var index = this._activeIndex;
-    // var item = this._items[index];
-    // if (!item) {
-    //   return false;
-    // }
-    // this._setState(MBState.Active);
-    // this._setActiveIndex(index);
-    // var menu = this._childMenu;
-    // if (menu) menu.activateNextItem();
+    this._activate();
+    this._closeChildMenu();
+    this._openChildMenu(msg.item.submenu, this._nodes[msg.currentIndex]);
   }
 
   /**
@@ -299,28 +293,17 @@ class MenuBar extends MenuBase {
     }
 
     // At this point, the bar is not active. If the mouse press
-    // was not on a menu item, reset the active index and bail.
+    // was not on a menu item, clear the active index and return.
     if (i === -1) {
       this.activeIndex = -1;
       return;
     }
 
-    // Otherwise, the press was on a menu item. Active the menu bar.
+    // Otherwise, the press was on a menu item. Activate the bar,
+    // update the active index, and open the menu item if possible.
     this._activate();
-
-    // Lookup the pressed menu item. If it's hidden, disabled,
-    // or a separator, clear the active index.
-    var item = this.itemAt(i);
-    if (item.hidden || item.disabled || item.type === MenuItem.Separator) {
-      this.activeIndex = -1;
-      return;
-    }
-
-    // Update the active index to the pressed item.
     this.activeIndex = i;
-
-    // Finally, open the item's submenu if it has one.
-    if (item.submenu) this._openChildMenu(item.submenu, this._nodes[i]);
+    this.openActiveItem();
   }
 
   /**
@@ -353,18 +336,9 @@ class MenuBar extends MenuBase {
       return;
     }
 
-    // The active index has changed, close the open child menu.
+    // Otherwise, close the current child menu and open the new one.
     this._closeChildMenu();
-
-    // Lookup the hovered menu item. If it's hidden, disabled,
-    // or a separator, there's nothing more to do.
-    var item = this.itemAt(i);
-    if (item.hidden || item.disabled || item.type === MenuItem.Separator) {
-      return;
-    }
-
-    // Finally, open the hovered item's submenu if it has one.
-    if (item.submenu) this._openChildMenu(item.submenu, this._nodes[i]);
+    this.openActiveItem();
   }
 
   /**
@@ -375,10 +349,7 @@ class MenuBar extends MenuBase {
   }
 
   /**
-   * Handle the `'contextmenu'` event for the menu.
-   *
-   * This event listener is attached to the menu bar node and disables
-   * the default browser context menu.
+   * Handle the `'contextmenu'` event for the menu bar.
    */
   private _evtContextMenu(event: Event): void {
     event.preventDefault();
@@ -386,58 +357,64 @@ class MenuBar extends MenuBase {
   }
 
   /**
-   * Handle the 'keydown' event for the menu bar.
+   * Handle the `'keydown'` event for the menu bar.
    */
   private _evtKeyDown(event: KeyboardEvent): void {
-    // event.stopPropagation();
-    // var menu = this._childMenu;
-    // var leaf = menu && menu.leafMenu;
-    // switch (event.keyCode) {
-    // case 13:  // Enter
-    //   event.preventDefault();
-    //   if (leaf) leaf.triggerActiveItem();
-    //   break;
-    // case 27:  // Escape
-    //   event.preventDefault();
-    //   if (leaf) leaf.close(true);
-    //   break;
-    // case 37:  // Left Arrow
-    //   event.preventDefault();
-    //   if (leaf && leaf !== menu) {
-    //     leaf.close(true);
-    //   } else {
-    //     this.activatePreviousItem();
-    //   }
-    //   break;
-    // case 38:  // Up Arrow
-    //   event.preventDefault();
-    //   if (leaf) leaf.activatePreviousItem();
-    //   break;
-    // case 39:  // Right Arrow
-    //   event.preventDefault();
-    //   // if (!leaf || !leaf.openActiveItem()) {
-    //   //   this.activateNextItem();
-    //   // }
-    //   break;
-    // case 40:  // Down Arrow
-    //   event.preventDefault();
-    //   if (leaf) leaf.activateNextItem();
-    //   break;
-    // }
+    event.stopPropagation();
+    var menu = this._childMenu;
+    var leaf = menu && menu.leafMenu;
+    switch (event.keyCode) {
+    case 13:  // Enter
+      event.preventDefault();
+      if (leaf) leaf.triggerActiveItem();
+      break;
+    case 27:  // Escape
+      event.preventDefault();
+      if (leaf) leaf.close(true);
+      break;
+    case 37:  // Left Arrow
+      event.preventDefault();
+      if (leaf && leaf !== menu) {
+        leaf.close(true);
+      } else {
+        this._closeChildMenu();
+        this.activatePreviousItem();
+        this.openActiveItem();
+      }
+      break;
+    case 38:  // Up Arrow
+      event.preventDefault();
+      if (leaf) leaf.activatePreviousItem();
+      break;
+    case 39:  // Right Arrow
+      event.preventDefault();
+      if (leaf && activeHasMenu(leaf)) {
+        leaf.openActiveItem();
+      } else {
+        this._closeChildMenu();
+        this.activateNextItem();
+        this.openActiveItem();
+      }
+      break;
+    case 40:  // Down Arrow
+      event.preventDefault();
+      if (leaf) leaf.activateNextItem();
+      break;
+    }
   }
 
   /**
    * Handle the `'keypress'` event for the menu bar.
    */
   private _evtKeyPress(event: KeyboardEvent): void {
-    // event.preventDefault();
-    // event.stopPropagation();
-    // var base = this._childMenu || this;
-    // base.activateMnemonicItem(String.fromCharCode(event.charCode));
+    event.preventDefault();
+    event.stopPropagation();
+    var str = String.fromCharCode(event.charCode);
+    (this._childMenu || this).activateMnemonicItem(str);
   }
 
   /**
-   * Open the menu item's submenu using the node for location.
+   * Open the child menu using the given item node for location.
    */
   private _openChildMenu(menu: Menu, node: HTMLElement): void {
     var rect = node.getBoundingClientRect();
@@ -461,12 +438,17 @@ class MenuBar extends MenuBase {
   }
 
   /**
+   * Activate the menu bar and switch the mouse listeners to global.
    *
+   * The listeners are switched after the current event dispatch is
+   * complete. Otherwise, duplicate event notifications could occur.
    */
   private _activate(): void {
+    if (this._active) {
+      return;
+    }
     this._active = true;
     this.addClass(ACTIVE_CLASS);
-    // swap event listeners after current dispatch is complete
     setTimeout(() => {
       this.node.removeEventListener('mousedown', this);
       document.addEventListener('mousedown', this, true);
@@ -476,12 +458,17 @@ class MenuBar extends MenuBase {
   }
 
   /**
+   * Deactivate the menu bar switch the mouse listeners to local.
    *
+   * The listeners are switched after the current event dispatch is
+   * complete. Otherwise, duplicate event notifications could occur.
    */
   private _deactivate(): void {
+    if (!this._active) {
+      return;
+    }
     this._active = false;
     this.removeClass(ACTIVE_CLASS);
-    // swap event listeners after current dispatch is complete
     setTimeout(() => {
       this.node.addEventListener('mousedown', this);
       document.removeEventListener('mousedown', this, true);
@@ -491,7 +478,7 @@ class MenuBar extends MenuBase {
   }
 
   /**
-   *
+   * Reset the menu bar to its default state.
    */
   private _reset(): void {
     this._deactivate();
@@ -500,7 +487,7 @@ class MenuBar extends MenuBase {
   }
 
   /**
-   * Collapse leading, trailing, and neighboring visible separators.
+   * Collapse leading, trailing, and adjacent visible separators.
    */
   private _collapseSeparators(): void {
     // Reset the force hidden state.
@@ -563,11 +550,10 @@ class MenuBar extends MenuBase {
    * Handle the property changed signal from a menu item.
    */
   private _onPropertyChanged(item: MenuItem): void {
-    // this._closeChildMenu();
-    // this.activeIndex = -1;
-    // var index = this.itemIndex(item);
-    // initItemNode(item, this._nodes[index]);
-    // this._collapseSeparators();
+    this._reset();
+    var index = this.itemIndex(item);
+    initItemNode(item, this._nodes[index]);
+    this._collapseSeparators();
   }
 
   private _active = false;
@@ -596,21 +582,33 @@ function createItemNode(item: MenuItem): HTMLElement {
  * Initialize the DOM node for the given menu item.
  */
 function initItemNode(item: MenuItem, node: HTMLElement): void {
-  var parts = [MENU_ITEM_CLASS];
-  if (item.className) {
-    parts.push(item.className);
-  }
+  var textNode = (<HTMLElement>node.children[1]);
+  var classParts = [MENU_ITEM_CLASS];
   if (item.type === MenuItem.Separator) {
-    parts.push(SEPARATOR_TYPE_CLASS);
+    classParts.push(SEPARATOR_TYPE_CLASS);
+    textNode.textContent = '';
+  } else {
+    textNode.textContent = item.text;
   }
   if (item.disabled) {
-    parts.push(DISABLED_CLASS);
+    classParts.push(DISABLED_CLASS);
   }
   if (item.hidden) {
-    parts.push(HIDDEN_CLASS);
+    classParts.push(HIDDEN_CLASS);
   }
-  node.className = parts.join(' ');
-  (<HTMLElement>node.children[1]).textContent = item.text;
+  if (item.className) {
+    classParts.push(item.className);
+  }
+  node.className = classParts.join(' ');
+}
+
+
+/**
+ * Test whether a menu's active item has a submenu.
+ */
+function activeHasMenu(menu: Menu): boolean {
+  var item = menu.itemAt(menu.activeIndex);
+  return !!(item && item.submenu);
 }
 
 
