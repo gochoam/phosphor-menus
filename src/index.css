@@ -87,3 +87,20 @@
   position: relative;
   top: 4px;
 }
+
+
+.p-MenuBar-content {
+  display: flex;
+  flex-direction: row;
+}
+
+
+.p-MenuBar-item {
+  box-sizing: border-box;
+}
+
+
+.p-MenuBar-item.p-mod-hidden,
+.p-MenuBar-item.p-mod-force-hidden {
+  display: none;
+}
