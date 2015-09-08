@@ -220,7 +220,7 @@ class Menu extends MenuBase {
   }
 
   /**
-   * Find the root menu of this menu.
+   * Find the root menu of this menu hierarchy.
    */
   get rootMenu(): Menu {
     var menu = this;
@@ -231,7 +231,7 @@ class Menu extends MenuBase {
   }
 
   /**
-   * Find the leaf menu of this menu.
+   * Find the leaf menu of this menu hierarchy.
    */
   get leafMenu(): Menu {
     var menu = this;
