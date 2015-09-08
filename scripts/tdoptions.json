@@ -7,6 +7,8 @@
   "out": "docs/api",
   "src": [
     "src/menu.ts",
+    "src/menubar.ts",
+    "src/menubase.ts",
     "src/menuitem.ts"
   ]
 }
