@@ -8,7 +8,11 @@
 'use-strict';
 
 import {
-  Menu, MenuItem
+  attachWidget
+} from 'phosphor-widget';
+
+import {
+  Menu, MenuBar, MenuItem
 } from '../lib/index';
 
 import './index.css';
@@ -252,16 +256,17 @@ function main(): void {
     closeItem,
   ];
 
-  // var menubar = new MenuBar([
-  //   fileItem,
-  //   editItem,
-  //   fmItem,
-  //   viewItem,
-  //   separator(),
-  //   helpItem,
-  // ]);
+  var menubar = new MenuBar();
+  menubar.items = [
+    fileItem,
+    editItem,
+    fmItem,
+    viewItem,
+    separator(),
+    helpItem,
+  ];
 
-  //menubar.attach(document.getElementById('container'));
+  attachWidget(menubar, document.body);
 
   document.addEventListener('contextmenu', (event: MouseEvent) => {
     event.preventDefault();
