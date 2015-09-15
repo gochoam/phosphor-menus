@@ -12,10 +12,6 @@ import {
 } from 'phosphor-properties';
 
 import {
-  ISignal, Signal
-} from 'phosphor-signaling';
-
-import {
   Menu
 } from './menu';
 
