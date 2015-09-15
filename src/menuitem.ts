@@ -115,13 +115,6 @@ class MenuItem {
   static Separator = MenuItemType.Separator;
 
   /**
-   * A signal emitted when a `check` type menu item is toggled.
-   *
-   * **See also:** [[toggled]]
-   */
-  static toggledSignal = new Signal<MenuItem, boolean>();
-
-  /**
    * A signal emitted when the menu item is triggered.
    *
    * **See also:** [[triggered]]
@@ -193,8 +186,7 @@ class MenuItem {
    */
   static checkedProperty = new Property<MenuItem, boolean>({
     value: false,
-    coerce: (owner, val) => owner.type === MenuItemType.Check ? val : false,
-    changed: (owner, old, checked) => owner.toggled.emit(checked),
+    coerce: (owner, val) => owner.type === MenuItemType.Check ? val : false
   });
 
   /**
@@ -251,18 +243,6 @@ class MenuItem {
     if (options.className !== void 0) {
       this.className = options.className;
     }
-  }
-
-  /**
-   * A signal emitted when the menu item checked state changes.
-   *
-   * The emit argument is the current checked state.
-   *
-   * #### Notes
-   * This is a pure delegate to the [[toggledSignal]].
-   */
-  get toggled(): ISignal<MenuItem, boolean> {
-    return MenuItem.toggledSignal.bind(this);
   }
 
   /**
@@ -461,8 +441,6 @@ class MenuItem {
    * Trigger the menu item.
    *
    * #### Notes
-   * This will emit the [[triggered]] signal. If the item is checkable,
-   * it will first be toggled.
    *
    * This will typically be called by the widget which renders the menu
    * item in response to a user mouse click.
