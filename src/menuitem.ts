@@ -87,6 +87,16 @@ interface IMenuItemOptions {
    * The extra class name to associate with the menu item.
    */
   className?: string;
+
+  /**
+   * The command id for the menu item.
+   */
+  command?: string;
+
+  /**
+   * The handler function for the menu item.
+   */
+  handler?: (item: MenuItem) => void;
 }
 
 
@@ -200,6 +210,32 @@ class MenuItem {
   });
 
   /**
+   * The property descriptor for the item command id.
+   *
+   * If a command id is provided, the [[handler]] for the menu item
+   * will be ignored, and the `Menu` widget which consumes the menu
+   * item will request that the given command be executed instead.
+   *
+   * **See also:** [[command]]
+   */
+  static commandProperty = new Property<MenuItem, string>({
+    value: '',
+  });
+
+  /**
+   * The property descriptor for the item handler.
+   *
+   * If a command id is not provided, this callback will be invoked
+   * when the menu item is triggered.
+   *
+   * **See also:** [[handler]]
+   */
+  static handlerProperty = new Property<MenuItem, () => void>({
+    value: null,
+    coerce: (owner, value) => value || null,
+  });
+
+  /**
    * Construct a new menu item.
    *
    * @param options - The initialization options for the menu item.
@@ -231,6 +267,12 @@ class MenuItem {
     }
     if (options.className !== void 0) {
       this.className = options.className;
+    }
+    if (options.command !== void 0) {
+      this.command = options.command;
+    }
+    if (options.handler !== void 0) {
+      this.handler = options.handler;
     }
   }
 
@@ -412,5 +454,45 @@ class MenuItem {
    */
   set className(name: string) {
     MenuItem.classNameProperty.set(this, name);
+  }
+
+  /**
+   * Get the command id for the menu item.
+   *
+   * #### Notes
+   * This is a pure delegate to the [[commandProperty]].
+   */
+  get command(): string {
+    return MenuItem.commandProperty.get(this);
+  }
+
+  /**
+   * Set the command id for the menu item.
+   *
+   * #### Notes
+   * This is a pure delegate to the [[commandProperty]].
+   */
+  set command(name: string) {
+    MenuItem.commandProperty.set(this, name);
+  }
+
+  /**
+   * Get the handler for the menu item.
+   *
+   * #### Notes
+   * This is a pure delegate to the [[handlerProperty]].
+   */
+  get handler(): () => void {
+    return MenuItem.handlerProperty.get(this);
+  }
+
+  /**
+   * Set the handler for the menu item.
+   *
+   * #### Notes
+   * This is a pure delegate to the [[handlerProperty]].
+   */
+  set handler(name: () => void) {
+    MenuItem.handlerProperty.set(this, name);
   }
 }
