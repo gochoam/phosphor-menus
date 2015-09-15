@@ -115,13 +115,6 @@ class MenuItem {
   static Separator = MenuItemType.Separator;
 
   /**
-   * A signal emitted when the menu item is triggered.
-   *
-   * **See also:** [[triggered]]
-   */
-  static triggeredSignal = new Signal<MenuItem, boolean>();
-
-  /**
    * The property descriptor for the menu item type.
    *
    * **See also:** [[type]]
@@ -243,18 +236,6 @@ class MenuItem {
     if (options.className !== void 0) {
       this.className = options.className;
     }
-  }
-
-  /**
-   * A signal emitted when the menu item is triggered.
-   *
-   * The emit argument is the current checked state.
-   *
-   * #### Notes
-   * This is a pure delegate to the [[triggeredSignal]].
-   */
-  get triggered(): ISignal<MenuItem, boolean> {
-    return MenuItem.triggeredSignal.bind(this);
   }
 
   /**
@@ -435,20 +416,5 @@ class MenuItem {
    */
   set className(name: string) {
     MenuItem.classNameProperty.set(this, name);
-  }
-
-  /**
-   * Trigger the menu item.
-   *
-   * #### Notes
-   *
-   * This will typically be called by the widget which renders the menu
-   * item in response to a user mouse click.
-   */
-  trigger(): void {
-    if (this.type === MenuItemType.Check) {
-      this.checked = !this.checked;
-    }
-    this.triggered.emit(this.checked);
   }
 }
