@@ -87,11 +87,6 @@ interface IMenuItemOptions {
    * The extra class name to associate with the menu item.
    */
   className?: string;
-
-  /**
-   * The id for the menu item.
-   */
-  id?: string;
 }
 
 
@@ -205,19 +200,6 @@ class MenuItem {
   });
 
   /**
-   * The property descriptor for the menu item id.
-   *
-   * This is an optional unique id which can be used to identify the
-   * menu item independently of its text. It is used when positioning
-   * other menu items relative to this item in a menu.
-   *
-   * **See also:** [[id]]
-   */
-  static idProperty = new Property<MenuItem, string>({
-    value: '',
-  });
-
-  /**
    * Construct a new menu item.
    *
    * @param options - The initialization options for the menu item.
@@ -249,9 +231,6 @@ class MenuItem {
     }
     if (options.className !== void 0) {
       this.className = options.className;
-    }
-    if (options.id !== void 0) {
-      this.id = options.id;
     }
   }
 
@@ -433,25 +412,5 @@ class MenuItem {
    */
   set className(name: string) {
     MenuItem.classNameProperty.set(this, name);
-  }
-
-  /**
-   * Get the unique id for the menu item.
-   *
-   * #### Notes
-   * This is a pure delegate to the [[idProperty]].
-   */
-  get id(): string {
-    return MenuItem.idProperty.get(this);
-  }
-
-  /**
-   * Set the unique id for the menu item.
-   *
-   * #### Notes
-   * This is a pure delegate to the [[idProperty]].
-   */
-  set id(name: string) {
-    MenuItem.idProperty.set(this, name);
   }
 }
