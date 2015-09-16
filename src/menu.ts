@@ -284,7 +284,7 @@ class Menu extends MenuBase {
    */
   popup(x: number, y: number, forceX = false, forceY = false): void {
     if (!this.isAttached) {
-      this._prepareToOpen();
+      this._render();
       document.addEventListener('keydown', this, true);
       document.addEventListener('keypress', this, true);
       document.addEventListener('mousedown', this, true);
@@ -318,7 +318,7 @@ class Menu extends MenuBase {
    */
   open(x: number, y: number, forceX = false, forceY = false): void {
     if (!this.isAttached) {
-      this._prepareToOpen();
+      this._render();
       openRootMenu(this, x, y, forceX, forceY);
     }
   }
@@ -634,7 +634,7 @@ class Menu extends MenuBase {
         this._childItem = item;
         this._childMenu = menu;
         menu._parentMenu = this;
-        menu._prepareToOpen();
+        menu._render();
         openSubmenu(menu, node);
       }, OPEN_DELAY);
     } else {
@@ -642,7 +642,7 @@ class Menu extends MenuBase {
       this._childItem = item;
       this._childMenu = menu;
       menu._parentMenu = this;
-      menu._prepareToOpen();
+      menu._render();
       openSubmenu(menu, node);
     }
   }
@@ -707,11 +707,9 @@ class Menu extends MenuBase {
   }
 
   /**
-   * Prepare to open the menu.
-   *
-   * This builds the DOM content for the current menu items.
+   * Render the DOM content for the current menu items.
    */
-  private _prepareToOpen(): void {
+  private _render(): void {
     // Create the nodes for the menu.
     var count = this.itemCount;
     var nodes = new Array<HTMLElement>(count);
