@@ -23,7 +23,7 @@ import {
 } from 'phosphor-widget';
 
 import {
-  MenuItem
+  MenuItem, MenuItemType
 } from './menuitem';
 
 
@@ -506,5 +506,5 @@ class ItemMessage extends Message {
  * Test whether a menu item is selectable.
  */
 function isSelectable(item: MenuItem): boolean {
-  return !(item.hidden || item.disabled || item.type === MenuItem.Separator);
+  return !(item.hidden || item.disabled || item.type === MenuItemType.Separator);
 }
