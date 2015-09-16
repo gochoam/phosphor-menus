@@ -230,7 +230,7 @@ class MenuItem {
    *
    * **See also:** [[handler]]
    */
-  static handlerProperty = new Property<MenuItem, () => void>({
+  static handlerProperty = new Property<MenuItem, (item: MenuItem) => void>({
     value: null,
     coerce: (owner, value) => value || null,
   });
@@ -482,7 +482,7 @@ class MenuItem {
    * #### Notes
    * This is a pure delegate to the [[handlerProperty]].
    */
-  get handler(): () => void {
+  get handler(): (item: MenuItem) => void {
     return MenuItem.handlerProperty.get(this);
   }
 
@@ -492,7 +492,7 @@ class MenuItem {
    * #### Notes
    * This is a pure delegate to the [[handlerProperty]].
    */
-  set handler(name: () => void) {
+  set handler(name: (item: MenuItem) => void) {
     MenuItem.handlerProperty.set(this, name);
   }
 }
