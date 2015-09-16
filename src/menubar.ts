@@ -7,9 +7,6 @@
 |----------------------------------------------------------------------------*/
 'use strict';
 
-import * as arrays
-  from 'phosphor-arrays';
-
 import {
   hitTest
 } from 'phosphor-domutil';
@@ -31,7 +28,7 @@ import {
 } from './menubase';
 
 import {
-  MenuItem
+  MenuItem, MenuItemType
 } from './menuitem';
 
 
@@ -135,7 +132,6 @@ class MenuBar extends MenuBase {
    */
   dispose(): void {
     this._reset();
-    this._nodes.length = 0;
     super.dispose();
   }
 
@@ -143,7 +139,7 @@ class MenuBar extends MenuBase {
    * Get the child menu of the menu bar.
    *
    * #### Notes
-   * This will be null if the menu bar does not have an open menu.
+   * This will be `null` if the menu bar does not have an open menu.
    */
   get childMenu(): Menu {
     return this._childMenu;
@@ -186,45 +182,33 @@ class MenuBar extends MenuBase {
    * A message handler invoked on an `'item-added'` message.
    */
   protected onItemAdded(msg: ItemMessage): void {
-    this._reset();
-    var node = createItemNode(msg.item);
-    var next = this._nodes[msg.currentIndex];
-    arrays.insert(this._nodes, msg.currentIndex, node);
-    this.node.firstChild.insertBefore(node, next);
-    Property.getChanged(msg.item).connect(this._onPropertyChanged, this);
-    this._collapseSeparators();
+    Property.getChanged(msg.item).connect(this._onItemChanged, this);
+    this.update();
   }
 
   /**
    * A message handler invoked on an `'item-removed'` message.
    */
   protected onItemRemoved(msg: ItemMessage): void {
-    this._reset();
-    var node = arrays.removeAt(this._nodes, msg.previousIndex);
-    this.node.firstChild.removeChild(node);
-    Property.getChanged(msg.item).connect(this._onPropertyChanged, this);
-    this._collapseSeparators();
+    Property.getChanged(msg.item).disconnect(this._onItemChanged, this);
+    this.update();
   }
 
   /**
    * A message handler invoked on an `'item-moved'` message.
    */
   protected onItemMoved(msg: ItemMessage): void {
-    this._reset();
-    arrays.move(this._nodes, msg.previousIndex, msg.currentIndex);
-    var node = this._nodes[msg.currentIndex];
-    var next = this._nodes[msg.currentIndex + 1];
-    this.node.firstChild.insertBefore(node, next);
-    this._collapseSeparators();
+    this.update();
   }
 
   /**
    * A message handler invoked on an `'item-open-request'` message.
    */
   protected onItemOpenRequest(msg: ItemMessage): void {
+    var node = this._itemNodeAt(msg.currentIndex) || this.node;
     this._activate();
     this._closeChildMenu();
-    this._openChildMenu(msg.item.submenu, this._nodes[msg.currentIndex]);
+    this._openChildMenu(msg.item.submenu, node);
   }
 
   /**
@@ -248,6 +232,68 @@ class MenuBar extends MenuBase {
   }
 
   /**
+   * A handler invoked on an `'update-request'` message.
+   */
+  protected onUpdateRequest(msg: Message): void {
+    // Reset the state of the menu bar.
+    this._reset();
+
+    // Create the nodes for the menu bar.
+    var count = this.itemCount;
+    var nodes = new Array<HTMLElement>(count);
+    for (var i = 0; i < count; ++i) {
+      nodes[i] = createItemNode(this.itemAt(i));
+    }
+
+    // Force hide the leading visible separators.
+    for (var k1 = 0; k1 < count; ++k1) {
+      var item = this.itemAt(k1);
+      if (item.hidden) {
+        continue;
+      }
+      if (item.type !== MenuItemType.Separator) {
+        break;
+      }
+      nodes[k1].classList.add(FORCE_HIDDEN_CLASS);
+    }
+
+    // Force hide the trailing visible separators.
+    for (var k2 = count - 1; k2 >= 0; --k2) {
+      var item = this.itemAt(k2);
+      if (item.hidden) {
+        continue;
+      }
+      if (item.type !== MenuItemType.Separator) {
+        break;
+      }
+      nodes[k2].classList.add(FORCE_HIDDEN_CLASS);
+    }
+
+    // Force hide the remaining consecutive visible separators.
+    var prevWasSep = false;
+    while (++k1 < k2) {
+      var item = this.itemAt(k1);
+      if (item.hidden) {
+        continue;
+      }
+      if (prevWasSep && item.type === MenuItemType.Separator) {
+        nodes[k1].classList.add(FORCE_HIDDEN_CLASS);
+      } else {
+        prevWasSep = item.type === MenuItemType.Separator;
+      }
+    }
+
+    // Ensure the content node is cleared.
+    var content = this.node.firstChild;
+    content.textContent = '';
+
+    // Add the new items to the content node.
+    for (var i = 0; i < count; ++i) {
+      content.appendChild(nodes[i]);
+    }
+  }
+
+  /**
    * A message handler invoked on a `'close-request'` message.
    */
   protected onCloseRequest(msg: Message): void {
@@ -259,8 +305,8 @@ class MenuBar extends MenuBase {
    * A method invoked when the active index changes.
    */
   protected onActiveIndexChanged(old: number, index: number): void {
-    var oldNode = this._nodes[old];
-    var newNode = this._nodes[index];
+    var oldNode = this._itemNodeAt(old);
+    var newNode = this._itemNodeAt(index);
     if (oldNode) oldNode.classList.remove(ACTIVE_CLASS);
     if (newNode) newNode.classList.add(ACTIVE_CLASS);
   }
@@ -280,7 +326,7 @@ class MenuBar extends MenuBase {
     }
 
     // Check if the mouse was pressed on one of the menu items.
-    var i = arrays.findIndex(this._nodes, n => hitTest(n, x, y));
+    var i = this._hitTestItemNodes(x, y);
 
     // If the bar is active, deactivate it and close the child menu.
     // The active index is updated to reflect the mouse press, which
@@ -314,7 +360,7 @@ class MenuBar extends MenuBase {
     var y = event.clientY;
 
     // Check if the mouse is over one of the menu items.
-    var i = arrays.findIndex(this._nodes, n => hitTest(n, x, y));
+    var i = this._hitTestItemNodes(x, y);
 
     // Bail early if the active index will not change.
     if (i === this.activeIndex) {
@@ -487,53 +533,26 @@ class MenuBar extends MenuBase {
   }
 
   /**
-   * Collapse leading, trailing, and adjacent visible separators.
+   * Get the menu item node at the given index.
+   *
+   * This will return `undefined` if the index is out of range.
    */
-  private _collapseSeparators(): void {
-    // Reset the force hidden state.
-    for (var k = 0, n = this.itemCount; k < n; ++k) {
-      this._nodes[k].classList.remove(FORCE_HIDDEN_CLASS);
-    }
+  private _itemNodeAt(index: number): HTMLElement {
+    var content = this.node.firstChild as HTMLElement;
+    return content.children[index] as HTMLElement;
+  }
 
-    // Force hide the leading visible separators.
-    var i: number;
-    for (i = 0, n = this.itemCount; i < n; ++i) {
-      var item = this.itemAt(i);
-      if (item.hidden) {
-        continue;
-      }
-      if (item.type !== MenuItem.Separator) {
-        break;
-      }
-      this._nodes[i].classList.add(FORCE_HIDDEN_CLASS);
+  /**
+   * Get the index of the menu item node at a client position.
+   *
+   * This will return `-1` if the menu item node is not found.
+   */
+  private _hitTestItemNodes(x: number, y: number): number {
+    var nodes = (this.node.firstChild as HTMLElement).children;
+    for (var i = 0, n = nodes.length; i < n; ++i) {
+      if (hitTest(nodes[i] as HTMLElement, x, y)) return i;
     }
-
-    // Force hide the trailing visible separators.
-    var j: number;
-    for (j = this.itemCount - 1; j >= 0; --j) {
-      var item = this.itemAt(j);
-      if (item.hidden) {
-        continue;
-      }
-      if (item.type !== MenuItem.Separator) {
-        break;
-      }
-      this._nodes[j].classList.add(FORCE_HIDDEN_CLASS);
-    }
-
-    // Force hide the remaining consecutive visible separators.
-    var lastWasSep = false;
-    while (++i < j) {
-      var item = this.itemAt(i);
-      if (item.hidden) {
-        continue;
-      }
-      if (lastWasSep && item.type === MenuItem.Separator) {
-        this._nodes[i].classList.add(FORCE_HIDDEN_CLASS);
-      } else {
-        lastWasSep = item.type === MenuItem.Separator;
-      }
-    }
+    return -1;
   }
 
   /**
@@ -549,16 +568,33 @@ class MenuBar extends MenuBase {
   /**
    * Handle the property changed signal from a menu item.
    */
-  private _onPropertyChanged(item: MenuItem): void {
-    this._reset();
-    var index = this.itemIndex(item);
-    initItemNode(item, this._nodes[index]);
-    this._collapseSeparators();
+  private _onItemChanged(sender: MenuItem): void {
+    this.update();
   }
 
   private _active = false;
   private _childMenu: Menu = null;
-  private _nodes: HTMLElement[] = [];
+}
+
+
+/**
+ * Create the complete DOM node class name for a MenuItem.
+ */
+function createItemClassName(item: MenuItem): string {
+  var parts = [MENU_ITEM_CLASS];
+  if (item.type === MenuItemType.Separator) {
+    parts.push(SEPARATOR_TYPE_CLASS);
+  }
+  if (item.disabled) {
+    parts.push(DISABLED_CLASS);
+  }
+  if (item.hidden) {
+    parts.push(HIDDEN_CLASS);
+  }
+  if (item.className) {
+    parts.push(item.className);
+  }
+  return parts.join(' ');
 }
 
 
@@ -569,37 +605,15 @@ function createItemNode(item: MenuItem): HTMLElement {
   var node = document.createElement('div');
   var icon = document.createElement('span');
   var text = document.createElement('span');
+  node.className = createItemClassName(item);
   icon.className = ICON_CLASS;
   text.className = TEXT_CLASS;
+  if (item.type !== MenuItemType.Separator) {
+    text.textContent = item.text;
+  }
   node.appendChild(icon);
   node.appendChild(text);
-  initItemNode(item, node);
   return node;
-}
-
-
-/**
- * Initialize the DOM node for the given menu item.
- */
-function initItemNode(item: MenuItem, node: HTMLElement): void {
-  var textNode = (<HTMLElement>node.children[1]);
-  var classParts = [MENU_ITEM_CLASS];
-  if (item.type === MenuItem.Separator) {
-    classParts.push(SEPARATOR_TYPE_CLASS);
-    textNode.textContent = '';
-  } else {
-    textNode.textContent = item.text;
-  }
-  if (item.disabled) {
-    classParts.push(DISABLED_CLASS);
-  }
-  if (item.hidden) {
-    classParts.push(HIDDEN_CLASS);
-  }
-  if (item.className) {
-    classParts.push(item.className);
-  }
-  node.className = classParts.join(' ');
 }
 
 
