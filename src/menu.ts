@@ -284,7 +284,7 @@ class Menu extends MenuBase {
    */
   popup(x: number, y: number, forceX = false, forceY = false): void {
     if (!this.isAttached) {
-      this._render();
+      this.update(true);
       document.addEventListener('keydown', this, true);
       document.addEventListener('keypress', this, true);
       document.addEventListener('mousedown', this, true);
@@ -318,7 +318,7 @@ class Menu extends MenuBase {
    */
   open(x: number, y: number, forceX = false, forceY = false): void {
     if (!this.isAttached) {
-      this._render();
+      this.update(true);
       openRootMenu(this, x, y, forceX, forceY);
     }
   }
@@ -336,25 +336,25 @@ class Menu extends MenuBase {
   handleEvent(event: Event): void {
     switch (event.type) {
     case 'mouseenter':
-      this._evtMouseEnter(<MouseEvent>event);
+      this._evtMouseEnter(event as MouseEvent);
       break;
     case 'mouseleave':
-      this._evtMouseLeave(<MouseEvent>event);
+      this._evtMouseLeave(event as MouseEvent);
       break;
     case 'mousedown':
-      this._evtMouseDown(<MouseEvent>event);
+      this._evtMouseDown(event as MouseEvent);
       break;
     case 'mouseup':
-      this._evtMouseUp(<MouseEvent>event);
+      this._evtMouseUp(event as MouseEvent);
       break;
     case 'contextmenu':
-      this._evtContextMenu(<MouseEvent>event);
+      this._evtContextMenu(event as MouseEvent);
       break;
     case 'keydown':
-      this._evtKeyDown(<KeyboardEvent>event);
+      this._evtKeyDown(event as KeyboardEvent);
       break;
     case 'keypress':
-      this._evtKeyPress(<KeyboardEvent>event);
+      this._evtKeyPress(event as KeyboardEvent);
       break;
     }
   }
@@ -362,17 +362,23 @@ class Menu extends MenuBase {
   /**
    * A message handler invoked on an `'item-added'` message.
    */
-  protected onItemAdded(msg: ItemMessage): void { this.close(); }
+  protected onItemAdded(msg: ItemMessage): void {
+    this.close();
+  }
 
   /**
    * A message handler invoked on an `'item-removed'` message.
    */
-  protected onItemRemoved(msg: ItemMessage): void { this.close(); }
+  protected onItemRemoved(msg: ItemMessage): void {
+    this.close();
+  }
 
   /**
    * A message handler invoked on an `'item-moved'` message.
    */
-  protected onItemMoved(msg: ItemMessage): void { this.close(); }
+  protected onItemMoved(msg: ItemMessage): void {
+    this.close();
+  }
 
   /**
    * A message handler invoked on an `'item-open-request'` message.
@@ -414,6 +420,67 @@ class Menu extends MenuBase {
     document.removeEventListener('keydown', this, true);
     document.removeEventListener('keypress', this, true);
     document.removeEventListener('mousedown', this, true);
+  }
+
+  /**
+   * A handler invoked on an `'update-request'` message.
+   */
+  protected onUpdateRequest(msg: Message): void {
+    // Create the nodes for the menu.
+    var count = this.itemCount;
+    var nodes = new Array<HTMLElement>(count);
+    for (var i = 0; i < count; ++i) {
+      var node = createItemNode(this.itemAt(i));
+      node.addEventListener('mouseenter', this);
+      nodes[i] = node;
+    }
+
+    // Force hide the leading visible separators.
+    for (var k1 = 0; k1 < count; ++k1) {
+      var item = this.itemAt(k1);
+      if (item.hidden) {
+        continue;
+      }
+      if (item.type !== MenuItemType.Separator) {
+        break;
+      }
+      nodes[k1].classList.add(FORCE_HIDDEN_CLASS);
+    }
+
+    // Force hide the trailing visible separators.
+    for (var k2 = count - 1; k2 >= 0; --k2) {
+      var item = this.itemAt(k2);
+      if (item.hidden) {
+        continue;
+      }
+      if (item.type !== MenuItemType.Separator) {
+        break;
+      }
+      nodes[k2].classList.add(FORCE_HIDDEN_CLASS);
+    }
+
+    // Force hide the remaining consecutive visible separators.
+    var prevWasSep = false;
+    while (++k1 < k2) {
+      var item = this.itemAt(k1);
+      if (item.hidden) {
+        continue;
+      }
+      if (prevWasSep && item.type === MenuItemType.Separator) {
+        nodes[k1].classList.add(FORCE_HIDDEN_CLASS);
+      } else {
+        prevWasSep = item.type === MenuItemType.Separator;
+      }
+    }
+
+    // Ensure the content node is cleared.
+    var content = this.node.firstChild;
+    content.textContent = '';
+
+    // Add the new items to the content node.
+    for (var i = 0; i < count; ++i) {
+      content.appendChild(nodes[i]);
+    }
   }
 
   /**
@@ -634,7 +701,7 @@ class Menu extends MenuBase {
         this._childItem = item;
         this._childMenu = menu;
         menu._parentMenu = this;
-        menu._render();
+        menu.update(true);
         openSubmenu(menu, node);
       }, OPEN_DELAY);
     } else {
@@ -642,7 +709,7 @@ class Menu extends MenuBase {
       this._childItem = item;
       this._childMenu = menu;
       menu._parentMenu = this;
-      menu._render();
+      menu.update(true);
       openSubmenu(menu, node);
     }
   }
@@ -704,67 +771,6 @@ class Menu extends MenuBase {
   private _itemNodeIndex(node: HTMLElement): number {
     var content = this.node.firstChild as HTMLElement;
     return Array.prototype.indexOf.call(content.children, node);
-  }
-
-  /**
-   * Render the DOM content for the current menu items.
-   */
-  private _render(): void {
-    // Create the nodes for the menu.
-    var count = this.itemCount;
-    var nodes = new Array<HTMLElement>(count);
-    for (var i = 0; i < count; ++i) {
-      var node = createItemNode(this.itemAt(i));
-      node.addEventListener('mouseenter', this);
-      nodes[i] = node;
-    }
-
-    // Force hide the leading visible separators.
-    for (var k1 = 0; k1 < count; ++k1) {
-      var item = this.itemAt(k1);
-      if (item.hidden) {
-        continue;
-      }
-      if (item.type !== MenuItemType.Separator) {
-        break;
-      }
-      nodes[k1].classList.add(FORCE_HIDDEN_CLASS);
-    }
-
-    // Force hide the trailing visible separators.
-    for (var k2 = count - 1; k2 >= 0; --k2) {
-      var item = this.itemAt(k2);
-      if (item.hidden) {
-        continue;
-      }
-      if (item.type !== MenuItemType.Separator) {
-        break;
-      }
-      nodes[k2].classList.add(FORCE_HIDDEN_CLASS);
-    }
-
-    // Force hide the remaining consecutive visible separators.
-    var prevWasSep = false;
-    while (++k1 < k2) {
-      var item = this.itemAt(k1);
-      if (item.hidden) {
-        continue;
-      }
-      if (prevWasSep && item.type === MenuItemType.Separator) {
-        nodes[k1].classList.add(FORCE_HIDDEN_CLASS);
-      } else {
-        prevWasSep = item.type === MenuItemType.Separator;
-      }
-    }
-
-    // Ensure the content node is cleared.
-    var content = this.node.firstChild;
-    content.textContent = '';
-
-    // Add the new items to the content node.
-    for (var i = 0; i < count; ++i) {
-      content.appendChild(nodes[i]);
-    }
   }
 
   private _openTimerId = 0;
