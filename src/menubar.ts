@@ -158,22 +158,22 @@ class MenuBar extends MenuBase {
   handleEvent(event: Event): void {
     switch (event.type) {
     case 'mousedown':
-      this._evtMouseDown(<MouseEvent>event);
+      this._evtMouseDown(event as MouseEvent);
       break;
     case 'mousemove':
-      this._evtMouseMove(<MouseEvent>event);
+      this._evtMouseMove(event as MouseEvent);
       break;
     case 'mouseleave':
-      this._evtMouseLeave(<MouseEvent>event);
+      this._evtMouseLeave(event as MouseEvent);
       break;
     case 'contextmenu':
-      this._evtContextMenu(<MouseEvent>event);
+      this._evtContextMenu(event as MouseEvent);
       break;
     case 'keydown':
-      this._evtKeyDown(<KeyboardEvent>event);
+      this._evtKeyDown(event as KeyboardEvent);
       break;
     case 'keypress':
-      this._evtKeyPress(<KeyboardEvent>event);
+      this._evtKeyPress(event as KeyboardEvent);
       break;
     }
   }
