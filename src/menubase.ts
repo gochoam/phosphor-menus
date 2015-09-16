@@ -360,19 +360,19 @@ class MenuBase extends Widget {
   processMessage(msg: Message): void {
     switch (msg.type) {
     case 'item-added':
-      this.onItemAdded(<ItemMessage>msg);
+      this.onItemAdded(msg as ItemMessage);
       break;
     case 'item-removed':
-      this.onItemRemoved(<ItemMessage>msg);
+      this.onItemRemoved(msg as ItemMessage);
       break;
     case 'item-moved':
-      this.onItemMoved(<ItemMessage>msg);
+      this.onItemMoved(msg as ItemMessage);
       break;
     case 'item-open-request':
-      this.onItemOpenRequest(<ItemMessage>msg);
+      this.onItemOpenRequest(msg as ItemMessage);
       break;
     case 'item-trigger-request':
-      this.onItemTriggerRequest(<ItemMessage>msg);
+      this.onItemTriggerRequest(msg as ItemMessage);
       break;
     default:
       super.processMessage(msg);
