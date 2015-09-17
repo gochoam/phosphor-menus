@@ -185,7 +185,7 @@ class MenuItem {
    */
   static checkedProperty = new Property<MenuItem, boolean>({
     value: false,
-    coerce: (owner, val) => owner.type === MenuItemType.Check ? val : false
+    coerce: (owner, val) => owner.type === MenuItemType.Check ? val : false,
   });
 
   /**
