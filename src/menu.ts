@@ -393,7 +393,7 @@ class Menu extends MenuBase {
    * A message handler invoked on an `'item-trigger-request'` message.
    */
   protected onItemTriggerRequest(msg: ItemMessage): void {
-    this.rootMenu.close();
+    this.rootMenu.close();  // deferred close
     if (msg.item.command) {
       this.rootMenu.commandRequested.emit(msg.item.command);
     } else if (msg.item.handler) {
