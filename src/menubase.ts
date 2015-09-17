@@ -313,7 +313,14 @@ class MenuBase extends Widget {
     var k = this.activeIndex + 1;
     var i = k >= this._items.length ? 0 : k;
     this.activeIndex = arrays.findIndex(this._items, item => {
-      return isSelectable(item) && item.mnemonic.toUpperCase() === c;
+      if (!isSelectable(item)) {
+        return false;
+      }
+      var match = item.text.match(/&\w/);
+      if (!match) {
+        return false;
+      }
+      return match[0][1].toUpperCase() === c;
     }, i, true);
   }
 

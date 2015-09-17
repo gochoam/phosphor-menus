@@ -54,11 +54,6 @@ interface IMenuItemOptions {
   text?: string;
 
   /**
-   * The mnemonic for the menu item.
-   */
-  mnemonic?: string;
-
-  /**
    * The keyboard shortcut for the menu item.
    */
   shortcut?: string;
@@ -133,22 +128,13 @@ class MenuItem {
   /**
    * The property descriptor for the menu item text.
    *
+   * The text may have an ampersand `&` before the character
+   * to use as the mnemonic for the menu item.
+   *
    * **See also:** [[text]]
    */
   static textProperty = new Property<MenuItem, string>({
     value: '',
-  });
-
-  /**
-   * The property descriptor for the menu item mnemonic.
-   *
-   * The mnemonic must be a single character.
-   *
-   * **See also:** [[mnemonic]]
-   */
-  static mnemonicProperty = new Property<MenuItem, string>({
-    value: '',
-    coerce: (owner, value) => value.length <= 1 ? value : owner.mnemonic,
   });
 
   /**
@@ -247,9 +233,6 @@ class MenuItem {
     if (options.text !== void 0) {
       this.text = options.text;
     }
-    if (options.mnemonic !== void 0) {
-      this.mnemonic = options.mnemonic;
-    }
     if (options.shortcut !== void 0) {
       this.shortcut = options.shortcut;
     }
@@ -314,26 +297,6 @@ class MenuItem {
    */
   set text(text: string) {
     MenuItem.textProperty.set(this, text);
-  }
-
-  /**
-   * Get the mnemonic key for the menu item.
-   *
-   * #### Notes
-   * This is a pure delegate to the [[mnemonicProperty]].
-   */
-  get mnemonic(): string {
-    return MenuItem.mnemonicProperty.get(this);
-  }
-
-  /**
-   * Set the mnemonic key for the menu item.
-   *
-   * #### Notes
-   * This is a pure delegate to the [[mnemonicProperty]].
-   */
-  set mnemonic(mnemonic: string) {
-    MenuItem.mnemonicProperty.set(this, mnemonic);
   }
 
   /**

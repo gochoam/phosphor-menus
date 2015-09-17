@@ -826,7 +826,7 @@ function createItemNode(item: MenuItem): HTMLElement {
   shortcut.className = SHORTCUT_CLASS;
   submenu.className = SUBMENU_ICON_CLASS;
   if (item.type !== MenuItemType.Separator) {
-    text.textContent = item.text;
+    text.textContent = item.text.replace(/&/g, '');
     shortcut.textContent = item.shortcut;
   }
   node.appendChild(icon);

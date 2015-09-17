@@ -31,46 +31,40 @@ function makeSeparator(): MenuItem {
 function main(): void {
 
   var copyItem = new MenuItem({
-    text: 'Copy',
-    mnemonic: 'c',
+    text: '&Copy',
     shortcut: 'Ctrl+C',
     className: 'copy',
     handler: () => console.log('Copy'),
   });
 
   var cutItem = new MenuItem({
-    text: 'Cut',
-    mnemonic: 'x',
+    text: 'Cu&t',
     shortcut: 'Ctrl+X',
     className: 'cut',
     handler: () => console.log('Cut'),
   });
 
   var pasteItem = new MenuItem({
-    text: 'Paste',
-    mnemonic: 'v',
+    text: '&Paste',
     shortcut: 'Ctrl+V',
     className: 'paste',
     handler: () => console.log('Paste'),
   });
 
   var newTabItem = new MenuItem({
-    text: 'New Tab',
-    mnemonic: 'n',
+    text: '&New Tab',
     handler: () => console.log('New Tab'),
   });
 
   var closeTabItem = new MenuItem({
-    text: 'Close Tab',
-    mnemonic: 'c',
+    text: '&Close Tab',
     handler: () => console.log('Close Tab'),
   });
 
   var saveOnExitItem = new MenuItem({
-    text: 'Save On Exit',
+    text: '&Save On Exit',
     type: MenuItem.Check,
     checked: true,
-    mnemonic: 's',
     handler: (item: MenuItem) => {
       item.checked = !item.checked;
       console.log('Save on exit:', item.checked);
@@ -166,14 +160,14 @@ function main(): void {
   });
 
   var undoItem = new MenuItem({
-    text: 'Undo',
+    text: '&Undo',
     shortcut: 'Ctrl+Z',
     className: 'undo',
     handler: () => console.log('Undo'),
   });
 
   var repeatItem = new MenuItem({
-    text: 'Repeat',
+    text: '&Repeat',
     shortcut: 'Ctrl+Y',
     className: 'repeat',
     handler: () => console.log('Repeat'),

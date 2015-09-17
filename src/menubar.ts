@@ -649,7 +649,7 @@ function createItemNode(item: MenuItem): HTMLElement {
   icon.className = ICON_CLASS;
   text.className = TEXT_CLASS;
   if (item.type !== MenuItemType.Separator) {
-    text.textContent = item.text;
+    text.textContent = item.text.replace(/&/g, '');
   }
   node.appendChild(icon);
   node.appendChild(text);
