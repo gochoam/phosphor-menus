@@ -1,6 +1,6 @@
 {
   "name": "phosphor-menus",
-  "version": "0.9.1",
+  "version": "0.9.2",
   "description": "Phosphor widgets for creating menus and menu bars.",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
@@ -10,7 +10,7 @@
     "phosphor-messaging": "^1.0.3",
     "phosphor-properties": "^1.1.0",
     "phosphor-signaling": "^1.1.0",
-    "phosphor-widget": "^0.9.8"
+    "phosphor-widget": "^0.9.9"
   },
   "devDependencies": {
     "browserify": "^11.0.1",
