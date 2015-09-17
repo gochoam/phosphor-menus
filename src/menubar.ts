@@ -20,6 +20,10 @@ import {
 } from 'phosphor-properties';
 
 import {
+  ISignal, Signal
+} from 'phosphor-signaling';
+
+import {
   Menu
 } from './menu';
 
@@ -120,6 +124,22 @@ class MenuBar extends MenuBase {
   }
 
   /**
+   * A signal emitted when a command menu item is triggered.
+   *
+   * When a menu item with a `command` id is triggered, this signal
+   * will be emitted in lieu of invoking the item's handler function.
+   *
+   * The signal arg is the command id for the menu item.
+   *
+   * #### Notes
+   * This signal will be emitted when *any* command menu item in the
+   * menu bar is triggered, provided that its owner menu is open.
+   *
+   * **See also:** [[commandRequested]]
+   */
+  static commandRequestedSignal = new Signal<MenuBar, string>();
+
+  /**
    * Construct a new menu bar.
    */
   constructor() {
@@ -133,6 +153,16 @@ class MenuBar extends MenuBase {
   dispose(): void {
     this._reset();
     super.dispose();
+  }
+
+  /**
+   * A signal emitted when a command menu item is triggered.
+   *
+   * #### Notes
+   * This is a pure delegate to the [[commandRequestedSignal]].
+   */
+  get commandRequested(): ISignal<MenuBar, string> {
+    return MenuBar.commandRequestedSignal.bind(this);
   }
 
   /**
@@ -468,6 +498,7 @@ class MenuBar extends MenuBase {
     menu.addClass(MENU_CLASS);
     menu.open(rect.left, rect.bottom, false, true);
     menu.closed.connect(this._onMenuClosed, this);
+    menu.commandRequested.connect(this._onMenuCommandRequested, this);
   }
 
   /**
@@ -477,6 +508,7 @@ class MenuBar extends MenuBase {
     var menu = this._childMenu;
     if (menu) {
       this._childMenu = null;
+      menu.commandRequested.disconnect(this._onMenuCommandRequested, this);
       menu.closed.disconnect(this._onMenuClosed, this);
       menu.removeClass(MENU_CLASS);
       menu.close(true);
@@ -559,10 +591,18 @@ class MenuBar extends MenuBase {
    * Handle the `closed` signal from the child menu.
    */
   private _onMenuClosed(sender: Menu): void {
+    sender.commandRequested.disconnect(this._onMenuCommandRequested, this);
     sender.closed.disconnect(this._onMenuClosed, this);
     sender.removeClass(MENU_CLASS);
     this._childMenu = null;
     this._reset();
+  }
+
+  /**
+   * Handle the `commandRequested` signal from the child menu.
+   */
+  private _onMenuCommandRequested(sender: Menu, cmd: string): void {
+    this.commandRequested.emit(cmd);
   }
 
   /**
