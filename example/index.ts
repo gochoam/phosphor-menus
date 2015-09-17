@@ -18,23 +18,24 @@ import {
 import './index.css';
 
 
-function main(): void {
+function logCommandRequest(sender: any, cmd: string): void {
+  console.log('command requested:', cmd);
+}
 
-  var onCut = () => console.log('Cut');
-  var onCopy = () => console.log('Copy');
-  var onPaste = () => console.log('Paste');
-  var onNewTab = () => console.log('New Tab');
-  var onClose = () => console.log('Close');
-  var onCloseTab = () => console.log('Close Tab');
-  var onUndo = () => console.log('Undo');
-  var onRepeat = () => console.log('Repeat');
-  var onToggleSave = (item: MenuItem, checked: boolean) => console.log('Save on exit:', checked);
+
+function makeSeparator(): MenuItem {
+  return new MenuItem({ type: MenuItem.Separator });
+}
+
+
+function main(): void {
 
   var copyItem = new MenuItem({
     text: 'Copy',
     mnemonic: 'c',
     shortcut: 'Ctrl+C',
     className: 'copy',
+    handler: () => console.log('Copy'),
   });
 
   var cutItem = new MenuItem({
@@ -42,6 +43,7 @@ function main(): void {
     mnemonic: 'x',
     shortcut: 'Ctrl+X',
     className: 'cut',
+    handler: () => console.log('Cut'),
   });
 
   var pasteItem = new MenuItem({
@@ -49,45 +51,46 @@ function main(): void {
     mnemonic: 'v',
     shortcut: 'Ctrl+V',
     className: 'paste',
+    handler: () => console.log('Paste'),
   });
 
   var newTabItem = new MenuItem({
     text: 'New Tab',
     mnemonic: 'n',
+    handler: () => console.log('New Tab'),
   });
 
   var closeTabItem = new MenuItem({
     text: 'Close Tab',
     mnemonic: 'c',
+    handler: () => console.log('Close Tab'),
   });
-
-  copyItem.triggered.connect(onCopy);
-  cutItem.triggered.connect(onCut);
-  pasteItem.triggered.connect(onPaste);
-  newTabItem.triggered.connect(onNewTab);
-  closeTabItem.triggered.connect(onCloseTab);
 
   var saveOnExitItem = new MenuItem({
     text: 'Save On Exit',
     type: MenuItem.Check,
     checked: true,
     mnemonic: 's',
+    handler: (item: MenuItem) => {
+      item.checked = !item.checked;
+      console.log('Save on exit:', item.checked);
+    },
   });
-
-  saveOnExitItem.toggled.connect(onToggleSave);
 
   var taskMgrItem = new MenuItem({
     text: 'Task Manager',
     disabled: true,
+    command: 'my-proj:launch-taskmgr',
   });
 
   var moreMenu = new Menu();
+
   moreMenu.items = [
-    new MenuItem({ text: 'One' }),
-    new MenuItem({ text: 'Two' }),
-    new MenuItem({ text: 'Three' }),
-    new MenuItem({ text: 'Four' }),
-    new MenuItem({ text: 'Five' }),
+    new MenuItem({ text: 'One', command: 'my-proj:cmd-one' }),
+    new MenuItem({ text: 'Two', command: 'my-proj:cmd-two' }),
+    new MenuItem({ text: 'Three', command: 'my-proj:cmd-three' }),
+    new MenuItem({ text: 'Four', command: 'my-proj:cmd-four' }),
+    new MenuItem({ text: 'Five', command: 'my-proj:cmd-five' }),
   ];
 
   var moreItem = new MenuItem({
@@ -98,53 +101,62 @@ function main(): void {
   var closeItem = new MenuItem({
     text: 'Close',
     className: 'close',
+    handler: () => console.log('Close'),
   });
-
-  closeItem.triggered.connect(onClose);
-
-  var separator = () => new MenuItem({ type: MenuItem.Separator });
 
   var newFileItem = new MenuItem({
     text: 'New File',
     shortcut: 'Ctrl+N',
+    command: 'my-proj:new-file',
   });
 
   var openFileItem = new MenuItem({
     text: 'Open File',
     shortcut: 'Ctrl+O',
+    command: 'my-proj:open-file',
   });
 
   var saveFileItem = new MenuItem({
     text: 'Save File',
     shortcut: 'Ctrl+S',
+    command: 'my-proj:save-file',
   });
 
   var saveAsItem = new MenuItem({
     text: 'Save As...',
     shortcut: 'Ctrl+Shift+S',
+    command: 'my-proj:save-as',
   });
 
   var closeFileItem = new MenuItem({
     text: 'Close File',
     shortcut: 'Ctrl+W',
+    command: 'my-proj:close-file',
   });
 
-  var closeAllItem = new MenuItem({ text: 'Close All Files' });
+  var closeAllItem = new MenuItem({
+    text: 'Close All Files',
+    command: 'my-proj:close-all',
+  });
 
-  var exitItem = new MenuItem({ text: 'Exit' });
+  var exitItem = new MenuItem({
+    text: 'Exit',
+    command: 'my-proj:exit',
+  });
 
   var fileMenu = new Menu();
+
   fileMenu.items = [
     newFileItem,
     openFileItem,
     saveFileItem,
     saveAsItem,
-    separator(),
+    makeSeparator(),
     closeFileItem,
     closeAllItem,
-    separator(),
+    makeSeparator(),
     moreItem,
-    separator(),
+    makeSeparator(),
     exitItem,
   ];
 
@@ -157,22 +169,22 @@ function main(): void {
     text: 'Undo',
     shortcut: 'Ctrl+Z',
     className: 'undo',
+    handler: () => console.log('Undo'),
   });
 
   var repeatItem = new MenuItem({
     text: 'Repeat',
     shortcut: 'Ctrl+Y',
     className: 'repeat',
+    handler: () => console.log('Repeat'),
   });
 
-  undoItem.triggered.connect(onUndo);
-  repeatItem.triggered.connect(onRepeat);
-
   var editMenu = new Menu();
+
   editMenu.items = [
     undoItem,
     repeatItem,
-    separator(),
+    makeSeparator(),
     copyItem,
     cutItem,
     pasteItem,
@@ -186,34 +198,40 @@ function main(): void {
   var findItem = new MenuItem({
     text: 'Find...',
     shortcut: 'Ctrl+F',
+    command: 'my-proj:find',
   });
 
   var findNextItem = new MenuItem({
     text: 'Find Next',
     shortcut: 'F3',
+    command: 'my-proj:find-next',
   });
 
   var findPrevItem = new MenuItem({
     text: 'Find Previous',
     shortcut: 'Shift+F3',
+    command: 'my-proj:find-prev',
   });
 
   var replaceItem = new MenuItem({
     text: 'Replace...',
     shortcut: 'Ctrl+H',
+    command: 'my-proj:replace',
   });
 
   var replaceNextItem = new MenuItem({
     text: 'Replace Next',
     shortcut: 'Ctrl+Shift+H',
+    command: 'my-proj:replace-next',
   });
 
   var fmMenu = new Menu();
+
   fmMenu.items = [
     findItem,
     findNextItem,
     findPrevItem,
-    separator(),
+    makeSeparator(),
     replaceItem,
     replaceNextItem,
   ];
@@ -229,9 +247,16 @@ function main(): void {
   });
 
   var helpMenu = new Menu();
+
   helpMenu.items = [
-    new MenuItem({ text: 'Documentation' }),
-    new MenuItem({ text: 'About' }),
+    new MenuItem({
+      text: 'Documentation',
+      command: 'my-proj:open-docs',
+    }),
+    new MenuItem({
+      text: 'About',
+      command: 'my-proj:open-about',
+    }),
   ];
 
   var helpItem = new MenuItem({
@@ -240,31 +265,37 @@ function main(): void {
   });
 
   var contextMenu = new Menu()
+
   contextMenu.items = [
     copyItem,
     cutItem,
     pasteItem,
-    separator(),
+    makeSeparator(),
     newTabItem,
     closeTabItem,
     saveOnExitItem,
-    separator(),
+    makeSeparator(),
     taskMgrItem,
-    separator(),
+    makeSeparator(),
     moreItem,
-    separator(),
+    makeSeparator(),
     closeItem,
   ];
 
   var menubar = new MenuBar();
+
   menubar.items = [
     fileItem,
     editItem,
     fmItem,
     viewItem,
-    separator(),
+    makeSeparator(),
     helpItem,
   ];
+
+  contextMenu.commandRequested.connect(logCommandRequest);
+
+  menubar.commandRequested.connect(logCommandRequest);
 
   attachWidget(menubar, document.body);
 
