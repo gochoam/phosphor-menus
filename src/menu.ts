@@ -171,7 +171,7 @@ class Menu extends MenuBase {
    * When a menu item with a `command` id is triggered, this signal
    * will be emitted in lieu of invoking the item's handler function.
    *
-   * The signal arg is the command id of the menu item.
+   * The signal arg is the command id for the menu item.
    *
    * #### Notes
    * If the menu is part of a menu hierarchy, the root menu will emit
