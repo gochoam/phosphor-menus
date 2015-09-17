@@ -360,6 +360,16 @@ class Menu extends MenuBase {
   }
 
   /**
+   * A method invoked when the active index changes.
+   */
+  protected onActiveIndexChanged(old: number, index: number): void {
+    var oldNode = this._itemNodeAt(old);
+    var newNode = this._itemNodeAt(index);
+    if (oldNode) oldNode.classList.remove(ACTIVE_CLASS);
+    if (newNode) newNode.classList.add(ACTIVE_CLASS);
+  }
+
+  /**
    * A message handler invoked on an `'item-added'` message.
    */
   protected onItemAdded(msg: ItemMessage): void {
@@ -521,16 +531,6 @@ class Menu extends MenuBase {
 
     // Clear the content node.
     this.node.firstChild.textContent = '';
-  }
-
-  /**
-   * A method invoked when the active index changes.
-   */
-  protected onActiveIndexChanged(old: number, index: number): void {
-    var oldNode = this._itemNodeAt(old);
-    var newNode = this._itemNodeAt(index);
-    if (oldNode) oldNode.classList.remove(ACTIVE_CLASS);
-    if (newNode) newNode.classList.add(ACTIVE_CLASS);
   }
 
   /**
