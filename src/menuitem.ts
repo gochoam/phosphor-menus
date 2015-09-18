@@ -289,8 +289,8 @@ class MenuItem {
    * #### Notes
    * This is a pure delegate to the [[typeProperty]].
    */
-  set type(type: string) {
-    MenuItem.typeProperty.set(this, type);
+  set type(value: string) {
+    MenuItem.typeProperty.set(this, value);
   }
 
   /**
@@ -309,8 +309,8 @@ class MenuItem {
    * #### Notes
    * This is a pure delegate to the [[textProperty]].
    */
-  set text(text: string) {
-    MenuItem.textProperty.set(this, text);
+  set text(value: string) {
+    MenuItem.textProperty.set(this, value);
   }
 
   /**
@@ -329,8 +329,8 @@ class MenuItem {
    * #### Notes
    * This is a pure delegate to the [[shortcutProperty]].
    */
-  set shortcut(shortcut: string) {
-    MenuItem.shortcutProperty.set(this, shortcut);
+  set shortcut(value: string) {
+    MenuItem.shortcutProperty.set(this, value);
   }
 
   /**
@@ -349,8 +349,8 @@ class MenuItem {
    * #### Notes
    * This is a pure delegate to the [[disabledProperty]].
    */
-  set disabled(disabled: boolean) {
-    MenuItem.disabledProperty.set(this, disabled);
+  set disabled(value: boolean) {
+    MenuItem.disabledProperty.set(this, value);
   }
 
   /**
@@ -369,8 +369,8 @@ class MenuItem {
    * #### Notes
    * This is a pure delegate to the [[hiddenProperty]].
    */
-  set hidden(hidden: boolean) {
-    MenuItem.hiddenProperty.set(this, hidden);
+  set hidden(value: boolean) {
+    MenuItem.hiddenProperty.set(this, value);
   }
 
   /**
@@ -389,8 +389,8 @@ class MenuItem {
    * #### Notes
    * This is a pure delegate to the [[checkedProperty]].
    */
-  set checked(checked: boolean) {
-    MenuItem.checkedProperty.set(this, checked);
+  set checked(value: boolean) {
+    MenuItem.checkedProperty.set(this, value);
   }
 
   /**
@@ -409,8 +409,8 @@ class MenuItem {
    * #### Notes
    * This is a pure delegate to the [[classNameProperty]].
    */
-  set className(name: string) {
-    MenuItem.classNameProperty.set(this, name);
+  set className(value: string) {
+    MenuItem.classNameProperty.set(this, value);
   }
 
   /**
@@ -429,8 +429,8 @@ class MenuItem {
    * #### Notes
    * This is a pure delegate to the [[commandProperty]].
    */
-  set command(name: string) {
-    MenuItem.commandProperty.set(this, name);
+  set command(value: string) {
+    MenuItem.commandProperty.set(this, value);
   }
 
   /**
@@ -449,8 +449,8 @@ class MenuItem {
    * #### Notes
    * This is a pure delegate to the [[handlerProperty]].
    */
-  set handler(name: (item: MenuItem) => void) {
-    MenuItem.handlerProperty.set(this, name);
+  set handler(value: (item: MenuItem) => void) {
+    MenuItem.handlerProperty.set(this, value);
   }
 
   /**
@@ -469,8 +469,8 @@ class MenuItem {
    * #### Notes
    * This is a pure delegate to the [[submenuProperty]].
    */
-  set submenu(submenu: Menu) {
-    MenuItem.submenuProperty.set(this, submenu);
+  set submenu(value: Menu) {
+    MenuItem.submenuProperty.set(this, value);
   }
 }
 
