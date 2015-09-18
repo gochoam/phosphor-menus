@@ -189,6 +189,7 @@ class MenuItem {
    */
   static submenuProperty = new Property<MenuItem, Menu>({
     value: null,
+    coerce: (owner, value) => value || null,
   });
 
   /**
