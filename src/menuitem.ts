@@ -279,7 +279,7 @@ class MenuItem {
    * #### Notes
    * This is a pure delegate to the [[typeProperty]].
    */
-  get type(): MenuItemType {
+  get type(): string {
     return MenuItem.typeProperty.get(this);
   }
 
@@ -289,7 +289,7 @@ class MenuItem {
    * #### Notes
    * This is a pure delegate to the [[typeProperty]].
    */
-  set type(type: MenuItemType) {
+  set type(type: string) {
     MenuItem.typeProperty.set(this, type);
   }
 
