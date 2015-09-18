@@ -74,11 +74,6 @@ interface IMenuItemOptions {
   checked?: boolean;
 
   /**
-   * The submenu for the menu item.
-   */
-  submenu?: Menu;
-
-  /**
    * The extra class name to associate with the menu item.
    */
   className?: string;
@@ -92,6 +87,11 @@ interface IMenuItemOptions {
    * The handler function for the menu item.
    */
   handler?: (item: MenuItem) => void;
+
+  /**
+   * The submenu for the menu item.
+   */
+  submenu?: Menu;
 }
 
 
@@ -175,15 +175,6 @@ class MenuItem {
   });
 
   /**
-   * The property descriptor for the menu item submenu.
-   *
-   * **See also:** [[submenu]]
-   */
-  static submenuProperty = new Property<MenuItem, Menu>({
-    value: null,
-  });
-
-  /**
    * The property descriptor for the menu item class name.
    *
    * This is an extra class name which item renderers will add to
@@ -222,6 +213,15 @@ class MenuItem {
   });
 
   /**
+   * The property descriptor for the menu item submenu.
+   *
+   * **See also:** [[submenu]]
+   */
+  static submenuProperty = new Property<MenuItem, Menu>({
+    value: null,
+  });
+
+  /**
    * Construct a new menu item.
    *
    * @param options - The initialization options for the menu item.
@@ -245,9 +245,6 @@ class MenuItem {
     if (options.checked !== void 0) {
       this.checked = options.checked;
     }
-    if (options.submenu !== void 0) {
-      this.submenu = options.submenu;
-    }
     if (options.className !== void 0) {
       this.className = options.className;
     }
@@ -256,6 +253,9 @@ class MenuItem {
     }
     if (options.handler !== void 0) {
       this.handler = options.handler;
+    }
+    if (options.submenu !== void 0) {
+      this.submenu = options.submenu;
     }
   }
 
@@ -380,26 +380,6 @@ class MenuItem {
   }
 
   /**
-   * Get the submenu for the menu item.
-   *
-   * #### Notes
-   * This is a pure delegate to the [[submenuProperty]].
-   */
-  get submenu(): Menu {
-    return MenuItem.submenuProperty.get(this);
-  }
-
-  /**
-   * Set the submenu for the menu item.
-   *
-   * #### Notes
-   * This is a pure delegate to the [[submenuProperty]].
-   */
-  set submenu(submenu: Menu) {
-    MenuItem.submenuProperty.set(this, submenu);
-  }
-
-  /**
    * Get the extra class name for the menu item.
    *
    * #### Notes
@@ -457,5 +437,25 @@ class MenuItem {
    */
   set handler(name: (item: MenuItem) => void) {
     MenuItem.handlerProperty.set(this, name);
+  }
+
+  /**
+   * Get the submenu for the menu item.
+   *
+   * #### Notes
+   * This is a pure delegate to the [[submenuProperty]].
+   */
+  get submenu(): Menu {
+    return MenuItem.submenuProperty.get(this);
+  }
+
+  /**
+   * Set the submenu for the menu item.
+   *
+   * #### Notes
+   * This is a pure delegate to the [[submenuProperty]].
+   */
+  set submenu(submenu: Menu) {
+    MenuItem.submenuProperty.set(this, submenu);
   }
 }
