@@ -87,11 +87,6 @@ interface IMenuItemOptions {
    * The handler function for the menu item.
    */
   handler?: (item: MenuItem) => void;
-
-  /**
-   * The submenu for the menu item.
-   */
-  submenu?: Menu;
 }
 
 
@@ -253,9 +248,6 @@ class MenuItem {
     }
     if (options.handler !== void 0) {
       this.handler = options.handler;
-    }
-    if (options.submenu !== void 0) {
-      this.submenu = options.submenu;
     }
   }
 
