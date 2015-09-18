@@ -69,7 +69,7 @@ interface IMenuItemOptions {
   hidden?: boolean;
 
   /**
-   * Whether a 'check' type menu item is checked.
+   * Whether a `Check` type menu item is checked.
    */
   checked?: boolean;
 
