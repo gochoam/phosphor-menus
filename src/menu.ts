@@ -28,7 +28,7 @@ import {
 } from './menubase';
 
 import {
-  MenuItem, MenuItemType
+  MenuItem
 } from './menuitem';
 
 
@@ -451,7 +451,7 @@ class Menu extends MenuBase {
       if (item.hidden) {
         continue;
       }
-      if (item.type !== MenuItemType.Separator) {
+      if (!item.isSeparatorType) {
         break;
       }
       nodes[k1].classList.add(FORCE_HIDDEN_CLASS);
@@ -463,7 +463,7 @@ class Menu extends MenuBase {
       if (item.hidden) {
         continue;
       }
-      if (item.type !== MenuItemType.Separator) {
+      if (!item.isSeparatorType) {
         break;
       }
       nodes[k2].classList.add(FORCE_HIDDEN_CLASS);
@@ -476,10 +476,10 @@ class Menu extends MenuBase {
       if (item.hidden) {
         continue;
       }
-      if (prevWasSep && item.type === MenuItemType.Separator) {
+      if (prevWasSep && item.isSeparatorType) {
         nodes[k1].classList.add(FORCE_HIDDEN_CLASS);
       } else {
-        prevWasSep = item.type === MenuItemType.Separator;
+        prevWasSep = item.isSeparatorType;
       }
     }
 
@@ -785,11 +785,10 @@ class Menu extends MenuBase {
  * Create the complete DOM node class name for a MenuItem.
  */
 function createItemClassName(item: MenuItem): string {
-  var type = item.type;
   var parts = [MENU_ITEM_CLASS];
-  if (type === MenuItemType.Check) {
+  if (item.isCheckType) {
     parts.push(CHECK_TYPE_CLASS);
-  } else if (type === MenuItemType.Separator) {
+  } else if (item.isSeparatorType) {
     parts.push(SEPARATOR_TYPE_CLASS);
   }
   if (item.checked) {
@@ -825,7 +824,7 @@ function createItemNode(item: MenuItem): HTMLElement {
   text.className = TEXT_CLASS;
   shortcut.className = SHORTCUT_CLASS;
   submenu.className = SUBMENU_ICON_CLASS;
-  if (item.type !== MenuItemType.Separator) {
+  if (!item.isSeparatorType) {
     text.textContent = item.text.replace(/&/g, '');
     shortcut.textContent = item.shortcut;
   }
@@ -834,14 +833,6 @@ function createItemNode(item: MenuItem): HTMLElement {
   node.appendChild(shortcut);
   node.appendChild(submenu);
   return node;
-}
-
-
-/**
- * Test whether a menu item is a visible non-separator item.
- */
-function isSelectableItem(item: MenuItem): boolean {
-  return !item.hidden && item.type !== MenuItemType.Separator;
 }
 
 
