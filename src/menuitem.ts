@@ -22,6 +22,11 @@ import {
 export
 interface IMenuItemOptions {
   /**
+   * The id for the menu item.
+   */
+  id?: string;
+
+  /**
    * The type of the menu item.
    */
   type?: string;
@@ -73,6 +78,24 @@ interface IMenuItemOptions {
  */
 export
 class MenuItem {
+   /**
+   * The property descriptor for the menu item id.
+   *
+   * The item id can be useful when positioning the menu item relative
+   * to its siblings, or when a value which is more unique than the
+   * item's [[text]] is required.
+   *
+   * #### Notes
+   * If this is provided, it should be unique among item siblings.
+   *
+   * The default value is an automatically generated id.
+   *
+   * **See also:** [[id]]
+   */
+  static idProperty = new Property<MenuItem, string>({
+    create: () => nextItemID(),
+  });
+
   /**
    * The property descriptor for the menu item type.
    *
@@ -198,6 +221,9 @@ class MenuItem {
    * @param options - The initialization options for the menu item.
    */
   constructor(options: IMenuItemOptions = {}) {
+    if (options.id !== void 0) {
+      this.id = options.id;
+    }
     if (options.type !== void 0) {
       this.type = options.type;
     }
@@ -225,6 +251,26 @@ class MenuItem {
     if (options.handler !== void 0) {
       this.handler = options.handler;
     }
+  }
+
+  /**
+   * Get the id of the menu item.
+   *
+   * #### Notes
+   * This is a pure delegate to the [[idProperty]].
+   */
+  get id(): string {
+    return MenuItem.idProperty.get(this);
+  }
+
+  /**
+   * Set the id of the menu item.
+   *
+   * #### Notes
+   * This is a pure delegate to the [[idProperty]].
+   */
+  set id(value: string) {
+    MenuItem.idProperty.set(this, value);
   }
 
   /**
@@ -427,6 +473,12 @@ class MenuItem {
     MenuItem.submenuProperty.set(this, submenu);
   }
 }
+
+
+/**
+ * A function which computes successive unique item ids.
+ */
+var nextItemID = (() => { var id = 0; return () => '-miid-' + id++; })();
 
 
 /**
