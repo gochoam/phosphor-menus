@@ -17,28 +17,6 @@ import {
 
 
 /**
- * The type of a menu item.
- */
-export
-enum MenuItemType {
-  /**
-   * A normal menu item.
-   */
-  Normal,
-
-  /**
-   * A checkable menu item.
-   */
-  Check,
-
-  /**
-   * A non-interactive separator.
-   */
-  Separator,
-}
-
-
-/**
  * An options object used to initialize a menu item.
  */
 export
@@ -46,7 +24,7 @@ interface IMenuItemOptions {
   /**
    * The type of the menu item.
    */
-  type?: MenuItemType;
+  type?: string;
 
   /**
    * The text for the menu item.
@@ -69,7 +47,7 @@ interface IMenuItemOptions {
   hidden?: boolean;
 
   /**
-   * Whether a `Check` type menu item is checked.
+   * Whether a `'check'` type menu item is checked.
    */
   checked?: boolean;
 
@@ -96,27 +74,21 @@ interface IMenuItemOptions {
 export
 class MenuItem {
   /**
-   * A convenience alias of the `Normal` [[MenuItemType]].
-   */
-  static Normal = MenuItemType.Normal;
-
-  /**
-   * A convenience alias of the `Check` [[MenuItemType]].
-   */
-  static Check = MenuItemType.Check;
-
-  /**
-   * A convenience alias of the `Separator` [[MenuItemType]].
-   */
-  static Separator = MenuItemType.Separator;
-
-  /**
    * The property descriptor for the menu item type.
+   *
+   * Valid types are: `'normal'`, `'check'`, and `'separator'`.
+   *
+   * #### Notes
+   * If an invalid type is provided, a warning will be logged and
+   * a `'normal'` type will be used instead.
+   *
+   * The default value is `'normal'`.
    *
    * **See also:** [[type]]
    */
-  static typeProperty = new Property<MenuItem, MenuItemType>({
-    value: MenuItemType.Normal,
+  static typeProperty = new Property<MenuItem, string>({
+    value: 'normal',
+    coerce: coerceMenuItemType,
     changed: owner => MenuItem.checkedProperty.coerce(owner),
   });
 
@@ -162,11 +134,14 @@ class MenuItem {
   /**
    * The property descriptor controlling the menu item checked state.
    *
+   * #### Notes
+   * Only a `'check'` type menu item can be checked.
+   *
    * **See also:** [[checked]]
    */
   static checkedProperty = new Property<MenuItem, boolean>({
     value: false,
-    coerce: (owner, val) => owner.type === MenuItemType.Check ? val : false,
+    coerce: (owner, val) => owner.type === 'check' ? val : false,
   });
 
   /**
@@ -450,4 +425,16 @@ class MenuItem {
   set submenu(submenu: Menu) {
     MenuItem.submenuProperty.set(this, submenu);
   }
+}
+
+
+/**
+ * The coerce handler for the menu item type.
+ */
+function coerceMenuItemType(item: MenuItem, value: string): string {
+  if (value === 'normal' || value === 'check' || value === 'separator') {
+    return value;
+  }
+  console.warn('invalid menu item type:', value);
+  return 'normal';
 }
