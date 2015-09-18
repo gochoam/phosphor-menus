@@ -32,7 +32,7 @@ import {
 } from './menubase';
 
 import {
-  MenuItem, MenuItemType
+  MenuItem
 } from './menuitem';
 
 
@@ -291,7 +291,7 @@ class MenuBar extends MenuBase {
       if (item.hidden) {
         continue;
       }
-      if (item.type !== MenuItemType.Separator) {
+      if (!item.isSeparatorType) {
         break;
       }
       nodes[k1].classList.add(FORCE_HIDDEN_CLASS);
@@ -303,7 +303,7 @@ class MenuBar extends MenuBase {
       if (item.hidden) {
         continue;
       }
-      if (item.type !== MenuItemType.Separator) {
+      if (!item.isSeparatorType) {
         break;
       }
       nodes[k2].classList.add(FORCE_HIDDEN_CLASS);
@@ -316,10 +316,10 @@ class MenuBar extends MenuBase {
       if (item.hidden) {
         continue;
       }
-      if (prevWasSep && item.type === MenuItemType.Separator) {
+      if (prevWasSep && item.isSeparatorType) {
         nodes[k1].classList.add(FORCE_HIDDEN_CLASS);
       } else {
-        prevWasSep = item.type === MenuItemType.Separator;
+        prevWasSep = item.isSeparatorType;
       }
     }
 
@@ -622,7 +622,7 @@ class MenuBar extends MenuBase {
  */
 function createItemClassName(item: MenuItem): string {
   var parts = [MENU_ITEM_CLASS];
-  if (item.type === MenuItemType.Separator) {
+  if (item.isSeparatorType) {
     parts.push(SEPARATOR_TYPE_CLASS);
   }
   if (item.disabled) {
@@ -648,7 +648,7 @@ function createItemNode(item: MenuItem): HTMLElement {
   node.className = createItemClassName(item);
   icon.className = ICON_CLASS;
   text.className = TEXT_CLASS;
-  if (item.type !== MenuItemType.Separator) {
+  if (!item.isSeparatorType) {
     text.textContent = item.text.replace(/&/g, '');
   }
   node.appendChild(icon);
