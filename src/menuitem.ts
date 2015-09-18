@@ -73,6 +73,28 @@ interface IMenuItemOptions {
 }
 
 
+////
+// Design Notes:
+//
+// The `type` of a `MenuItem` should rightfully be an enum instead of
+// a string. However, using a string is more amenable to creating menu
+// items from a JSON specification.
+//
+// The same justification is used to keep the `submenu` property out
+// of the initialization options bag. The `MenuItem` uses a concrete
+// menu here, but a JSON specification will be an array of menu item
+// options, plus some metadata to control position.
+//
+// Basically, we sacrifice some purity in order to make it simpler
+// for other code to generate menu items from JSON. This decision
+// will probably not impact anyone other than hard-core TypeScript
+// enthusiasts, since using string literals is standard JS design.
+//
+// To make things more type-safe for TypeScript code, explicit read-
+// only getters are provided to check the type (`isSeparator`, etc.).
+////
+
+
 /**
  * An item which can be added to a menu or menu bar.
  */
@@ -471,6 +493,36 @@ class MenuItem {
    */
   set submenu(value: Menu) {
     MenuItem.submenuProperty.set(this, value);
+  }
+
+  /**
+   * Test whether the menu item is a `'normal'` type.
+   *
+   * #### Notes
+   * This is a read-only property.
+   */
+  get isNormalType(): boolean {
+    return this.type === 'normal';
+  }
+
+  /**
+   * Test whether the menu item is a `'check'` type.
+   *
+   * #### Notes
+   * This is a read-only property.
+   */
+  get isCheckType(): boolean {
+    return this.type === 'check';
+  }
+
+  /**
+   * Test whether the menu item is a `'separator'` type.
+   *
+   * #### Notes
+   * This is a read-only property.
+   */
+  get isSeparatorType(): boolean {
+    return this.type === 'separator';
   }
 }
 
