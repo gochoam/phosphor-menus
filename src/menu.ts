@@ -28,7 +28,7 @@ import {
 } from './menubase';
 
 import {
-  MenuItem
+  IMenuItemTemplate, MenuItem
 } from './menuitem';
 
 
@@ -156,6 +156,24 @@ class Menu extends MenuBase {
     content.className = CONTENT_CLASS;
     node.appendChild(content);
     return node;
+  }
+
+  /**
+   * Create a menu from an array of menu item templates.
+   *
+   * @param template - The menu item template objects for the menu.
+   *
+   * @returns A new menu created from the template.
+   *
+   * #### Notes
+   * Submenu templates will be recursively created using this same
+   * method. If custom menus or menu items are required, use the
+   * relevant constructors directly.
+   */
+  static fromTemplate(template: IMenuItemTemplate[]): Menu {
+    var menu = new Menu();
+    menu.items = template.map(createMenuItem);
+    return menu;
   }
 
   /**
@@ -749,6 +767,14 @@ class Menu extends MenuBase {
   private _parentMenu: Menu = null;
   private _childMenu: Menu = null;
   private _childItem: MenuItem = null;
+}
+
+
+/**
+ * Create a menu item from a template.
+ */
+function createMenuItem(template: IMenuItemTemplate): MenuItem {
+  return MenuItem.fromTemplate(template);
 }
 
 
