@@ -22,11 +22,6 @@ import {
 export
 interface IMenuItemOptions {
   /**
-   * The id for the menu item.
-   */
-  id?: string;
-
-  /**
    * The type of the menu item.
    */
   type?: string;
@@ -62,11 +57,6 @@ interface IMenuItemOptions {
   className?: string;
 
   /**
-   * The command id for the menu item.
-   */
-  command?: string;
-
-  /**
    * The handler function for the menu item.
    */
   handler?: (item: MenuItem) => void;
@@ -79,11 +69,6 @@ interface IMenuItemOptions {
 // The `type` of a `MenuItem` should rightfully be an enum instead of
 // a string. However, using a string is more amenable to creating menu
 // items from a JSON specification.
-//
-// The same justification is used to keep the `submenu` property out
-// of the initialization options bag. The `MenuItem` uses a concrete
-// menu here, but a JSON specification will be an array of menu item
-// options, plus some metadata to control position.
 //
 // Basically, we sacrifice some purity in order to make it simpler
 // for other code to generate menu items from JSON. This decision
@@ -100,24 +85,6 @@ interface IMenuItemOptions {
  */
 export
 class MenuItem {
-   /**
-   * The property descriptor for the menu item id.
-   *
-   * The item id can be useful when positioning the menu item relative
-   * to its siblings, or when a value which is more unique than the
-   * item's [[text]] is required.
-   *
-   * #### Notes
-   * If this is provided, it should be unique among item siblings.
-   *
-   * The default value is an automatically generated id.
-   *
-   * **See also:** [[id]]
-   */
-  static idProperty = new Property<MenuItem, string>({
-    create: () => nextItemID(),
-  });
-
   /**
    * The property descriptor for the menu item type.
    *
@@ -202,23 +169,9 @@ class MenuItem {
   });
 
   /**
-   * The property descriptor for the item command id.
-   *
-   * If a command id is provided, the [[handler]] for the menu item
-   * will be ignored, and the `Menu` widget which consumes the menu
-   * item will request that the given command be executed instead.
-   *
-   * **See also:** [[command]]
-   */
-  static commandProperty = new Property<MenuItem, string>({
-    value: '',
-  });
-
-  /**
    * The property descriptor for the item handler.
    *
-   * If a command id is not provided, this callback will be invoked
-   * when the menu item is triggered.
+   * This callback will be invoked when the menu item is triggered.
    *
    * **See also:** [[handler]]
    */
@@ -243,9 +196,6 @@ class MenuItem {
    * @param options - The initialization options for the menu item.
    */
   constructor(options: IMenuItemOptions = {}) {
-    if (options.id !== void 0) {
-      this.id = options.id;
-    }
     if (options.type !== void 0) {
       this.type = options.type;
     }
@@ -267,32 +217,9 @@ class MenuItem {
     if (options.className !== void 0) {
       this.className = options.className;
     }
-    if (options.command !== void 0) {
-      this.command = options.command;
-    }
     if (options.handler !== void 0) {
       this.handler = options.handler;
     }
-  }
-
-  /**
-   * Get the id of the menu item.
-   *
-   * #### Notes
-   * This is a pure delegate to the [[idProperty]].
-   */
-  get id(): string {
-    return MenuItem.idProperty.get(this);
-  }
-
-  /**
-   * Set the id of the menu item.
-   *
-   * #### Notes
-   * This is a pure delegate to the [[idProperty]].
-   */
-  set id(value: string) {
-    MenuItem.idProperty.set(this, value);
   }
 
   /**
@@ -436,26 +363,6 @@ class MenuItem {
   }
 
   /**
-   * Get the command id for the menu item.
-   *
-   * #### Notes
-   * This is a pure delegate to the [[commandProperty]].
-   */
-  get command(): string {
-    return MenuItem.commandProperty.get(this);
-  }
-
-  /**
-   * Set the command id for the menu item.
-   *
-   * #### Notes
-   * This is a pure delegate to the [[commandProperty]].
-   */
-  set command(value: string) {
-    MenuItem.commandProperty.set(this, value);
-  }
-
-  /**
    * Get the handler for the menu item.
    *
    * #### Notes
@@ -525,12 +432,6 @@ class MenuItem {
     return this.type === 'separator';
   }
 }
-
-
-/**
- * A function which computes successive unique item ids.
- */
-var nextItemID = (() => { var id = 0; return () => '-miid-' + id++; })();
 
 
 /**

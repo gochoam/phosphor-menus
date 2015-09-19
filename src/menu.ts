@@ -166,22 +166,6 @@ class Menu extends MenuBase {
   static closedSignal = new Signal<Menu, void>();
 
   /**
-   * A signal emitted when a command menu item is triggered.
-   *
-   * When a menu item with a `command` id is triggered, this signal
-   * will be emitted in lieu of invoking the item's handler function.
-   *
-   * The signal arg is the command id for the menu item.
-   *
-   * #### Notes
-   * If the menu is part of a menu hierarchy, the root menu will emit
-   * the signal for all menu items contained within the hierarchy.
-   *
-   * **See also:** [[commandRequested]]
-   */
-  static commandRequestedSignal = new Signal<Menu, string>();
-
-  /**
    * Construct a new menu.
    */
   constructor() {
@@ -205,16 +189,6 @@ class Menu extends MenuBase {
    */
   get closed(): ISignal<Menu, void> {
     return Menu.closedSignal.bind(this);
-  }
-
-  /**
-   * A signal emitted when a command menu item is triggered.
-   *
-   * #### Notes
-   * This is a pure delegate to the [[commandRequestedSignal]].
-   */
-  get commandRequested(): ISignal<Menu, string> {
-    return Menu.commandRequestedSignal.bind(this);
   }
 
   /**
@@ -404,11 +378,8 @@ class Menu extends MenuBase {
    */
   protected onItemTriggerRequest(msg: ItemMessage): void {
     this.rootMenu.close();  // deferred close
-    if (msg.item.command) {
-      this.rootMenu.commandRequested.emit(msg.item.command);
-    } else if (msg.item.handler) {
-      msg.item.handler.call(void 0, msg.item);
-    }
+    var handler = msg.item.handler;
+    if (handler) handler(msg.item);
   }
 
   /**
