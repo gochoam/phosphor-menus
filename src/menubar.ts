@@ -120,21 +120,21 @@ class MenuBar extends MenuBase {
   }
 
   /**
-   * Create a menu bar from an array of menu item templates.
+   * A convenience method to create a menu bar from a template.
    *
-   * @param template - The item template array for the menu bar.
+   * @param array - The menu item templates for the menu bar.
    *
-   * @returns A new menu bar created from the template.
+   * @returns A new menu bar created from the menu item templates.
    *
    * #### Notes
    * Submenu templates will be recursively created using the
    * `Menu.fromTemplate` method. If custom menus or menu items
    * are required, use the relevant constructors directly.
    */
-  static fromTemplate(template: IMenuItemTemplate[]): MenuBar {
-    var menubar = new MenuBar();
-    menubar.items = template.map(createMenuItem);
-    return menubar;
+  static fromTemplate(array: IMenuItemTemplate[]): MenuBar {
+    var bar = new MenuBar();
+    bar.items = array.map(createMenuItem);
+    return bar;
   }
 
   /**

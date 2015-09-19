@@ -159,20 +159,20 @@ class Menu extends MenuBase {
   }
 
   /**
-   * Create a menu from an array of menu item templates.
+   * A convenience method to create a menu from a template.
    *
-   * @param template - The item template array for the menu.
+   * @param array - The menu item templates for the menu.
    *
-   * @returns A new menu created from the template.
+   * @returns A new menu created from the menu item templates.
    *
    * #### Notes
    * Submenu templates will be recursively created using the
    * `Menu.fromTemplate` method. If custom menus or menu items
    * are required, use the relevant constructors directly.
    */
-  static fromTemplate(template: IMenuItemTemplate[]): Menu {
+  static fromTemplate(array: IMenuItemTemplate[]): Menu {
     var menu = new Menu();
-    menu.items = template.map(createMenuItem);
+    menu.items = array.map(createMenuItem);
     return menu;
   }
 
