@@ -28,7 +28,7 @@ import {
 } from './menubase';
 
 import {
-  MenuItem
+  IMenuItemTemplate, MenuItem
 } from './menuitem';
 
 
@@ -117,6 +117,24 @@ class MenuBar extends MenuBase {
     content.className = CONTENT_CLASS;
     node.appendChild(content);
     return node;
+  }
+
+  /**
+   * Create a menu bar from an array of menu item templates.
+   *
+   * @param template - The item template array for the menu bar.
+   *
+   * @returns A new menu bar created from the template.
+   *
+   * #### Notes
+   * Submenu templates will be recursively created using the
+   * `Menu.fromTemplate` method. If custom menus or menu items
+   * are required, use the relevant constructors directly.
+   */
+  static fromTemplate(template: IMenuItemTemplate[]): MenuBar {
+    var menubar = new MenuBar();
+    menubar.items = template.map(createMenuItem);
+    return menubar;
   }
 
   /**
@@ -574,6 +592,14 @@ class MenuBar extends MenuBase {
 
   private _active = false;
   private _childMenu: Menu = null;
+}
+
+
+/**
+ * Create a menu item from a template.
+ */
+function createMenuItem(template: IMenuItemTemplate): MenuItem {
+  return MenuItem.fromTemplate(template);
 }
 
 
