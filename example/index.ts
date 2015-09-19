@@ -18,280 +18,262 @@ import {
 import './index.css';
 
 
-function logCommandRequest(sender: any, cmd: string): void {
-  console.log('command requested:', cmd);
+
+function logItem(item: MenuItem): void {
+  console.log(item.text);
 }
 
 
-function makeSeparator(): MenuItem {
-  return new MenuItem({ type: MenuItem.Separator });
-}
+var MENU_BAR_TEMPLATE = [
+  {
+    text: 'File',
+    submenu: [
+      {
+        text: 'New File',
+        shortcut: 'Ctrl+N',
+        handler: logItem
+      },
+      {
+        text: 'Open File',
+        shortcut: 'Ctrl+O',
+        handler: logItem
+      },
+      {
+        text: 'Save File',
+        shortcut: 'Ctrl+S',
+        handler: logItem
+      },
+      {
+        text: 'Save As...',
+        shortcut: 'Ctrl+Shift+S',
+        handler: logItem
+      },
+      {
+        type: 'separator'
+      },
+      {
+        text: 'Close File',
+        shortcut: 'Ctrl+W',
+        handler: logItem
+      },
+      {
+        text: 'Close All Files',
+        handler: logItem
+      },
+      {
+        type: 'separator'
+      },
+      {
+        text: 'More...',
+        submenu: [
+          {
+            text: 'One',
+            handler: logItem
+          },
+          {
+            text: 'Two',
+            handler: logItem
+          },
+          {
+            text: 'Three',
+            handler: logItem
+          },
+          {
+            text: 'Four',
+            handler: logItem
+          }
+        ]
+      },
+      {
+        type: 'separator'
+      },
+      {
+        text: 'Exit',
+        handler: logItem
+      }
+    ]
+  },
+  {
+    text: 'Edit',
+    submenu: [
+      {
+        text: '&Undo',
+        shortcut: 'Ctrl+Z',
+        className: 'undo',
+        handler: logItem
+      },
+      {
+        text: '&Repeat',
+        shortcut: 'Ctrl+Y',
+        className: 'repeat',
+        handler: logItem
+      },
+      {
+        type: 'separator'
+      },
+      {
+        text: '&Copy',
+        shortcut: 'Ctrl+C',
+        className: 'copy',
+        handler: logItem
+      },
+      {
+        text: 'Cu&t',
+        shortcut: 'Ctrl+X',
+        className: 'cut',
+        handler: logItem
+      },
+      {
+        text: '&Paste',
+        shortcut: 'Ctrl+V',
+        className: 'paste',
+        handler: logItem
+      }
+    ]
+  },
+  {
+    text: 'Find',
+    submenu: [
+      {
+        text: 'Find...',
+        shortcut: 'Ctrl+F',
+        handler: logItem
+      },
+      {
+        text: 'Find Next',
+        shortcut: 'F3',
+        handler: logItem
+      },
+      {
+        text: 'Find Previous',
+        shortcut: 'Shift+F3',
+        handler: logItem
+      },
+      {
+        type: 'separator'
+      },
+      {
+        text: 'Replace...',
+        shortcut: 'Ctrl+H',
+        handler: logItem
+      },
+      {
+        text: 'Replace Next',
+        shortcut: 'Ctrl+Shift+H',
+        handler: logItem
+      }
+    ]
+  },
+  {
+    text: 'View',
+    disabled: true
+  },
+  {
+    type: 'separator'
+  },
+  {
+    text: 'Help',
+    submenu: [
+      {
+        text: 'Documentation',
+        handler: logItem
+      },
+      {
+        text: 'About',
+        handler: logItem
+      }
+    ]
+  }
+];
+
+
+var CONTEXT_MENU_TEMPLATE = [
+  {
+    text: '&Copy',
+    shortcut: 'Ctrl+C',
+    className: 'copy',
+    handler: logItem
+  },
+  {
+    text: 'Cu&t',
+    shortcut: 'Ctrl+X',
+    className: 'cut',
+    handler: logItem
+  },
+  {
+    text: '&Paste',
+    shortcut: 'Ctrl+V',
+    className: 'paste',
+    handler: logItem
+  },
+  {
+    type: 'separator'
+  },
+  {
+    text: '&New Tab',
+    handler: logItem
+  },
+  {
+    text: '&Close Tab',
+    handler: logItem
+  },
+  {
+    type: 'check',
+    checked: true,
+    text: '&Save On Exit',
+    handler: (item: MenuItem) => {
+      item.checked = !item.checked;
+      console.log('Save On Exit:', item.checked);
+    }
+  },
+  {
+    type: 'separator'
+  },
+  {
+    text: 'Task Manager',
+    disabled: true
+  },
+  {
+    type: 'separator'
+  },
+  {
+    text: 'More...',
+    submenu: [
+      {
+        text: 'One',
+        handler: logItem
+      },
+      {
+        text: 'Two',
+        handler: logItem
+      },
+      {
+        text: 'Three',
+        handler: logItem
+      },
+      {
+        text: 'Four',
+        handler: logItem
+      }
+    ]
+  },
+  {
+    type: 'separator'
+  },
+  {
+    text: 'Close',
+    className: 'close',
+    handler: logItem
+  }
+];
 
 
 function main(): void {
 
-  var copyItem = new MenuItem({
-    text: '&Copy',
-    shortcut: 'Ctrl+C',
-    className: 'copy',
-    handler: () => console.log('Copy'),
-  });
+  var menuBar = MenuBar.fromTemplate(MENU_BAR_TEMPLATE);
+  var contextMenu = Menu.fromTemplate(CONTEXT_MENU_TEMPLATE);
 
-  var cutItem = new MenuItem({
-    text: 'Cu&t',
-    shortcut: 'Ctrl+X',
-    className: 'cut',
-    handler: () => console.log('Cut'),
-  });
-
-  var pasteItem = new MenuItem({
-    text: '&Paste',
-    shortcut: 'Ctrl+V',
-    className: 'paste',
-    handler: () => console.log('Paste'),
-  });
-
-  var newTabItem = new MenuItem({
-    text: '&New Tab',
-    handler: () => console.log('New Tab'),
-  });
-
-  var closeTabItem = new MenuItem({
-    text: '&Close Tab',
-    handler: () => console.log('Close Tab'),
-  });
-
-  var saveOnExitItem = new MenuItem({
-    text: '&Save On Exit',
-    type: MenuItem.Check,
-    checked: true,
-    handler: (item: MenuItem) => {
-      item.checked = !item.checked;
-      console.log('Save on exit:', item.checked);
-    },
-  });
-
-  var taskMgrItem = new MenuItem({
-    text: 'Task Manager',
-    disabled: true,
-    command: 'my-proj:launch-taskmgr',
-  });
-
-  var moreMenu = new Menu();
-
-  moreMenu.items = [
-    new MenuItem({ text: 'One', command: 'my-proj:cmd-one' }),
-    new MenuItem({ text: 'Two', command: 'my-proj:cmd-two' }),
-    new MenuItem({ text: 'Three', command: 'my-proj:cmd-three' }),
-    new MenuItem({ text: 'Four', command: 'my-proj:cmd-four' }),
-    new MenuItem({ text: 'Five', command: 'my-proj:cmd-five' }),
-  ];
-
-  var moreItem = new MenuItem({
-    text: 'More...',
-    submenu: moreMenu,
-  });
-
-  var closeItem = new MenuItem({
-    text: 'Close',
-    className: 'close',
-    handler: () => console.log('Close'),
-  });
-
-  var newFileItem = new MenuItem({
-    text: 'New File',
-    shortcut: 'Ctrl+N',
-    command: 'my-proj:new-file',
-  });
-
-  var openFileItem = new MenuItem({
-    text: 'Open File',
-    shortcut: 'Ctrl+O',
-    command: 'my-proj:open-file',
-  });
-
-  var saveFileItem = new MenuItem({
-    text: 'Save File',
-    shortcut: 'Ctrl+S',
-    command: 'my-proj:save-file',
-  });
-
-  var saveAsItem = new MenuItem({
-    text: 'Save As...',
-    shortcut: 'Ctrl+Shift+S',
-    command: 'my-proj:save-as',
-  });
-
-  var closeFileItem = new MenuItem({
-    text: 'Close File',
-    shortcut: 'Ctrl+W',
-    command: 'my-proj:close-file',
-  });
-
-  var closeAllItem = new MenuItem({
-    text: 'Close All Files',
-    command: 'my-proj:close-all',
-  });
-
-  var exitItem = new MenuItem({
-    text: 'Exit',
-    command: 'my-proj:exit',
-  });
-
-  var fileMenu = new Menu();
-
-  fileMenu.items = [
-    newFileItem,
-    openFileItem,
-    saveFileItem,
-    saveAsItem,
-    makeSeparator(),
-    closeFileItem,
-    closeAllItem,
-    makeSeparator(),
-    moreItem,
-    makeSeparator(),
-    exitItem,
-  ];
-
-  var fileItem = new MenuItem({
-    text: 'File',
-    submenu: fileMenu,
-  });
-
-  var undoItem = new MenuItem({
-    text: '&Undo',
-    shortcut: 'Ctrl+Z',
-    className: 'undo',
-    handler: () => console.log('Undo'),
-  });
-
-  var repeatItem = new MenuItem({
-    text: '&Repeat',
-    shortcut: 'Ctrl+Y',
-    className: 'repeat',
-    handler: () => console.log('Repeat'),
-  });
-
-  var editMenu = new Menu();
-
-  editMenu.items = [
-    undoItem,
-    repeatItem,
-    makeSeparator(),
-    copyItem,
-    cutItem,
-    pasteItem,
-  ];
-
-  var editItem = new MenuItem({
-    text: 'Edit',
-    submenu: editMenu,
-  });
-
-  var findItem = new MenuItem({
-    text: 'Find...',
-    shortcut: 'Ctrl+F',
-    command: 'my-proj:find',
-  });
-
-  var findNextItem = new MenuItem({
-    text: 'Find Next',
-    shortcut: 'F3',
-    command: 'my-proj:find-next',
-  });
-
-  var findPrevItem = new MenuItem({
-    text: 'Find Previous',
-    shortcut: 'Shift+F3',
-    command: 'my-proj:find-prev',
-  });
-
-  var replaceItem = new MenuItem({
-    text: 'Replace...',
-    shortcut: 'Ctrl+H',
-    command: 'my-proj:replace',
-  });
-
-  var replaceNextItem = new MenuItem({
-    text: 'Replace Next',
-    shortcut: 'Ctrl+Shift+H',
-    command: 'my-proj:replace-next',
-  });
-
-  var fmMenu = new Menu();
-
-  fmMenu.items = [
-    findItem,
-    findNextItem,
-    findPrevItem,
-    makeSeparator(),
-    replaceItem,
-    replaceNextItem,
-  ];
-
-  var fmItem = new MenuItem({
-    text: 'Find',
-    submenu: fmMenu,
-  });
-
-  var viewItem = new MenuItem({
-    text: 'View',
-    disabled: true,
-  });
-
-  var helpMenu = new Menu();
-
-  helpMenu.items = [
-    new MenuItem({
-      text: 'Documentation',
-      command: 'my-proj:open-docs',
-    }),
-    new MenuItem({
-      text: 'About',
-      command: 'my-proj:open-about',
-    }),
-  ];
-
-  var helpItem = new MenuItem({
-    text: 'Help',
-    submenu: helpMenu,
-  });
-
-  var contextMenu = new Menu()
-
-  contextMenu.items = [
-    copyItem,
-    cutItem,
-    pasteItem,
-    makeSeparator(),
-    newTabItem,
-    closeTabItem,
-    saveOnExitItem,
-    makeSeparator(),
-    taskMgrItem,
-    makeSeparator(),
-    moreItem,
-    makeSeparator(),
-    closeItem,
-  ];
-
-  var menubar = new MenuBar();
-
-  menubar.items = [
-    fileItem,
-    editItem,
-    fmItem,
-    viewItem,
-    makeSeparator(),
-    helpItem,
-  ];
-
-  contextMenu.commandRequested.connect(logCommandRequest);
-
-  menubar.commandRequested.connect(logCommandRequest);
-
-  attachWidget(menubar, document.body);
+  attachWidget(menuBar, document.body);
 
   document.addEventListener('contextmenu', (event: MouseEvent) => {
     event.preventDefault();
