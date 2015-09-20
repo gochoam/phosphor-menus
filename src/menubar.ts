@@ -24,7 +24,7 @@ import {
 } from './menu';
 
 import {
-  ItemMessage, MenuBase
+  MenuBase
 } from './menubase';
 
 import {
@@ -197,6 +197,19 @@ class MenuBar extends MenuBase {
   }
 
   /**
+   * A method invoked when the menu items change.
+   */
+  protected onItemsChanged(old: MenuItem[], items: MenuItem[]): void {
+    for (var i = 0, n = old.length; i < n; ++i) {
+      Property.getChanged(old[i]).disconnect(this._onItemChanged, this);
+    }
+    for (var i = 0, n = items.length; i < n; ++i) {
+      Property.getChanged(items[i]).connect(this._onItemChanged, this);
+    }
+    this.update(true);
+  }
+
+  /**
    * A method invoked when the active index changes.
    */
   protected onActiveIndexChanged(old: number, index: number): void {
@@ -207,36 +220,13 @@ class MenuBar extends MenuBase {
   }
 
   /**
-   * A message handler invoked on an `'item-added'` message.
+   * A method invoked when a menu item should be opened.
    */
-  protected onItemAdded(msg: ItemMessage): void {
-    Property.getChanged(msg.item).connect(this._onItemChanged, this);
-    this.update();
-  }
-
-  /**
-   * A message handler invoked on an `'item-removed'` message.
-   */
-  protected onItemRemoved(msg: ItemMessage): void {
-    Property.getChanged(msg.item).disconnect(this._onItemChanged, this);
-    this.update();
-  }
-
-  /**
-   * A message handler invoked on an `'item-moved'` message.
-   */
-  protected onItemMoved(msg: ItemMessage): void {
-    this.update();
-  }
-
-  /**
-   * A message handler invoked on an `'item-open-request'` message.
-   */
-  protected onItemOpenRequest(msg: ItemMessage): void {
-    var node = this._itemNodeAt(msg.currentIndex) || this.node;
+  protected onOpenItem(index: number, item: MenuItem): void {
+    var node = this._itemNodeAt(index) || this.node;
     this._activate();
     this._closeChildMenu();
-    this._openChildMenu(msg.item.submenu, node);
+    this._openChildMenu(item.submenu, node);
   }
 
   /**
@@ -267,19 +257,19 @@ class MenuBar extends MenuBase {
     this._reset();
 
     // Create the nodes for the menu bar.
-    var count = this.itemCount;
+    var items = this.items;
+    var count = items.length;
     var nodes = new Array<HTMLElement>(count);
     for (var i = 0; i < count; ++i) {
-      nodes[i] = createItemNode(this.itemAt(i));
+      nodes[i] = createItemNode(items[i]);
     }
 
     // Force hide the leading visible separators.
     for (var k1 = 0; k1 < count; ++k1) {
-      var item = this.itemAt(k1);
-      if (item.hidden) {
+      if (items[k1].hidden) {
         continue;
       }
-      if (!item.isSeparatorType) {
+      if (!items[k1].isSeparatorType) {
         break;
       }
       nodes[k1].classList.add(FORCE_HIDDEN_CLASS);
@@ -287,35 +277,33 @@ class MenuBar extends MenuBase {
 
     // Force hide the trailing visible separators.
     for (var k2 = count - 1; k2 >= 0; --k2) {
-      var item = this.itemAt(k2);
-      if (item.hidden) {
+      if (items[k2].hidden) {
         continue;
       }
-      if (!item.isSeparatorType) {
+      if (!items[k2].isSeparatorType) {
         break;
       }
       nodes[k2].classList.add(FORCE_HIDDEN_CLASS);
     }
 
     // Force hide the remaining consecutive visible separators.
-    var prevWasSep = false;
+    var hide = false;
     while (++k1 < k2) {
-      var item = this.itemAt(k1);
-      if (item.hidden) {
+      if (items[k1].hidden) {
         continue;
       }
-      if (prevWasSep && item.isSeparatorType) {
+      if (hide && items[k1].isSeparatorType) {
         nodes[k1].classList.add(FORCE_HIDDEN_CLASS);
       } else {
-        prevWasSep = item.isSeparatorType;
+        hide = items[k1].isSeparatorType;
       }
     }
 
-    // Ensure the content node is cleared.
+    // Fetch the content node.
     var content = this.node.firstChild;
-    content.textContent = '';
 
-    // Add the new items to the content node.
+    // Refresh the content node's content.
+    content.textContent = '';
     for (var i = 0; i < count; ++i) {
       content.appendChild(nodes[i]);
     }
@@ -647,7 +635,7 @@ function createItemNode(item: MenuItem): HTMLElement {
  * Test whether a menu's active item has a submenu.
  */
 function activeHasMenu(menu: Menu): boolean {
-  var item = menu.itemAt(menu.activeIndex);
+  var item = menu.items[menu.activeIndex];
   return !!(item && item.submenu);
 }
 

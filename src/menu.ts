@@ -24,7 +24,7 @@ import {
 } from 'phosphor-widget';
 
 import {
-  ItemMessage, MenuBase
+  MenuBase
 } from './menubase';
 
 import {
@@ -352,6 +352,13 @@ class Menu extends MenuBase {
   }
 
   /**
+   * A method invoked when the menu items change.
+   */
+  protected onItemsChanged(old: MenuItem[], items: MenuItem[]): void {
+    this.close(true);
+  }
+
+  /**
    * A method invoked when the active index changes.
    */
   protected onActiveIndexChanged(old: number, index: number): void {
@@ -362,42 +369,21 @@ class Menu extends MenuBase {
   }
 
   /**
-   * A message handler invoked on an `'item-added'` message.
+   * A method invoked when a menu item should be opened.
    */
-  protected onItemAdded(msg: ItemMessage): void {
-    this.close();
-  }
-
-  /**
-   * A message handler invoked on an `'item-removed'` message.
-   */
-  protected onItemRemoved(msg: ItemMessage): void {
-    this.close();
-  }
-
-  /**
-   * A message handler invoked on an `'item-moved'` message.
-   */
-  protected onItemMoved(msg: ItemMessage): void {
-    this.close();
-  }
-
-  /**
-   * A message handler invoked on an `'item-open-request'` message.
-   */
-  protected onItemOpenRequest(msg: ItemMessage): void {
-    var node = this._itemNodeAt(msg.currentIndex) || this.node;
-    this._openChildMenu(msg.item, node, false);
+  protected onOpenItem(index: number, item: MenuItem): void {
+    var node = this._itemNodeAt(index) || this.node;
+    this._openChildMenu(item, node, false);
     this._childMenu.activateNextItem();
   }
 
   /**
-   * A message handler invoked on an `'item-trigger-request'` message.
+   * A method invoked when a menu item should be triggered.
    */
-  protected onItemTriggerRequest(msg: ItemMessage): void {
-    this.rootMenu.close();  // deferred close
-    var handler = msg.item.handler;
-    if (handler) handler(msg.item);
+  protected onTriggerItem(index: number, item: MenuItem): void {
+    this.rootMenu.close();
+    var handler = item.handler;
+    if (handler) handler(item);
   }
 
   /**
@@ -426,21 +412,21 @@ class Menu extends MenuBase {
    */
   protected onUpdateRequest(msg: Message): void {
     // Create the nodes for the menu.
-    var count = this.itemCount;
+    var items = this.items;
+    var count = items.length;
     var nodes = new Array<HTMLElement>(count);
     for (var i = 0; i < count; ++i) {
-      var node = createItemNode(this.itemAt(i));
+      var node = createItemNode(items[i]);
       node.addEventListener('mouseenter', this);
       nodes[i] = node;
     }
 
     // Force hide the leading visible separators.
     for (var k1 = 0; k1 < count; ++k1) {
-      var item = this.itemAt(k1);
-      if (item.hidden) {
+      if (items[k1].hidden) {
         continue;
       }
-      if (!item.isSeparatorType) {
+      if (!items[k1].isSeparatorType) {
         break;
       }
       nodes[k1].classList.add(FORCE_HIDDEN_CLASS);
@@ -448,35 +434,33 @@ class Menu extends MenuBase {
 
     // Force hide the trailing visible separators.
     for (var k2 = count - 1; k2 >= 0; --k2) {
-      var item = this.itemAt(k2);
-      if (item.hidden) {
+      if (items[k2].hidden) {
         continue;
       }
-      if (!item.isSeparatorType) {
+      if (!items[k2].isSeparatorType) {
         break;
       }
       nodes[k2].classList.add(FORCE_HIDDEN_CLASS);
     }
 
     // Force hide the remaining consecutive visible separators.
-    var prevWasSep = false;
+    var hide = false;
     while (++k1 < k2) {
-      var item = this.itemAt(k1);
-      if (item.hidden) {
+      if (items[k1].hidden) {
         continue;
       }
-      if (prevWasSep && item.isSeparatorType) {
+      if (hide && items[k1].isSeparatorType) {
         nodes[k1].classList.add(FORCE_HIDDEN_CLASS);
       } else {
-        prevWasSep = item.isSeparatorType;
+        hide = items[k1].isSeparatorType;
       }
     }
 
-    // Ensure the content node is cleared.
+    // Fetch the content node.
     var content = this.node.firstChild;
-    content.textContent = '';
 
-    // Add the new items to the content node.
+    // Refresh the content node's content.
+    content.textContent = '';
     for (var i = 0; i < count; ++i) {
       content.appendChild(nodes[i]);
     }
@@ -533,7 +517,7 @@ class Menu extends MenuBase {
     this._cancelPendingOpen();
     var node = event.currentTarget as HTMLElement;
     this.activeIndex = this._itemNodeIndex(node);
-    var item = this.itemAt(this.activeIndex);
+    var item = this.items[this.activeIndex];
     if (item && item.submenu) {
       if (item === this._childItem) {
         this._cancelPendingClose();
@@ -667,7 +651,7 @@ class Menu extends MenuBase {
   private _syncChildItem(): void {
     this._cancelPendingOpen();
     this._cancelPendingClose();
-    this.activeIndex = this.itemIndex(this._childItem);
+    this.activeIndex = this.items.indexOf(this._childItem);
   }
 
   /**
