@@ -95,12 +95,8 @@
 						<section class="tsd-index-section tsd-is-external">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static tsd-is-external"><a href="menuitem.html#check" class="tsd-kind-icon">Check</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static tsd-is-external"><a href="menuitem.html#normal" class="tsd-kind-icon">Normal</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static tsd-is-external"><a href="menuitem.html#separator" class="tsd-kind-icon">Separator</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static tsd-is-external"><a href="menuitem.html#checkedproperty" class="tsd-kind-icon">checked<wbr>Property</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static tsd-is-external"><a href="menuitem.html#classnameproperty" class="tsd-kind-icon">class<wbr>Name<wbr>Property</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static tsd-is-external"><a href="menuitem.html#commandproperty" class="tsd-kind-icon">command<wbr>Property</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static tsd-is-external"><a href="menuitem.html#disabledproperty" class="tsd-kind-icon">disabled<wbr>Property</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static tsd-is-external"><a href="menuitem.html#handlerproperty" class="tsd-kind-icon">handler<wbr>Property</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static tsd-is-external"><a href="menuitem.html#hiddenproperty" class="tsd-kind-icon">hidden<wbr>Property</a></li>
@@ -115,14 +111,22 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-external"><a href="menuitem.html#checked" class="tsd-kind-icon">checked</a></li>
 								<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-external"><a href="menuitem.html#classname" class="tsd-kind-icon">class<wbr>Name</a></li>
-								<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-external"><a href="menuitem.html#command" class="tsd-kind-icon">command</a></li>
 								<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-external"><a href="menuitem.html#disabled" class="tsd-kind-icon">disabled</a></li>
 								<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-external"><a href="menuitem.html#handler" class="tsd-kind-icon">handler</a></li>
 								<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-external"><a href="menuitem.html#hidden" class="tsd-kind-icon">hidden</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-external"><a href="menuitem.html#ischecktype" class="tsd-kind-icon">is<wbr>Check<wbr>Type</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-external"><a href="menuitem.html#isnormaltype" class="tsd-kind-icon">is<wbr>Normal<wbr>Type</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-external"><a href="menuitem.html#isseparatortype" class="tsd-kind-icon">is<wbr>Separator<wbr>Type</a></li>
 								<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-external"><a href="menuitem.html#shortcut" class="tsd-kind-icon">shortcut</a></li>
 								<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-external"><a href="menuitem.html#submenu" class="tsd-kind-icon">submenu</a></li>
 								<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-external"><a href="menuitem.html#text" class="tsd-kind-icon">text</a></li>
 								<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-external"><a href="menuitem.html#type" class="tsd-kind-icon">type</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section tsd-is-external">
+							<h3>Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static tsd-is-external"><a href="menuitem.html#fromtemplate" class="tsd-kind-icon">from<wbr>Template</a></li>
 							</ul>
 						</section>
 					</div>
@@ -140,7 +144,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L222">menuitem.ts:222</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L242">menuitem.ts:242</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -151,7 +155,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <a href="../interfaces/imenuitemoptions.html" class="tsd-signature-type">IMenuItemOptions</a><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <a href="../interfaces/imenuitemoptions.html" class="tsd-signature-type">IMenuItemOptions</a></h5>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
 											<p>The initialization options for the menu item.</p>
@@ -167,63 +171,20 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-external">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static tsd-is-external">
-					<a name="check" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> Check</h3>
-					<div class="tsd-signature tsd-kind-icon">Check<span class="tsd-signature-symbol">:</span> <a href="../enums/menuitemtype.html" class="tsd-signature-type">MenuItemType</a></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L111">menuitem.ts:111</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>A convenience alias of the <code>Check</code> <a href="../enums/menuitemtype.html">MenuItemType</a>.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static tsd-is-external">
-					<a name="normal" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> Normal</h3>
-					<div class="tsd-signature tsd-kind-icon">Normal<span class="tsd-signature-symbol">:</span> <a href="../enums/menuitemtype.html" class="tsd-signature-type">MenuItemType</a></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L106">menuitem.ts:106</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>A convenience alias of the <code>Normal</code> <a href="../enums/menuitemtype.html">MenuItemType</a>.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static tsd-is-external">
-					<a name="separator" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> Separator</h3>
-					<div class="tsd-signature tsd-kind-icon">Separator<span class="tsd-signature-symbol">:</span> <a href="../enums/menuitemtype.html" class="tsd-signature-type">MenuItemType</a></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L116">menuitem.ts:116</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>A convenience alias of the <code>Separator</code> <a href="../enums/menuitemtype.html">MenuItemType</a>.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static tsd-is-external">
 					<a name="checkedproperty" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> checked<wbr>Property</h3>
 					<div class="tsd-signature tsd-kind-icon">checked<wbr>Property<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Property</span><span class="tsd-signature-symbol">&lt;</span><a href="menuitem.html" class="tsd-signature-type">MenuItem</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L172">menuitem.ts:172</a></li>
+							<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L205">menuitem.ts:205</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>The property descriptor controlling the menu item checked state.</p>
 						</div>
+						<h4 id="notes">Notes</h4>
+						<p>Only a <code>&#39;check&#39;</code> type menu item can be checked.</p>
 						<p><strong>See also:</strong> <a href="menuitem.html#checked">checked</a></p>
 					</div>
 				</section>
@@ -233,7 +194,7 @@
 					<div class="tsd-signature tsd-kind-icon">class<wbr>Name<wbr>Property<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Property</span><span class="tsd-signature-symbol">&lt;</span><a href="menuitem.html" class="tsd-signature-type">MenuItem</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L194">menuitem.ts:194</a></li>
+							<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L218">menuitem.ts:218</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -246,31 +207,12 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static tsd-is-external">
-					<a name="commandproperty" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> command<wbr>Property</h3>
-					<div class="tsd-signature tsd-kind-icon">command<wbr>Property<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Property</span><span class="tsd-signature-symbol">&lt;</span><a href="menuitem.html" class="tsd-signature-type">MenuItem</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L207">menuitem.ts:207</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The property descriptor for the item command id.</p>
-						</div>
-						<p>If a command id is provided, the <a href="menuitem.html#handler">handler</a> for the menu item
-							will be ignored, and the <code>Menu</code> widget which consumes the menu
-						item will request that the given command be executed instead.</p>
-						<p><strong>See also:</strong> <a href="menuitem.html#command">command</a></p>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static tsd-is-external">
 					<a name="disabledproperty" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> disabled<wbr>Property</h3>
 					<div class="tsd-signature tsd-kind-icon">disabled<wbr>Property<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Property</span><span class="tsd-signature-symbol">&lt;</span><a href="menuitem.html" class="tsd-signature-type">MenuItem</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L154">menuitem.ts:154</a></li>
+							<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L184">menuitem.ts:184</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -286,15 +228,14 @@
 					<div class="tsd-signature tsd-kind-icon">handler<wbr>Property<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Property</span><span class="tsd-signature-symbol">&lt;</span><a href="menuitem.html" class="tsd-signature-type">MenuItem</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L219">menuitem.ts:219</a></li>
+							<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L229">menuitem.ts:229</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>The property descriptor for the item handler.</p>
 						</div>
-						<p>If a command id is not provided, this callback will be invoked
-						when the menu item is triggered.</p>
+						<p>This callback will be invoked when the menu item is triggered.</p>
 						<p><strong>See also:</strong> <a href="menuitem.html#handler">handler</a></p>
 					</div>
 				</section>
@@ -304,7 +245,7 @@
 					<div class="tsd-signature tsd-kind-icon">hidden<wbr>Property<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Property</span><span class="tsd-signature-symbol">&lt;</span><a href="menuitem.html" class="tsd-signature-type">MenuItem</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L163">menuitem.ts:163</a></li>
+							<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L193">menuitem.ts:193</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -320,7 +261,7 @@
 					<div class="tsd-signature tsd-kind-icon">shortcut<wbr>Property<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Property</span><span class="tsd-signature-symbol">&lt;</span><a href="menuitem.html" class="tsd-signature-type">MenuItem</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L145">menuitem.ts:145</a></li>
+							<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L175">menuitem.ts:175</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -336,7 +277,7 @@
 					<div class="tsd-signature tsd-kind-icon">submenu<wbr>Property<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Property</span><span class="tsd-signature-symbol">&lt;</span><a href="menuitem.html" class="tsd-signature-type">MenuItem</a><span class="tsd-signature-symbol">, </span><a href="menu.html" class="tsd-signature-type">Menu</a><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L182">menuitem.ts:182</a></li>
+							<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L239">menuitem.ts:239</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -352,7 +293,7 @@
 					<div class="tsd-signature tsd-kind-icon">text<wbr>Property<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Property</span><span class="tsd-signature-symbol">&lt;</span><a href="menuitem.html" class="tsd-signature-type">MenuItem</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L136">menuitem.ts:136</a></li>
+							<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L166">menuitem.ts:166</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -367,16 +308,24 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static tsd-is-external">
 					<a name="typeproperty" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> type<wbr>Property</h3>
-					<div class="tsd-signature tsd-kind-icon">type<wbr>Property<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Property</span><span class="tsd-signature-symbol">&lt;</span><a href="menuitem.html" class="tsd-signature-type">MenuItem</a><span class="tsd-signature-symbol">, </span><a href="../enums/menuitemtype.html" class="tsd-signature-type">MenuItemType</a><span class="tsd-signature-symbol">&gt;</span></div>
+					<div class="tsd-signature tsd-kind-icon">type<wbr>Property<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Property</span><span class="tsd-signature-symbol">&lt;</span><a href="menuitem.html" class="tsd-signature-type">MenuItem</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L123">menuitem.ts:123</a></li>
+							<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L152">menuitem.ts:152</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>The property descriptor for the menu item type.</p>
 						</div>
+						<p>Valid types are: <code>&#39;normal&#39;</code>, <code>&#39;check&#39;</code>, and <code>&#39;separator&#39;</code>.</p>
+						<h4 id="notes">Notes</h4>
+						<p>If an invalid type is provided, a warning will be logged and a
+						<code>&#39;normal&#39;</code> type will be used instead.</p>
+						<p>The default value is <code>&#39;normal&#39;</code>.</p>
+						<p>Using a string for this value instead of an enum makes it easier
+							to create menu items from a JSON specification. For the type-safe
+						crowd, read-only getters are provided to assert the item type.</p>
 						<p><strong>See also:</strong> <a href="menuitem.html#type">type</a></p>
 					</div>
 				</section>
@@ -388,13 +337,13 @@
 					<h3>checked</h3>
 					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-external">
 						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> checked<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> checked<span class="tsd-signature-symbol">(</span>checked<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> checked<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L368">menuitem.ts:368</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L361">menuitem.ts:361</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -409,7 +358,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L378">menuitem.ts:378</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L371">menuitem.ts:371</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -422,7 +371,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>checked: <span class="tsd-signature-type">boolean</span></h5>
+									<h5>value: <span class="tsd-signature-type">boolean</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -434,13 +383,13 @@
 					<h3>class<wbr>Name</h3>
 					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-external">
 						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> className<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> className<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> className<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L408">menuitem.ts:408</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L381">menuitem.ts:381</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -455,7 +404,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L418">menuitem.ts:418</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L391">menuitem.ts:391</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -468,53 +417,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>name: <span class="tsd-signature-type">string</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-external">
-					<a name="command" class="tsd-anchor"></a>
-					<h3>command</h3>
-					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> command<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> command<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L428">menuitem.ts:428</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Get the command id for the menu item.</p>
-								</div>
-								<h4 id="notes">Notes</h4>
-								<p>This is a pure delegate to the <a href="menuitem.html#commandproperty">commandProperty</a>.</p>
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
-						</li>
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L438">menuitem.ts:438</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Set the command id for the menu item.</p>
-								</div>
-								<h4 id="notes">Notes</h4>
-								<p>This is a pure delegate to the <a href="menuitem.html#commandproperty">commandProperty</a>.</p>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>name: <span class="tsd-signature-type">string</span></h5>
+									<h5>value: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -526,13 +429,13 @@
 					<h3>disabled</h3>
 					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-external">
 						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> disabled<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> disabled<span class="tsd-signature-symbol">(</span>disabled<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> disabled<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L328">menuitem.ts:328</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L321">menuitem.ts:321</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -547,7 +450,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L338">menuitem.ts:338</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L331">menuitem.ts:331</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -560,7 +463,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>disabled: <span class="tsd-signature-type">boolean</span></h5>
+									<h5>value: <span class="tsd-signature-type">boolean</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -572,13 +475,13 @@
 					<h3>handler</h3>
 					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-external">
 						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> handler<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span></li>
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> handler<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> handler<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L448">menuitem.ts:448</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L401">menuitem.ts:401</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -611,7 +514,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L458">menuitem.ts:458</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L411">menuitem.ts:411</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -624,7 +527,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>name: <span class="tsd-signature-type">function</span></h5>
+									<h5>value: <span class="tsd-signature-type">function</span></h5>
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
 											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
@@ -654,13 +557,13 @@
 					<h3>hidden</h3>
 					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-external">
 						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> hidden<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> hidden<span class="tsd-signature-symbol">(</span>hidden<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> hidden<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L348">menuitem.ts:348</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L341">menuitem.ts:341</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -675,7 +578,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L358">menuitem.ts:358</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L351">menuitem.ts:351</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -688,10 +591,85 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>hidden: <span class="tsd-signature-type">boolean</span></h5>
+									<h5>value: <span class="tsd-signature-type">boolean</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-external">
+					<a name="ischecktype" class="tsd-anchor"></a>
+					<h3>is<wbr>Check<wbr>Type</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-external">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> isCheckType<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L455">menuitem.ts:455</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Test whether the menu item is a <code>&#39;check&#39;</code> type.</p>
+								</div>
+								<h4 id="notes">Notes</h4>
+								<p>This is a read-only property.</p>
+								<p><strong>See also:</strong> <a href="menuitem.html#type">type</a>, <a href="menuitem.html#isnormaltype">isNormalType</a>, <a href="menuitem.html#isseparatortype">isSeparatorType</a></p>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-external">
+					<a name="isnormaltype" class="tsd-anchor"></a>
+					<h3>is<wbr>Normal<wbr>Type</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-external">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> isNormalType<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L443">menuitem.ts:443</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Test whether the menu item is a <code>&#39;normal&#39;</code> type.</p>
+								</div>
+								<h4 id="notes">Notes</h4>
+								<p>This is a read-only property.</p>
+								<p><strong>See also:</strong> <a href="menuitem.html#type">type</a>, <a href="menuitem.html#ischecktype">isCheckType</a>, <a href="menuitem.html#isseparatortype">isSeparatorType</a></p>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-external">
+					<a name="isseparatortype" class="tsd-anchor"></a>
+					<h3>is<wbr>Separator<wbr>Type</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-external">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> isSeparatorType<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L467">menuitem.ts:467</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Test whether the menu item is a <code>&#39;separator&#39;</code> type.</p>
+								</div>
+								<h4 id="notes">Notes</h4>
+								<p>This is a read-only property.</p>
+								<p><strong>See also:</strong> <a href="menuitem.html#type">type</a>, <a href="menuitem.html#isnormaltype">isNormalType</a>, <a href="menuitem.html#ischecktype">isCheckType</a></p>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -700,13 +678,13 @@
 					<h3>shortcut</h3>
 					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-external">
 						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> shortcut<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> shortcut<span class="tsd-signature-symbol">(</span>shortcut<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> shortcut<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L308">menuitem.ts:308</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L301">menuitem.ts:301</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -721,7 +699,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L318">menuitem.ts:318</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L311">menuitem.ts:311</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -734,7 +712,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>shortcut: <span class="tsd-signature-type">string</span></h5>
+									<h5>value: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -746,13 +724,13 @@
 					<h3>submenu</h3>
 					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-external">
 						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> submenu<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="menu.html" class="tsd-signature-type">Menu</a></li>
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> submenu<span class="tsd-signature-symbol">(</span>submenu<span class="tsd-signature-symbol">: </span><a href="menu.html" class="tsd-signature-type">Menu</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> submenu<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="menu.html" class="tsd-signature-type">Menu</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L388">menuitem.ts:388</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L421">menuitem.ts:421</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -767,7 +745,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L398">menuitem.ts:398</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L431">menuitem.ts:431</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -780,7 +758,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>submenu: <a href="menu.html" class="tsd-signature-type">Menu</a></h5>
+									<h5>value: <a href="menu.html" class="tsd-signature-type">Menu</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -792,13 +770,13 @@
 					<h3>text</h3>
 					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-external">
 						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> text<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> text<span class="tsd-signature-symbol">(</span>text<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> text<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L288">menuitem.ts:288</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L281">menuitem.ts:281</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -813,7 +791,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L298">menuitem.ts:298</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L291">menuitem.ts:291</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -826,7 +804,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>text: <span class="tsd-signature-type">string</span></h5>
+									<h5>value: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -837,14 +815,14 @@
 					<a name="type" class="tsd-anchor"></a>
 					<h3>type</h3>
 					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> type<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../enums/menuitemtype.html" class="tsd-signature-type">MenuItemType</a></li>
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> type<span class="tsd-signature-symbol">(</span>type<span class="tsd-signature-symbol">: </span><a href="../enums/menuitemtype.html" class="tsd-signature-type">MenuItemType</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> type<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> type<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L268">menuitem.ts:268</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L261">menuitem.ts:261</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -853,13 +831,14 @@
 								</div>
 								<h4 id="notes">Notes</h4>
 								<p>This is a pure delegate to the <a href="menuitem.html#typeproperty">typeProperty</a>.</p>
+								<p><strong>See also:</strong> <a href="menuitem.html#isnormaltype">isNormalType</a>, <a href="menuitem.html#ischecktype">isCheckType</a>, <a href="menuitem.html#isseparatortype">isSeparatorType</a></p>
 							</div>
-							<h4 class="tsd-returns-title">Returns <a href="../enums/menuitemtype.html" class="tsd-signature-type">MenuItemType</a></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L278">menuitem.ts:278</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L271">menuitem.ts:271</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -872,10 +851,49 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>type: <a href="../enums/menuitemtype.html" class="tsd-signature-type">MenuItemType</a></h5>
+									<h5>value: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group tsd-is-external">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static tsd-is-external">
+					<a name="fromtemplate" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> from<wbr>Template</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static tsd-is-external">
+						<li class="tsd-signature tsd-kind-icon">from<wbr>Template<span class="tsd-signature-symbol">(</span>template<span class="tsd-signature-symbol">: </span><a href="../interfaces/imenuitemtemplate.html" class="tsd-signature-type">IMenuItemTemplate</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="menuitem.html" class="tsd-signature-type">MenuItem</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menuitem.ts#L129">menuitem.ts:129</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create a menu item from a template.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>template: <a href="../interfaces/imenuitemtemplate.html" class="tsd-signature-type">IMenuItemTemplate</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The template object for the menu item.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="menuitem.html" class="tsd-signature-type">MenuItem</a></h4>
+							<p>A new menu item created from the template.</p>
+							<h4 id="notes">Notes</h4>
+							<p>If a submenu template is provided, the submenu will be created
+								by calling <code>Menu.fromTemplate</code>. If a custom menu is necessary,
+							use the <code>MenuItem</code> constructor directly.</p>
 						</li>
 					</ul>
 				</section>
@@ -891,12 +909,6 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-enum tsd-is-external">
-						<a href="../enums/menuitemtype.html" class="tsd-kind-icon">Menu<wbr>Item<wbr>Type</a>
-					</li>
-					<li class=" tsd-kind-class tsd-is-external">
-						<a href="itemmessage.html" class="tsd-kind-icon">Item<wbr>Message</a>
-					</li>
 					<li class=" tsd-kind-class tsd-is-external">
 						<a href="menu.html" class="tsd-kind-icon">Menu</a>
 					</li>
@@ -915,22 +927,10 @@
 								<a href="menuitem.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static tsd-is-external">
-								<a href="menuitem.html#check" class="tsd-kind-icon">Check</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static tsd-is-external">
-								<a href="menuitem.html#normal" class="tsd-kind-icon">Normal</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static tsd-is-external">
-								<a href="menuitem.html#separator" class="tsd-kind-icon">Separator</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static tsd-is-external">
 								<a href="menuitem.html#checkedproperty" class="tsd-kind-icon">checked<wbr>Property</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static tsd-is-external">
 								<a href="menuitem.html#classnameproperty" class="tsd-kind-icon">class<wbr>Name<wbr>Property</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static tsd-is-external">
-								<a href="menuitem.html#commandproperty" class="tsd-kind-icon">command<wbr>Property</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static tsd-is-external">
 								<a href="menuitem.html#disabledproperty" class="tsd-kind-icon">disabled<wbr>Property</a>
@@ -960,9 +960,6 @@
 								<a href="menuitem.html#classname" class="tsd-kind-icon">class<wbr>Name</a>
 							</li>
 							<li class=" tsd-kind-accessor tsd-parent-kind-class tsd-is-external">
-								<a href="menuitem.html#command" class="tsd-kind-icon">command</a>
-							</li>
-							<li class=" tsd-kind-accessor tsd-parent-kind-class tsd-is-external">
 								<a href="menuitem.html#disabled" class="tsd-kind-icon">disabled</a>
 							</li>
 							<li class=" tsd-kind-accessor tsd-parent-kind-class tsd-is-external">
@@ -970,6 +967,15 @@
 							</li>
 							<li class=" tsd-kind-accessor tsd-parent-kind-class tsd-is-external">
 								<a href="menuitem.html#hidden" class="tsd-kind-icon">hidden</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-external">
+								<a href="menuitem.html#ischecktype" class="tsd-kind-icon">is<wbr>Check<wbr>Type</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-external">
+								<a href="menuitem.html#isnormaltype" class="tsd-kind-icon">is<wbr>Normal<wbr>Type</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-external">
+								<a href="menuitem.html#isseparatortype" class="tsd-kind-icon">is<wbr>Separator<wbr>Type</a>
 							</li>
 							<li class=" tsd-kind-accessor tsd-parent-kind-class tsd-is-external">
 								<a href="menuitem.html#shortcut" class="tsd-kind-icon">shortcut</a>
@@ -983,12 +989,21 @@
 							<li class=" tsd-kind-accessor tsd-parent-kind-class tsd-is-external">
 								<a href="menuitem.html#type" class="tsd-kind-icon">type</a>
 							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static tsd-is-external">
+								<a href="menuitem.html#fromtemplate" class="tsd-kind-icon">from<wbr>Template</a>
+							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
 					<li class=" tsd-kind-interface tsd-is-external">
+						<a href="../interfaces/imenuitemcommon.html" class="tsd-kind-icon">IMenu<wbr>Item<wbr>Common</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-external">
 						<a href="../interfaces/imenuitemoptions.html" class="tsd-kind-icon">IMenu<wbr>Item<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-external">
+						<a href="../interfaces/imenuitemtemplate.html" class="tsd-kind-icon">IMenu<wbr>Item<wbr>Template</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-external">
 						<a href="../globals.html#active_class" class="tsd-kind-icon">ACTIVE_<wbr>CLASS</a>
