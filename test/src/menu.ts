@@ -32,6 +32,76 @@ import {
 import './index.css';
 
 
+function createMenuItem(template: IMenuItemTemplate): MenuItem {
+  return MenuItem.fromTemplate(template);
+}
+
+
+class LogMenu extends Menu {
+
+  messages: string[] = [];
+
+  static fromTemplate(array: IMenuItemTemplate[]): LogMenu {
+    var menu = new LogMenu();
+    menu.items = array.map(createMenuItem);
+    return menu;
+  }
+
+  handleEvent(event: Event): void {
+    super.handleEvent(event);
+    this.messages.push(event.type);
+  }
+
+  protected onItemsChanged(old: MenuItem[], items: MenuItem[]): void {
+    super.onItemsChanged(old, items);
+    this.messages.push('onItemsChanged');
+  }
+
+  protected onActiveIndexChanged(old: number, index: number): void {
+    super.onActiveIndexChanged(old, index);
+    this.messages.push('onActiveIndexChanged');
+  }
+
+  protected onOpenItem(index: number, item: MenuItem): void {
+    super.onOpenItem(index, item);
+    this.messages.push('onOpenItem');
+  }
+
+  protected onTriggerItem(index: number, item: MenuItem): void {
+    super.onTriggerItem(index, item);
+    this.messages.push('onTriggerItem');
+  }
+
+  protected onAfterAttach(msg: Message): void {
+    super.onAfterAttach(msg);
+    this.messages.push('onAfterAttach');
+  }
+
+  protected onBeforeDetach(msg: Message): void {
+    super.onBeforeDetach(msg);
+    this.messages.push('onBeforeDetach');
+  }
+
+  protected onUpdateRequest(msg: Message): void {
+    super.onUpdateRequest(msg);
+    this.messages.push('onUpdateRequest');
+  }
+
+  protected onCloseRequest(msg: Message): void {
+    super.onCloseRequest(msg);
+    this.messages.push('onCloseRequest');
+  }
+
+}
+
+
+function triggerMouseEvent (node: HTMLElement, eventType: string, options: any={}) {
+  options.bubbles = true;
+  var clickEvent = new MouseEvent(eventType, options);
+  node.dispatchEvent(clickEvent);
+}
+
+
 function logItem(item: MenuItem): void {
   console.log(item.text);
 }
@@ -200,7 +270,7 @@ var MENU_TEMPLATE = [
 ];
 
 
-describe('phosphor-menu', () => {
+describe('phosphor-menus', () => {
 
   describe('MENU_CLASS', () => {
 
@@ -470,6 +540,245 @@ describe('phosphor-menu', () => {
 
     });
 
-  });
+    describe('#popup()', () => {
 
+      it('should popup the menu at the specified location', () => {
+        var menu = Menu.fromTemplate(MENU_TEMPLATE);
+        menu.popup(10, 10);
+        var rect = menu.node.getBoundingClientRect();
+        expect(rect.left).to.be(10);
+        expect(rect.right).to.not.be(10);
+        expect(rect.top).to.be(10);
+      });
+
+      it('should accept flags to force the location', () => {
+        var menu = Menu.fromTemplate(MENU_TEMPLATE);
+        var rect = document.body.getBoundingClientRect();
+        menu.popup(rect.right - 1, rect.bottom + 1, true, true);
+        var menuRect = menu.node.getBoundingClientRect();
+        expect(menuRect.left).to.be(rect.right - 1);
+        expect(menuRect.top).to.be(rect.bottom + 1);
+      });
+
+      it('should accept mouse and key presses', () => {
+        var menu = new LogMenu();
+        menu.popup(0, 0);
+        triggerMouseEvent(document.body, 'keydown');
+        triggerMouseEvent(document.body, 'keypress');
+        triggerMouseEvent(document.body, 'mousedown');
+        expect(menu.messages.indexOf('keydown')).to.not.be(-1);
+        expect(menu.messages.indexOf('keypress')).to.not.be(-1);
+        expect(menu.messages.indexOf('mousedown')).to.not.be(-1);
+      });
+
+    });
+
+    describe('#open()', () => {
+
+      it('should open the menu at the specified location', () => {
+        var menu = Menu.fromTemplate(MENU_TEMPLATE);
+        menu.open(10, 10);
+        var rect = menu.node.getBoundingClientRect();
+        expect(rect.left).to.be(10);
+        expect(rect.right).to.not.be(10);
+        expect(rect.top).to.be(10);
+      });
+
+      it('should accept flags to force the location', () => {
+        var menu = Menu.fromTemplate(MENU_TEMPLATE);
+        var rect = document.body.getBoundingClientRect();
+        menu.open(rect.right - 1, rect.bottom + 1, true, true);
+        var menuRect = menu.node.getBoundingClientRect();
+        expect(menuRect.left).to.be(rect.right - 1);
+        expect(menuRect.top).to.be(rect.bottom + 1);
+      });
+
+      it('should ignore mouse and key presses', () => {
+        var menu = new LogMenu();
+        menu.open(0, 0);
+        triggerMouseEvent(document.body, 'keydown');
+        triggerMouseEvent(document.body, 'keypress');
+        triggerMouseEvent(document.body, 'mousedown');
+        expect(menu.messages.indexOf('keydown')).to.be(-1);
+        expect(menu.messages.indexOf('keypress')).to.be(-1);
+        expect(menu.messages.indexOf('mousedown')).to.be(-1);
+      });
+
+    });
+
+    describe('#handleEvent()', () => {
+
+      it('should handle the DOM events for the menu', () => {
+
+      });
+
+    });
+
+    describe('#onItemsChanged()', () => {
+
+      it('should be invoked when the menu items change', () => {
+        var menu = LogMenu.fromTemplate(MENU_TEMPLATE);
+        menu.items = [];
+        expect(menu.messages.indexOf('onItemsChanged')).to.not.be(-1);
+      });
+
+      it('should close the menu', () => {
+        var menu = LogMenu.fromTemplate(MENU_TEMPLATE);
+        var main = new Widget();
+        main.children = [menu];
+        var called = false;
+        menu.closed.connect(() => { called = true; });
+        menu.items = [];
+        expect(called).to.be(true);
+        expect(menu.messages.indexOf('onItemsChanged')).to.not.be(-1);
+      });
+
+    });
+
+    describe('#onActiveIndexChanged()', () => {
+
+      it('should be invoked when the active index changes', () => {
+        var menu = LogMenu.fromTemplate(MENU_TEMPLATE);
+        menu.activeIndex = 0;
+        expect(menu.messages.indexOf('onActiveIndexChanged')).to.not.be(-1);
+      });
+
+    });
+
+    describe('#onOpenItem()', () => {
+
+      it('should be invoked when a menu item should be opened', () => {
+        var menu = LogMenu.fromTemplate(MENU_TEMPLATE);
+        menu.open(1, 1);
+        menu.activateNextItem();
+        menu.openActiveItem();
+        expect(menu.messages.indexOf('onOpenItem')).to.not.be(-1);
+      });
+
+      it('should open the child menu and activate the first item', () => {
+        var menu = LogMenu.fromTemplate(MENU_TEMPLATE);
+        menu.open(1, 1);
+        menu.activateNextItem();
+        menu.openActiveItem();
+        expect(menu.messages.indexOf('onOpenItem')).to.not.be(-1);
+        expect(menu.childMenu).to.be(menu.items[0].submenu);
+        expect(menu.items[0].submenu.activeIndex).to.be(0);
+      });
+
+    });
+
+    describe('#onTriggerItem()', () => {
+
+      it('should close the root menu', () => {
+        var menu = Menu.fromTemplate(MENU_TEMPLATE);
+        menu.activateNextItem();
+        menu.openActiveItem();
+        menu.childMenu.triggerActiveItem();
+        var rect = menu.node.getBoundingClientRect();
+        expect(rect.left - rect.right).to.be(0);
+      });
+
+      it('should call the item handler', () => {
+        var menu = Menu.fromTemplate(MENU_TEMPLATE);
+        menu.activateNextItem();
+        menu.openActiveItem();
+        var called = false;
+        menu.childMenu.items[menu.childMenu.activeIndex].handler = () => {
+          called = true;
+        }
+        menu.childMenu.triggerActiveItem();
+        expect(called).to.be(true); 
+      });
+
+    });
+
+    describe('#onAfterAttach()', () => {
+
+      it('should be invoked after opening', () => {
+        var menu = LogMenu.fromTemplate(MENU_TEMPLATE);
+        menu.open(0, 0);
+        expect(menu.messages.indexOf('onAfterAttach')).to.not.be(-1);
+      });
+
+      it('should add three event listeners on the node', () => {
+        var menu = LogMenu.fromTemplate(MENU_TEMPLATE);
+        menu.open(0, 0);
+        expect(menu.messages.indexOf('onAfterAttach')).to.not.be(-1);
+        triggerMouseEvent(menu.node, 'mouseup');
+        triggerMouseEvent(menu.node, 'mouseleave');
+        triggerMouseEvent(menu.node, 'contextmenu');
+        expect(menu.messages.indexOf('mouseup')).to.not.be(-1);
+        expect(menu.messages.indexOf('mouseleave')).to.not.be(-1);
+        expect(menu.messages.indexOf('contextmenu')).to.not.be(-1);
+      });
+
+    });
+
+    describe('#onBeforeDetach()', () => {
+
+      it('should be invoked before closing', () => {
+        var menu = LogMenu.fromTemplate(MENU_TEMPLATE);
+        menu.open(0, 0);
+        menu.close(true);
+        expect(menu.messages.indexOf('onBeforeDetach')).to.not.be(-1);
+      });
+
+      it('should remove all event listeners', () => {
+        var menu = new LogMenu();
+        menu.popup(0, 0);
+        menu.close(true);
+        triggerMouseEvent(document.body, 'keydown');
+        triggerMouseEvent(document.body, 'keypress');
+        triggerMouseEvent(document.body, 'mousedown');
+        triggerMouseEvent(menu.node, 'mouseup');
+        triggerMouseEvent(menu.node, 'mouseleave');
+        triggerMouseEvent(menu.node, 'contextmenu');
+        expect(menu.messages.indexOf('keydown')).to.be(-1);
+        expect(menu.messages.indexOf('keypress')).to.be(-1);
+        expect(menu.messages.indexOf('mousedown')).to.be(-1);
+        expect(menu.messages.indexOf('mouseup')).to.be(-1);
+        expect(menu.messages.indexOf('mouseleave')).to.be(-1);
+        expect(menu.messages.indexOf('contextmenu')).to.be(-1);
+        expect(menu.messages.indexOf('onBeforeDetach')).to.not.be(-1);
+      });
+
+    });
+
+    describe('#onUpdateRequest()', () => {
+
+      it('should be invoked on `open`', () => {
+        var menu = new LogMenu();
+        menu.open(0, 0);
+        expect(menu.messages.indexOf('onUpdateRequest')).to.not.be(-1);
+      });
+
+      it('should be invoked on `popup`', () => {
+        var menu = new LogMenu();
+        menu.popup(0, 0);
+        expect(menu.messages.indexOf('onUpdateRequest')).to.not.be(-1);
+      });
+
+    });
+
+    describe('#onCloseRequest()', () => {
+
+      it('should be invoked when a menu is closed', () => {
+        var menu = new LogMenu();
+        menu.popup(0, 0);
+        menu.close(true);
+        expect(menu.messages.indexOf('onCloseRequest')).to.not.be(-1);    
+      });
+
+      it('should detach the widget from the DOM', () => {
+        var menu = new LogMenu();
+        menu.popup(0, 0);
+        menu.close(true);
+        var rect = menu.node.getBoundingClientRect();
+        expect(rect.left - rect.right).to.be(0);    
+        expect(menu.messages.indexOf('onCloseRequest')).to.not.be(-1); 
+      });
+
+    });
+
+  });
 });
