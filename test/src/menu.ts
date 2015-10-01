@@ -102,6 +102,13 @@ function triggerMouseEvent (node: HTMLElement, eventType: string, options: any={
 }
 
 
+function triggerKeyEvent (node: HTMLElement, eventType: string, options: any={}) {
+  options.bubbles = true;
+  var clickEvent = new KeyboardEvent(eventType, options);
+  node.dispatchEvent(clickEvent);
+}
+
+
 function logItem(item: MenuItem): void {
   console.log(item.text);
 }
@@ -118,6 +125,8 @@ var MENU_TEMPLATE = [
       },
       {
         text: 'Open File',
+        type: 'check',
+        checked: true,
         shortcut: 'Ctrl+O',
         handler: logItem
       },
@@ -128,6 +137,7 @@ var MENU_TEMPLATE = [
       },
       {
         text: 'Save As...',
+        hidden: true,
         shortcut: 'Ctrl+Shift+S',
         handler: logItem
       },
@@ -552,19 +562,42 @@ describe('phosphor-menus', () => {
       });
 
       it('should accept flags to force the location', () => {
+        var widget = new Widget();
+        widget.addClass('content');
+        attachWidget(widget, document.body);
+        var elem = document.documentElement;
+        var x = window.pageXOffset;
+        var y = window.pageYOffset;
+        var width = elem.clientWidth;
+        var height = elem.clientHeight;
         var menu = Menu.fromTemplate(MENU_TEMPLATE);
-        var rect = document.body.getBoundingClientRect();
-        menu.popup(rect.right - 1, rect.bottom + 1, true, true);
+        menu.popup(x + width, y + height, true, true);
         var menuRect = menu.node.getBoundingClientRect();
-        expect(menuRect.left).to.be(rect.right - 1);
-        expect(menuRect.top).to.be(rect.bottom + 1);
+        expect(menuRect.left).to.be(x + width);
+        expect(menuRect.top).to.be(y + height);
+      });
+
+      it('should be adjusted to fit naturally on the screen', () => {
+        var widget = new Widget();
+        widget.addClass('content');
+        attachWidget(widget, document.body);
+        var elem = document.documentElement;
+        var x = window.pageXOffset;
+        var y = window.pageYOffset;
+        var width = elem.clientWidth;
+        var height = elem.clientHeight;
+        var menu = Menu.fromTemplate(MENU_TEMPLATE);
+        menu.popup(x + width, y + height);
+        var menuRect = menu.node.getBoundingClientRect();
+        expect(menuRect.left).to.not.be(x + width);
+        expect(menuRect.top).to.not.be(y + height);
       });
 
       it('should accept mouse and key presses', () => {
         var menu = new LogMenu();
         menu.popup(0, 0);
-        triggerMouseEvent(document.body, 'keydown');
-        triggerMouseEvent(document.body, 'keypress');
+        triggerKeyEvent(document.body, 'keydown');
+        triggerKeyEvent(document.body, 'keypress');
         triggerMouseEvent(document.body, 'mousedown');
         expect(menu.messages.indexOf('keydown')).to.not.be(-1);
         expect(menu.messages.indexOf('keypress')).to.not.be(-1);
@@ -596,8 +629,8 @@ describe('phosphor-menus', () => {
       it('should ignore mouse and key presses', () => {
         var menu = new LogMenu();
         menu.open(0, 0);
-        triggerMouseEvent(document.body, 'keydown');
-        triggerMouseEvent(document.body, 'keypress');
+        triggerKeyEvent(document.body, 'keydown');
+        triggerKeyEvent(document.body, 'keypress');
         triggerMouseEvent(document.body, 'mousedown');
         expect(menu.messages.indexOf('keydown')).to.be(-1);
         expect(menu.messages.indexOf('keypress')).to.be(-1);
@@ -608,8 +641,107 @@ describe('phosphor-menus', () => {
 
     describe('#handleEvent()', () => {
 
-      it('should handle the DOM events for the menu', () => {
+      it('should trigger the active item on keyCode 13', () => {
+        var menu = Menu.fromTemplate(MENU_TEMPLATE);
+        menu.popup(0, 0);
+        menu.activateNextItem();
+        menu.openActiveItem();
+        var called = false;
+        menu.childMenu.items[menu.childMenu.activeIndex].handler = () => {
+          called = true;
+        }
+        console.log('triggering keydown');
+        triggerKeyEvent(document.body, 'keydown', { keyCode: 13 });
+        expect(called).to.be(true); 
+      });
 
+      it('should close the leaf menu on keyCode 27', () => {
+        var menu = Menu.fromTemplate(MENU_TEMPLATE);
+        menu.popup(0, 0);
+        menu.activateNextItem();
+        menu.openActiveItem();
+        triggerKeyEvent(document.body, 'keydown', { keyCode: 27 });
+        expect(menu.childMenu).to.be(null); 
+      });
+
+      it('should close the leaf menu on keyCode 37 unless root', () => {
+        var menu = Menu.fromTemplate(MENU_TEMPLATE);
+        menu.popup(0, 0);
+        menu.activateNextItem();
+        menu.openActiveItem();
+        triggerKeyEvent(document.body, 'keydown', { keyCode: 37 });
+        expect(menu.childMenu).to.be(null);
+        triggerKeyEvent(document.body, 'keydown', { keyCode: 37 });
+        var rect = menu.node.getBoundingClientRect();
+        expect(rect.left - rect.right).to.not.be(0);
+      });
+
+      it('should activate the previous item on keyCode 38', () => {
+        var menu = Menu.fromTemplate(MENU_TEMPLATE);
+        menu.popup(0, 0);
+        menu.activeIndex = 1;
+        triggerKeyEvent(document.body, 'keydown', { keyCode: 38 });
+        expect(menu.activeIndex).to.be(0);
+      });
+
+      it('should open the active item on keyCode 39', () => {
+        var menu = Menu.fromTemplate(MENU_TEMPLATE);
+        menu.popup(0, 0);
+        menu.activateNextItem();
+        triggerKeyEvent(document.body, 'keydown', { keyCode: 39 });
+        expect(menu.childMenu).to.not.be(null);
+      });
+
+      it('should activate the next item on keyCode 40', () => {
+        var menu = Menu.fromTemplate(MENU_TEMPLATE);
+        menu.popup(0, 0);
+        menu.activateNextItem();
+        triggerKeyEvent(document.body, 'keydown', { keyCode: 40 });
+        expect(menu.activeIndex).to.be(1);
+      });
+
+      it('should close the child menu if we mouse over a different item', (done) => {
+        var menu = Menu.fromTemplate(MENU_TEMPLATE);
+        menu.popup(0, 0);
+        menu.activeIndex = 1;
+        menu.openActiveItem();
+        var node = menu.node.firstChild.firstChild as HTMLElement;
+        triggerMouseEvent(node, 'mouseenter');
+        setTimeout(() => {
+          expect(menu.childMenu).to.be(null);
+          done();
+        }, 500);
+      });
+
+      it('should cancel the close if we mouse back to the item', (done) => {
+        var menu = Menu.fromTemplate(MENU_TEMPLATE);
+        menu.popup(0, 0);
+        menu.activeIndex = 1;
+        menu.openActiveItem();
+        var node0 = menu.node.firstChild.firstChild as HTMLElement;
+        var node1 = menu.node.firstChild.childNodes[1] as HTMLElement;
+        triggerMouseEvent(node0, 'mouseenter');
+        triggerMouseEvent(node1, 'mouseenter');
+        setTimeout(() => {
+          expect(menu.childMenu).to.not.be(null);
+          done();
+        }, 500);
+      });
+
+      it('should trigger the item if we mouse over and click', () => {
+        var menu = Menu.fromTemplate(MENU_TEMPLATE);
+        menu.popup(0, 0);
+        menu.activeIndex = 1;
+        menu.openActiveItem();
+        menu.childMenu.activeIndex = 0;
+        menu.childMenu.openActiveItem();
+        var checked = false;
+        menu.childMenu.items[0].handler = () => { checked = true; };
+        var node = menu.childMenu.node.firstChild.firstChild as HTMLElement;
+        triggerMouseEvent(node, 'mouseenter');
+        triggerMouseEvent(node, 'mousedown');
+        triggerMouseEvent(node, 'mouseup');
+        expect(checked).to.be(true);
       });
 
     });
@@ -727,8 +859,8 @@ describe('phosphor-menus', () => {
         var menu = new LogMenu();
         menu.popup(0, 0);
         menu.close(true);
-        triggerMouseEvent(document.body, 'keydown');
-        triggerMouseEvent(document.body, 'keypress');
+        triggerKeyEvent(document.body, 'keydown');
+        triggerKeyEvent(document.body, 'keypress');
         triggerMouseEvent(document.body, 'mousedown');
         triggerMouseEvent(menu.node, 'mouseup');
         triggerMouseEvent(menu.node, 'mouseleave');
@@ -756,6 +888,18 @@ describe('phosphor-menus', () => {
         var menu = new LogMenu();
         menu.popup(0, 0);
         expect(menu.messages.indexOf('onUpdateRequest')).to.not.be(-1);
+      });
+
+      it('should add mouseenter handlers on the menu items', (done) => {
+        var menu = LogMenu.fromTemplate(MENU_TEMPLATE);
+        menu.popup(0, 0);
+        expect(menu.messages.indexOf('onUpdateRequest')).to.not.be(-1);
+        var firstElem = menu.node.firstChild.firstChild as HTMLElement;
+        triggerMouseEvent(firstElem, 'mouseenter');
+        setTimeout(() => {
+          expect(menu.childMenu).to.not.be(null);
+          done();
+        }, 500);
       });
 
     });
