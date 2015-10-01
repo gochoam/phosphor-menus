@@ -18,7 +18,7 @@ import {
 } from 'phosphor-signaling';
 
 import {
-  attachWidget, Widget
+  attachWidget, detachWidget, Widget
 } from 'phosphor-widget';
 
 import {
@@ -95,17 +95,21 @@ class LogMenu extends Menu {
 }
 
 
-function triggerMouseEvent (node: HTMLElement, eventType: string, options: any={}) {
+function triggerMouseEvent(node: HTMLElement, eventType: string, options: any={}) {
   options.bubbles = true;
   var clickEvent = new MouseEvent(eventType, options);
   node.dispatchEvent(clickEvent);
 }
 
 
-function triggerKeyEvent (node: HTMLElement, eventType: string, options: any={}) {
-  options.bubbles = true;
-  var clickEvent = new KeyboardEvent(eventType, options);
-  node.dispatchEvent(clickEvent);
+function triggerKeyEvent(node: HTMLElement, eventType: string, options: any={}) {
+  // cannot use KeyboardEvent in Chrome because it seys keyCode = 0
+  var event = document.createEvent('Event');
+  event.initEvent(eventType, true, true);
+  for (var prop in options) {
+    (<any>event)[prop] = options[prop];
+  }
+  node.dispatchEvent(event);
 }
 
 
@@ -581,6 +585,7 @@ describe('phosphor-menus', () => {
         expect(menuRect.left).to.be(x + width);
         expect(menuRect.top).to.be(y + height);
         menu.close(true);
+        detachWidget(widget);
       });
 
       it('should be adjusted to fit naturally on the screen', () => {
@@ -598,6 +603,7 @@ describe('phosphor-menus', () => {
         expect(menuRect.left).to.not.be(x + width);
         expect(menuRect.top).to.not.be(y + height);
         menu.close(true);
+        detachWidget(widget);
       });
 
       it('should accept mouse and key presses', () => {

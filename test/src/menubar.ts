@@ -88,17 +88,21 @@ class LogMenu extends MenuBar {
 }
 
 
-function triggerMouseEvent (node: HTMLElement, eventType: string, options: any={}) {
+function triggerMouseEvent(node: HTMLElement, eventType: string, options: any={}) {
   options.bubbles = true;
   var clickEvent = new MouseEvent(eventType, options);
   node.dispatchEvent(clickEvent);
 }
 
 
-function triggerKeyEvent (node: HTMLElement, eventType: string, options: any={}) {
-  options.bubbles = true;
-  var clickEvent = new KeyboardEvent(eventType, options);
-  node.dispatchEvent(clickEvent);
+function triggerKeyEvent(node: HTMLElement, eventType: string, options: any={}) {
+  // cannot use KeyboardEvent in Chrome because it seys keyCode = 0
+  var event = document.createEvent('Event');
+  event.initEvent(eventType, true, true);
+  for (var prop in options) {
+    (<any>event)[prop] = options[prop];
+  }
+  node.dispatchEvent(event);
 }
 
 
@@ -572,7 +576,7 @@ describe('phosphor-menus', () => {
         var node = menu.node.firstChild.firstChild as HTMLElement;
         var rect = node.getBoundingClientRect();
         triggerMouseEvent(node, 'mousedown',
-                          { clientX: rect.left, clientY: rect.bottom });
+                          { clientX: rect.left, clientY: rect.bottom - 1});
         expect(menu.activeIndex).to.be(0);
         menu.close(true);
       });
@@ -592,18 +596,18 @@ describe('phosphor-menus', () => {
         }, 0);
       });
 
-      it('should open a new the submenu', (done) => {
+      it('should open a new submenu', (done) => {
         var menu = MenuBar.fromTemplate(MENU_TEMPLATE);
         attachWidget(menu, document.body);
         var node = menu.node.firstChild.firstChild as HTMLElement;
         var rect = node.getBoundingClientRect();
         triggerMouseEvent(node, 'mousedown',
-                          { clientX: rect.left, clientY: rect.bottom });
+                          { clientX: rect.left, clientY: rect.bottom - 1 });
         setTimeout(() => {
           node = menu.node.firstChild.childNodes[1] as HTMLElement;
           rect = node.getBoundingClientRect();
           triggerMouseEvent(node, 'mousemove',
-                            { clientX: rect.left + 1, clientY: rect.bottom });
+                            { clientX: rect.left + 1, clientY: rect.bottom - 1 });
           setTimeout(() => {
             expect(menu.activeIndex).to.be(1);
             menu.close(true);
@@ -723,3 +727,5 @@ describe('phosphor-menus', () => {
 
   });
 });
+
+
