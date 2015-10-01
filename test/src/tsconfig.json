@@ -11,6 +11,7 @@
     "../../typings/expect.js/expect.js.d.ts",
     "../../typings/mocha/mocha.d.ts",
     "menu.ts",
+    "menubar.ts",
     "menubase.ts",
     "menuitem.ts"
   ]
