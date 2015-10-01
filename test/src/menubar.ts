@@ -96,7 +96,7 @@ function triggerMouseEvent(node: HTMLElement, eventType: string, options: any={}
 
 
 function triggerKeyEvent(node: HTMLElement, eventType: string, options: any={}) {
-  // cannot use KeyboardEvent in Chrome because it seys keyCode = 0
+  // cannot use KeyboardEvent in Chrome because it sets keyCode = 0
   var event = document.createEvent('Event');
   event.initEvent(eventType, true, true);
   for (var prop in options) {
