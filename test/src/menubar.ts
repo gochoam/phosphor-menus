@@ -22,9 +22,7 @@ import {
 } from 'phosphor-widget';
 
 import {
-  ACTIVE_CLASS, CONTENT_CLASS, DISABLED_CLASS, FORCE_HIDDEN_CLASS, 
-  HIDDEN_CLASS, ICON_CLASS, MENU_CLASS, MENU_BAR_CLASS, MENU_ITEM_CLASS, 
-  SEPARATOR_TYPE_CLASS, TEXT_CLASS, IMenuItemTemplate, Menu, MenuBar, MenuItem
+  IMenuItemTemplate, MenuBar, MenuItem
 } from '../../lib/index';
 
 import './index.css';
@@ -35,12 +33,12 @@ function createMenuItem(template: IMenuItemTemplate): MenuItem {
 }
 
 
-class LogMenu extends MenuBar {
+class LogMenuBar extends MenuBar {
 
   messages: string[] = [];
 
-  static fromTemplate(array: IMenuItemTemplate[]): LogMenu {
-    var menu = new LogMenu();
+  static fromTemplate(array: IMenuItemTemplate[]): LogMenuBar {
+    var menu = new LogMenuBar();
     menu.items = array.map(createMenuItem);
     return menu;
   }
@@ -84,7 +82,6 @@ class LogMenu extends MenuBar {
     super.onCloseRequest(msg);
     this.messages.push('onCloseRequest');
   }
-
 }
 
 
@@ -279,87 +276,79 @@ var MENU_TEMPLATE = [
 
 describe('phosphor-menus', () => {
 
-  describe('MENU_BAR_CLASS', () => {
-
-    it('should equal `p-MenuBar`', () => {
-      expect(MENU_BAR_CLASS).to.be('p-MenuBar');
-    });
-
-  });
-
-  describe('CONTENT_CLASS', () => {
-
-    it('should equal `p-Menu-content`', () => {
-      expect(CONTENT_CLASS).to.be('p-Menu-content');
-    });
-
-  });
-
-  describe('MENU_ITEM_CLASS', () => {
-
-    it('should equal `p-Menu-item`', () => {
-      expect(MENU_ITEM_CLASS).to.be('p-Menu-item');
-    });
-
-  });
-
-  describe('ICON_CLASS', () => {
-
-    it('should equal `p-Menu-item-icon`', () => {
-      expect(ICON_CLASS).to.be('p-Menu-item-icon');
-    });
-
-  });
-
-  describe('TEXT_CLASS', () => {
-
-    it('should equal `p-Menu-item-text`', () => {
-      expect(TEXT_CLASS).to.be('p-Menu-item-text');
-    });
-
-  });
-
-  describe('SEPARATOR_TYPE_CLASS', () => {
-
-    it('should equal `p-mod-separator-type`', () => {
-      expect(SEPARATOR_TYPE_CLASS).to.be('p-mod-separator-type');
-    });
-
-  });
-
-  describe('ACTIVE_CLASS', () => {
-
-    it('should equal `p-mod-active`', () => {
-      expect(ACTIVE_CLASS).to.be('p-mod-active');
-    });
-
-  });
-
-  describe('DISABLED_CLASS', () => {
-
-    it('should equal `p-mod-disabled`', () => {
-      expect(DISABLED_CLASS).to.be('p-mod-disabled');
-    });
-
-  });
-
-  describe('HIDDEN_CLASS', () => {
-
-    it('should equal `p-mod-hidden`', () => {
-      expect(HIDDEN_CLASS).to.be('p-mod-hidden');
-    });
-
-  });
-
-  describe('FORCE_HIDDEN_CLASS', () => {
-
-    it('should equal `p-mod-force-hidden`', () => {
-      expect(FORCE_HIDDEN_CLASS).to.be('p-mod-force-hidden');
-    });
-
-  });
-
   describe('MenuBar', () => {
+
+    describe('.p_MenuBar', () => {
+
+      it('should equal `p-MenuBar`', () => {
+        expect(MenuBar.p_MenuBar).to.be('p-MenuBar');
+      });
+
+    });
+
+    describe('.p_MenuBar_content', () => {
+
+      it('should equal `p-Menu-content`', () => {
+        expect(MenuBar.p_MenuBar_content).to.be('p-MenuBar-content');
+      });
+
+    });
+
+    describe('.p_MenuBar_item', () => {
+
+      it('should equal `p-Menu-item`', () => {
+        expect(MenuBar.p_MenuBar_item).to.be('p-MenuBar-item');
+      });
+
+    });
+
+    describe('.p_MenuBar_item_icon', () => {
+
+      it('should equal `p-Menu-item-icon`', () => {
+        expect(MenuBar.p_MenuBar_item_icon).to.be('p-MenuBar-item-icon');
+      });
+
+    });
+
+    describe('.p_MenuBar_item_text', () => {
+
+      it('should equal `p-Menu-item-text`', () => {
+        expect(MenuBar.p_MenuBar_item_text).to.be('p-MenuBar-item-text');
+      });
+
+    });
+
+    describe('.p_mod_separator_type', () => {
+
+      it('should equal `p-mod-separator-type`', () => {
+        expect(MenuBar.p_mod_separator_type).to.be('p-mod-separator-type');
+      });
+
+    });
+
+    describe('.p_mod_active', () => {
+
+      it('should equal `p-mod-active`', () => {
+        expect(MenuBar.p_mod_active).to.be('p-mod-active');
+      });
+
+    });
+
+    describe('.p_mod_disabled', () => {
+
+      it('should equal `p-mod-disabled`', () => {
+        expect(MenuBar.p_mod_disabled).to.be('p-mod-disabled');
+      });
+
+    });
+
+    describe('.p_mod_force_hidden', () => {
+
+      it('should equal `p-mod-force-hidden`', () => {
+        expect(MenuBar.p_mod_force_hidden).to.be('p-mod-force-hidden');
+      });
+
+    });
 
     describe('.fromTemplate', () => {
 
@@ -377,9 +366,9 @@ describe('phosphor-menus', () => {
         expect(menu instanceof MenuBar).to.be(true);
       });
 
-      it('should add MENU_BAR_CLASS', () => {
+      it('should add the `p-MenuBar` class', () => {
         var menu = new MenuBar();
-        expect(menu.hasClass(MENU_BAR_CLASS)).to.be(true);
+        expect(menu.hasClass(MenuBar.p_MenuBar)).to.be(true);
       });
 
     });
@@ -427,7 +416,7 @@ describe('phosphor-menus', () => {
         setTimeout(() => {
           triggerKeyEvent(document.body, 'keydown', { keyCode: 13 });
           expect(called).to.be(true);
-          menu.close(true); 
+          menu.close(true);
           done();
         }, 0);
       });
@@ -440,7 +429,7 @@ describe('phosphor-menus', () => {
         menu.childMenu.activateNextItem();
         setTimeout(() => {
           triggerKeyEvent(document.body, 'keydown', { keyCode: 27 });
-          expect(menu.childMenu).to.be(null); 
+          expect(menu.childMenu).to.be(null);
           menu.close(true);
           done();
         }, 0);
@@ -589,7 +578,7 @@ describe('phosphor-menus', () => {
         triggerMouseEvent(node, 'mousedown',
                           { clientX: rect.left, clientY: rect.bottom });
         setTimeout(() => {
-          triggerMouseEvent(document.body, 'mousedown');  
+          triggerMouseEvent(document.body, 'mousedown');
           expect(menu.activeIndex).to.be(-1);
           menu.close(true);
           done();
@@ -621,7 +610,7 @@ describe('phosphor-menus', () => {
     describe('#onItemsChanged()', () => {
 
       it('should be invoked when the menu items change', () => {
-        var menu = LogMenu.fromTemplate(MENU_TEMPLATE);
+        var menu = LogMenuBar.fromTemplate(MENU_TEMPLATE);
         menu.items = [];
         expect(menu.messages.indexOf('onItemsChanged')).to.not.be(-1);
         menu.close(true);
@@ -632,7 +621,7 @@ describe('phosphor-menus', () => {
     describe('#onActiveIndexChanged()', () => {
 
       it('should be invoked when the active index changes', () => {
-        var menu = LogMenu.fromTemplate(MENU_TEMPLATE);
+        var menu = LogMenuBar.fromTemplate(MENU_TEMPLATE);
         menu.activeIndex = 0;
         expect(menu.messages.indexOf('onActiveIndexChanged')).to.not.be(-1);
         menu.close(true);
@@ -643,7 +632,7 @@ describe('phosphor-menus', () => {
     describe('#onOpenItem()', () => {
 
       it('should be invoked when a menu item should be opened', () => {
-        var menu = LogMenu.fromTemplate(MENU_TEMPLATE);
+        var menu = LogMenuBar.fromTemplate(MENU_TEMPLATE);
         menu.activateNextItem();
         menu.openActiveItem();
         expect(menu.messages.indexOf('onOpenItem')).to.not.be(-1);
@@ -651,7 +640,7 @@ describe('phosphor-menus', () => {
       });
 
       it('should open the child menu', () => {
-        var menu = LogMenu.fromTemplate(MENU_TEMPLATE);
+        var menu = LogMenuBar.fromTemplate(MENU_TEMPLATE);
         menu.activateNextItem();
         menu.openActiveItem();
         expect(menu.messages.indexOf('onOpenItem')).to.not.be(-1);
@@ -664,7 +653,7 @@ describe('phosphor-menus', () => {
     describe('#onAfterAttach()', () => {
 
       it('should add four event listeners on the node', () => {
-        var menu = LogMenu.fromTemplate(MENU_TEMPLATE);
+        var menu = LogMenuBar.fromTemplate(MENU_TEMPLATE);
         attachWidget(menu, document.body);
         expect(menu.messages.indexOf('onAfterAttach')).to.not.be(-1);
         triggerMouseEvent(menu.node, 'mousedown');
@@ -683,7 +672,7 @@ describe('phosphor-menus', () => {
     describe('#onBeforeDetach()', () => {
 
       it('should remove all event listeners', () => {
-        var menu = LogMenu.fromTemplate(MENU_TEMPLATE);
+        var menu = LogMenuBar.fromTemplate(MENU_TEMPLATE);
         attachWidget(menu, document.body);
         menu.close(true);
         triggerMouseEvent(menu.node, 'mousedown');
@@ -702,7 +691,7 @@ describe('phosphor-menus', () => {
     describe('#onUpdateRequest()', () => {
 
       it('should create the menu bar', () => {
-        var menu = LogMenu.fromTemplate(MENU_TEMPLATE);
+        var menu = LogMenuBar.fromTemplate(MENU_TEMPLATE);
         attachWidget(menu, document.body);
         expect(menu.messages.indexOf('onUpdateRequest')).to.not.be(-1);
         var children = menu.node.firstChild.childNodes;
@@ -715,12 +704,12 @@ describe('phosphor-menus', () => {
     describe('#onCloseRequest()', () => {
 
       it('should detach the widget from the DOM', () => {
-        var menu = LogMenu.fromTemplate(MENU_TEMPLATE);
+        var menu = LogMenuBar.fromTemplate(MENU_TEMPLATE);
         attachWidget(menu, document.body);
         menu.close(true);
         var rect = menu.node.getBoundingClientRect();
-        expect(rect.left - rect.right).to.be(0);    
-        expect(menu.messages.indexOf('onCloseRequest')).to.not.be(-1); 
+        expect(rect.left - rect.right).to.be(0);
+        expect(menu.messages.indexOf('onCloseRequest')).to.not.be(-1);
       });
 
     });
