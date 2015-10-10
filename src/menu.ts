@@ -88,7 +88,7 @@ class Menu extends MenuBase {
   static p_Menu_item_shortcut = 'p-Menu-item-shortcut';
 
   /**
-   * The class name added to a menu item submenu.
+   * The class name added to a menu item submenu cell.
    */
   static p_Menu_item_submenu = 'p-Menu-item-submenu';
 
