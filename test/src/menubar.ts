@@ -399,6 +399,212 @@ describe('phosphor-menus', () => {
 
     });
 
+    describe('#handleEvent()', () => {
+
+      it('should trigger the active item on keyCode 13', (done) => {
+        var menu = MenuBar.fromTemplate(MENU_BAR_TEMPLATE);
+        attachWidget(menu, document.body);
+        menu.activateNextItem();
+        menu.openActiveItem();
+        var called = false;
+        menu.childMenu.activateNextItem();
+        menu.childMenu.items[menu.childMenu.activeIndex].handler = () => {
+          called = true;
+        }
+        setTimeout(() => {
+          triggerKeyEvent(document.body, 'keydown', { keyCode: 13 });
+          expect(called).to.be(true);
+          menu.close(true);
+          done();
+        }, 0);
+      });
+
+      it('should close the leaf menu on keyCode 27', (done) => {
+        var menu = MenuBar.fromTemplate(MENU_BAR_TEMPLATE);
+        attachWidget(menu, document.body);
+        menu.activateNextItem();
+        menu.openActiveItem();
+        menu.childMenu.activateNextItem();
+        setTimeout(() => {
+          triggerKeyEvent(document.body, 'keydown', { keyCode: 27 });
+          expect(menu.childMenu).to.be(null);
+          menu.close(true);
+          done();
+        }, 0);
+      });
+
+      it('should open the previous menu on keyCode 37', (done) => {
+        var menu = MenuBar.fromTemplate(MENU_BAR_TEMPLATE);
+        attachWidget(menu, document.body);
+        menu.activateNextItem();
+        menu.openActiveItem();
+        menu.childMenu.activateNextItem();
+        setTimeout(() => {
+          triggerKeyEvent(document.body, 'keydown', { keyCode: 37 });
+          expect(menu.childMenu).to.not.be(null);
+          expect(menu.activeIndex).to.be(MENU_BAR_TEMPLATE.length - 1);
+          menu.close(true);
+          done();
+        });
+      });
+
+      it('should close a sub menu on keyCode 37', (done) => {
+        var menu = MenuBar.fromTemplate(MENU_BAR_TEMPLATE);
+        attachWidget(menu, document.body);
+        menu.activeIndex = 0;
+        menu.openActiveItem();
+        menu.childMenu.activeIndex = 8;
+        menu.childMenu.openActiveItem();
+        setTimeout(() => {
+          triggerKeyEvent(document.body, 'keydown', { keyCode: 37 });
+          expect(menu.childMenu.childMenu).to.be(null);
+          menu.close(true);
+          done();
+        });
+      });
+
+      it('should activate the previous menu item on keyCode 38', (done) => {
+        var menu = MenuBar.fromTemplate(MENU_BAR_TEMPLATE);
+        attachWidget(menu, document.body);
+        menu.activateNextItem();
+        menu.openActiveItem();
+        menu.childMenu.activateNextItem();
+        var previous = menu.childMenu.activeIndex;
+        setTimeout(() => {
+          triggerKeyEvent(document.body, 'keydown', { keyCode: 38 });
+          expect(menu.childMenu.activeIndex).to.not.be(previous);
+          menu.close(true);
+          done();
+        }, 0);
+      });
+
+      it('should open a sub menu on keyCode 39', (done) => {
+        var menu = MenuBar.fromTemplate(MENU_BAR_TEMPLATE);
+        attachWidget(menu, document.body);
+        menu.activeIndex = 0;
+        menu.openActiveItem();
+        menu.childMenu.leafMenu.activeIndex = 8;
+        setTimeout(() => {
+          triggerKeyEvent(document.body, 'keydown', { keyCode: 39 });
+          setTimeout(() => {
+            expect(menu.childMenu.childMenu).to.not.be(null);
+            menu.close(true);
+            done();
+          }, 500);
+        }, 0);
+      });
+
+      it('should open next menu on keyCode 39', (done) => {
+        var menu = MenuBar.fromTemplate(MENU_BAR_TEMPLATE);
+        attachWidget(menu, document.body);
+        menu.activateNextItem();
+        menu.openActiveItem();
+        var previous = menu.activeIndex;
+        setTimeout(() => {
+          triggerKeyEvent(document.body, 'keydown', { keyCode: 39 });
+          expect(menu.activeIndex).to.not.be(previous);
+          expect(menu.childMenu).to.not.be(null);
+          menu.close(true);
+          done();
+        }, 0);
+      });
+
+      it('should activate the next menu item on keyCode 40', (done) => {
+        var menu = MenuBar.fromTemplate(MENU_BAR_TEMPLATE);
+        attachWidget(menu, document.body);
+        menu.activateNextItem();
+        menu.openActiveItem();
+        menu.childMenu.activateNextItem();
+        var previous = menu.childMenu.activeIndex;
+        setTimeout(() => {
+          triggerKeyEvent(document.body, 'keydown', { keyCode: 40 });
+          expect(menu.childMenu.activeIndex).to.not.be(previous);
+          menu.close(true);
+          done();
+        }, 0);
+      });
+
+      it('should trigger the item if we mouse over and click', () => {
+        var menu = MenuBar.fromTemplate(MENU_BAR_TEMPLATE);
+        attachWidget(menu, document.body);
+        menu.activeIndex = 1;
+        menu.openActiveItem();
+        menu.childMenu.activeIndex = 0;
+        menu.childMenu.openActiveItem();
+        var checked = false;
+        menu.childMenu.items[0].handler = () => { checked = true; };
+        var node = menu.childMenu.node.firstChild.firstChild as HTMLElement;
+        triggerMouseEvent(node, 'mouseenter');
+        triggerMouseEvent(node, 'mousedown');
+        triggerMouseEvent(node, 'mouseup');
+        expect(checked).to.be(true);
+        menu.close(true);
+      });
+
+      it('should activate an item based on mnemonic', (done) => {
+        var menu = MenuBar.fromTemplate(MENU_BAR_TEMPLATE);
+        attachWidget(menu, document.body);
+        menu.activeIndex = 1;
+        menu.openActiveItem();
+        menu.childMenu.activeIndex = 0;
+        menu.childMenu.openActiveItem();
+        var node = menu.childMenu.node.firstChild.firstChild as HTMLElement;
+        setTimeout(() => {
+          triggerKeyEvent(node, 'keypress', { charCode: 82 } );  // 'r' key
+          expect(menu.childMenu.activeIndex).to.be(1);
+          menu.close(true);
+          done();
+        }, 0);
+      });
+
+      it('should open the submenu', () => {
+        var menu = MenuBar.fromTemplate(MENU_BAR_TEMPLATE);
+        attachWidget(menu, document.body);
+        var node = menu.node.firstChild.firstChild as HTMLElement;
+        var rect = node.getBoundingClientRect();
+        triggerMouseEvent(node, 'mousedown',
+                          { clientX: rect.left, clientY: rect.bottom - 1});
+        expect(menu.activeIndex).to.be(0);
+        menu.close(true);
+      });
+
+      it('should close the submenu on an outside mousedown', (done) => {
+        var menu = MenuBar.fromTemplate(MENU_BAR_TEMPLATE);
+        attachWidget(menu, document.body);
+        var node = menu.node.firstChild.firstChild as HTMLElement;
+        var rect = node.getBoundingClientRect();
+        triggerMouseEvent(node, 'mousedown',
+                          { clientX: rect.left, clientY: rect.bottom });
+        setTimeout(() => {
+          triggerMouseEvent(document.body, 'mousedown');
+          expect(menu.activeIndex).to.be(-1);
+          menu.close(true);
+          done();
+        }, 0);
+      });
+
+      it('should open a new submenu', (done) => {
+        var menu = MenuBar.fromTemplate(MENU_BAR_TEMPLATE);
+        attachWidget(menu, document.body);
+        var node = menu.node.firstChild.firstChild as HTMLElement;
+        var rect = node.getBoundingClientRect();
+        triggerMouseEvent(node, 'mousedown',
+                          { clientX: rect.left, clientY: rect.bottom - 1 });
+        setTimeout(() => {
+          node = menu.node.firstChild.childNodes[1] as HTMLElement;
+          rect = node.getBoundingClientRect();
+          triggerMouseEvent(node, 'mousemove',
+                            { clientX: rect.left + 1, clientY: rect.bottom - 1 });
+          setTimeout(() => {
+            expect(menu.activeIndex).to.be(1);
+            menu.close(true);
+            done();
+          }, 0);
+        }, 500);
+      });
+
+    });
+
     describe('#onItemsChanged()', () => {
 
       it('should be invoked when the menu items change', () => {
