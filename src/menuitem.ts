@@ -158,8 +158,8 @@ class MenuItem {
   /**
    * The property descriptor for the menu item text.
    *
-   * The text may have an ampersand `&` before the character
-   * to use as the mnemonic for the menu item.
+   * The text may have an ampersand `&` before the character to use
+   * as the mnemonic for the menu item.
    *
    * **See also:** [[text]]
    */
