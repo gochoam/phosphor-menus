@@ -25,8 +25,6 @@ import {
   IMenuItemTemplate, MenuBar, MenuItem
 } from '../../lib/index';
 
-import './index.css';
-
 
 function createMenuItem(template: IMenuItemTemplate): MenuItem {
   return MenuItem.fromTemplate(template);
