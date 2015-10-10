@@ -18,17 +18,6 @@ import {
 } from '../../lib/index';
 
 
-var DEFAULT = {
-  type: 'check',
-  text: 'foo',
-  shortcut: 'Ctrl+F',
-  disabled: false,
-  hidden: false,
-  checked: true,
-  className: 'bar'
-}
-
-
 describe('phosphor-menus', () => {
 
   describe('MenuItem', () => {
@@ -36,16 +25,16 @@ describe('phosphor-menus', () => {
     describe('.fromTemplate', () => {
 
       it('should create a menu item from a template', () => {
-        var template = JSON.parse(JSON.stringify(DEFAULT));
-        var sub1 = JSON.parse(JSON.stringify(DEFAULT));
-        var sub2 = JSON.parse(JSON.stringify(DEFAULT));
-        sub1.text = 'bar';
-        sub2.text = 'baz';
-        template.submenu = [sub1, sub2];
-        var menu = MenuItem.fromTemplate(template);
-        expect(menu.checked).to.be(true);
-        expect(menu.shortcut).to.be('Ctrl+F');
-        expect(menu.submenu.items.length).to.be(2);
+        var item = MenuItem.fromTemplate({
+          text: 'foo',
+          submenu: [{ text: 'bar' }, { text: 'baz' }],
+        });
+        expect(item instanceof MenuItem).to.be(true);
+        expect(item.text).to.be('foo');
+        expect(item.submenu instanceof Menu).to.be(true);
+        expect(item.submenu.items.length).to.be(2);
+        expect(item.submenu.items[0].text).to.be('bar');
+        expect(item.submenu.items[1].text).to.be('baz');
       });
 
     });
@@ -61,22 +50,28 @@ describe('phosphor-menus', () => {
         expect(MenuItem.typeProperty.get(item)).to.be('normal');
       });
 
-      it('should allow `check` and `separator` types', () => {
+      it('should allow `normal`, `check`, and `separator` types', () => {
         var item = new MenuItem();
         MenuItem.typeProperty.set(item, 'check');
         expect(MenuItem.typeProperty.get(item)).to.be('check');
         MenuItem.typeProperty.set(item, 'separator');
         expect(MenuItem.typeProperty.get(item)).to.be('separator');
+        MenuItem.typeProperty.set(item, 'normal');
+        expect(MenuItem.typeProperty.get(item)).to.be('normal');
       });
 
       it('should revert to `normal` if an invalid type is given', () => {
         var item = new MenuItem();
+        MenuItem.typeProperty.set(item, 'check');
+        expect(MenuItem.typeProperty.get(item)).to.be('check');
         MenuItem.typeProperty.set(item, 'checked');
         expect(MenuItem.typeProperty.get(item)).to.be('normal');
       });
 
-      it('should trigger a checked property change', () => {
+      it('should coerced the `checked` property', () => {
         var item = new MenuItem({ type: 'check', checked: true });
+        expect(MenuItem.typeProperty.get(item)).to.be('check');
+        expect(MenuItem.checkedProperty.get(item)).to.be(true);
         MenuItem.typeProperty.set(item, 'normal');
         expect(MenuItem.checkedProperty.get(item)).to.be(false);
       });
@@ -89,15 +84,9 @@ describe('phosphor-menus', () => {
         expect(MenuItem.textProperty instanceof Property).to.be(true);
       });
 
-      it('should default to `""`', () => {
+      it('should default to an empty string', () => {
         var item = new MenuItem();
         expect(MenuItem.textProperty.get(item)).to.be('');
-      });
-
-      it('should allow an ampserand `&` for a mnemonic character', () => {
-        var item = new MenuItem();
-        MenuItem.textProperty.set(item, '&open');
-        expect(MenuItem.textProperty.get(item)).to.be('&open');
       });
 
     });
@@ -108,7 +97,7 @@ describe('phosphor-menus', () => {
         expect(MenuItem.shortcutProperty instanceof Property).to.be(true);
       });
 
-      it('should default to `""`', () => {
+      it('should default to an empty string', () => {
         var item = new MenuItem();
         expect(MenuItem.shortcutProperty.get(item)).to.be('');
       });
@@ -166,7 +155,7 @@ describe('phosphor-menus', () => {
         expect(MenuItem.classNameProperty instanceof Property).to.be(true);
       });
 
-      it('should default to `""`', () => {
+      it('should default to an empty string', () => {
         var item = new MenuItem();
         expect(MenuItem.classNameProperty.get(item)).to.be('');
       });
@@ -202,13 +191,15 @@ describe('phosphor-menus', () => {
     describe('#constructor()', () => {
 
       it('should accept no arguments', () => {
-        var menu = new MenuItem();
-        expect(menu instanceof MenuItem).to.be(true);
+        var item = new MenuItem();
+        expect(item instanceof MenuItem).to.be(true);
       });
 
       it('should accept an IMenuItemOptions argument', () => {
-        var menu = new MenuItem(DEFAULT);
-        expect(menu.className).to.be(DEFAULT.className);
+        var item = new MenuItem({ text: 'foo', className: 'bar' });
+        expect(item instanceof MenuItem).to.be(true);
+        expect(item.text).to.be('foo');
+        expect(item.className).to.be('bar');
       });
 
     });
@@ -232,12 +223,6 @@ describe('phosphor-menus', () => {
         expect(item.type).to.be('separator');
         item.type = 'normal';
         expect(MenuItem.typeProperty.get(item)).to.be('normal');
-      });
-
-      it('should revert to `normal` if an invalid type is given', () => {
-        var item = new MenuItem();
-        item.type = 'checked';
-        expect(item.type).to.be('normal');
       });
 
     });
@@ -353,12 +338,6 @@ describe('phosphor-menus', () => {
         expect(item.checked).to.be(true);
         item.checked = false;
         expect(MenuItem.checkedProperty.get(item)).to.be(false);
-      });
-
-      it('should coerce to `false` if the type is not `check`', () => {
-        var item = new MenuItem({ type: 'normal' });
-        item.checked = true;
-        expect(item.checked).to.be(false);
       });
 
     });
