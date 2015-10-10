@@ -18,9 +18,15 @@ import {
 } from '../../lib/index';
 
 
-class LogMenu extends MenuBase {
+class LogMenuBase extends MenuBase {
 
   messages: string[] = [];
+
+  protected coerceActiveIndex(index: number): number {
+    var i = super.coerceActiveIndex(index);
+    this.messages.push('coerceActiveIndex');
+    return i;
+  }
 
   protected onItemsChanged(old: MenuItem[], items: MenuItem[]): void {
     super.onItemsChanged(old, items);
@@ -55,16 +61,16 @@ describe('phosphor-menus', () => {
       });
 
       it('should default a frozen empty list', () => {
-        var menu = new MenuBase();
-        var items = MenuBase.itemsProperty.get(menu);
+        var base = new MenuBase();
+        var items = MenuBase.itemsProperty.get(base);
         expect(items).to.eql([]);
         expect(() => items.push(new MenuItem())).to.throwError();
       });
 
       it('should trigger an items changed', () => {
-        var menu = new LogMenu();
-        var items = MenuBase.itemsProperty.set(menu, [new MenuItem()]);
-        expect(menu.messages.indexOf('onItemsChanged')).to.not.be(-1);
+        var base = new LogMenuBase();
+        var items = MenuBase.itemsProperty.set(base, [new MenuItem()]);
+        expect(base.messages.indexOf('onItemsChanged')).to.not.be(-1);
       });
 
     });
@@ -76,15 +82,31 @@ describe('phosphor-menus', () => {
       });
 
       it('should default `-1`', () => {
-        var menu = new MenuBase();
-        expect(MenuBase.activeIndexProperty.get(menu)).to.be(-1);
+        var base = new MenuBase();
+        expect(MenuBase.activeIndexProperty.get(base)).to.be(-1);
+      });
+
+      it('should coerce the index to an appropriate value', () => {
+        var base = new MenuBase();
+        base.items = [new MenuItem(), new MenuItem({ type: 'separator' })];
+        MenuBase.activeIndexProperty.set(base, 0);
+        expect(MenuBase.activeIndexProperty.get(base)).to.be(0);
+        MenuBase.activeIndexProperty.set(base, 1);
+        expect(MenuBase.activeIndexProperty.get(base)).to.be(-1);
+      });
+
+      it('should trigger a coerce active index', () => {
+        var base = new LogMenuBase();
+        base.items = [new MenuItem(), new MenuItem()];
+        MenuBase.activeIndexProperty.set(base, 1);
+        expect(base.messages.indexOf('coerceActiveIndex')).to.not.be(-1);
       });
 
       it('should trigger an active index changed', () => {
-        var menu = new LogMenu();
-        menu.items = [new MenuItem(), new MenuItem()];
-        MenuBase.activeIndexProperty.set(menu, 1);
-        expect(menu.messages.indexOf('onActiveIndexChanged')).to.not.be(-1);
+        var base = new LogMenuBase();
+        base.items = [new MenuItem(), new MenuItem()];
+        MenuBase.activeIndexProperty.set(base, 1);
+        expect(base.messages.indexOf('onActiveIndexChanged')).to.not.be(-1);
       });
 
     });
@@ -92,8 +114,8 @@ describe('phosphor-menus', () => {
     describe('#constructor()', () => {
 
       it('should accept no arguments', () => {
-        var menu = new MenuBase();
-        expect(menu instanceof MenuBase).to.be(true);
+        var base = new MenuBase();
+        expect(base instanceof MenuBase).to.be(true);
       });
 
     });
@@ -101,32 +123,23 @@ describe('phosphor-menus', () => {
     describe('#items', () => {
 
       it('should get the array of menu items', () => {
-        var menu = new MenuBase();
-        expect(menu.items).to.eql([]);
+        var base = new MenuBase();
+        expect(base.items).to.eql([]);
       });
 
       it('should set the array of menu items', () => {
-        var menu = new MenuBase();
-        var items = [new MenuItem({ text: 'foo' }), 
-                     new MenuItem({ text: 'bar' })];
-        menu.items = items;
-        expect(menu.items).to.eql(items);
-      });
-
-      it('should trigger an items changed', () => {
-        var menu = new LogMenu();
-        var items = [new MenuItem({ text: 'foo' }), 
-                     new MenuItem({ text: 'bar' })];
-        menu.items = items;
-        expect(menu.messages.indexOf('onItemsChanged')).to.not.be(-1);
+        var base = new MenuBase();
+        var items = [new MenuItem(), new MenuItem()];
+        base.items = items;
+        expect(base.items).to.eql(items);
       });
 
       it('should a pure delegate to the itemsProperty', () => {
-        var menu = new MenuBase();
-        MenuBase.itemsProperty.set(menu, [new MenuItem()]);
-        expect(menu.items.length).to.be(1);
-        menu.items = [new MenuItem(), new MenuItem()];
-        expect(MenuBase.itemsProperty.get(menu).length).to.be(2);
+        var base = new MenuBase();
+        MenuBase.itemsProperty.set(base, [new MenuItem()]);
+        expect(base.items.length).to.be(1);
+        base.items = [new MenuItem(), new MenuItem()];
+        expect(MenuBase.itemsProperty.get(base).length).to.be(2);
       });
 
     });
@@ -134,33 +147,24 @@ describe('phosphor-menus', () => {
     describe('#activeIndex', () => {
 
       it('should get the index of the active menu item', () => {
-        var menu = new MenuBase();
-        expect(menu.activeIndex).to.eql(-1);
+        var base = new MenuBase();
+        expect(base.activeIndex).to.eql(-1);
       });
 
       it('should set the index of the active menu item', () => {
-        var menu = new MenuBase();
-        menu.items = [new MenuItem({ text: 'foo' }), 
-                      new MenuItem({ text: 'bar' })];
-        menu.activeIndex = 1;
-        expect(menu.activeIndex).to.eql(1);
-      });
-
-      it('should trigger an active index changed', () => {
-        var menu = new LogMenu();
-        menu.items = [new MenuItem({ text: 'foo' }), 
-                      new MenuItem({ text: 'bar' })];
-        menu.activeIndex = 1;
-        expect(menu.messages.indexOf('onItemsChanged')).to.not.be(-1);
+        var base = new MenuBase();
+        base.items = [new MenuItem(), new MenuItem()];
+        base.activeIndex = 1;
+        expect(base.activeIndex).to.eql(1);
       });
 
       it('should a pure delegate to the activeIndexProperty', () => {
-        var menu = new MenuBase();
-        menu.items = [new MenuItem(), new MenuItem()];
-        MenuBase.activeIndexProperty.set(menu, 1);
-        expect(menu.activeIndex).to.be(1);
-        menu.activeIndex = 0
-        expect(MenuBase.activeIndexProperty.get(menu)).to.be(0);
+        var base = new MenuBase();
+        base.items = [new MenuItem(), new MenuItem()];
+        MenuBase.activeIndexProperty.set(base, 1);
+        expect(base.activeIndex).to.be(1);
+        base.activeIndex = 0
+        expect(MenuBase.activeIndexProperty.get(base)).to.be(0);
       });
 
     });
@@ -168,30 +172,26 @@ describe('phosphor-menus', () => {
     describe('#activateNextItem()', () => {
 
       it('should activate the next selectable menu item', () => {
-        var menu = new MenuBase();
-        menu.items = [new MenuItem({ text: 'foo', disabled: true }), 
-                      new MenuItem({ text: 'bar' })];
-        menu.activateNextItem();
-        expect(menu.activeIndex).to.be(1);
+        var base = new MenuBase();
+        base.items = [new MenuItem({ disabled: true }), new MenuItem()];
+        base.activateNextItem();
+        expect(base.activeIndex).to.be(1);
       });
 
       it('should start at the current index', () => {
-        var menu = new MenuBase();
-        menu.items = [new MenuItem({ text: 'foo' }), 
-                      new MenuItem({ text: 'bar' }),
-                      new MenuItem({ text: 'baz' })];
-        menu.activeIndex = 1;
-        menu.activateNextItem();
-        expect(menu.activeIndex).to.be(2);
+        var base = new MenuBase();
+        base.items = [new MenuItem(), new MenuItem(), new MenuItem()];
+        base.activeIndex = 1;
+        base.activateNextItem();
+        expect(base.activeIndex).to.be(2);
       });
 
       it('should wrap around at the end of the menu', () => {
-        var menu = new MenuBase();
-        menu.items = [new MenuItem({ text: 'foo' }), 
-                      new MenuItem({ text: 'bar' })];
-        menu.activeIndex = 1;
-        menu.activateNextItem();
-        expect(menu.activeIndex).to.be(0);
+        var base = new MenuBase();
+        base.items = [new MenuItem(), new MenuItem()];
+        base.activeIndex = 1;
+        base.activateNextItem();
+        expect(base.activeIndex).to.be(0);
       });
 
     });
@@ -199,31 +199,27 @@ describe('phosphor-menus', () => {
     describe('#activatePreviousItem()', () => {
 
       it('should activate the previous selectable menu item', () => {
-        var menu = new MenuBase();
-        menu.items = [new MenuItem({ text: 'foo' }), 
-                      new MenuItem({ text: 'bar'})];
-        menu.items[1].hidden = true;
-        menu.activatePreviousItem();
-        expect(menu.activeIndex).to.be(0);
+        var base = new MenuBase();
+        base.items = [new MenuItem(), new MenuItem()];
+        base.activeIndex = 1;
+        base.activatePreviousItem();
+        expect(base.activeIndex).to.be(0);
       });
 
       it('should start at the current index', () => {
-        var menu = new MenuBase();
-        menu.items = [new MenuItem({ text: 'foo' }), 
-                      new MenuItem({ text: 'bar' }),
-                      new MenuItem({ text: 'baz' })];
-        menu.activeIndex = 1;
-        menu.activatePreviousItem();
-        expect(menu.activeIndex).to.be(0);
+        var base = new MenuBase();
+        base.items = [new MenuItem(), new MenuItem(), new MenuItem()];
+        base.activeIndex = 2;
+        base.activatePreviousItem();
+        expect(base.activeIndex).to.be(1);
       });
 
       it('should wrap around at the front of the menu', () => {
-        var menu = new MenuBase();
-        menu.items = [new MenuItem({ text: 'foo' }), 
-                      new MenuItem({ text: 'bar' })];
-        menu.activeIndex = 0;
-        menu.activatePreviousItem();
-        expect(menu.activeIndex).to.be(1);
+        var base = new MenuBase();
+        base.items = [new MenuItem(), new MenuItem()];
+        base.activeIndex = 0;
+        base.activatePreviousItem();
+        expect(base.activeIndex).to.be(1);
       });
 
     });
@@ -231,39 +227,69 @@ describe('phosphor-menus', () => {
     describe('#activateMnemonicItem()', () => {
 
       it('should activate the next selectable menu item with the given mnemonic', () => {
-        var menu = new MenuBase();
-        menu.items = [new MenuItem({ text: '&foo', type: 'separator'}), 
-                      new MenuItem({ text: '&bar'}),
-                      new MenuItem({ text: 'a&foo'})];
-        menu.activateMnemonicItem('f');
-        expect(menu.activeIndex).to.be(2);
+        var base = new MenuBase();
+        base.items = [
+          new MenuItem({ text: '&foo' }),
+          new MenuItem({ type: 'separator' }),
+          new MenuItem({ text: '&bar' }),
+          new MenuItem({ text: 'ba&z' }),
+          new MenuItem({ text: '&zazzy'}),
+        ];
+        base.activateMnemonicItem('f');
+        expect(base.activeIndex).to.be(0);
+        base.activateMnemonicItem('b');
+        expect(base.activeIndex).to.be(2);
+        base.activateMnemonicItem('z');
+        expect(base.activeIndex).to.be(3);
+        base.activateMnemonicItem('z');
+        expect(base.activeIndex).to.be(4);
       });
 
       it('should start at the current index', () => {
-        var menu = new MenuBase();
-        menu.items = [new MenuItem({ text: '&foo' }), 
-                      new MenuItem({ text: '&bar' }),
-                      new MenuItem({ text: '&foo' })];
-        menu.activeIndex = 1;
-        menu.activateMnemonicItem('f');
-        expect(menu.activeIndex).to.be(2);
+        var base = new MenuBase();
+        base.items = [
+          new MenuItem({ text: '&foo' }),
+          new MenuItem({ type: 'separator' }),
+          new MenuItem({ text: '&bar' }),
+          new MenuItem({ text: 'ba&z' }),
+          new MenuItem({ text: '&zazzy'}),
+        ];
+        base.activeIndex = 3;
+        base.activateMnemonicItem('z');
+        expect(base.activeIndex).to.be(4);
       });
 
       it('should be case insensitive', () => {
-        var menu = new MenuBase();
-        menu.items = [new MenuItem({ text: '&foo' }), 
-                      new MenuItem({ text: '&bar' })];
-        menu.activateMnemonicItem('F');
-        expect(menu.activeIndex).to.be(0);
+        var base = new MenuBase();
+        base.items = [
+          new MenuItem({ text: '&foo' }),
+          new MenuItem({ type: 'separator' }),
+          new MenuItem({ text: '&bar' }),
+          new MenuItem({ text: 'ba&z' }),
+          new MenuItem({ text: '&zazzy'}),
+        ];
+        base.activateMnemonicItem('F');
+        expect(base.activeIndex).to.be(0);
+        base.activateMnemonicItem('B');
+        expect(base.activeIndex).to.be(2);
+        base.activateMnemonicItem('Z');
+        expect(base.activeIndex).to.be(3);
+        base.activateMnemonicItem('Z');
+        expect(base.activeIndex).to.be(4);
       });
 
       it('should wrap around at the end of the menu', () => {
-        var menu = new MenuBase();
-        menu.items = [new MenuItem({ text: '&foo' }), 
-                      new MenuItem({ text: '&bar' })];
-        menu.activeIndex = 1;
-        menu.activateMnemonicItem('f');
-        expect(menu.activeIndex).to.be(0);
+        var base = new MenuBase();
+        base.items = [
+          new MenuItem({ text: '&foo' }),
+          new MenuItem({ type: 'separator' }),
+          new MenuItem({ text: '&bar' }),
+          new MenuItem({ text: 'ba&z' }),
+          new MenuItem({ text: '&zazzy'}),
+        ];
+        base.activeIndex = 1;
+        base.activateMnemonicItem('f');
+        expect(base.activeIndex).to.be(0);
       });
 
     });
@@ -271,27 +297,26 @@ describe('phosphor-menus', () => {
     describe('#openActiveItem()', () => {
 
       it('should open the active menu item', () => {
-        var menu = new LogMenu();
-        menu.items = [new MenuItem({ text: 'foo',
-                                     submenu: new Menu() })];
-        menu.activeIndex = 0;
-        menu.openActiveItem();
-        expect(menu.messages.indexOf('onOpenItem')).to.not.be(-1);
+        var base = new LogMenuBase();
+        base.items = [new MenuItem({ submenu: new Menu() })];
+        base.activeIndex = 0;
+        base.openActiveItem();
+        expect(base.messages.indexOf('onOpenItem')).to.not.be(-1);
       });
 
-      it('should be a no-op if there is no active menu', () => {
-        var menu = new LogMenu();
-        menu.items = [new MenuItem({ text: 'foo',
-                                     submenu: new Menu() })];
-        expect(menu.messages.indexOf('onOpenItem')).to.be(-1);
+      it('should be a no-op if there is no active menu item', () => {
+        var base = new LogMenuBase();
+        base.items = [new MenuItem({ submenu: new Menu() })];
+        base.openActiveItem();
+        expect(base.messages.indexOf('onOpenItem')).to.be(-1);
       });
 
       it('should be a no-op if the active menu item does not have a submenu', () => {
-        var menu = new LogMenu();
-        menu.items = [new MenuItem({ text: 'foo',
-                                     submenu: new Menu() })];
-        menu.activeIndex = 0;
-        expect(menu.messages.indexOf('onOpenItem')).to.be(-1);
+        var base = new LogMenuBase();
+        base.items = [new MenuItem()];
+        base.activeIndex = 0;
+        base.openActiveItem();
+        expect(base.messages.indexOf('onOpenItem')).to.be(-1);
       });
 
     });
@@ -299,30 +324,28 @@ describe('phosphor-menus', () => {
     describe('#triggerActiveItem()', () => {
 
       it('should trigger the active menu item', () => {
-        var menu = new LogMenu();
-        menu.items = [new MenuItem({ text: 'foo' })];
-        menu.activeIndex = 0;
-        menu.triggerActiveItem();
-        expect(menu.messages.indexOf('onTriggerItem')).to.not.be(-1);
+        var base = new LogMenuBase();
+        base.items = [new MenuItem()];
+        base.activeIndex = 0;
+        base.triggerActiveItem();
+        expect(base.messages.indexOf('onTriggerItem')).to.not.be(-1);
       });
 
       it('should be equivalent to openActiveItem if the menu item has a submenu', () => {
-        var menu = new LogMenu();
-        menu.items = [new MenuItem({ text: 'foo',
-                                     submenu: new Menu() })];
-        menu.activeIndex = 0;
-        menu.triggerActiveItem();
-        expect(menu.messages.indexOf('onTriggerItem')).to.be(-1);
-        expect(menu.messages.indexOf('onOpenItem')).to.not.be(-1);
+        var base = new LogMenuBase();
+        base.items = [new MenuItem({ submenu: new Menu() })];
+        base.activeIndex = 0;
+        base.triggerActiveItem();
+        expect(base.messages.indexOf('onTriggerItem')).to.be(-1);
+        expect(base.messages.indexOf('onOpenItem')).to.not.be(-1);
       });
 
-      it('should be a no-op if there is no active menu', () => {
-        var menu = new LogMenu();
-        menu.items = [new MenuItem({ text: 'foo',
-                                     submenu: new Menu() })];
-        menu.triggerActiveItem();
-        expect(menu.messages.indexOf('onTriggerItem')).to.be(-1);
-        expect(menu.messages.indexOf('onOpenItem')).to.be(-1);
+      it('should be a no-op if there is no active item', () => {
+        var base = new LogMenuBase();
+        base.items = [new MenuItem()];
+        base.triggerActiveItem();
+        expect(base.messages.indexOf('onTriggerItem')).to.be(-1);
+        expect(base.messages.indexOf('onOpenItem')).to.be(-1);
       });
 
     });
