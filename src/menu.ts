@@ -33,96 +33,6 @@ import {
 
 
 /**
- * `p-Menu`: the class name added to Menu instances.
- */
-export
-const MENU_CLASS = 'p-Menu';
-
-/**
- * `p-Menu-content`: the class name added to a menu content node.
- */
-export
-const CONTENT_CLASS = 'p-Menu-content';
-
-/**
- * `p-Menu-item`: the class name assigned to a menu item.
- */
-export
-const MENU_ITEM_CLASS = 'p-Menu-item';
-
-/**
- * `p-Menu-item-icon`: the class name added to a menu item icon cell.
- */
-export
-const ICON_CLASS = 'p-Menu-item-icon';
-
-/**
- * `p-Menu-item-text`: the class name added to a menu item text cell.
- */
-export
-const TEXT_CLASS = 'p-Menu-item-text';
-
-/**
- * `p-Menu-item-shortcut`: the class name added to a menu item shortcut cell.
- */
-export
-const SHORTCUT_CLASS = 'p-Menu-item-shortcut';
-
-/**
- * `p-Menu-item-submenu-icon`: the class name added to a menu item submenu icon cell.
- */
-export
-const SUBMENU_ICON_CLASS = 'p-Menu-item-submenu-icon';
-
-/**
- * `p-mod`: the class name added to a check type menu item.
- */
-export
-const CHECK_TYPE_CLASS = 'p-mod-check-type';
-
-/**
- * `p-mod`: the class name added to a separator type menu item.
- */
-export
-const SEPARATOR_TYPE_CLASS = 'p-mod-separator-type';
-
-/**
- * `p-mod`: the class name added to active menu items.
- */
-export
-const ACTIVE_CLASS = 'p-mod-active';
-
-/**
- * `p-mod`: the class name added to a disabled menu item.
- */
-export
-const DISABLED_CLASS = 'p-mod-disabled';
-
-/**
- * `p-mod`: the class name added to a hidden menu item.
- */
-export
-const HIDDEN_CLASS = 'p-mod-hidden';
-
-/**
- * `p-mod`: the class name added to a force hidden menu item.
- */
-export
-const FORCE_HIDDEN_CLASS = 'p-mod-force-hidden';
-
-/**
- * `p-mod`: the class name added to a checked menu item.
- */
-export
-const CHECKED_CLASS = 'p-mod-checked';
-
-/**
- * `p-mod`: the class name added to a menu item with a submenu.
- */
-export
-const HAS_SUBMENU_CLASS = 'p-mod-has-submenu';
-
-/**
  * The delay, in ms, for opening a submenu.
  */
 const OPEN_DELAY = 300;
@@ -148,12 +58,82 @@ const SUBMENU_OVERLAP = 3;
 export
 class Menu extends MenuBase {
   /**
+   * The class name added to Menu instances.
+   */
+  static p_Menu = 'p-Menu';
+
+  /**
+   * The class name added to a menu content node.
+   */
+  static p_Menu_content = 'p-Menu-content';
+
+  /**
+   * The class name added to a menu item node.
+   */
+  static p_Menu_item = 'p-Menu-item';
+
+  /**
+   * The class name added to a menu item icon cell.
+   */
+  static p_Menu_item_icon = 'p-Menu-item-icon';
+
+  /**
+   * The class name added to a menu item text cell.
+   */
+  static p_Menu_item_text = 'p-Menu-item-text';
+
+  /**
+   * The class name added to a menu item shortcut cell.
+   */
+  static p_Menu_item_shortcut = 'p-Menu-item-shortcut';
+
+  /**
+   * The class name added to a menu item submenu.
+   */
+  static p_Menu_item_submenu = 'p-Menu-item-submenu';
+
+  /**
+   * The modifier class name added to a check type menu item.
+   */
+  static p_mod_check_type = 'p-mod-check-type';
+
+  /**
+   * The modifier class name added to a separator type menu item.
+   */
+  static p_mod_separator_type = 'p-mod-separator-type';
+
+  /**
+   * The modifier class name added to active menu items.
+   */
+  static p_mod_active = 'p-mod-active';
+
+  /**
+   * The modifier class name added to a disabled menu item.
+   */
+  static p_mod_disabled = 'p-mod-disabled';
+
+  /**
+   * The modifier class name added to a force hidden menu item.
+   */
+  static p_mod_force_hidden = 'p-mod-force-hidden';
+
+  /**
+   * The modifier class name added to a checked menu item.
+   */
+  static p_mod_checked = 'p-mod-checked';
+
+  /**
+   * The modifier class name added to a menu item with a submenu.
+   */
+  static p_mod_submenu = 'p-mod-submenu';
+
+  /**
    * Create the DOM node for a menu.
    */
   static createNode(): HTMLElement {
     var node = document.createElement('div');
     var content = document.createElement('div');
-    content.className = CONTENT_CLASS;
+    content.className = Menu.p_Menu_content;
     node.appendChild(content);
     return node;
   }
@@ -188,7 +168,7 @@ class Menu extends MenuBase {
    */
   constructor() {
     super();
-    this.addClass(MENU_CLASS);
+    this.addClass(Menu.p_Menu);
   }
 
   /**
@@ -364,8 +344,8 @@ class Menu extends MenuBase {
   protected onActiveIndexChanged(old: number, index: number): void {
     var oldNode = this._itemNodeAt(old);
     var newNode = this._itemNodeAt(index);
-    if (oldNode) oldNode.classList.remove(ACTIVE_CLASS);
-    if (newNode) newNode.classList.add(ACTIVE_CLASS);
+    if (oldNode) oldNode.classList.remove(Menu.p_mod_active);
+    if (newNode) newNode.classList.add(Menu.p_mod_active);
   }
 
   /**
@@ -429,7 +409,7 @@ class Menu extends MenuBase {
       if (!items[k1].isSeparatorType) {
         break;
       }
-      nodes[k1].classList.add(FORCE_HIDDEN_CLASS);
+      nodes[k1].classList.add(Menu.p_mod_force_hidden);
     }
 
     // Force hide the trailing visible separators.
@@ -440,7 +420,7 @@ class Menu extends MenuBase {
       if (!items[k2].isSeparatorType) {
         break;
       }
-      nodes[k2].classList.add(FORCE_HIDDEN_CLASS);
+      nodes[k2].classList.add(Menu.p_mod_force_hidden);
     }
 
     // Force hide the remaining consecutive visible separators.
@@ -450,7 +430,7 @@ class Menu extends MenuBase {
         continue;
       }
       if (hide && items[k1].isSeparatorType) {
-        nodes[k1].classList.add(FORCE_HIDDEN_CLASS);
+        nodes[k1].classList.add(Menu.p_mod_force_hidden);
       } else {
         hide = items[k1].isSeparatorType;
       }
@@ -766,23 +746,23 @@ function createMenuItem(template: IMenuItemTemplate): MenuItem {
  * Create the complete DOM node class name for a MenuItem.
  */
 function createItemClassName(item: MenuItem): string {
-  var parts = [MENU_ITEM_CLASS];
+  var parts = [Menu.p_Menu_item];
   if (item.isCheckType) {
-    parts.push(CHECK_TYPE_CLASS);
+    parts.push(Menu.p_mod_check_type);
   } else if (item.isSeparatorType) {
-    parts.push(SEPARATOR_TYPE_CLASS);
+    parts.push(Menu.p_mod_separator_type);
   }
   if (item.checked) {
-    parts.push(CHECKED_CLASS);
+    parts.push(Menu.p_mod_checked);
   }
   if (item.disabled) {
-    parts.push(DISABLED_CLASS);
+    parts.push(Menu.p_mod_disabled);
   }
   if (item.hidden) {
-    parts.push(HIDDEN_CLASS);
+    parts.push(Menu.p_mod_hidden);
   }
   if (item.submenu) {
-    parts.push(HAS_SUBMENU_CLASS);
+    parts.push(Menu.p_mod_submenu);
   }
   if (item.className) {
     parts.push(item.className);
@@ -801,10 +781,10 @@ function createItemNode(item: MenuItem): HTMLElement {
   var shortcut = document.createElement('span');
   var submenu = document.createElement('span');
   node.className = createItemClassName(item);
-  icon.className = ICON_CLASS;
-  text.className = TEXT_CLASS;
-  shortcut.className = SHORTCUT_CLASS;
-  submenu.className = SUBMENU_ICON_CLASS;
+  icon.className = Menu.p_Menu_item_icon;
+  text.className = Menu.p_Menu_item_text;
+  shortcut.className = Menu.p_Menu_item_shortcut;
+  submenu.className = Menu.p_Menu_item_submenu;
   if (!item.isSeparatorType) {
     text.textContent = item.text.replace(/&/g, '');
     shortcut.textContent = item.shortcut;

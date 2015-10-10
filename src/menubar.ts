@@ -33,73 +33,6 @@ import {
 
 
 /**
- * `p-MenuBar`: the class name added to a menu bar widget.
- */
-export
-const MENU_BAR_CLASS = 'p-MenuBar';
-
-/**
- * `p-MenuBar-content`: the class name assigned to a content node.
- */
-export
-const CONTENT_CLASS = 'p-MenuBar-content';
-
-/**
- * `p-MenuBar-menu`: the class name added to an open menu.
- */
-export
-const MENU_CLASS = 'p-MenuBar-menu';
-
-/**
- * `p-MenuBar-item`: the class name assigned to a menu item.
- */
-export
-const MENU_ITEM_CLASS = 'p-MenuBar-item';
-
-/**
- * `p-MenuBar-item-icon`: the class name added to an item icon cell.
- */
-export
-const ICON_CLASS = 'p-MenuBar-item-icon';
-
-/**
- * `p-MenuBar-item-text`: the class name added to an item text cell.
- */
-export
-const TEXT_CLASS = 'p-MenuBar-item-text';
-
-/**
- * `p-mod-separator-type`: the class name added to a separator item.
- */
-export
-const SEPARATOR_TYPE_CLASS = 'p-mod-separator-type';
-
-/**
- * `p-mod-active`: the class name added to an active menu bar and item.
- */
-export
-const ACTIVE_CLASS = 'p-mod-active';
-
-/**
- * `p-mod-disabled`: the class name added to a disabled item.
- */
-export
-const DISABLED_CLASS = 'p-mod-disabled';
-
-/**
- * `p-mod-hidden`: the class name added to a hidden item.
- */
-export
-const HIDDEN_CLASS = 'p-mod-hidden';
-
-/**
- * `p-mod-force-hidden`: the class name added to a force hidden item.
- */
-export
-const FORCE_HIDDEN_CLASS = 'p-mod-force-hidden';
-
-
-/**
  * A widget which displays menu items as a menu bar.
  *
  * #### Notes
@@ -109,12 +42,62 @@ const FORCE_HIDDEN_CLASS = 'p-mod-force-hidden';
 export
 class MenuBar extends MenuBase {
   /**
+   * The class name added to a menu bar widget.
+   */
+  static p_MenuBar = 'p-MenuBar';
+
+  /**
+   * The class name added to a menu bar content node.
+   */
+  static p_MenuBar_content = 'p-MenuBar-content';
+
+  /**
+   * The class name added to an open menu bar menu.
+   */
+  static p_MenuBar_menu = 'p-MenuBar-menu';
+
+  /**
+   * The class name added to a menu item node.
+   */
+  static p_MenuBar_item = 'p-MenuBar-item';
+
+  /**
+   * The class name added to a menu item icon cell.
+   */
+  static p_MenuBar_item_icon = 'p-MenuBar-item-icon';
+
+  /**
+   * The class name added to a menu item text cell.
+   */
+  static p_MenuBar_item_text = 'p-MenuBar-item-text';
+
+  /**
+   * The modifier class name added to a separator type menu item.
+   */
+  static p_mod_separator_type = 'p-mod-separator-type';
+
+  /**
+   * The modifier class name added to an active menu bar and menu item.
+   */
+  static p_mod_active = 'p-mod-active';
+
+  /**
+   * The modifier class name added to a disabled menu item.
+   */
+  static p_mod_disabled = 'p-mod-disabled';
+
+  /**
+   * The modifier class name added to a force hidden menu item.
+   */
+  static p_mod_force_hidden = 'p-mod-force-hidden';
+
+  /**
    * Create the DOM node for a menu bar.
    */
   static createNode(): HTMLElement {
     var node = document.createElement('div');
     var content = document.createElement('div');
-    content.className = CONTENT_CLASS;
+    content.className = MenuBar.p_MenuBar_content;
     node.appendChild(content);
     return node;
   }
@@ -142,7 +125,7 @@ class MenuBar extends MenuBase {
    */
   constructor() {
     super();
-    this.addClass(MENU_BAR_CLASS);
+    this.addClass(MenuBar.p_MenuBar);
   }
 
   /**
@@ -215,8 +198,8 @@ class MenuBar extends MenuBase {
   protected onActiveIndexChanged(old: number, index: number): void {
     var oldNode = this._itemNodeAt(old);
     var newNode = this._itemNodeAt(index);
-    if (oldNode) oldNode.classList.remove(ACTIVE_CLASS);
-    if (newNode) newNode.classList.add(ACTIVE_CLASS);
+    if (oldNode) oldNode.classList.remove(MenuBar.p_mod_active);
+    if (newNode) newNode.classList.add(MenuBar.p_mod_active);
   }
 
   /**
@@ -272,7 +255,7 @@ class MenuBar extends MenuBase {
       if (!items[k1].isSeparatorType) {
         break;
       }
-      nodes[k1].classList.add(FORCE_HIDDEN_CLASS);
+      nodes[k1].classList.add(MenuBar.p_mod_force_hidden);
     }
 
     // Force hide the trailing visible separators.
@@ -283,7 +266,7 @@ class MenuBar extends MenuBase {
       if (!items[k2].isSeparatorType) {
         break;
       }
-      nodes[k2].classList.add(FORCE_HIDDEN_CLASS);
+      nodes[k2].classList.add(MenuBar.p_mod_force_hidden);
     }
 
     // Force hide the remaining consecutive visible separators.
@@ -293,7 +276,7 @@ class MenuBar extends MenuBase {
         continue;
       }
       if (hide && items[k1].isSeparatorType) {
-        nodes[k1].classList.add(FORCE_HIDDEN_CLASS);
+        nodes[k1].classList.add(MenuBar.p_mod_force_hidden);
       } else {
         hide = items[k1].isSeparatorType;
       }
@@ -471,7 +454,7 @@ class MenuBar extends MenuBase {
   private _openChildMenu(menu: Menu, node: HTMLElement): void {
     var rect = node.getBoundingClientRect();
     this._childMenu = menu;
-    menu.addClass(MENU_CLASS);
+    menu.addClass(MenuBar.p_MenuBar_menu);
     menu.open(rect.left, rect.bottom, false, true);
     menu.closed.connect(this._onMenuClosed, this);
   }
@@ -484,7 +467,7 @@ class MenuBar extends MenuBase {
     if (menu) {
       this._childMenu = null;
       menu.closed.disconnect(this._onMenuClosed, this);
-      menu.removeClass(MENU_CLASS);
+      menu.removeClass(MenuBar.p_MenuBar_menu);
       menu.close(true);
     }
   }
@@ -500,7 +483,7 @@ class MenuBar extends MenuBase {
       return;
     }
     this._active = true;
-    this.addClass(ACTIVE_CLASS);
+    this.addClass(MenuBar.p_mod_active);
     setTimeout(() => {
       this.node.removeEventListener('mousedown', this);
       document.addEventListener('mousedown', this, true);
@@ -520,7 +503,7 @@ class MenuBar extends MenuBase {
       return;
     }
     this._active = false;
-    this.removeClass(ACTIVE_CLASS);
+    this.removeClass(MenuBar.p_mod_active);
     setTimeout(() => {
       this.node.addEventListener('mousedown', this);
       document.removeEventListener('mousedown', this, true);
@@ -566,7 +549,7 @@ class MenuBar extends MenuBase {
    */
   private _onMenuClosed(sender: Menu): void {
     sender.closed.disconnect(this._onMenuClosed, this);
-    sender.removeClass(MENU_CLASS);
+    sender.removeClass(MenuBar.p_MenuBar_menu);
     this._childMenu = null;
     this._reset();
   }
@@ -595,15 +578,15 @@ function createMenuItem(template: IMenuItemTemplate): MenuItem {
  * Create the complete DOM node class name for a MenuItem.
  */
 function createItemClassName(item: MenuItem): string {
-  var parts = [MENU_ITEM_CLASS];
+  var parts = [MenuBar.p_MenuBar_item];
   if (item.isSeparatorType) {
-    parts.push(SEPARATOR_TYPE_CLASS);
+    parts.push(MenuBar.p_mod_separator_type);
   }
   if (item.disabled) {
-    parts.push(DISABLED_CLASS);
+    parts.push(MenuBar.p_mod_disabled);
   }
   if (item.hidden) {
-    parts.push(HIDDEN_CLASS);
+    parts.push(MenuBar.p_mod_hidden);
   }
   if (item.className) {
     parts.push(item.className);
@@ -620,8 +603,8 @@ function createItemNode(item: MenuItem): HTMLElement {
   var icon = document.createElement('span');
   var text = document.createElement('span');
   node.className = createItemClassName(item);
-  icon.className = ICON_CLASS;
-  text.className = TEXT_CLASS;
+  icon.className = MenuBar.p_MenuBar_item_icon;
+  text.className = MenuBar.p_MenuBar_item_text;
   if (!item.isSeparatorType) {
     text.textContent = item.text.replace(/&/g, '');
   }
