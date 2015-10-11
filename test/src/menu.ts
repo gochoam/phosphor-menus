@@ -678,7 +678,7 @@ describe('phosphor-menus', () => {
 
     context('mouse handling', () => {
 
-      it('should close the child menu if we mouse over a different item', (done) => {
+      it('should close the child menu on mouse over of different item', (done) => {
         var menu = Menu.fromTemplate(MENU_TEMPLATE);
         menu.popup(0, 0);
         menu.activeIndex = 10;
@@ -692,7 +692,7 @@ describe('phosphor-menus', () => {
         }, 500);
       });
 
-      it('should cancel the close if we mouse back to the item', (done) => {
+      it('should cancel the close on mouse enter of same item', (done) => {
         var menu = Menu.fromTemplate(MENU_TEMPLATE);
         menu.popup(0, 0);
         menu.activeIndex = 10;
@@ -708,7 +708,7 @@ describe('phosphor-menus', () => {
         }, 500);
       });
 
-      it('should trigger the item if we mouse over and click', () => {
+      it('should trigger the item on mouse over and click', () => {
         var menu = Menu.fromTemplate(MENU_TEMPLATE);
         menu.popup(0, 0);
         menu.activeIndex = 10;
