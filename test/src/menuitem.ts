@@ -64,7 +64,7 @@ describe('phosphor-menus', () => {
         var item = new MenuItem();
         MenuItem.typeProperty.set(item, 'check');
         expect(MenuItem.typeProperty.get(item)).to.be('check');
-        MenuItem.typeProperty.set(item, 'checked');
+        MenuItem.typeProperty.set(item, 'foo');
         expect(MenuItem.typeProperty.get(item)).to.be('normal');
       });
 
