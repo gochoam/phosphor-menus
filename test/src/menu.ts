@@ -18,10 +18,6 @@ import {
 } from 'phosphor-signaling';
 
 import {
-  attachWidget, detachWidget, Widget
-} from 'phosphor-widget';
-
-import {
   IMenuItemTemplate, Menu, MenuItem
 } from '../../lib/index';
 
@@ -101,173 +97,72 @@ function triggerKeyEvent(node: HTMLElement, eventType: string, options: any={}) 
 }
 
 
-function logItem(item: MenuItem): void {
-  console.log(item.text);
-}
-
-
 var MENU_TEMPLATE = [
   {
-    text: 'File',
-    submenu: [
-      {
-        text: 'New File',
-        shortcut: 'Ctrl+N',
-        handler: logItem
-      },
-      {
-        text: 'Open File',
-        type: 'check',
-        checked: true,
-        shortcut: 'Ctrl+O',
-        handler: logItem
-      },
-      {
-        text: 'Save File',
-        shortcut: 'Ctrl+S',
-        handler: logItem
-      },
-      {
-        text: 'Save As...',
-        hidden: true,
-        shortcut: 'Ctrl+Shift+S',
-        handler: logItem
-      },
-      {
-        type: 'separator'
-      },
-      {
-        text: 'Close File',
-        shortcut: 'Ctrl+W',
-        handler: logItem
-      },
-      {
-        text: 'Close All Files',
-        handler: logItem
-      },
-      {
-        type: 'separator'
-      },
-      {
-        text: 'More...',
-        submenu: [
-          {
-            text: 'One',
-            handler: logItem
-          },
-          {
-            text: 'Two',
-            handler: logItem
-          },
-          {
-            text: 'Three',
-            handler: logItem
-          },
-          {
-            text: 'Four',
-            handler: logItem
-          }
-        ]
-      },
-      {
-        type: 'separator'
-      },
-      {
-        text: 'Exit',
-        handler: logItem
-      }
-    ]
+    text: '&Copy',
+    shortcut: 'Ctrl+C',
+    className: 'copy',
   },
   {
-    text: 'Edit',
-    submenu: [
-      {
-        text: '&Undo',
-        shortcut: 'Ctrl+Z',
-        className: 'undo',
-        handler: logItem
-      },
-      {
-        text: '&Repeat',
-        shortcut: 'Ctrl+Y',
-        className: 'repeat',
-        handler: logItem
-      },
-      {
-        type: 'separator'
-      },
-      {
-        text: '&Copy',
-        shortcut: 'Ctrl+C',
-        className: 'copy',
-        handler: logItem
-      },
-      {
-        text: 'Cu&t',
-        shortcut: 'Ctrl+X',
-        className: 'cut',
-        handler: logItem
-      },
-      {
-        text: '&Paste',
-        shortcut: 'Ctrl+V',
-        className: 'paste',
-        handler: logItem
-      }
-    ]
+    text: 'Cu&t',
+    shortcut: 'Ctrl+X',
+    className: 'cut',
   },
   {
-    text: 'Find',
-    submenu: [
-      {
-        text: 'Find...',
-        shortcut: 'Ctrl+F',
-        handler: logItem
-      },
-      {
-        text: 'Find Next',
-        shortcut: 'F3',
-        handler: logItem
-      },
-      {
-        text: 'Find Previous',
-        shortcut: 'Shift+F3',
-        handler: logItem
-      },
-      {
-        type: 'separator'
-      },
-      {
-        text: 'Replace...',
-        shortcut: 'Ctrl+H',
-        handler: logItem
-      },
-      {
-        text: 'Replace Next',
-        shortcut: 'Ctrl+Shift+H',
-        handler: logItem
-      }
-    ]
+    text: '&Paste',
+    shortcut: 'Ctrl+V',
+    className: 'paste',
   },
   {
-    text: 'View',
+    type: 'separator'
+  },
+  {
+    text: '&New Tab',
+  },
+  {
+    text: '&Close Tab',
+  },
+  {
+    type: 'check',
+    checked: true,
+    text: '&Save On Exit',
+    handler: (item: MenuItem) => {
+      item.checked = !item.checked;
+    }
+  },
+  {
+    type: 'separator'
+  },
+  {
+    text: 'Task Manager',
     disabled: true
   },
   {
     type: 'separator'
   },
   {
-    text: 'Help',
+    text: 'More...',
     submenu: [
       {
-        text: 'Documentation',
-        handler: logItem
+        text: 'One',
       },
       {
-        text: 'About',
-        handler: logItem
+        text: 'Two',
+      },
+      {
+        text: 'Three',
+      },
+      {
+        text: 'Four',
       }
     ]
+  },
+  {
+    type: 'separator'
+  },
+  {
+    text: 'Close',
+    className: 'close',
   }
 ];
 
@@ -392,7 +287,7 @@ describe('phosphor-menus', () => {
 
       it('should create a menu from a template', () => {
         var menu = Menu.fromTemplate(MENU_TEMPLATE);
-        expect(menu.items.length).to.be(6);
+        expect(menu.items.length).to.be(13);
       });
 
     });
@@ -433,10 +328,9 @@ describe('phosphor-menus', () => {
 
       it('should be emitted when the menu item is closed', () => {
         var menu = Menu.fromTemplate(MENU_TEMPLATE);
-        var main = new Widget();
-        main.children = [menu];
         var called = false;
         menu.closed.connect(() => { called = true; });
+        menu.popup(0, 0);
         menu.close(true);
         expect(called).to.be(true);
       });
@@ -447,16 +341,16 @@ describe('phosphor-menus', () => {
 
       it('should get the parent menu of the menu', () => {
         var menu = Menu.fromTemplate(MENU_TEMPLATE);
-        menu.open(1, 1);
-        menu.activeIndex = 0;
+        menu.open(0, 0);
+        menu.activeIndex = 10;
         menu.openActiveItem();
-        expect(menu.items[0].submenu.parentMenu).to.eql(menu);
+        expect(menu.items[10].submenu.parentMenu).to.be(menu);
         menu.close(true);
       });
 
-      it('should null if the menu is not an open submenu', () => {
+      it('should be null if the menu is not an open submenu', () => {
         var menu = Menu.fromTemplate(MENU_TEMPLATE);
-        expect(menu.items[0].submenu.parentMenu).to.be(null);
+        expect(menu.items[10].submenu.parentMenu).to.be(null);
       });
 
     });
@@ -465,10 +359,10 @@ describe('phosphor-menus', () => {
 
       it('should get the child menu of the menu', () => {
         var menu = Menu.fromTemplate(MENU_TEMPLATE);
-        menu.open(1, 1);
-        menu.activeIndex = 0;
+        menu.open(0, 0);
+        menu.activeIndex = 10;
         menu.openActiveItem();
-        expect(menu.childMenu).to.eql(menu.items[0].submenu);
+        expect(menu.childMenu).to.be(menu.items[10].submenu);
         menu.close(true);
       });
 
@@ -483,26 +377,10 @@ describe('phosphor-menus', () => {
 
       it('should find the root menu of this menu hierarchy', () => {
         var menu = Menu.fromTemplate(MENU_TEMPLATE);
-        expect(menu.rootMenu).to.eql(menu);
-        for (var i = 0; i < menu.items.length; i++) {
-          var submenu = menu.items[i].submenu;
-          if (submenu === null) {
-            continue;
-          }
-          menu.activeIndex = i;
-          menu.openActiveItem();
-          expect(submenu.rootMenu).to.eql(menu);
-          for (var j = 0; j < submenu.items.length; j++) {
-            var subSubmenu = submenu.items[j].submenu;
-            if (subSubmenu !== null) {
-              submenu.activeIndex = j;
-              submenu.openActiveItem();
-              expect(subSubmenu.rootMenu).to.eql(menu);
-              subSubmenu.close(true);
-            }
-          }
-          submenu.close(true);
-        }
+        expect(menu.rootMenu).to.be(menu);
+        menu.activeIndex = 10;
+        menu.openActiveItem();
+        expect(menu.items[10].submenu.rootMenu).to.be(menu);
         menu.close(true);
       });
 
@@ -512,27 +390,10 @@ describe('phosphor-menus', () => {
 
       it('should find the root menu of this menu hierarchy', () => {
         var menu = Menu.fromTemplate(MENU_TEMPLATE);
-        expect(menu.rootMenu).to.eql(menu);
-        for (var i = 0; i < menu.items.length; i++) {
-          var submenu = menu.items[i].submenu;
-          if (submenu === null) {
-            continue;
-          }
-          menu.activeIndex = i;
-          menu.openActiveItem();
-          expect(menu.leafMenu).to.eql(submenu);
-          for (var j = 0; j < submenu.items.length; j++) {
-            var subSubmenu = submenu.items[j].submenu;
-            if (subSubmenu !== null) {
-              submenu.activeIndex = j;
-              submenu.openActiveItem();
-              expect(submenu.leafMenu).to.eql(subSubmenu);
-              expect(menu.leafMenu).to.eql(subSubmenu);
-              subSubmenu.close(true);
-            }
-          }
-          submenu.close(true);
-        }
+        expect(menu.leafMenu).to.be(menu);
+        menu.activeIndex = 10;
+        menu.openActiveItem();
+        expect(menu.leafMenu).to.be(menu.items[10].submenu);
         menu.close(true);
       });
 
@@ -624,121 +485,6 @@ describe('phosphor-menus', () => {
 
     });
 
-    describe('#handleEvent()', () => {
-
-      it('should trigger the active item on keyCode 13', () => {
-        var menu = Menu.fromTemplate(MENU_TEMPLATE);
-        menu.popup(0, 0);
-        menu.activateNextItem();
-        menu.openActiveItem();
-        var called = false;
-        menu.childMenu.items[menu.childMenu.activeIndex].handler = () => {
-          called = true;
-        }
-        triggerKeyEvent(document.body, 'keydown', { keyCode: 13 });
-        expect(called).to.be(true);
-        menu.close(true);
-      });
-
-      it('should close the leaf menu on keyCode 27', () => {
-        var menu = Menu.fromTemplate(MENU_TEMPLATE);
-        menu.popup(0, 0);
-        menu.activateNextItem();
-        menu.openActiveItem();
-        triggerKeyEvent(document.body, 'keydown', { keyCode: 27 });
-        expect(menu.childMenu).to.be(null);
-        menu.close(true);
-      });
-
-      it('should close the leaf menu on keyCode 37 unless root', () => {
-        var menu = Menu.fromTemplate(MENU_TEMPLATE);
-        menu.popup(0, 0);
-        menu.activateNextItem();
-        menu.openActiveItem();
-        triggerKeyEvent(document.body, 'keydown', { keyCode: 37 });
-        expect(menu.childMenu).to.be(null);
-        triggerKeyEvent(document.body, 'keydown', { keyCode: 37 });
-        var rect = menu.node.getBoundingClientRect();
-        expect(rect.left - rect.right).to.not.be(0);
-        menu.close(true);
-      });
-
-      it('should activate the previous item on keyCode 38', () => {
-        var menu = Menu.fromTemplate(MENU_TEMPLATE);
-        menu.popup(0, 0);
-        menu.activeIndex = 1;
-        triggerKeyEvent(document.body, 'keydown', { keyCode: 38 });
-        expect(menu.activeIndex).to.be(0);
-        menu.close(true);
-      });
-
-      it('should open the active item on keyCode 39', () => {
-        var menu = Menu.fromTemplate(MENU_TEMPLATE);
-        menu.popup(0, 0);
-        menu.activateNextItem();
-        triggerKeyEvent(document.body, 'keydown', { keyCode: 39 });
-        expect(menu.childMenu).to.not.be(null);
-        menu.close(true);
-      });
-
-      it('should activate the next item on keyCode 40', () => {
-        var menu = Menu.fromTemplate(MENU_TEMPLATE);
-        menu.popup(0, 0);
-        menu.activateNextItem();
-        triggerKeyEvent(document.body, 'keydown', { keyCode: 40 });
-        expect(menu.activeIndex).to.be(1);
-        menu.close(true);
-      });
-
-      it('should close the child menu if we mouse over a different item', (done) => {
-        var menu = Menu.fromTemplate(MENU_TEMPLATE);
-        menu.popup(0, 0);
-        menu.activeIndex = 1;
-        menu.openActiveItem();
-        var node = menu.node.firstChild.firstChild as HTMLElement;
-        triggerMouseEvent(node, 'mouseenter');
-        setTimeout(() => {
-          expect(menu.childMenu).to.be(null);
-          menu.close(true);
-          done();
-        }, 500);
-      });
-
-      it('should cancel the close if we mouse back to the item', (done) => {
-        var menu = Menu.fromTemplate(MENU_TEMPLATE);
-        menu.popup(0, 0);
-        menu.activeIndex = 1;
-        menu.openActiveItem();
-        var node0 = menu.node.firstChild.firstChild as HTMLElement;
-        var node1 = menu.node.firstChild.childNodes[1] as HTMLElement;
-        triggerMouseEvent(node0, 'mouseenter');
-        triggerMouseEvent(node1, 'mouseenter');
-        setTimeout(() => {
-          expect(menu.childMenu).to.not.be(null);
-          menu.close(true);
-          done();
-        }, 500);
-      });
-
-      it('should trigger the item if we mouse over and click', () => {
-        var menu = Menu.fromTemplate(MENU_TEMPLATE);
-        menu.popup(0, 0);
-        menu.activeIndex = 1;
-        menu.openActiveItem();
-        menu.childMenu.activeIndex = 0;
-        menu.childMenu.openActiveItem();
-        var checked = false;
-        menu.childMenu.items[0].handler = () => { checked = true; };
-        var node = menu.childMenu.node.firstChild.firstChild as HTMLElement;
-        triggerMouseEvent(node, 'mouseenter');
-        triggerMouseEvent(node, 'mousedown');
-        triggerMouseEvent(node, 'mouseup');
-        expect(checked).to.be(true);
-        menu.close(true);
-      });
-
-    });
-
     describe('#onItemsChanged()', () => {
 
       it('should be invoked when the menu items change', () => {
@@ -772,7 +518,7 @@ describe('phosphor-menus', () => {
       it('should be invoked when a menu item should be opened', () => {
         var menu = LogMenu.fromTemplate(MENU_TEMPLATE);
         menu.open(1, 1);
-        menu.activateNextItem();
+        menu.activeIndex = 10;
         menu.openActiveItem();
         expect(menu.messages.indexOf('onOpenItem')).to.not.be(-1);
         menu.close(true);
@@ -781,11 +527,10 @@ describe('phosphor-menus', () => {
       it('should open the child menu and activate the first item', () => {
         var menu = LogMenu.fromTemplate(MENU_TEMPLATE);
         menu.open(1, 1);
-        menu.activateNextItem();
+        menu.activeIndex = 10;
         menu.openActiveItem();
-        expect(menu.messages.indexOf('onOpenItem')).to.not.be(-1);
-        expect(menu.childMenu).to.be(menu.items[0].submenu);
-        expect(menu.items[0].submenu.activeIndex).to.be(0);
+        expect(menu.childMenu).to.be(menu.items[10].submenu);
+        expect(menu.items[10].submenu.activeIndex).to.be(0);
         menu.close(true);
       });
 
@@ -795,7 +540,7 @@ describe('phosphor-menus', () => {
 
       it('should close the root menu', () => {
         var menu = Menu.fromTemplate(MENU_TEMPLATE);
-        menu.activateNextItem();
+        menu.activeIndex = 10;
         menu.openActiveItem();
         menu.childMenu.triggerActiveItem();
         expect(menu.isAttached).to.be(false);
@@ -831,7 +576,7 @@ describe('phosphor-menus', () => {
         var menu = Menu.fromTemplate(MENU_TEMPLATE);
         expect(menu.node.firstChild.childNodes.length).to.be(0);
         menu.popup(0, 0);
-        expect(menu.node.firstChild.childNodes.length).to.be(6);
+        expect(menu.node.firstChild.childNodes.length).to.be(13);
       });
 
     });
@@ -851,6 +596,131 @@ describe('phosphor-menus', () => {
         expect(menu.isAttached).to.be(true);
         menu.close(true);
         expect(menu.isAttached).to.be(false);
+      });
+
+    });
+
+    context('key handling', () => {
+
+      it('should trigger the active item on `Enter`', () => {
+        var menu = Menu.fromTemplate(MENU_TEMPLATE);
+        var called = false;
+        menu.items[0].handler = () => { called = true; };
+        menu.popup(0, 0);
+        menu.activateNextItem();
+        triggerKeyEvent(document.body, 'keydown', { keyCode: 13 });
+        expect(called).to.be(true);
+        menu.close(true);
+      });
+
+      it('should close the leaf menu on `Escape`', () => {
+        var menu = Menu.fromTemplate(MENU_TEMPLATE);
+        menu.popup(0, 0);
+        menu.activeIndex = 10;
+        menu.openActiveItem();
+        expect(menu.childMenu).to.be(menu.items[10].submenu);
+        triggerKeyEvent(document.body, 'keydown', { keyCode: 27 });
+        expect(menu.childMenu).to.be(null);
+        menu.close(true);
+      });
+
+      it('should close the leaf menu on `ArrowLeft` unless root', () => {
+        var menu = Menu.fromTemplate(MENU_TEMPLATE);
+        menu.popup(0, 0);
+        menu.activeIndex = 10;
+        menu.openActiveItem();
+        expect(menu.childMenu).to.be(menu.items[10].submenu);
+        triggerKeyEvent(document.body, 'keydown', { keyCode: 37 });
+        expect(menu.childMenu).to.be(null);
+        triggerKeyEvent(document.body, 'keydown', { keyCode: 37 });
+        expect(menu.isAttached).to.be(true);
+        menu.close(true);
+      });
+
+      it('should activate the previous item on `ArrowUp`', () => {
+        var menu = Menu.fromTemplate(MENU_TEMPLATE);
+        menu.popup(0, 0);
+        menu.activeIndex = 1;
+        triggerKeyEvent(document.body, 'keydown', { keyCode: 38 });
+        expect(menu.activeIndex).to.be(0);
+        menu.close(true);
+      });
+
+      it('should open the active item on `ArrowRight`', () => {
+        var menu = Menu.fromTemplate(MENU_TEMPLATE);
+        menu.popup(0, 0);
+        menu.activeIndex = 10;
+        expect(menu.childMenu).to.be(null);
+        triggerKeyEvent(document.body, 'keydown', { keyCode: 39 });
+        expect(menu.childMenu).to.be(menu.items[10].submenu);
+        menu.close(true);
+      });
+
+      it('should activate the next item on `ArrowDown`', () => {
+        var menu = Menu.fromTemplate(MENU_TEMPLATE);
+        menu.popup(0, 0);
+        menu.activateNextItem();
+        expect(menu.activeIndex).to.be(0);
+        triggerKeyEvent(document.body, 'keydown', { keyCode: 40 });
+        expect(menu.activeIndex).to.be(1);
+        menu.close(true);
+      });
+
+      it('should activate an item based on a mnemonic', () => {
+        var menu = Menu.fromTemplate(MENU_TEMPLATE);
+        menu.popup(0, 0);
+        expect(menu.activeIndex).to.be(-1);
+        triggerKeyEvent(document.body, 'keypress', { charCode: 84 } );  // 't' key
+        expect(menu.activeIndex).to.be(1);
+      });
+
+    });
+
+    context('mouse handling', () => {
+
+      it('should close the child menu if we mouse over a different item', (done) => {
+        var menu = Menu.fromTemplate(MENU_TEMPLATE);
+        menu.popup(0, 0);
+        menu.activeIndex = 10;
+        menu.openActiveItem();
+        var node = menu.node.firstChild.firstChild as HTMLElement;
+        triggerMouseEvent(node, 'mouseenter');
+        setTimeout(() => {
+          expect(menu.childMenu).to.be(null);
+          menu.close(true);
+          done();
+        }, 500);
+      });
+
+      it('should cancel the close if we mouse back to the item', (done) => {
+        var menu = Menu.fromTemplate(MENU_TEMPLATE);
+        menu.popup(0, 0);
+        menu.activeIndex = 10;
+        menu.openActiveItem();
+        var node0 = menu.node.firstChild.firstChild as HTMLElement;
+        var node1 = menu.node.firstChild.childNodes[10] as HTMLElement;
+        triggerMouseEvent(node0, 'mouseenter');
+        triggerMouseEvent(node1, 'mouseenter');
+        setTimeout(() => {
+          expect(menu.childMenu).to.not.be(null);
+          menu.close(true);
+          done();
+        }, 500);
+      });
+
+      it('should trigger the item if we mouse over and click', () => {
+        var menu = Menu.fromTemplate(MENU_TEMPLATE);
+        menu.popup(0, 0);
+        menu.activeIndex = 10;
+        menu.openActiveItem();
+        var called = false;
+        menu.childMenu.items[0].handler = () => { called = true; };
+        var node = menu.childMenu.node.firstChild.childNodes[0] as HTMLElement;
+        triggerMouseEvent(node, 'mouseenter');
+        triggerMouseEvent(node, 'mousedown');
+        triggerMouseEvent(node, 'mouseup');
+        expect(called).to.be(true);
+        menu.close(true);
       });
 
     });
