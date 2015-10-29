@@ -33,6 +33,81 @@ import {
 
 
 /**
+ * The class name added to Menu instances.
+ */
+const MENU_CLASS = 'p-Menu';
+
+/**
+ * The class name added to a menu content node.
+ */
+const CONTENT_CLASS = 'p-Menu-content';
+
+/**
+ * The class name added to a menu item node.
+ */
+const ITEM_CLASS = 'p-Menu-item';
+
+/**
+ * The class name added to a menu item icon cell.
+ */
+const ITEM_ICON_CLASS = 'p-Menu-item-icon';
+
+/**
+ * The class name added to a menu item text cell.
+ */
+const ITEM_TEXT_CLASS = 'p-Menu-item-text';
+
+/**
+ * The class name added to a menu item shortcut cell.
+ */
+const ITEM_SHORTCUT_CLASS = 'p-Menu-item-shortcut';
+
+/**
+ * The class name added to a menu item submenu cell.
+ */
+const ITEM_SUBMENU_CLASS = 'p-Menu-item-submenu';
+
+/**
+ * The class name added to a check type menu item.
+ */
+const CHECK_TYPE_CLASS = 'p-mod-check-type';
+
+/**
+ * The class name added to a separator type menu item.
+ */
+const SEPARATOR_TYPE_CLASS = 'p-mod-separator-type';
+
+/**
+ * The class name added to active menu items.
+ */
+const ACTIVE_CLASS = 'p-mod-active';
+
+/**
+ * The class name added to a disabled menu item.
+ */
+const DISABLED_CLASS = 'p-mod-disabled';
+
+/**
+ * The class name added to a hidden menu item.
+ */
+const HIDDEN_CLASS = 'p-mod-hidden';
+
+/**
+ * The class name added to a force hidden menu item.
+ */
+const FORCE_HIDDEN_CLASS = 'p-mod-force-hidden';
+
+/**
+ * The class name added to a checked menu item.
+ */
+const CHECKED_CLASS = 'p-mod-checked';
+
+/**
+ * The class name added to a menu item with a submenu.
+ */
+const SUBMENU_CLASS = 'p-mod-submenu';
+
+/**
  * The delay, in ms, for opening a submenu.
  */
 const OPEN_DELAY = 300;
@@ -58,82 +133,12 @@ const SUBMENU_OVERLAP = 3;
 export
 class Menu extends MenuBase {
   /**
-   * The class name added to Menu instances.
-   */
-  static p_Menu = 'p-Menu';
-
-  /**
-   * The class name added to a menu content node.
-   */
-  static p_Menu_content = 'p-Menu-content';
-
-  /**
-   * The class name added to a menu item node.
-   */
-  static p_Menu_item = 'p-Menu-item';
-
-  /**
-   * The class name added to a menu item icon cell.
-   */
-  static p_Menu_item_icon = 'p-Menu-item-icon';
-
-  /**
-   * The class name added to a menu item text cell.
-   */
-  static p_Menu_item_text = 'p-Menu-item-text';
-
-  /**
-   * The class name added to a menu item shortcut cell.
-   */
-  static p_Menu_item_shortcut = 'p-Menu-item-shortcut';
-
-  /**
-   * The class name added to a menu item submenu cell.
-   */
-  static p_Menu_item_submenu = 'p-Menu-item-submenu';
-
-  /**
-   * The modifier class name added to a check type menu item.
-   */
-  static p_mod_check_type = 'p-mod-check-type';
-
-  /**
-   * The modifier class name added to a separator type menu item.
-   */
-  static p_mod_separator_type = 'p-mod-separator-type';
-
-  /**
-   * The modifier class name added to active menu items.
-   */
-  static p_mod_active = 'p-mod-active';
-
-  /**
-   * The modifier class name added to a disabled menu item.
-   */
-  static p_mod_disabled = 'p-mod-disabled';
-
-  /**
-   * The modifier class name added to a force hidden menu item.
-   */
-  static p_mod_force_hidden = 'p-mod-force-hidden';
-
-  /**
-   * The modifier class name added to a checked menu item.
-   */
-  static p_mod_checked = 'p-mod-checked';
-
-  /**
-   * The modifier class name added to a menu item with a submenu.
-   */
-  static p_mod_submenu = 'p-mod-submenu';
-
-  /**
    * Create the DOM node for a menu.
    */
   static createNode(): HTMLElement {
     let node = document.createElement('div');
     let content = document.createElement('div');
-    content.className = Menu.p_Menu_content;
+    content.className = CONTENT_CLASS;
     node.appendChild(content);
     return node;
   }
@@ -168,7 +173,7 @@ class Menu extends MenuBase {
    */
   constructor() {
     super();
-    this.addClass(Menu.p_Menu);
+    this.addClass(MENU_CLASS);
   }
 
   /**
@@ -344,8 +349,8 @@ class Menu extends MenuBase {
   protected onActiveIndexChanged(old: number, index: number): void {
     let oldNode = this._itemNodeAt(old);
     let newNode = this._itemNodeAt(index);
-    if (oldNode) oldNode.classList.remove(Menu.p_mod_active);
-    if (newNode) newNode.classList.add(Menu.p_mod_active);
+    if (oldNode) oldNode.classList.remove(ACTIVE_CLASS);
+    if (newNode) newNode.classList.add(ACTIVE_CLASS);
   }
 
   /**
@@ -410,7 +415,7 @@ class Menu extends MenuBase {
       if (!items[k1].isSeparatorType) {
         break;
       }
-      nodes[k1].classList.add(Menu.p_mod_force_hidden);
+      nodes[k1].classList.add(FORCE_HIDDEN_CLASS);
     }
 
     // Force hide the trailing visible separators.
@@ -422,7 +427,7 @@ class Menu extends MenuBase {
       if (!items[k2].isSeparatorType) {
         break;
       }
-      nodes[k2].classList.add(Menu.p_mod_force_hidden);
+      nodes[k2].classList.add(FORCE_HIDDEN_CLASS);
     }
 
     // Force hide the remaining consecutive visible separators.
@@ -432,7 +437,7 @@ class Menu extends MenuBase {
         continue;
       }
       if (hide && items[k1].isSeparatorType) {
-        nodes[k1].classList.add(Menu.p_mod_force_hidden);
+        nodes[k1].classList.add(FORCE_HIDDEN_CLASS);
       } else {
         hide = items[k1].isSeparatorType;
       }
@@ -748,23 +753,23 @@ function createMenuItem(template: IMenuItemTemplate): MenuItem {
  * Create the complete DOM node class name for a MenuItem.
  */
 function createItemClassName(item: MenuItem): string {
-  let parts = [Menu.p_Menu_item];
+  let parts = [ITEM_CLASS];
   if (item.isCheckType) {
-    parts.push(Menu.p_mod_check_type);
+    parts.push(CHECK_TYPE_CLASS);
   } else if (item.isSeparatorType) {
-    parts.push(Menu.p_mod_separator_type);
+    parts.push(SEPARATOR_TYPE_CLASS);
   }
   if (item.checked) {
-    parts.push(Menu.p_mod_checked);
+    parts.push(CHECKED_CLASS);
   }
   if (item.disabled) {
-    parts.push(Menu.p_mod_disabled);
+    parts.push(DISABLED_CLASS);
   }
   if (item.hidden) {
-    parts.push(Menu.p_mod_hidden);
+    parts.push(HIDDEN_CLASS);
   }
   if (item.submenu) {
-    parts.push(Menu.p_mod_submenu);
+    parts.push(SUBMENU_CLASS);
   }
   if (item.className) {
     parts.push(item.className);
@@ -783,10 +788,10 @@ function createItemNode(item: MenuItem): HTMLElement {
   let shortcut = document.createElement('span');
   let submenu = document.createElement('span');
   node.className = createItemClassName(item);
-  icon.className = Menu.p_Menu_item_icon;
-  text.className = Menu.p_Menu_item_text;
-  shortcut.className = Menu.p_Menu_item_shortcut;
-  submenu.className = Menu.p_Menu_item_submenu;
+  icon.className = ITEM_ICON_CLASS;
+  text.className = ITEM_TEXT_CLASS;
+  shortcut.className = ITEM_SHORTCUT_CLASS;
+  submenu.className = ITEM_SUBMENU_CLASS;
   if (!item.isSeparatorType) {
     text.textContent = item.text.replace(/&/g, '');
     shortcut.textContent = item.shortcut;

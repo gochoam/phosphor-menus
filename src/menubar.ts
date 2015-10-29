@@ -33,6 +33,62 @@ import {
 
 
 /**
+ * The class name added to a menu bar widget.
+ */
+const MENU_BAR_CLASS = 'p-MenuBar';
+
+/**
+ * The class name added to a menu bar content node.
+ */
+const CONTENT_CLASS = 'p-MenuBar-content';
+
+/**
+ * The class name added to an open menu bar menu.
+ */
+const MENU_CLASS = 'p-MenuBar-menu';
+
+/**
+ * The class name added to a menu item node.
+ */
+const ITEM_CLASS = 'p-MenuBar-item';
+
+/**
+ * The class name added to a menu item icon cell.
+ */
+const ITEM_ICON_CLASS = 'p-MenuBar-item-icon';
+
+/**
+ * The class name added to a menu item text cell.
+ */
+const ITEM_TEXT_CLASS = 'p-MenuBar-item-text';
+
+/**
+ * The class name added to a separator type menu item.
+ */
+const SEPARATOR_TYPE_CLASS = 'p-mod-separator-type';
+
+/**
+ * The class name added to an active menu bar and menu item.
+ */
+const ACTIVE_CLASS = 'p-mod-active';
+
+/**
+ * The class name added to a disabled menu item.
+ */
+const DISABLED_CLASS = 'p-mod-disabled';
+
+/**
+ * The class name added to a hidden menu item.
+ */
+const HIDDEN_CLASS = 'p-mod-hidden';
+
+/**
+ * The class name added to a force hidden menu item.
+ */
+const FORCE_HIDDEN_CLASS = 'p-mod-force-hidden';
+
+
+/**
  * A widget which displays menu items as a menu bar.
  *
  * #### Notes
@@ -42,62 +98,12 @@ import {
 export
 class MenuBar extends MenuBase {
   /**
-   * The class name added to a menu bar widget.
-   */
-  static p_MenuBar = 'p-MenuBar';
-
-  /**
-   * The class name added to a menu bar content node.
-   */
-  static p_MenuBar_content = 'p-MenuBar-content';
-
-  /**
-   * The class name added to an open menu bar menu.
-   */
-  static p_MenuBar_menu = 'p-MenuBar-menu';
-
-  /**
-   * The class name added to a menu item node.
-   */
-  static p_MenuBar_item = 'p-MenuBar-item';
-
-  /**
-   * The class name added to a menu item icon cell.
-   */
-  static p_MenuBar_item_icon = 'p-MenuBar-item-icon';
-
-  /**
-   * The class name added to a menu item text cell.
-   */
-  static p_MenuBar_item_text = 'p-MenuBar-item-text';
-
-  /**
-   * The modifier class name added to a separator type menu item.
-   */
-  static p_mod_separator_type = 'p-mod-separator-type';
-
-  /**
-   * The modifier class name added to an active menu bar and menu item.
-   */
-  static p_mod_active = 'p-mod-active';
-
-  /**
-   * The modifier class name added to a disabled menu item.
-   */
-  static p_mod_disabled = 'p-mod-disabled';
-
-  /**
-   * The modifier class name added to a force hidden menu item.
-   */
-  static p_mod_force_hidden = 'p-mod-force-hidden';
-
-  /**
    * Create the DOM node for a menu bar.
    */
   static createNode(): HTMLElement {
     let node = document.createElement('div');
     let content = document.createElement('div');
-    content.className = MenuBar.p_MenuBar_content;
+    content.className = CONTENT_CLASS;
     node.appendChild(content);
     return node;
   }
@@ -125,7 +131,7 @@ class MenuBar extends MenuBase {
    */
   constructor() {
     super();
-    this.addClass(MenuBar.p_MenuBar);
+    this.addClass(MENU_BAR_CLASS);
   }
 
   /**
@@ -198,8 +204,8 @@ class MenuBar extends MenuBase {
   protected onActiveIndexChanged(old: number, index: number): void {
     let oldNode = this._itemNodeAt(old);
     let newNode = this._itemNodeAt(index);
-    if (oldNode) oldNode.classList.remove(MenuBar.p_mod_active);
-    if (newNode) newNode.classList.add(MenuBar.p_mod_active);
+    if (oldNode) oldNode.classList.remove(ACTIVE_CLASS);
+    if (newNode) newNode.classList.add(ACTIVE_CLASS);
   }
 
   /**
@@ -256,7 +262,7 @@ class MenuBar extends MenuBase {
       if (!items[k1].isSeparatorType) {
         break;
       }
-      nodes[k1].classList.add(MenuBar.p_mod_force_hidden);
+      nodes[k1].classList.add(FORCE_HIDDEN_CLASS);
     }
 
     // Force hide the trailing visible separators.
@@ -268,7 +274,7 @@ class MenuBar extends MenuBase {
       if (!items[k2].isSeparatorType) {
         break;
       }
-      nodes[k2].classList.add(MenuBar.p_mod_force_hidden);
+      nodes[k2].classList.add(FORCE_HIDDEN_CLASS);
     }
 
     // Force hide the remaining consecutive visible separators.
@@ -278,7 +284,7 @@ class MenuBar extends MenuBase {
         continue;
       }
       if (hide && items[k1].isSeparatorType) {
-        nodes[k1].classList.add(MenuBar.p_mod_force_hidden);
+        nodes[k1].classList.add(FORCE_HIDDEN_CLASS);
       } else {
         hide = items[k1].isSeparatorType;
       }
@@ -456,7 +462,7 @@ class MenuBar extends MenuBase {
   private _openChildMenu(menu: Menu, node: HTMLElement): void {
     let rect = node.getBoundingClientRect();
     this._childMenu = menu;
-    menu.addClass(MenuBar.p_MenuBar_menu);
+    menu.addClass(MENU_CLASS);
     menu.open(rect.left, rect.bottom, false, true);
     menu.closed.connect(this._onMenuClosed, this);
   }
@@ -469,7 +475,7 @@ class MenuBar extends MenuBase {
     if (menu) {
       this._childMenu = null;
       menu.closed.disconnect(this._onMenuClosed, this);
-      menu.removeClass(MenuBar.p_MenuBar_menu);
+      menu.removeClass(MENU_CLASS);
       menu.close(true);
     }
   }
@@ -485,7 +491,7 @@ class MenuBar extends MenuBase {
       return;
     }
     this._active = true;
-    this.addClass(MenuBar.p_mod_active);
+    this.addClass(ACTIVE_CLASS);
     setTimeout(() => {
       this.node.removeEventListener('mousedown', this);
       document.addEventListener('mousedown', this, true);
@@ -505,7 +511,7 @@ class MenuBar extends MenuBase {
       return;
     }
     this._active = false;
-    this.removeClass(MenuBar.p_mod_active);
+    this.removeClass(ACTIVE_CLASS);
     setTimeout(() => {
       this.node.addEventListener('mousedown', this);
       document.removeEventListener('mousedown', this, true);
@@ -551,7 +557,7 @@ class MenuBar extends MenuBase {
    */
   private _onMenuClosed(sender: Menu): void {
     sender.closed.disconnect(this._onMenuClosed, this);
-    sender.removeClass(MenuBar.p_MenuBar_menu);
+    sender.removeClass(MENU_CLASS);
     this._childMenu = null;
     this._reset();
   }
@@ -580,15 +586,15 @@ function createMenuItem(template: IMenuItemTemplate): MenuItem {
  * Create the complete DOM node class name for a MenuItem.
  */
 function createItemClassName(item: MenuItem): string {
-  let parts = [MenuBar.p_MenuBar_item];
+  let parts = [ITEM_CLASS];
   if (item.isSeparatorType) {
-    parts.push(MenuBar.p_mod_separator_type);
+    parts.push(SEPARATOR_TYPE_CLASS);
   }
   if (item.disabled) {
-    parts.push(MenuBar.p_mod_disabled);
+    parts.push(DISABLED_CLASS);
   }
   if (item.hidden) {
-    parts.push(MenuBar.p_mod_hidden);
+    parts.push(HIDDEN_CLASS);
   }
   if (item.className) {
     parts.push(item.className);
@@ -605,8 +611,8 @@ function createItemNode(item: MenuItem): HTMLElement {
   let icon = document.createElement('span');
   let text = document.createElement('span');
   node.className = createItemClassName(item);
-  icon.className = MenuBar.p_MenuBar_item_icon;
-  text.className = MenuBar.p_MenuBar_item_text;
+  icon.className = ITEM_ICON_CLASS;
+  text.className = ITEM_TEXT_CLASS;
   if (!item.isSeparatorType) {
     text.textContent = item.text.replace(/&/g, '');
   }
