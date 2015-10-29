@@ -171,118 +171,6 @@ describe('phosphor-menus', () => {
 
   describe('Menu', () => {
 
-    describe('.p_Menu', () => {
-
-      it('should equal `p-Menu`', () => {
-        expect(Menu.p_Menu).to.be('p-Menu');
-      });
-
-    });
-
-    describe('.p_Menu_content', () => {
-
-      it('should equal `p-Menu-content`', () => {
-        expect(Menu.p_Menu_content).to.be('p-Menu-content');
-      });
-
-    });
-
-    describe('.p_Menu_item', () => {
-
-      it('should equal `p-Menu-item`', () => {
-        expect(Menu.p_Menu_item).to.be('p-Menu-item');
-      });
-
-    });
-
-    describe('.p_Menu_item_icon', () => {
-
-      it('should equal `p-Menu-item-icon`', () => {
-        expect(Menu.p_Menu_item_icon).to.be('p-Menu-item-icon');
-      });
-
-    });
-
-    describe('.p_Menu_item_text', () => {
-
-      it('should equal `p-Menu-item-text`', () => {
-        expect(Menu.p_Menu_item_text).to.be('p-Menu-item-text');
-      });
-
-    });
-
-    describe('.p_Menu_item_shortcut', () => {
-
-      it('should equal `p-Menu-item-shortcut`', () => {
-        expect(Menu.p_Menu_item_shortcut).to.be('p-Menu-item-shortcut');
-      });
-
-    });
-
-    describe('.p_Menu_item_submenu', () => {
-
-      it('should equal `p-Menu-item-submenu`', () => {
-        expect(Menu.p_Menu_item_submenu).to.be('p-Menu-item-submenu');
-      });
-
-    });
-
-    describe('.p_mod_check_type', () => {
-
-      it('should equal `p-mod-check-type`', () => {
-        expect(Menu.p_mod_check_type).to.be('p-mod-check-type');
-      });
-
-    });
-
-    describe('.p_mod_separator_type', () => {
-
-      it('should equal `p-mod-separator-type`', () => {
-        expect(Menu.p_mod_separator_type).to.be('p-mod-separator-type');
-      });
-
-    });
-
-    describe('.p_mod_active', () => {
-
-      it('should equal `p-mod-active`', () => {
-        expect(Menu.p_mod_active).to.be('p-mod-active');
-      });
-
-    });
-
-    describe('.p_mod_disabled', () => {
-
-      it('should equal `p-mod-disabled`', () => {
-        expect(Menu.p_mod_disabled).to.be('p-mod-disabled');
-      });
-
-    });
-
-    describe('.p_mod_force_hidden', () => {
-
-      it('should equal `p-mod-force-hidden`', () => {
-        expect(Menu.p_mod_force_hidden).to.be('p-mod-force-hidden');
-      });
-
-    });
-
-    describe('.p_mod_checked', () => {
-
-      it('should equal `p-mod-checked`', () => {
-        expect(Menu.p_mod_checked).to.be('p-mod-checked');
-      });
-
-    });
-
-    describe('.p_mod_submenu', () => {
-
-      it('should equal `p-mod-submenu`', () => {
-        expect(Menu.p_mod_submenu).to.be('p-mod-submenu');
-      });
-
-    });
-
     describe('.fromTemplate', () => {
 
       it('should create a menu from a template', () => {
@@ -309,7 +197,7 @@ describe('phosphor-menus', () => {
 
       it('should add the `p-Menu` class', () => {
         let menu = new Menu();
-        expect(menu.hasClass(Menu.p_Menu)).to.be(true);
+        expect(menu.hasClass('p-Menu')).to.be(true);
       });
 
     });

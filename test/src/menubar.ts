@@ -14,7 +14,7 @@ import {
 } from 'phosphor-messaging';
 
 import {
-  attachWidget
+  Widget
 } from 'phosphor-widget';
 
 import {
@@ -244,78 +244,6 @@ describe('phosphor-menus', () => {
 
   describe('MenuBar', () => {
 
-    describe('.p_MenuBar', () => {
-
-      it('should equal `p-MenuBar`', () => {
-        expect(MenuBar.p_MenuBar).to.be('p-MenuBar');
-      });
-
-    });
-
-    describe('.p_MenuBar_content', () => {
-
-      it('should equal `p-Menu-content`', () => {
-        expect(MenuBar.p_MenuBar_content).to.be('p-MenuBar-content');
-      });
-
-    });
-
-    describe('.p_MenuBar_item', () => {
-
-      it('should equal `p-Menu-item`', () => {
-        expect(MenuBar.p_MenuBar_item).to.be('p-MenuBar-item');
-      });
-
-    });
-
-    describe('.p_MenuBar_item_icon', () => {
-
-      it('should equal `p-Menu-item-icon`', () => {
-        expect(MenuBar.p_MenuBar_item_icon).to.be('p-MenuBar-item-icon');
-      });
-
-    });
-
-    describe('.p_MenuBar_item_text', () => {
-
-      it('should equal `p-Menu-item-text`', () => {
-        expect(MenuBar.p_MenuBar_item_text).to.be('p-MenuBar-item-text');
-      });
-
-    });
-
-    describe('.p_mod_separator_type', () => {
-
-      it('should equal `p-mod-separator-type`', () => {
-        expect(MenuBar.p_mod_separator_type).to.be('p-mod-separator-type');
-      });
-
-    });
-
-    describe('.p_mod_active', () => {
-
-      it('should equal `p-mod-active`', () => {
-        expect(MenuBar.p_mod_active).to.be('p-mod-active');
-      });
-
-    });
-
-    describe('.p_mod_disabled', () => {
-
-      it('should equal `p-mod-disabled`', () => {
-        expect(MenuBar.p_mod_disabled).to.be('p-mod-disabled');
-      });
-
-    });
-
-    describe('.p_mod_force_hidden', () => {
-
-      it('should equal `p-mod-force-hidden`', () => {
-        expect(MenuBar.p_mod_force_hidden).to.be('p-mod-force-hidden');
-      });
-
-    });
-
     describe('.fromTemplate', () => {
 
       it('should create a menu bar from a template', () => {
@@ -335,7 +263,7 @@ describe('phosphor-menus', () => {
 
       it('should add the `p-MenuBar` class', () => {
         let bar = new MenuBar();
-        expect(bar.hasClass(MenuBar.p_MenuBar)).to.be(true);
+        expect(bar.hasClass('p-MenuBar')).to.be(true);
       });
 
     });
@@ -412,7 +340,7 @@ describe('phosphor-menus', () => {
 
       it('should create the menu bar', () => {
         let bar = LogMenuBar.fromTemplate(MENU_BAR_TEMPLATE);
-        attachWidget(bar, document.body);
+        Widget.attach(bar, document.body);
         expect(bar.messages.indexOf('onUpdateRequest')).to.not.be(-1);
         let children = bar.node.firstChild.childNodes;
         expect(children.length).to.be(MENU_BAR_TEMPLATE.length);
@@ -425,7 +353,7 @@ describe('phosphor-menus', () => {
 
       it('should detach the widget from the DOM', () => {
         let bar = LogMenuBar.fromTemplate(MENU_BAR_TEMPLATE);
-        attachWidget(bar, document.body);
+        Widget.attach(bar, document.body);
         bar.close(true);
         expect(bar.isAttached).to.be(false);
         expect(bar.messages.indexOf('onCloseRequest')).to.not.be(-1);
@@ -437,7 +365,7 @@ describe('phosphor-menus', () => {
 
       it('should trigger the active item on `Enter`', (done) => {
         let bar = MenuBar.fromTemplate(MENU_BAR_TEMPLATE);
-        attachWidget(bar, document.body);
+        Widget.attach(bar, document.body);
         bar.activateNextItem();
         bar.openActiveItem();
         let called = false;
@@ -453,7 +381,7 @@ describe('phosphor-menus', () => {
 
       it('should close the leaf menu on `Escape`', (done) => {
         let bar = MenuBar.fromTemplate(MENU_BAR_TEMPLATE);
-        attachWidget(bar, document.body);
+        Widget.attach(bar, document.body);
         bar.activateNextItem();
         bar.openActiveItem();
         bar.childMenu.activateNextItem();
@@ -467,7 +395,7 @@ describe('phosphor-menus', () => {
 
       it('should open the previous menu on `ArrowLeft`', (done) => {
         let bar = MenuBar.fromTemplate(MENU_BAR_TEMPLATE);
-        attachWidget(bar, document.body);
+        Widget.attach(bar, document.body);
         bar.activateNextItem();
         bar.openActiveItem();
         bar.childMenu.activateNextItem();
@@ -481,7 +409,7 @@ describe('phosphor-menus', () => {
 
       it('should close a sub menu on `ArrowLeft`', (done) => {
         let bar = MenuBar.fromTemplate(MENU_BAR_TEMPLATE);
-        attachWidget(bar, document.body);
+        Widget.attach(bar, document.body);
         bar.activeIndex = 0;
         bar.openActiveItem();
         bar.childMenu.activeIndex = 8;
@@ -496,7 +424,7 @@ describe('phosphor-menus', () => {
 
       it('should activate the previous menu item on `ArrowUp`', (done) => {
         let bar = MenuBar.fromTemplate(MENU_BAR_TEMPLATE);
-        attachWidget(bar, document.body);
+        Widget.attach(bar, document.body);
         bar.activateNextItem();
         bar.openActiveItem();
         bar.childMenu.activateNextItem();
@@ -510,7 +438,7 @@ describe('phosphor-menus', () => {
 
       it('should open a sub menu on `ArrowRight`', (done) => {
         let bar = MenuBar.fromTemplate(MENU_BAR_TEMPLATE);
-        attachWidget(bar, document.body);
+        Widget.attach(bar, document.body);
         bar.activeIndex = 0;
         bar.openActiveItem();
         bar.childMenu.leafMenu.activeIndex = 8;
@@ -524,7 +452,7 @@ describe('phosphor-menus', () => {
 
       it('should open next menu on `ArrowRight`', (done) => {
         let bar = MenuBar.fromTemplate(MENU_BAR_TEMPLATE);
-        attachWidget(bar, document.body);
+        Widget.attach(bar, document.body);
         bar.activateNextItem();
         bar.openActiveItem();
         setTimeout(() => {
@@ -537,7 +465,7 @@ describe('phosphor-menus', () => {
 
       it('should activate the next menu item on `ArrowDown`', (done) => {
         let bar = MenuBar.fromTemplate(MENU_BAR_TEMPLATE);
-        attachWidget(bar, document.body);
+        Widget.attach(bar, document.body);
         bar.activateNextItem();
         bar.openActiveItem();
         bar.childMenu.activateNextItem();
@@ -551,7 +479,7 @@ describe('phosphor-menus', () => {
 
       it('should activate an item based on mnemonic', (done) => {
         let bar = MenuBar.fromTemplate(MENU_BAR_TEMPLATE);
-        attachWidget(bar, document.body);
+        Widget.attach(bar, document.body);
         bar.activeIndex = 0;
         bar.openActiveItem();
         setTimeout(() => {
@@ -568,7 +496,7 @@ describe('phosphor-menus', () => {
 
       it('should trigger the item on mouse over and click', () => {
         let bar = MenuBar.fromTemplate(MENU_BAR_TEMPLATE);
-        attachWidget(bar, document.body);
+        Widget.attach(bar, document.body);
         bar.activeIndex = 1;
         bar.openActiveItem();
         bar.childMenu.activeIndex = 0;
@@ -584,7 +512,7 @@ describe('phosphor-menus', () => {
 
       it('should open the submenu', () => {
         let bar = MenuBar.fromTemplate(MENU_BAR_TEMPLATE);
-        attachWidget(bar, document.body);
+        Widget.attach(bar, document.body);
         let node = bar.node.firstChild.firstChild as HTMLElement;
         let rect = node.getBoundingClientRect();
         let args = { clientX: rect.left + 1, clientY: rect.top + 1 };
@@ -596,7 +524,7 @@ describe('phosphor-menus', () => {
 
       it('should close the submenu on an external mousedown', (done) => {
         let bar = MenuBar.fromTemplate(MENU_BAR_TEMPLATE);
-        attachWidget(bar, document.body);
+        Widget.attach(bar, document.body);
         bar.activeIndex = 0;
         bar.openActiveItem();
         expect(bar.childMenu).to.be(bar.items[0].submenu);
@@ -611,7 +539,7 @@ describe('phosphor-menus', () => {
 
       it('should open a new submenu', (done) => {
         let bar = MenuBar.fromTemplate(MENU_BAR_TEMPLATE);
-        attachWidget(bar, document.body);
+        Widget.attach(bar, document.body);
         let node = bar.node.firstChild.firstChild as HTMLElement;
         let rect = node.getBoundingClientRect();
         let args = { clientX: rect.left + 1, clientY: rect.top + 1 };
