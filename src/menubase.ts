@@ -106,8 +106,8 @@ class MenuBase extends Widget {
    * wrap around at the end of the menu.
    */
   activateNextItem(): void {
-    var k = this.activeIndex + 1;
-    var i = k >= this.items.length ? 0 : k;
+    let k = this.activeIndex + 1;
+    let i = k >= this.items.length ? 0 : k;
     this.activeIndex = arrays.findIndex(this.items, isSelectable, i, true);
   }
 
@@ -120,8 +120,8 @@ class MenuBase extends Widget {
    * wrap around at the front of the menu.
    */
   activatePreviousItem(): void {
-    var k = this.activeIndex;
-    var i = k <= 0 ? this.items.length - 1 : k - 1;
+    let k = this.activeIndex;
+    let i = k <= 0 ? this.items.length - 1 : k - 1;
     this.activeIndex = arrays.rfindIndex(this.items, isSelectable, i, true);
   }
 
@@ -135,14 +135,14 @@ class MenuBase extends Widget {
    * mnemonic matching is case-insensitive.
    */
   activateMnemonicItem(char: string): void {
-    var c = char.toUpperCase();
-    var k = this.activeIndex + 1;
-    var i = k >= this.items.length ? 0 : k;
+    let c = char.toUpperCase();
+    let k = this.activeIndex + 1;
+    let i = k >= this.items.length ? 0 : k;
     this.activeIndex = arrays.findIndex(this.items, item => {
       if (!isSelectable(item)) {
         return false;
       }
-      var match = item.text.match(/&\w/);
+      let match = item.text.match(/&\w/);
       if (!match) {
         return false;
       }
@@ -158,8 +158,8 @@ class MenuBase extends Widget {
    * menu item does not have a submenu.
    */
   openActiveItem(): void {
-    var i = this.activeIndex;
-    var item = this.items[i];
+    let i = this.activeIndex;
+    let item = this.items[i];
     if (item && item.submenu) {
       this.onOpenItem(i, item);
     }
@@ -173,8 +173,8 @@ class MenuBase extends Widget {
    * menu item has a submenu, this is equivalent to `openActiveItem`.
    */
   triggerActiveItem(): void {
-    var i = this.activeIndex;
-    var item = this.items[i];
+    let i = this.activeIndex;
+    let item = this.items[i];
     if (item && item.submenu) {
       this.onOpenItem(i, item);
     } else if (item) {
@@ -189,8 +189,8 @@ class MenuBase extends Widget {
    * Subclasses may reimplement this method as needed.
    */
   protected coerceActiveIndex(index: number): number {
-    var i = index | 0;
-    var item = this.items[i];
+    let i = index | 0;
+    let item = this.items[i];
     return (item && isSelectable(item)) ? i : -1;
   }
 

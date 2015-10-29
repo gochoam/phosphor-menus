@@ -127,7 +127,7 @@ class MenuItem {
    * use the `MenuItem` constructor directly.
    */
   static fromTemplate(template: IMenuItemTemplate): MenuItem {
-    var item = new MenuItem();
+    let item = new MenuItem();
     initFromTemplate(item, template);
     return item;
   }

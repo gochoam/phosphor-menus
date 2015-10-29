@@ -95,8 +95,8 @@ class MenuBar extends MenuBase {
    * Create the DOM node for a menu bar.
    */
   static createNode(): HTMLElement {
-    var node = document.createElement('div');
-    var content = document.createElement('div');
+    let node = document.createElement('div');
+    let content = document.createElement('div');
     content.className = MenuBar.p_MenuBar_content;
     node.appendChild(content);
     return node;
@@ -115,7 +115,7 @@ class MenuBar extends MenuBase {
    * are required, use the relevant constructors directly.
    */
   static fromTemplate(array: IMenuItemTemplate[]): MenuBar {
-    var bar = new MenuBar();
+    let bar = new MenuBar();
     bar.items = array.map(createMenuItem);
     return bar;
   }
@@ -183,10 +183,10 @@ class MenuBar extends MenuBase {
    * A method invoked when the menu items change.
    */
   protected onItemsChanged(old: MenuItem[], items: MenuItem[]): void {
-    for (var i = 0, n = old.length; i < n; ++i) {
+    for (let i = 0, n = old.length; i < n; ++i) {
       Property.getChanged(old[i]).disconnect(this._onItemChanged, this);
     }
-    for (var i = 0, n = items.length; i < n; ++i) {
+    for (let i = 0, n = items.length; i < n; ++i) {
       Property.getChanged(items[i]).connect(this._onItemChanged, this);
     }
     this.update(true);
@@ -196,8 +196,8 @@ class MenuBar extends MenuBase {
    * A method invoked when the active index changes.
    */
   protected onActiveIndexChanged(old: number, index: number): void {
-    var oldNode = this._itemNodeAt(old);
-    var newNode = this._itemNodeAt(index);
+    let oldNode = this._itemNodeAt(old);
+    let newNode = this._itemNodeAt(index);
     if (oldNode) oldNode.classList.remove(MenuBar.p_mod_active);
     if (newNode) newNode.classList.add(MenuBar.p_mod_active);
   }
@@ -206,7 +206,7 @@ class MenuBar extends MenuBase {
    * A method invoked when a menu item should be opened.
    */
   protected onOpenItem(index: number, item: MenuItem): void {
-    var node = this._itemNodeAt(index) || this.node;
+    let node = this._itemNodeAt(index) || this.node;
     this._activate();
     this._closeChildMenu();
     this._openChildMenu(item.submenu, node);
@@ -240,15 +240,16 @@ class MenuBar extends MenuBase {
     this._reset();
 
     // Create the nodes for the menu bar.
-    var items = this.items;
-    var count = items.length;
-    var nodes = new Array<HTMLElement>(count);
-    for (var i = 0; i < count; ++i) {
+    let items = this.items;
+    let count = items.length;
+    let nodes = new Array<HTMLElement>(count);
+    for (let i = 0; i < count; ++i) {
       nodes[i] = createItemNode(items[i]);
     }
 
     // Force hide the leading visible separators.
-    for (var k1 = 0; k1 < count; ++k1) {
+    let k1: number;
+    for (k1 = 0; k1 < count; ++k1) {
       if (items[k1].hidden) {
         continue;
       }
@@ -259,7 +260,8 @@ class MenuBar extends MenuBase {
     }
 
     // Force hide the trailing visible separators.
-    for (var k2 = count - 1; k2 >= 0; --k2) {
+    let k2: number;
+    for (k2 = count - 1; k2 >= 0; --k2) {
       if (items[k2].hidden) {
         continue;
       }
@@ -270,7 +272,7 @@ class MenuBar extends MenuBase {
     }
 
     // Force hide the remaining consecutive visible separators.
-    var hide = false;
+    let hide = false;
     while (++k1 < k2) {
       if (items[k1].hidden) {
         continue;
@@ -283,11 +285,11 @@ class MenuBar extends MenuBase {
     }
 
     // Fetch the content node.
-    var content = this.node.firstChild;
+    let content = this.node.firstChild;
 
     // Refresh the content node's content.
     content.textContent = '';
-    for (var i = 0; i < count; ++i) {
+    for (let i = 0; i < count; ++i) {
       content.appendChild(nodes[i]);
     }
   }
@@ -304,8 +306,8 @@ class MenuBar extends MenuBase {
    * Handle the `'mousedown'` event for the menu bar.
    */
   private _evtMouseDown(event: MouseEvent): void {
-    var x = event.clientX;
-    var y = event.clientY;
+    let x = event.clientX;
+    let y = event.clientY;
 
     // If the bar is active and the mouse press is on an open menu,
     // let that menu handle the press. The bar will reset when the
@@ -315,7 +317,7 @@ class MenuBar extends MenuBase {
     }
 
     // Check if the mouse was pressed on one of the menu items.
-    var i = this._hitTestItemNodes(x, y);
+    let i = this._hitTestItemNodes(x, y);
 
     // If the bar is active, deactivate it and close the child menu.
     // The active index is updated to reflect the mouse press, which
@@ -345,11 +347,11 @@ class MenuBar extends MenuBase {
    * Handle the `'mousemove'` event for the menu bar.
    */
   private _evtMouseMove(event: MouseEvent): void {
-    var x = event.clientX;
-    var y = event.clientY;
+    let x = event.clientX;
+    let y = event.clientY;
 
     // Check if the mouse is over one of the menu items.
-    var i = this._hitTestItemNodes(x, y);
+    let i = this._hitTestItemNodes(x, y);
 
     // Bail early if the active index will not change.
     if (i === this.activeIndex) {
@@ -396,8 +398,8 @@ class MenuBar extends MenuBase {
    */
   private _evtKeyDown(event: KeyboardEvent): void {
     event.stopPropagation();
-    var menu = this._childMenu;
-    var leaf = menu && menu.leafMenu;
+    let menu = this._childMenu;
+    let leaf = menu && menu.leafMenu;
     switch (event.keyCode) {
     case 13:  // Enter
       event.preventDefault();
@@ -444,7 +446,7 @@ class MenuBar extends MenuBase {
   private _evtKeyPress(event: KeyboardEvent): void {
     event.preventDefault();
     event.stopPropagation();
-    var str = String.fromCharCode(event.charCode);
+    let str = String.fromCharCode(event.charCode);
     (this._childMenu || this).activateMnemonicItem(str);
   }
 
@@ -452,7 +454,7 @@ class MenuBar extends MenuBase {
    * Open the child menu using the given item node for location.
    */
   private _openChildMenu(menu: Menu, node: HTMLElement): void {
-    var rect = node.getBoundingClientRect();
+    let rect = node.getBoundingClientRect();
     this._childMenu = menu;
     menu.addClass(MenuBar.p_MenuBar_menu);
     menu.open(rect.left, rect.bottom, false, true);
@@ -463,7 +465,7 @@ class MenuBar extends MenuBase {
    * Close the current child menu, if one exists.
    */
   private _closeChildMenu(): void {
-    var menu = this._childMenu;
+    let menu = this._childMenu;
     if (menu) {
       this._childMenu = null;
       menu.closed.disconnect(this._onMenuClosed, this);
@@ -527,7 +529,7 @@ class MenuBar extends MenuBase {
    * This will return `undefined` if the index is out of range.
    */
   private _itemNodeAt(index: number): HTMLElement {
-    var content = this.node.firstChild as HTMLElement;
+    let content = this.node.firstChild as HTMLElement;
     return content.children[index] as HTMLElement;
   }
 
@@ -537,8 +539,8 @@ class MenuBar extends MenuBase {
    * This will return `-1` if the menu item node is not found.
    */
   private _hitTestItemNodes(x: number, y: number): number {
-    var nodes = (this.node.firstChild as HTMLElement).children;
-    for (var i = 0, n = nodes.length; i < n; ++i) {
+    let nodes = (this.node.firstChild as HTMLElement).children;
+    for (let i = 0, n = nodes.length; i < n; ++i) {
       if (hitTest(nodes[i] as HTMLElement, x, y)) return i;
     }
     return -1;
@@ -578,7 +580,7 @@ function createMenuItem(template: IMenuItemTemplate): MenuItem {
  * Create the complete DOM node class name for a MenuItem.
  */
 function createItemClassName(item: MenuItem): string {
-  var parts = [MenuBar.p_MenuBar_item];
+  let parts = [MenuBar.p_MenuBar_item];
   if (item.isSeparatorType) {
     parts.push(MenuBar.p_mod_separator_type);
   }
@@ -599,9 +601,9 @@ function createItemClassName(item: MenuItem): string {
  * Create the DOM node for a MenuItem.
  */
 function createItemNode(item: MenuItem): HTMLElement {
-  var node = document.createElement('div');
-  var icon = document.createElement('span');
-  var text = document.createElement('span');
+  let node = document.createElement('div');
+  let icon = document.createElement('span');
+  let text = document.createElement('span');
   node.className = createItemClassName(item);
   icon.className = MenuBar.p_MenuBar_item_icon;
   text.className = MenuBar.p_MenuBar_item_text;
@@ -618,7 +620,7 @@ function createItemNode(item: MenuItem): HTMLElement {
  * Test whether a menu's active item has a submenu.
  */
 function activeHasMenu(menu: Menu): boolean {
-  var item = menu.items[menu.activeIndex];
+  let item = menu.items[menu.activeIndex];
   return !!(item && item.submenu);
 }
 

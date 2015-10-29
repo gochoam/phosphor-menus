@@ -131,8 +131,8 @@ class Menu extends MenuBase {
    * Create the DOM node for a menu.
    */
   static createNode(): HTMLElement {
-    var node = document.createElement('div');
-    var content = document.createElement('div');
+    let node = document.createElement('div');
+    let content = document.createElement('div');
     content.className = Menu.p_Menu_content;
     node.appendChild(content);
     return node;
@@ -151,7 +151,7 @@ class Menu extends MenuBase {
    * are required, use the relevant constructors directly.
    */
   static fromTemplate(array: IMenuItemTemplate[]): Menu {
-    var menu = new Menu();
+    let menu = new Menu();
     menu.items = array.map(createMenuItem);
     return menu;
   }
@@ -213,7 +213,7 @@ class Menu extends MenuBase {
    * Find the root menu of this menu hierarchy.
    */
   get rootMenu(): Menu {
-    var menu = this;
+    let menu = this;
     while (menu._parentMenu) {
       menu = menu._parentMenu;
     }
@@ -224,7 +224,7 @@ class Menu extends MenuBase {
    * Find the leaf menu of this menu hierarchy.
    */
   get leafMenu(): Menu {
-    var menu = this;
+    let menu = this;
     while (menu._childMenu) {
       menu = menu._childMenu;
     }
@@ -342,8 +342,8 @@ class Menu extends MenuBase {
    * A method invoked when the active index changes.
    */
   protected onActiveIndexChanged(old: number, index: number): void {
-    var oldNode = this._itemNodeAt(old);
-    var newNode = this._itemNodeAt(index);
+    let oldNode = this._itemNodeAt(old);
+    let newNode = this._itemNodeAt(index);
     if (oldNode) oldNode.classList.remove(Menu.p_mod_active);
     if (newNode) newNode.classList.add(Menu.p_mod_active);
   }
@@ -352,7 +352,7 @@ class Menu extends MenuBase {
    * A method invoked when a menu item should be opened.
    */
   protected onOpenItem(index: number, item: MenuItem): void {
-    var node = this._itemNodeAt(index) || this.node;
+    let node = this._itemNodeAt(index) || this.node;
     this._openChildMenu(item, node, false);
     this._childMenu.activateNextItem();
   }
@@ -362,7 +362,7 @@ class Menu extends MenuBase {
    */
   protected onTriggerItem(index: number, item: MenuItem): void {
     this.rootMenu.close();
-    var handler = item.handler;
+    let handler = item.handler;
     if (handler) handler(item);
   }
 
@@ -392,17 +392,18 @@ class Menu extends MenuBase {
    */
   protected onUpdateRequest(msg: Message): void {
     // Create the nodes for the menu.
-    var items = this.items;
-    var count = items.length;
-    var nodes = new Array<HTMLElement>(count);
-    for (var i = 0; i < count; ++i) {
-      var node = createItemNode(items[i]);
+    let items = this.items;
+    let count = items.length;
+    let nodes = new Array<HTMLElement>(count);
+    for (let i = 0; i < count; ++i) {
+      let node = createItemNode(items[i]);
       node.addEventListener('mouseenter', this);
       nodes[i] = node;
     }
 
     // Force hide the leading visible separators.
-    for (var k1 = 0; k1 < count; ++k1) {
+    let k1: number;
+    for (k1 = 0; k1 < count; ++k1) {
       if (items[k1].hidden) {
         continue;
       }
@@ -413,7 +414,8 @@ class Menu extends MenuBase {
     }
 
     // Force hide the trailing visible separators.
-    for (var k2 = count - 1; k2 >= 0; --k2) {
+    let k2: number;
+    for (k2 = count - 1; k2 >= 0; --k2) {
       if (items[k2].hidden) {
         continue;
       }
@@ -424,7 +426,7 @@ class Menu extends MenuBase {
     }
 
     // Force hide the remaining consecutive visible separators.
-    var hide = false;
+    let hide = false;
     while (++k1 < k2) {
       if (items[k1].hidden) {
         continue;
@@ -437,11 +439,11 @@ class Menu extends MenuBase {
     }
 
     // Fetch the content node.
-    var content = this.node.firstChild;
+    let content = this.node.firstChild;
 
     // Refresh the content node's content.
     content.textContent = '';
-    for (var i = 0; i < count; ++i) {
+    for (let i = 0; i < count; ++i) {
       content.appendChild(nodes[i]);
     }
   }
@@ -456,7 +458,7 @@ class Menu extends MenuBase {
     this.activeIndex = -1;
 
     // Close any open child menu.
-    var childMenu = this._childMenu;
+    let childMenu = this._childMenu;
     if (childMenu) {
       this._childMenu = null;
       this._childItem = null;
@@ -464,7 +466,7 @@ class Menu extends MenuBase {
     }
 
     // Remove this menu from any parent.
-    var parentMenu = this._parentMenu;
+    let parentMenu = this._parentMenu;
     if (parentMenu) {
       this._parentMenu = null;
       parentMenu._cancelPendingOpen();
@@ -495,9 +497,9 @@ class Menu extends MenuBase {
     this._syncAncestors();
     this._closeChildMenu();
     this._cancelPendingOpen();
-    var node = event.currentTarget as HTMLElement;
+    let node = event.currentTarget as HTMLElement;
     this.activeIndex = this._itemNodeIndex(node);
-    var item = this.items[this.activeIndex];
+    let item = this.items[this.activeIndex];
     if (item && item.submenu) {
       if (item === this._childItem) {
         this._cancelPendingClose();
@@ -514,7 +516,7 @@ class Menu extends MenuBase {
    */
   private _evtMouseLeave(event: MouseEvent): void {
     this._cancelPendingOpen();
-    var child = this._childMenu;
+    let child = this._childMenu;
     if (!child || !hitTest(child.node, event.clientX, event.clientY)) {
       this.activeIndex = -1;
       this._closeChildMenu();
@@ -532,7 +534,7 @@ class Menu extends MenuBase {
     if (event.button !== 0) {
       return;
     }
-    var node = this._itemNodeAt(this.activeIndex);
+    let node = this._itemNodeAt(this.activeIndex);
     if (node && node.contains(event.target as HTMLElement)) {
       this.triggerActiveItem();
     }
@@ -552,10 +554,10 @@ class Menu extends MenuBase {
    * This event listener is attached to the document for a popup menu.
    */
   private _evtMouseDown(event: MouseEvent): void {
-    var menu = this;
-    var hit = false;
-    var x = event.clientX;
-    var y = event.clientY;
+    let menu = this;
+    let hit = false;
+    let x = event.clientX;
+    let y = event.clientY;
     while (!hit && menu) {
       hit = hitTest(menu.node, x, y);
       menu = menu._childMenu;
@@ -570,7 +572,7 @@ class Menu extends MenuBase {
    */
   private _evtKeyDown(event: KeyboardEvent): void {
     event.stopPropagation();
-    var leaf = this.leafMenu;
+    let leaf = this.leafMenu;
     switch (event.keyCode) {
     case 13:  // Enter
       event.preventDefault();
@@ -618,7 +620,7 @@ class Menu extends MenuBase {
    * tasks are cleared.
    */
   private _syncAncestors(): void {
-    var menu = this._parentMenu;
+    let menu = this._parentMenu;
     while (menu) {
       menu._syncChildItem();
       menu = menu._parentMenu;
@@ -649,7 +651,7 @@ class Menu extends MenuBase {
     this._cancelPendingOpen();
     if (delayed) {
       this._openTimerId = setTimeout(() => {
-        var menu = item.submenu;
+        let menu = item.submenu;
         this._openTimerId = 0;
         this._childItem = item;
         this._childMenu = menu;
@@ -658,7 +660,7 @@ class Menu extends MenuBase {
         openSubmenu(menu, node);
       }, OPEN_DELAY);
     } else {
-      var menu = item.submenu;
+      let menu = item.submenu;
       this._childItem = item;
       this._childMenu = menu;
       menu._parentMenu = this;
@@ -712,7 +714,7 @@ class Menu extends MenuBase {
    * This will return `undefined` if the index is out of range.
    */
   private _itemNodeAt(index: number): HTMLElement {
-    var content = this.node.firstChild as HTMLElement;
+    let content = this.node.firstChild as HTMLElement;
     return content.children[index] as HTMLElement;
   }
 
@@ -722,7 +724,7 @@ class Menu extends MenuBase {
    * This will return `-1` if the menu item node is not found.
    */
   private _itemNodeIndex(node: HTMLElement): number {
-    var content = this.node.firstChild as HTMLElement;
+    let content = this.node.firstChild as HTMLElement;
     return Array.prototype.indexOf.call(content.children, node);
   }
 
@@ -746,7 +748,7 @@ function createMenuItem(template: IMenuItemTemplate): MenuItem {
  * Create the complete DOM node class name for a MenuItem.
  */
 function createItemClassName(item: MenuItem): string {
-  var parts = [Menu.p_Menu_item];
+  let parts = [Menu.p_Menu_item];
   if (item.isCheckType) {
     parts.push(Menu.p_mod_check_type);
   } else if (item.isSeparatorType) {
@@ -775,11 +777,11 @@ function createItemClassName(item: MenuItem): string {
  * Create the DOM node for a MenuItem.
  */
 function createItemNode(item: MenuItem): HTMLElement {
-  var node = document.createElement('div');
-  var icon = document.createElement('span');
-  var text = document.createElement('span');
-  var shortcut = document.createElement('span');
-  var submenu = document.createElement('span');
+  let node = document.createElement('div');
+  let icon = document.createElement('span');
+  let text = document.createElement('span');
+  let shortcut = document.createElement('span');
+  let submenu = document.createElement('span');
   node.className = createItemClassName(item);
   icon.className = Menu.p_Menu_item_icon;
   text.className = Menu.p_Menu_item_text;
@@ -813,11 +815,11 @@ type Size = { width: number, height: number };
  * Get the currently visible viewport rect in page coordinates.
  */
 function clientViewportRect(): Rect {
-  var elem = document.documentElement;
-  var x = window.pageXOffset;
-  var y = window.pageYOffset;
-  var width = elem.clientWidth;
-  var height = elem.clientHeight;
+  let elem = document.documentElement;
+  let x = window.pageXOffset;
+  let y = window.pageYOffset;
+  let width = elem.clientWidth;
+  let height = elem.clientHeight;
   return { x: x, y: y, width: width, height: height };
 }
 
@@ -829,8 +831,8 @@ function clientViewportRect(): Rect {
  * by the scrollbar width to prevent clipping the contents of the menu.
  */
 function mountAndMeasure(menu: Menu, maxHeight: number): Size {
-  var node = menu.node;
-  var style = node.style;
+  let node = menu.node;
+  let style = node.style;
   style.top = '';
   style.left = '';
   style.width = '';
@@ -841,7 +843,7 @@ function mountAndMeasure(menu: Menu, maxHeight: number): Size {
   if (node.scrollHeight > maxHeight) {
     style.width = 2 * node.offsetWidth - node.clientWidth + 'px';
   }
-  var rect = node.getBoundingClientRect();
+  let rect = node.getBoundingClientRect();
   return { width: rect.width, height: rect.height };
 }
 
@@ -850,7 +852,7 @@ function mountAndMeasure(menu: Menu, maxHeight: number): Size {
  * Show the menu at the specified position.
  */
 function showMenu(menu: Menu, x: number, y: number): void {
-  var style = menu.node.style;
+  let style = menu.node.style;
   style.top = Math.max(0, y) + 'px';
   style.left = Math.max(0, x) + 'px';
   style.visibility = '';
@@ -861,8 +863,8 @@ function showMenu(menu: Menu, x: number, y: number): void {
  * Open the menu as a root menu at the target location.
  */
 function openRootMenu(menu: Menu, x: number, y: number, forceX: boolean, forceY: boolean): void {
-  var rect = clientViewportRect();
-  var size = mountAndMeasure(menu, rect.height - (forceY ? y : 0));
+  let rect = clientViewportRect();
+  let size = mountAndMeasure(menu, rect.height - (forceY ? y : 0));
   if (!forceX && (x + size.width > rect.x + rect.width)) {
     x = rect.x + rect.width - size.width;
   }
@@ -881,12 +883,12 @@ function openRootMenu(menu: Menu, x: number, y: number, forceX: boolean, forceY:
  * Open a the menu as a submenu using the item node for positioning.
  */
 function openSubmenu(menu: Menu, item: HTMLElement): void {
-  var rect = clientViewportRect();
-  var size = mountAndMeasure(menu, rect.height);
-  var box = boxSizing(menu.node);
-  var itemRect = item.getBoundingClientRect();
-  var x = itemRect.right - SUBMENU_OVERLAP;
-  var y = itemRect.top - box.borderTop - box.paddingTop;
+  let rect = clientViewportRect();
+  let size = mountAndMeasure(menu, rect.height);
+  let box = boxSizing(menu.node);
+  let itemRect = item.getBoundingClientRect();
+  let x = itemRect.right - SUBMENU_OVERLAP;
+  let y = itemRect.top - box.borderTop - box.paddingTop;
   if (x + size.width > rect.x + rect.width) {
     x = itemRect.left + SUBMENU_OVERLAP - size.width;
   }
