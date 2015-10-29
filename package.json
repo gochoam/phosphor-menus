@@ -1,6 +1,6 @@
 {
   "name": "phosphor-menus",
-  "version": "0.9.5",
+  "version": "0.9.6",
   "description": "Phosphor widgets for creating menus and menu bars.",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
