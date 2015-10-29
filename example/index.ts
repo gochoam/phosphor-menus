@@ -24,7 +24,7 @@ function logItem(item: MenuItem): void {
 }
 
 
-var MENU_BAR_TEMPLATE = [
+let MENU_BAR_TEMPLATE = [
   {
     text: 'File',
     submenu: [
@@ -187,7 +187,7 @@ var MENU_BAR_TEMPLATE = [
 ];
 
 
-var CONTEXT_MENU_TEMPLATE = [
+let CONTEXT_MENU_TEMPLATE = [
   {
     text: '&Copy',
     shortcut: 'Ctrl+C',
@@ -270,15 +270,15 @@ var CONTEXT_MENU_TEMPLATE = [
 
 function main(): void {
 
-  var menuBar = MenuBar.fromTemplate(MENU_BAR_TEMPLATE);
-  var contextMenu = Menu.fromTemplate(CONTEXT_MENU_TEMPLATE);
+  let menuBar = MenuBar.fromTemplate(MENU_BAR_TEMPLATE);
+  let contextMenu = Menu.fromTemplate(CONTEXT_MENU_TEMPLATE);
 
   Widget.attach(menuBar, document.body);
 
   document.addEventListener('contextmenu', (event: MouseEvent) => {
     event.preventDefault();
-    var x = event.clientX;
-    var y = event.clientY;
+    let x = event.clientX;
+    let y = event.clientY;
     contextMenu.popup(x, y);
   });
 }
