@@ -20,7 +20,7 @@ import {
 } from 'phosphor-signaling';
 
 import {
-  attachWidget, detachWidget
+  Widget
 } from 'phosphor-widget';
 
 import {
@@ -485,7 +485,7 @@ class Menu extends MenuBase {
       this.parent = null;
       this.closed.emit(void 0);
     } else if (this.isAttached) {
-      detachWidget(this);
+      Widget.detach(this);
       this.closed.emit(void 0);
     }
 
@@ -844,7 +844,7 @@ function mountAndMeasure(menu: Menu, maxHeight: number): Size {
   style.height = '';
   style.visibility = 'hidden';
   style.maxHeight = maxHeight + 'px';
-  attachWidget(menu, document.body);
+  Widget.attach(menu, document.body);
   if (node.scrollHeight > maxHeight) {
     style.width = 2 * node.offsetWidth - node.clientWidth + 'px';
   }

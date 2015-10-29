@@ -8,7 +8,7 @@
 'use-strict';
 
 import {
-  attachWidget
+  Widget
 } from 'phosphor-widget';
 
 import {
@@ -273,7 +273,7 @@ function main(): void {
   var menuBar = MenuBar.fromTemplate(MENU_BAR_TEMPLATE);
   var contextMenu = Menu.fromTemplate(CONTEXT_MENU_TEMPLATE);
 
-  attachWidget(menuBar, document.body);
+  Widget.attach(menuBar, document.body);
 
   document.addEventListener('contextmenu', (event: MouseEvent) => {
     event.preventDefault();
