@@ -8,9 +8,9 @@
     "phosphor-arrays": "^1.0.5",
     "phosphor-domutil": "^0.9.5",
     "phosphor-messaging": "^1.0.5",
-    "phosphor-properties": "^1.2.0",
+    "phosphor-properties": "^1.3.0",
     "phosphor-signaling": "^1.1.2",
-    "phosphor-widget": "^0.9.11"
+    "phosphor-widget": "^0.9.13"
   },
   "devDependencies": {
     "browserify": "^11.0.1",
@@ -54,26 +54,28 @@
     "url": "https://github.com/phosphorjs/phosphor-menus.git"
   },
   "files": [
-    "lib/index.js",
     "lib/index.css",
     "lib/index.d.ts",
-    "lib/menu.js",
+    "lib/index.js",
     "lib/menu.d.ts",
-    "lib/menubar.js",
+    "lib/menu.js",
     "lib/menubar.d.ts",
-    "lib/menubase.js",
+    "lib/menubar.js",
     "lib/menubase.d.ts",
-    "lib/menuitem.js",
-    "lib/menuitem.d.ts"
+    "lib/menubase.js",
+    "lib/menuitem.d.ts",
+    "lib/menuitem.js"
   ],
   "browserify": {
-    "transform": ["browserify-css"]
+    "transform": [
+      "browserify-css"
+    ]
   },
   "keywords": [
-    "ui",
     "menu",
+    "menubar",
     "menus",
-    "menubar"
+    "ui"
   ],
   "author": "S. Chris Colbert <sccolbert@gmail.com>",
   "license": "BSD-3-Clause",
