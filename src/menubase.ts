@@ -32,7 +32,9 @@ class MenuBase extends Widget {
    * The property descriptor for the array of menu items.
    *
    * #### Notes
-   * In-place modifications to the array are not allowed.
+   * This property creates a frozen shallow copy of the assigned items
+   * array. This means that the menu items can only be changed in bulk
+   * and that in-place modifications to the array are not allowed.
    *
    * **See also:** [[items]]
    */
