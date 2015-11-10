@@ -159,7 +159,7 @@ class MenuItem {
   static typeProperty = new Property<MenuItem, string>({
     value: 'normal',
     coerce: coerceMenuItemType,
-    changed: owner => MenuItem.checkedProperty.coerce(owner),
+    changed: owner => { MenuItem.checkedProperty.coerce(owner); },
   });
 
   /**
@@ -533,7 +533,7 @@ function initFromOptions(item: MenuItem, options: IMenuItemOptions): void {
 /**
  * The coerce handler for the menu item type.
  */
-function coerceMenuItemType(item: MenuItem, value: string): string {
+function coerceMenuItemType(owner: MenuItem, value: string): string {
   if (value === 'normal' || value === 'check' || value === 'separator') {
     return value;
   }
