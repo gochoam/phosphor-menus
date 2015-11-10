@@ -131,7 +131,8 @@ describe('phosphor-menus', () => {
         let base = new MenuBase();
         let items = [new MenuItem(), new MenuItem()];
         base.items = items;
-        expect(base.items).to.eql(items);
+        expect(base.items[0]).to.be(items[0]);
+        expect(base.items[1]).to.be(items[1]);
       });
 
       it('should a pure delegate to the itemsProperty', () => {
@@ -148,14 +149,14 @@ describe('phosphor-menus', () => {
 
       it('should get the index of the active menu item', () => {
         let base = new MenuBase();
-        expect(base.activeIndex).to.eql(-1);
+        expect(base.activeIndex).to.be(-1);
       });
 
       it('should set the index of the active menu item', () => {
         let base = new MenuBase();
         base.items = [new MenuItem(), new MenuItem()];
         base.activeIndex = 1;
-        expect(base.activeIndex).to.eql(1);
+        expect(base.activeIndex).to.be(1);
       });
 
       it('should a pure delegate to the activeIndexProperty', () => {

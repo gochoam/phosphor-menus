@@ -376,14 +376,14 @@ describe('phosphor-menus', () => {
         let item = new MenuItem();
         let handler = (item: MenuItem) => { };
         item.handler = handler;
-        expect(item.handler).to.eql(handler);
+        expect(item.handler).to.be(handler);
       });
 
       it('should a pure delegate to the handlerProperty', () => {
         let item = new MenuItem();
         let handler = (item: MenuItem) => { };
         MenuItem.handlerProperty.set(item, handler);
-        expect(item.handler).to.eql(handler);
+        expect(item.handler).to.be(handler);
         item.handler = null;
         expect(MenuItem.handlerProperty.get(item)).to.be(null);
       });
@@ -401,14 +401,14 @@ describe('phosphor-menus', () => {
         let item = new MenuItem();
         let submenu = new Menu();
         item.submenu = submenu;
-        expect(item.submenu).to.eql(submenu);
+        expect(item.submenu).to.be(submenu);
       });
 
       it('should a pure delegate to the submenuProperty', () => {
         let item = new MenuItem();
         let submenu = new Menu();
         MenuItem.submenuProperty.set(item, submenu);
-        expect(item.submenu).to.eql(submenu);
+        expect(item.submenu).to.be(submenu);
         item.submenu = null;
         expect(MenuItem.submenuProperty.get(item)).to.be(null);
       });
