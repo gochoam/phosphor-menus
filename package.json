@@ -54,17 +54,9 @@
     "url": "https://github.com/phosphorjs/phosphor-menus.git"
   },
   "files": [
-    "lib/index.css",
-    "lib/index.d.ts",
-    "lib/index.js",
-    "lib/menu.d.ts",
-    "lib/menu.js",
-    "lib/menubar.d.ts",
-    "lib/menubar.js",
-    "lib/menubase.d.ts",
-    "lib/menubase.js",
-    "lib/menuitem.d.ts",
-    "lib/menuitem.js"
+    "lib/*.css",
+    "lib/*.d.ts",
+    "lib/*.js"
   ],
   "browserify": {
     "transform": [
