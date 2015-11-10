@@ -39,6 +39,7 @@ class MenuBase extends Widget {
    * **See also:** [[items]]
    */
   static itemsProperty = new Property<MenuBase, MenuItem[]>({
+    name: 'items',
     value: Object.freeze([]),
     coerce: (owner, value) => Object.freeze(value ? value.slice() : []),
     changed: (owner, old, value) => owner.onItemsChanged(old, value),
@@ -50,6 +51,7 @@ class MenuBase extends Widget {
    * **See also:** [[activeIndex]]
    */
   static activeIndexProperty = new Property<MenuBase, number>({
+    name: 'activeIndex',
     value: -1,
     coerce: (owner, index) => owner.coerceActiveIndex(index),
     changed: (owner, old, index) => owner.onActiveIndexChanged(old, index),
