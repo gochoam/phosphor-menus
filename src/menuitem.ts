@@ -8,8 +8,12 @@
 'use strict';
 
 import {
-  Property
+  IChangedArgs, Property
 } from 'phosphor-properties';
+
+import {
+  ISignal, Signal
+} from 'phosphor-signaling';
 
 import {
   Menu
@@ -140,6 +144,13 @@ class MenuItem {
   }
 
   /**
+   * A signal emitted when the menu item state changes.
+   *
+   * **See also:** [[changed]].
+   */
+  static changedSignal = new Signal<MenuItem, IChangedArgs<any>>();
+
+  /**
    * The property descriptor for the menu item type.
    *
    * Valid types are: `'normal'`, `'check'`, and `'separator'`.
@@ -157,9 +168,11 @@ class MenuItem {
    * **See also:** [[type]]
    */
   static typeProperty = new Property<MenuItem, string>({
+    name: 'type',
     value: 'normal',
     coerce: coerceMenuItemType,
     changed: owner => { MenuItem.checkedProperty.coerce(owner); },
+    notify: MenuItem.changedSignal,
   });
 
   /**
@@ -171,7 +184,9 @@ class MenuItem {
    * **See also:** [[text]]
    */
   static textProperty = new Property<MenuItem, string>({
+    name: 'text',
     value: '',
+    notify: MenuItem.changedSignal,
   });
 
   /**
@@ -180,7 +195,9 @@ class MenuItem {
    * **See also:** [[shortcut]]
    */
   static shortcutProperty = new Property<MenuItem, string>({
+    name: 'shortcut',
     value: '',
+    notify: MenuItem.changedSignal,
   });
 
   /**
@@ -189,7 +206,9 @@ class MenuItem {
    * **See also:** [[disabled]]
    */
   static disabledProperty = new Property<MenuItem, boolean>({
+    name: 'disabled',
     value: false,
+    notify: MenuItem.changedSignal,
   });
 
   /**
@@ -198,7 +217,9 @@ class MenuItem {
    * **See also:** [[hidden]]
    */
   static hiddenProperty = new Property<MenuItem, boolean>({
+    name: 'hidden',
     value: false,
+    notify: MenuItem.changedSignal,
   });
 
   /**
@@ -210,8 +231,10 @@ class MenuItem {
    * **See also:** [[checked]]
    */
   static checkedProperty = new Property<MenuItem, boolean>({
+    name: 'checked',
     value: false,
     coerce: (owner, val) => owner.type === 'check' ? val : false,
+    notify: MenuItem.changedSignal,
   });
 
   /**
@@ -223,7 +246,9 @@ class MenuItem {
    * **See also:** [[className]]
    */
   static classNameProperty = new Property<MenuItem, string>({
+    name: 'className',
     value: '',
+    notify: MenuItem.changedSignal,
   });
 
   /**
@@ -234,8 +259,10 @@ class MenuItem {
    * **See also:** [[handler]]
    */
   static handlerProperty = new Property<MenuItem, Handler>({
+    name: 'handler',
     value: null,
     coerce: (owner, value) => value || null,
+    notify: MenuItem.changedSignal,
   });
 
   /**
@@ -244,8 +271,10 @@ class MenuItem {
    * **See also:** [[submenu]]
    */
   static submenuProperty = new Property<MenuItem, Menu>({
+    name: 'submenu',
     value: null,
     coerce: (owner, value) => value || null,
+    notify: MenuItem.changedSignal,
   });
 
   /**
@@ -255,6 +284,16 @@ class MenuItem {
    */
   constructor(options?: IMenuItemOptions) {
     if (options) initFromOptions(this, options);
+  }
+
+  /**
+   * A signal emitted when the menu item state changes.
+   *
+   * #### Notes
+   * This is a pure delegate to the [[changedSignal]].
+   */
+  get changed(): ISignal<MenuItem, IChangedArgs<any>> {
+    return MenuItem.changedSignal.bind(this);
   }
 
   /**
