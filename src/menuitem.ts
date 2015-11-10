@@ -49,6 +49,13 @@ interface IMenuItemCommon {
   text?: string;
 
   /**
+   * The icon class for the menu item.
+   *
+   * **See also:** [[iconProperty]]
+   */
+  icon?: string;
+
+  /**
    * The keyboard shortcut for the menu item.
    *
    * **See also:** [[shortcutProperty]]
@@ -185,6 +192,21 @@ class MenuItem {
    */
   static textProperty = new Property<MenuItem, string>({
     name: 'text',
+    value: '',
+    notify: MenuItem.changedSignal,
+  });
+
+  /**
+   * The property descriptor for the menu item icon class.
+   *
+   * This will be added to the class name of the menu item icon node.
+   *
+   * Multiple class names can be separated with whitespace.
+   *
+   * **See also:** [[icon]]
+   */
+  static iconProperty = new Property<MenuItem, string>({
+    name: 'icon',
     value: '',
     notify: MenuItem.changedSignal,
   });
@@ -336,6 +358,26 @@ class MenuItem {
    */
   set text(value: string) {
     MenuItem.textProperty.set(this, value);
+  }
+
+  /**
+   * Get the icon class for the menu item.
+   *
+   * #### Notes
+   * This is a pure delegate to the [[iconProperty]].
+   */
+  get icon(): string {
+    return MenuItem.iconProperty.get(this);
+  }
+
+  /**
+   * Set the icon class for the menu item.
+   *
+   * #### Notes
+   * This is a pure delegate to the [[iconProperty]].
+   */
+  set icon(value: string) {
+    MenuItem.iconProperty.set(this, value);
   }
 
   /**
@@ -525,6 +567,9 @@ function initFromCommon(item: MenuItem, common: IMenuItemCommon): void {
   }
   if (common.text !== void 0) {
     item.text = common.text;
+  }
+  if (common.icon !== void 0) {
+    item.icon = common.icon;
   }
   if (common.shortcut !== void 0) {
     item.shortcut = common.shortcut;
