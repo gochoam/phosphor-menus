@@ -17,6 +17,13 @@ import {
 
 
 /**
+ * A type alias for a menu item handler function.
+ */
+export
+type Handler = (item: MenuItem) => void;
+
+
+/**
  * An options object which holds common menu item options.
  *
  * **See also:** [[IMenuItemTemplate]], [[IMenuItemOptions]]
@@ -77,7 +84,7 @@ interface IMenuItemCommon {
    *
    * **See also:** [[handlerProperty]]
    */
-  handler?: (item: MenuItem) => void;
+  handler?: Handler;
 }
 
 
@@ -226,7 +233,7 @@ class MenuItem {
    *
    * **See also:** [[handler]]
    */
-  static handlerProperty = new Property<MenuItem, (item: MenuItem) => void>({
+  static handlerProperty = new Property<MenuItem, Handler>({
     value: null,
     coerce: (owner, value) => value || null,
   });
@@ -398,7 +405,7 @@ class MenuItem {
    * #### Notes
    * This is a pure delegate to the [[handlerProperty]].
    */
-  get handler(): (item: MenuItem) => void {
+  get handler(): Handler {
     return MenuItem.handlerProperty.get(this);
   }
 
@@ -408,7 +415,7 @@ class MenuItem {
    * #### Notes
    * This is a pure delegate to the [[handlerProperty]].
    */
-  set handler(value: (item: MenuItem) => void) {
+  set handler(value: Handler) {
     MenuItem.handlerProperty.set(this, value);
   }
 
