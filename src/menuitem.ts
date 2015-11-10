@@ -262,8 +262,9 @@ class MenuItem {
   /**
    * The property descriptor for the menu item class name.
    *
-   * This is an extra class name which item renderers will add to
-   * the DOM node which represents the menu item.
+   * This will be added to the class name of the menu item node.
+   *
+   * Multiple class names can be separated with whitespace.
    *
    * **See also:** [[className]]
    */
