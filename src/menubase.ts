@@ -29,9 +29,7 @@ import {
 export
 class MenuBase extends Widget {
   /**
-   * The property descriptor for the menu items.
-   *
-   * This controls the items which are contained in the menu.
+   * The property descriptor for the array of menu items.
    *
    * #### Notes
    * In-place modifications to the array are not allowed.
@@ -45,9 +43,7 @@ class MenuBase extends Widget {
   });
 
   /**
-   * The property descriptor for the active index.
-   *
-   * This controls which menu item is the active item.
+   * The property descriptor for the index of the active menu item.
    *
    * **See also:** [[activeIndex]]
    */
@@ -78,7 +74,7 @@ class MenuBase extends Widget {
   }
 
   /**
-   * Get index of the active menu item.
+   * Get the index of the active menu item.
    *
    * #### Notes
    * This is a pure delegate to the [[activeIndexProperty]].
@@ -88,7 +84,7 @@ class MenuBase extends Widget {
   }
 
   /**
-   * Set index of the active menu item.
+   * Set the index of the active menu item.
    *
    * #### Notes
    * This is a pure delegate to the [[activeIndexProperty]].
