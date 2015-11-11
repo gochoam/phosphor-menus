@@ -645,8 +645,8 @@ class ItemView extends NodeWrapper implements IDisposable {
    */
   private _updateNodeState(): void {
     let node = this.node;
-    let text = node.firstChild as HTMLElement;
-    let icon = node.lastChild as HTMLElement;
+    let icon = node.firstChild as HTMLElement;
+    let text = node.lastChild as HTMLElement;
     node.className = ItemView.createNodeClass(this._item);
     icon.className = ItemView.createIconClass(this._item);
     text.textContent = ItemView.createTextContent(this._item);
