@@ -266,10 +266,12 @@ class MenuBar extends MenuBase {
    * A method invoked when a menu item should be opened.
    */
   protected onOpenItem(index: number, item: MenuItem): void {
-    let ref = (this._views[index] || this).node;
-    this._activate();
-    this._closeChildMenu();
-    this._openChildMenu(item.submenu, ref);
+    if (this.isAttached) {
+      let ref = (this._views[index] || this).node;
+      this._activate();
+      this._closeChildMenu();
+      this._openChildMenu(item.submenu, ref);
+    }
   }
 
   /**
