@@ -24,6 +24,10 @@ import {
 } from 'phosphor-widget';
 
 import {
+  collapseSeparators
+} from './helpers';
+
+import {
   MenuBase
 } from './menubase';
 
@@ -96,11 +100,6 @@ const HIDDEN_CLASS = 'p-mod-hidden';
  * The class name added to a checked menu item.
  */
 const CHECKED_CLASS = 'p-mod-checked';
-
-/**
- * The class name added to collapsed separator items.
- */
-const COLLAPSED_CLASS = 'p-mod-collapsed';
 
 /**
  * The class name added to a menu item with a submenu.
@@ -879,59 +878,4 @@ function openSubmenu(menu: Menu, item: HTMLElement): void {
     y = itemRect.bottom + box.borderBottom + box.paddingBottom - size.height;
   }
   showMenu(menu, x, y);
-}
-
-
-/**
- * Collapse leading, trailing, and consecutive visible separators.
- */
-function collapseSeparators(items: MenuItem[], nodes: HTMLElement[]): void {
-  // Collapse the leading visible separators.
-  let k1: number;
-  for (k1 = 0; k1 < items.length; ++k1) {
-    let item = items[k1];
-    let node = nodes[k1];
-    if (item.hidden) {
-      node.classList.remove(COLLAPSED_CLASS);
-      continue;
-    }
-    if (!item.isSeparatorType) {
-      node.classList.remove(COLLAPSED_CLASS);
-      break;
-    }
-    node.classList.add(COLLAPSED_CLASS);
-  }
-
-  // Collapse the trailing visible separators.
-  let k2: number;
-  for (k2 = items.length - 1; k2 >= 0; --k2) {
-    let item = items[k2];
-    let node = nodes[k2];
-    if (item.hidden) {
-      node.classList.remove(COLLAPSED_CLASS);
-      continue;
-    }
-    if (!item.isSeparatorType) {
-      node.classList.remove(COLLAPSED_CLASS);
-      break;
-    }
-    node.classList.add(COLLAPSED_CLASS);
-  }
-
-  // Collapse the remaining consecutive visible separators.
-  let collapse = false;
-  while (++k1 < k2) {
-    let item = items[k1];
-    let node = nodes[k1];
-    if (item.hidden) {
-      node.classList.remove(COLLAPSED_CLASS);
-      continue;
-    }
-    if (collapse && item.isSeparatorType) {
-      node.classList.add(COLLAPSED_CLASS);
-    } else {
-      node.classList.remove(COLLAPSED_CLASS);
-      collapse = item.isSeparatorType;
-    }
-  }
 }
