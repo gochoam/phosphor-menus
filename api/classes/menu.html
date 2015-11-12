@@ -72,9 +72,6 @@
 					<div class="lead">
 						<p>A widget which displays menu items as a popup menu.</p>
 					</div>
-					<h4 id="notes">Notes</h4>
-					<p>A <code>Menu</code> widget does not support child widgets. Adding children
-					to a <code>Menu</code> will result in undefined behavior.</p>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
@@ -113,10 +110,9 @@
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external"><a href="menu.html#_childitem" class="tsd-kind-icon">_child<wbr>Item</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external"><a href="menu.html#_childmenu" class="tsd-kind-icon">_child<wbr>Menu</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external"><a href="menu.html#_closetimerid" class="tsd-kind-icon">_close<wbr>Timer<wbr>Id</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external"><a href="menu.html#_nodes" class="tsd-kind-icon">_nodes</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external"><a href="menu.html#_opentimerid" class="tsd-kind-icon">_open<wbr>Timer<wbr>Id</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external"><a href="menu.html#_parentmenu" class="tsd-kind-icon">_parent<wbr>Menu</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#childcount" class="tsd-kind-icon">child<wbr>Count</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#children" class="tsd-kind-icon">children</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#disposed" class="tsd-kind-icon">disposed</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#hidden" class="tsd-kind-icon">hidden</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#id" class="tsd-kind-icon">id</a></li>
@@ -131,7 +127,6 @@
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static tsd-is-external"><a href="menu.html#msgbeforedetach" class="tsd-kind-icon">Msg<wbr>Before<wbr>Detach</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static tsd-is-external"><a href="menu.html#msgbeforehide" class="tsd-kind-icon">Msg<wbr>Before<wbr>Hide</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static tsd-is-external"><a href="menu.html#msgcloserequest" class="tsd-kind-icon">Msg<wbr>Close<wbr>Request</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static tsd-is-external"><a href="menu.html#msglayoutrequest" class="tsd-kind-icon">Msg<wbr>Layout<wbr>Request</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static tsd-is-external"><a href="menu.html#msgupdaterequest" class="tsd-kind-icon">Msg<wbr>Update<wbr>Request</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static tsd-is-external"><a href="menu.html#activeindexproperty" class="tsd-kind-icon">active<wbr>Index<wbr>Property</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static tsd-is-external"><a href="menu.html#closedsignal" class="tsd-kind-icon">closed<wbr>Signal</a></li>
@@ -146,6 +141,7 @@
 								<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#activeindex" class="tsd-kind-icon">active<wbr>Index</a></li>
 								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-external"><a href="menu.html#childmenu" class="tsd-kind-icon">child<wbr>Menu</a></li>
 								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-external"><a href="menu.html#closed" class="tsd-kind-icon">closed</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-external"><a href="menu.html#contentnode" class="tsd-kind-icon">content<wbr>Node</a></li>
 								<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#items" class="tsd-kind-icon">items</a></li>
 								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-external"><a href="menu.html#leafmenu" class="tsd-kind-icon">leaf<wbr>Menu</a></li>
 								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-external"><a href="menu.html#parentmenu" class="tsd-kind-icon">parent<wbr>Menu</a></li>
@@ -165,40 +161,26 @@
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external"><a href="menu.html#_evtmouseenter" class="tsd-kind-icon">_evt<wbr>Mouse<wbr>Enter</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external"><a href="menu.html#_evtmouseleave" class="tsd-kind-icon">_evt<wbr>Mouse<wbr>Leave</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external"><a href="menu.html#_evtmouseup" class="tsd-kind-icon">_evt<wbr>Mouse<wbr>Up</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external"><a href="menu.html#_itemnodeat" class="tsd-kind-icon">_item<wbr>Node<wbr>At</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external"><a href="menu.html#_itemnodeindex" class="tsd-kind-icon">_item<wbr>Node<wbr>Index</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external"><a href="menu.html#_openchildmenu" class="tsd-kind-icon">_open<wbr>Child<wbr>Menu</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external"><a href="menu.html#_syncancestors" class="tsd-kind-icon">_sync<wbr>Ancestors</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external"><a href="menu.html#_syncchilditem" class="tsd-kind-icon">_sync<wbr>Child<wbr>Item</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#activatemnemonicitem" class="tsd-kind-icon">activate<wbr>Mnemonic<wbr>Item</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#activatenextitem" class="tsd-kind-icon">activate<wbr>Next<wbr>Item</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#activatepreviousitem" class="tsd-kind-icon">activate<wbr>Previous<wbr>Item</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#addchild" class="tsd-kind-icon">add<wbr>Child</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#addclass" class="tsd-kind-icon">add<wbr>Class</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#childat" class="tsd-kind-icon">child<wbr>At</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#childindex" class="tsd-kind-icon">child<wbr>Index</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#clearchildren" class="tsd-kind-icon">clear<wbr>Children</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#close" class="tsd-kind-icon">close</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external"><a href="menu.html#coerceactiveindex" class="tsd-kind-icon">coerce<wbr>Active<wbr>Index</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#compressmessage" class="tsd-kind-icon">compress<wbr>Message</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-external"><a href="menu.html#dispose" class="tsd-kind-icon">dispose</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-external"><a href="menu.html#handleevent" class="tsd-kind-icon">handle<wbr>Event</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#hasclass" class="tsd-kind-icon">has<wbr>Class</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#insertchild" class="tsd-kind-icon">insert<wbr>Child</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#movechild" class="tsd-kind-icon">move<wbr>Child</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external"><a href="menu.html#onactiveindexchanged" class="tsd-kind-icon">on<wbr>Active<wbr>Index<wbr>Changed</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external"><a href="menu.html#onafterattach" class="tsd-kind-icon">on<wbr>After<wbr>Attach</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external"><a href="menu.html#onaftershow" class="tsd-kind-icon">on<wbr>After<wbr>Show</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external"><a href="menu.html#onbeforedetach" class="tsd-kind-icon">on<wbr>Before<wbr>Detach</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external"><a href="menu.html#onbeforehide" class="tsd-kind-icon">on<wbr>Before<wbr>Hide</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external"><a href="menu.html#onchildadded" class="tsd-kind-icon">on<wbr>Child<wbr>Added</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external"><a href="menu.html#onchildhidden" class="tsd-kind-icon">on<wbr>Child<wbr>Hidden</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external"><a href="menu.html#onchildmoved" class="tsd-kind-icon">on<wbr>Child<wbr>Moved</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external"><a href="menu.html#onchildremoved" class="tsd-kind-icon">on<wbr>Child<wbr>Removed</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external"><a href="menu.html#onchildshown" class="tsd-kind-icon">on<wbr>Child<wbr>Shown</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external"><a href="menu.html#oncloserequest" class="tsd-kind-icon">on<wbr>Close<wbr>Request</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external"><a href="menu.html#onitemschanged" class="tsd-kind-icon">on<wbr>Items<wbr>Changed</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external"><a href="menu.html#onlayoutrequest" class="tsd-kind-icon">on<wbr>Layout<wbr>Request</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external"><a href="menu.html#onopenitem" class="tsd-kind-icon">on<wbr>Open<wbr>Item</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external"><a href="menu.html#onresize" class="tsd-kind-icon">on<wbr>Resize</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external"><a href="menu.html#ontriggeritem" class="tsd-kind-icon">on<wbr>Trigger<wbr>Item</a></li>
@@ -207,8 +189,6 @@
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#openactiveitem" class="tsd-kind-icon">open<wbr>Active<wbr>Item</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-external"><a href="menu.html#popup" class="tsd-kind-icon">popup</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#processmessage" class="tsd-kind-icon">process<wbr>Message</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#removechild" class="tsd-kind-icon">remove<wbr>Child</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#removechildat" class="tsd-kind-icon">remove<wbr>Child<wbr>At</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#removeclass" class="tsd-kind-icon">remove<wbr>Class</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#toggleclass" class="tsd-kind-icon">toggle<wbr>Class</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#triggeractiveitem" class="tsd-kind-icon">trigger<wbr>Active<wbr>Item</a></li>
@@ -235,7 +215,7 @@
 							<aside class="tsd-sources">
 								<p>Overwrites Widget.__constructor</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L169">menu.ts:169</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L160">menu.ts:160</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -256,7 +236,7 @@
 					<div class="tsd-signature tsd-kind-icon">_child<wbr>Item<span class="tsd-signature-symbol">:</span> <a href="menuitem.html" class="tsd-signature-type">MenuItem</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L740">menu.ts:740</a></li>
+							<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L692">menu.ts:692</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -266,7 +246,7 @@
 					<div class="tsd-signature tsd-kind-icon">_child<wbr>Menu<span class="tsd-signature-symbol">:</span> <a href="menu.html" class="tsd-signature-type">Menu</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L739">menu.ts:739</a></li>
+							<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L691">menu.ts:691</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -276,7 +256,17 @@
 					<div class="tsd-signature tsd-kind-icon">_close<wbr>Timer<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L737">menu.ts:737</a></li>
+							<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L689">menu.ts:689</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external">
+					<a name="_nodes" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _nodes</h3>
+					<div class="tsd-signature tsd-kind-icon">_nodes<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">HTMLElement</span><span class="tsd-signature-symbol">[]</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L693">menu.ts:693</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -286,7 +276,7 @@
 					<div class="tsd-signature tsd-kind-icon">_open<wbr>Timer<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L736">menu.ts:736</a></li>
+							<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L688">menu.ts:688</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -296,49 +286,9 @@
 					<div class="tsd-signature tsd-kind-icon">_parent<wbr>Menu<span class="tsd-signature-symbol">:</span> <a href="menu.html" class="tsd-signature-type">Menu</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L738">menu.ts:738</a></li>
+							<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L690">menu.ts:690</a></li>
 						</ul>
 					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-					<a name="childcount" class="tsd-anchor"></a>
-					<h3>child<wbr>Count</h3>
-					<div class="tsd-signature tsd-kind-icon">child<wbr>Count<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from Widget.childCount</p>
-						<ul>
-							<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:288</li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Get the number of children of the widget.</p>
-						</div>
-						<h4 id="notes">Notes</h4>
-						<p>This is a read-only property.</p>
-						<p><strong>See also:</strong> <a href="menu.html#children">children</a>, <a href="menu.html#childat">childAt</a></p>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-					<a name="children" class="tsd-anchor"></a>
-					<h3>children</h3>
-					<div class="tsd-signature tsd-kind-icon">children<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Widget</span><span class="tsd-signature-symbol">[]</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from Widget.children</p>
-						<ul>
-							<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:279</li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Set the children of the widget.</p>
-						</div>
-						<h4 id="notes">Notes</h4>
-						<p>This will clear the current child widgets and add the specified
-							child widgets. Depending on the desired outcome, it can be more
-						efficient to use one of the child manipulation methods.</p>
-						<p><strong>See also:</strong> <a href="menu.html#addchild">addChild</a>, <a href="menu.html#insertchild">insertChild</a>, <a href="menu.html#removechild">removeChild</a></p>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 					<a name="disposed" class="tsd-anchor"></a>
@@ -347,7 +297,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Widget.disposed</p>
 						<ul>
-							<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:180</li>
+							<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:165</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -365,7 +315,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Widget.hidden</p>
 						<ul>
-							<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:227</li>
+							<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:212</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -384,7 +334,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from NodeWrapper.id</p>
 						<ul>
-							<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/node_modules/phosphor-nodewrapper/lib/index.d.ts:29</li>
+							<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-nodewrapper/lib/index.d.ts:29</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -400,7 +350,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Widget.isAttached</p>
 						<ul>
-							<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:189</li>
+							<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:174</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -419,7 +369,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Widget.isDisposed</p>
 						<ul>
-							<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:198</li>
+							<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:183</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -438,7 +388,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Widget.isVisible</p>
 						<ul>
-							<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:210</li>
+							<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:195</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -459,7 +409,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from NodeWrapper.node</p>
 						<ul>
-							<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/node_modules/phosphor-nodewrapper/lib/index.d.ts:22</li>
+							<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-nodewrapper/lib/index.d.ts:22</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -473,28 +423,22 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 					<a name="parent" class="tsd-anchor"></a>
 					<h3>parent</h3>
-					<div class="tsd-signature tsd-kind-icon">parent<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Widget</span></div>
+					<div class="tsd-signature tsd-kind-icon">parent<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Panel</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from Widget.parent</p>
 						<ul>
-							<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:259</li>
+							<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:240</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Set the parent of the widget.</p>
+							<p>Set the parent panel of the widget.</p>
 						</div>
-						<dl class="tsd-comment-tags">
-							<dt>throws</dt>
-							<dd><p>Will throw an error if the widget is the parent.</p>
-								<h4 id="notes">Notes</h4>
-								<p>If the specified parent is the current parent, this is a no-op.</p>
-								<p>If the specified parent is <code>null</code>, this is equivalent to the
-									expression <code>widget.parent.removeChild(widget)</code>, otherwise it
-								is equivalent to the expression <code>parent.addChild(widget)</code>.</p>
-								<p><strong>See also:</strong> <a href="menu.html#addchild">addChild</a>, <a href="menu.html#insertchild">insertChild</a>, <a href="menu.html#removechild">removeChild</a></p>
-							</dd>
-						</dl>
+						<h4 id="notes">Notes</h4>
+						<p>If the panel is the current parent, this is no-op. Otherwise, the
+							widget will be removed from its current parent and added as the
+						last child of the given panel.</p>
+						<p>Setting this to <code>null</code> or <code>undefined</code> will unparent the widget.</p>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
@@ -504,7 +448,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Widget.title</p>
 						<ul>
-							<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:238</li>
+							<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:223</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -525,7 +469,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Widget.MsgAfterAttach</p>
 						<ul>
-							<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:94</li>
+							<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:80</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -544,7 +488,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Widget.MsgAfterShow</p>
 						<ul>
-							<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:74</li>
+							<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:60</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -552,7 +496,7 @@
 							<p>A singleton <code>&#39;after-show&#39;</code> message.</p>
 						</div>
 						<h4 id="notes">Notes</h4>
-						<p>This message is sent to a widget when it becomes visible.</p>
+						<p>This message is sent to a widget after it becomes visible.</p>
 						<p>This message is <strong>not</strong> sent when the widget is attached.</p>
 						<p><strong>See also:</strong> <a href="menu.html#isvisible">isVisible</a>, <a href="menu.html#onaftershow">onAfterShow</a></p>
 					</div>
@@ -564,7 +508,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Widget.MsgBeforeDetach</p>
 						<ul>
-							<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:103</li>
+							<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:89</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -583,7 +527,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Widget.MsgBeforeHide</p>
 						<ul>
-							<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:85</li>
+							<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:71</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -591,7 +535,7 @@
 							<p>A singleton <code>&#39;before-hide&#39;</code> message.</p>
 						</div>
 						<h4 id="notes">Notes</h4>
-						<p>This message is sent to a widget when it becomes not-visible.</p>
+						<p>This message is sent to a widget before it becomes not-visible.</p>
 						<p>This message is <strong>not</strong> sent when the widget is detached.</p>
 						<p><strong>See also:</strong> <a href="menu.html#isvisible">isVisible</a>, <a href="menu.html#onbeforehide">onBeforeHide</a></p>
 					</div>
@@ -603,7 +547,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Widget.MsgCloseRequest</p>
 						<ul>
-							<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:63</li>
+							<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:49</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -618,37 +562,13 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static tsd-is-external">
-					<a name="msglayoutrequest" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> Msg<wbr>Layout<wbr>Request</h3>
-					<div class="tsd-signature tsd-kind-icon">Msg<wbr>Layout<wbr>Request<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Message</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from Widget.MsgLayoutRequest</p>
-						<ul>
-							<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:51</li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>A singleton <code>&#39;layout-request&#39;</code> message.</p>
-						</div>
-						<h4 id="notes">Notes</h4>
-						<p>This message can be dispatched to supporting widgets in order to
-							update their layout. Not all widgets will respond to messages of
-						this type.</p>
-						<p>This message is typically used to update the size contraints of
-						a widget and to update the position and size of its children.</p>
-						<p>Messages of this type are compressed by default.</p>
-						<p><strong>See also:</strong> <a href="menu.html#onlayoutrequest">onLayoutRequest</a></p>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static tsd-is-external">
 					<a name="msgupdaterequest" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> Msg<wbr>Update<wbr>Request</h3>
 					<div class="tsd-signature tsd-kind-icon">Msg<wbr>Update<wbr>Request<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Message</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from Widget.MsgUpdateRequest</p>
 						<ul>
-							<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:35</li>
+							<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:37</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -660,8 +580,8 @@
 							update their content. Not all widgets will respond to messages of
 						this type.</p>
 						<p>This message is typically used to update the position and size of
-							a widget&#39;s children, or to update a widget&#39;s content to reflect the
-						current state of the widget.</p>
+							a panel&#39;s children, or to update a widget&#39;s content to reflect the
+						current widget state.</p>
 						<p>Messages of this type are compressed by default.</p>
 						<p><strong>See also:</strong> <a href="menu.html#update">update</a>, <a href="menu.html#onupdaterequest">onUpdateRequest</a></p>
 					</div>
@@ -673,14 +593,13 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="menubase.html">MenuBase</a>.<a href="menubase.html#activeindexproperty">activeIndexProperty</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubase.ts#L54">menubase.ts:54</a></li>
+							<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubase.ts#L53">menubase.ts:53</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The property descriptor for the active index.</p>
+							<p>The property descriptor for the index of the active menu item.</p>
 						</div>
-						<p>This controls which menu item is the active item.</p>
 						<p><strong>See also:</strong> <a href="menu.html#activeindex">activeIndex</a></p>
 					</div>
 				</section>
@@ -690,7 +609,7 @@
 					<div class="tsd-signature tsd-kind-icon">closed<wbr>Signal<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Signal</span><span class="tsd-signature-symbol">&lt;</span><a href="menu.html" class="tsd-signature-type">Menu</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L169">menu.ts:169</a></li>
+							<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L160">menu.ts:160</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -707,7 +626,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Widget.disposedSignal</p>
 						<ul>
-							<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:140</li>
+							<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:126</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -724,7 +643,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Widget.hiddenProperty</p>
 						<ul>
-							<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:158</li>
+							<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:144</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -732,13 +651,13 @@
 							<p>A property descriptor which controls the hidden state of a widget.</p>
 						</div>
 						<h4 id="notes">Notes</h4>
-						<p>This property controls whether a widget is explicitly hidden.</p>
+						<p>This controls whether a widget is explicitly hidden.</p>
 						<p>Hiding a widget will cause the widget and all of its descendants
 						to become not-visible.</p>
-						<p>This property will toggle the presence of <code>&#39;p-mod-hidden&#39;</code> on a
-							widget. It will also dispatch <code>&#39;after-show&#39;</code> and <code>&#39;before-hide&#39;</code>
-						messages as appropriate.</p>
-						<p>The default property value is <code>false</code>.</p>
+						<p>This will toggle the presence of <code>&#39;p-mod-hidden&#39;</code> on a widget. It
+							will also dispatch <code>&#39;after-show&#39;</code> and <code>&#39;before-hide&#39;</code> messages as
+						appropriate.</p>
+						<p>The default value is <code>false</code>.</p>
 						<p><strong>See also:</strong> <a href="menu.html#hidden">hidden</a>, <a href="menu.html#isvisible">isVisible</a></p>
 					</div>
 				</section>
@@ -754,11 +673,12 @@
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The property descriptor for the menu items.</p>
+							<p>The property descriptor for the array of menu items.</p>
 						</div>
-						<p>This controls the items which are contained in the menu.</p>
 						<h4 id="notes">Notes</h4>
-						<p>In-place modifications to the array are not allowed.</p>
+						<p>This property creates a frozen shallow copy of the assigned items
+							array. This means that the menu items can only be changed in bulk
+						and that in-place modifications to the array are not allowed.</p>
 						<p><strong>See also:</strong> <a href="menu.html#items">items</a></p>
 					</div>
 				</section>
@@ -782,7 +702,7 @@
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Get index of the active menu item.</p>
+									<p>Get the index of the active menu item.</p>
 								</div>
 								<h4 id="notes">Notes</h4>
 								<p>This is a pure delegate to the <a href="menu.html#activeindexproperty">activeIndexProperty</a>.</p>
@@ -798,7 +718,7 @@
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Set index of the active menu item.</p>
+									<p>Set the index of the active menu item.</p>
 								</div>
 								<h4 id="notes">Notes</h4>
 								<p>This is a pure delegate to the <a href="menu.html#activeindexproperty">activeIndexProperty</a>.</p>
@@ -823,7 +743,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L213">menu.ts:213</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L204">menu.ts:204</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -847,7 +767,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L193">menu.ts:193</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L184">menu.ts:184</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -858,6 +778,31 @@
 								<p>This is a pure delegate to the <a href="menu.html#closedsignal">closedSignal</a>.</p>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">ISignal</span><span class="tsd-signature-symbol">&lt;</span><a href="menu.html" class="tsd-signature-type">Menu</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-external">
+					<a name="contentnode" class="tsd-anchor"></a>
+					<h3>content<wbr>Node</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-external">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> contentNode<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HTMLElement</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L237">menu.ts:237</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get the menu content node.</p>
+								</div>
+								<h4 id="notes">Notes</h4>
+								<p>This is the node which holds the menu item nodes. Modifying the
+								content of this node without care can lead to undesired behavior.</p>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">HTMLElement</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -919,7 +864,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L231">menu.ts:231</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L222">menu.ts:222</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -941,7 +886,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L203">menu.ts:203</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L194">menu.ts:194</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -965,7 +910,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L220">menu.ts:220</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L211">menu.ts:211</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -990,7 +935,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L709">menu.ts:709</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L681">menu.ts:681</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1012,7 +957,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L699">menu.ts:699</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L671">menu.ts:671</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1034,7 +979,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L682">menu.ts:682</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L652">menu.ts:652</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1057,7 +1002,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L551">menu.ts:551</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L522">menu.ts:522</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1085,7 +1030,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L578">menu.ts:578</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L549">menu.ts:549</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1114,7 +1059,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L614">menu.ts:614</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L585">menu.ts:585</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1143,7 +1088,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L561">menu.ts:561</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L532">menu.ts:532</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1172,14 +1117,13 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L501">menu.ts:501</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L476">menu.ts:476</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Handle the <code>&#39;mouseenter&#39;</code> event for the menu.</p>
+									<p>Handle the <code>&#39;mouseenter&#39;</code> event for a menu item.</p>
 								</div>
-								<p>This event listener is attached to the child item nodes.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -1201,14 +1145,13 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L522">menu.ts:522</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L495">menu.ts:495</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Handle the <code>&#39;mouseleave&#39;</code> event for the menu.</p>
 								</div>
-								<p>This event listener is only attached to the menu node.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -1230,14 +1173,13 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L536">menu.ts:536</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L507">menu.ts:507</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Handle the <code>&#39;mouseup&#39;</code> event for the menu.</p>
 								</div>
-								<p>This event listener is attached to the menu node.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -1246,64 +1188,6 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external">
-					<a name="_itemnodeat" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _item<wbr>Node<wbr>At</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">_item<wbr>Node<wbr>At<span class="tsd-signature-symbol">(</span>index<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HTMLElement</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L721">menu.ts:721</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Get the menu item node at the given index.</p>
-								</div>
-								<p>This will return <code>undefined</code> if the index is out of range.</p>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>index: <span class="tsd-signature-type">number</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">HTMLElement</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external">
-					<a name="_itemnodeindex" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _item<wbr>Node<wbr>Index</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">_item<wbr>Node<wbr>Index<span class="tsd-signature-symbol">(</span>node<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HTMLElement</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L731">menu.ts:731</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Get the index of the given menu item node.</p>
-								</div>
-								<p>This will return <code>-1</code> if the menu item node is not found.</p>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>node: <span class="tsd-signature-type">HTMLElement</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -1317,7 +1201,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L652">menu.ts:652</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L624">menu.ts:624</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1325,8 +1209,8 @@
 									<p>Open the menu item&#39;s submenu using the node for location.</p>
 								</div>
 								<p>If the given item is already open, this is a no-op.</p>
-								<p>Any pending open operation will be cancelled before opening
-								the menu or queueing the delayed task to open the menu.</p>
+								<p>Any pending open operation will be canceled before opening the
+								menu or queuing the delayed task to open the menu.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -1354,7 +1238,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L627">menu.ts:627</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L599">menu.ts:599</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1362,8 +1246,8 @@
 									<p>Synchronize the active item hierarchy starting with the parent.</p>
 								</div>
 								<p>This ensures that the proper child items are activated for the
-									ancestor menu hierarchy and that any pending open or close
-								tasks are cleared.</p>
+									ancestor menu hierarchy and that any pending open or close tasks
+								are canceled.</p>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
@@ -1379,7 +1263,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L638">menu.ts:638</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L610">menu.ts:610</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1480,48 +1364,6 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-					<a name="addchild" class="tsd-anchor"></a>
-					<h3>add<wbr>Child</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">add<wbr>Child<span class="tsd-signature-symbol">(</span>child<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Widget</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<p>Inherited from Widget.addChild</p>
-								<ul>
-									<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:326</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Add a child widget to the end of the widget&#39;s children.</p>
-								</div>
-								<dl class="tsd-comment-tags">
-									<dt>throws</dt>
-									<dd><p>Will throw an error if a widget is added to itself.</p>
-										<h4 id="notes">Notes</h4>
-										<p>The child will be automatically removed from its current parent
-										before being added to this widget.</p>
-										<p><strong>See also:</strong> <a href="menu.html#insertchild">insertChild</a>, <a href="menu.html#movechild">moveChild</a></p>
-									</dd>
-								</dl>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>child: <span class="tsd-signature-type">Widget</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The child widget to add to this widget.</p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
-							<p>The new index of the child.</p>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 					<a name="addclass" class="tsd-anchor"></a>
 					<h3>add<wbr>Class</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
@@ -1532,7 +1374,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from NodeWrapper.addClass</p>
 								<ul>
-									<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/node_modules/phosphor-nodewrapper/lib/index.d.ts:46</li>
+									<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-nodewrapper/lib/index.d.ts:46</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1556,134 +1398,27 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-					<a name="childat" class="tsd-anchor"></a>
-					<h3>child<wbr>At</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">child<wbr>At<span class="tsd-signature-symbol">(</span>index<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Widget</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<p>Inherited from Widget.childAt</p>
-								<ul>
-									<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:299</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Get the child widget at a specific index.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>index: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The index of the child of interest.</p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Widget</span></h4>
-							<p>The child widget at the specified index, or <code>undefined</code>
-							if the index is out of range.</p>
-							<p><strong>See also:</strong> <a href="menu.html#childcount">childCount</a>, <a href="menu.html#childindex">childIndex</a></p>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-					<a name="childindex" class="tsd-anchor"></a>
-					<h3>child<wbr>Index</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">child<wbr>Index<span class="tsd-signature-symbol">(</span>child<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Widget</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<p>Inherited from Widget.childIndex</p>
-								<ul>
-									<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:310</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Get the index of a specific child widget.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>child: <span class="tsd-signature-type">Widget</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The child widget of interest.</p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
-							<p>The index of the specified child widget, or <code>-1</code> if
-							the widget is not a child of this widget.</p>
-							<p><strong>See also:</strong> <a href="menu.html#childcount">childCount</a>, <a href="menu.html#childat">childAt</a></p>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-					<a name="clearchildren" class="tsd-anchor"></a>
-					<h3>clear<wbr>Children</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">clear<wbr>Children<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<p>Inherited from Widget.clearChildren</p>
-								<ul>
-									<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:397</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Remove all child widgets from the widget.</p>
-								</div>
-								<h4 id="notes">Notes</h4>
-								<p>This will continue to remove children until the <code>childCount</code>
-									reaches zero. It is therefore possible to enter an infinite
-									loop if a message handler causes a child widget to be added
-								in response to one being removed.</p>
-								<p><strong>See also:</strong> <a href="menu.html#removechild">removeChild</a>, <a href="menu.html#removechildat">removeChildAt</a></p>
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 					<a name="close" class="tsd-anchor"></a>
 					<h3>close</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">close<span class="tsd-signature-symbol">(</span>immediate<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">close<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from Widget.close</p>
 								<ul>
-									<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:415</li>
+									<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:258</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Dispatch a <code>&#39;close-request&#39;</code> message to the widget.</p>
+									<p>Send a <code>&#39;close-request&#39;</code> message to the widget.</p>
 								</div>
+								<h4 id="notes">Notes</h4>
+								<p>This is a simple convenience method for sending the message.</p>
+								<p><strong>See also:</strong> <a href="menu.html#msgcloserequest">MsgCloseRequest</a>, <a href="menu.html#oncloserequest">onCloseRequest</a></p>
 							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> immediate: <span class="tsd-signature-type">boolean</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>Whether to dispatch the message immediately
-										(<code>true</code>) or in the future (<code>false</code>). The default is <code>false</code>.</p>
-										<p><strong>See also:</strong> <a href="menu.html#msgcloserequest">MsgCloseRequest</a>, <a href="menu.html#oncloserequest">onCloseRequest</a></p>
-									</div>
-								</li>
-							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -1730,7 +1465,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Widget.compressMessage</p>
 								<ul>
-									<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:442</li>
+									<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:284</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1758,8 +1493,7 @@
 								dropped, or <code>false</code> if the message should be enqueued for
 							delivery as normal.</p>
 							<h4 id="notes">Notes</h4>
-							<p>The default implementation compresses the following messages:
-							<code>&#39;update-request&#39;</code>, <code>&#39;layout-request&#39;</code>, and <code>&#39;close-request&#39;</code>.</p>
+							<p>The default implementation compresses <code>&#39;update-request&#39;</code>.</p>
 							<p>Subclasses may reimplement this method as needed.</p>
 						</li>
 					</ul>
@@ -1775,7 +1509,7 @@
 							<aside class="tsd-sources">
 								<p>Overwrites Widget.dispose</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L182">menu.ts:182</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L173">menu.ts:173</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1833,7 +1567,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from NodeWrapper.hasClass</p>
 								<ul>
-									<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/node_modules/phosphor-nodewrapper/lib/index.d.ts:37</li>
+									<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-nodewrapper/lib/index.d.ts:37</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1852,100 +1586,6 @@
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 							<p><code>true</code> if the node has the class, <code>false</code> otherwise.</p>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-					<a name="insertchild" class="tsd-anchor"></a>
-					<h3>insert<wbr>Child</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">insert<wbr>Child<span class="tsd-signature-symbol">(</span>index<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, child<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Widget</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<p>Inherited from Widget.insertChild</p>
-								<ul>
-									<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:345</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Insert a child widget at a specific index.</p>
-								</div>
-								<dl class="tsd-comment-tags">
-									<dt>throws</dt>
-									<dd><p>Will throw an error if a widget is inserted into itself.</p>
-										<h4 id="notes">Notes</h4>
-										<p>The child will be automatically removed from its current parent
-										before being added to this widget.</p>
-										<p><strong>See also:</strong> <a href="menu.html#addchild">addChild</a>, <a href="menu.html#movechild">moveChild</a></p>
-									</dd>
-								</dl>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>index: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The target index for the widget. This will be
-										clamped to the bounds of the children.</p>
-									</div>
-								</li>
-								<li>
-									<h5>child: <span class="tsd-signature-type">Widget</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The child widget to insert into the widget.</p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
-							<p>The new index of the child.</p>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-					<a name="movechild" class="tsd-anchor"></a>
-					<h3>move<wbr>Child</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">move<wbr>Child<span class="tsd-signature-symbol">(</span>fromIndex<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, toIndex<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<p>Inherited from Widget.moveChild</p>
-								<ul>
-									<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:363</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Move a child widget from one index to another.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>fromIndex: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The index of the child of interest.</p>
-									</div>
-								</li>
-								<li>
-									<h5>toIndex: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The target index for the child.</p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-							<p>&#39;true&#39; if the child was moved, or <code>false</code> if either
-							of the given indices are out of range.</p>
-							<h4 id="notes">Notes</h4>
-							<p>This method can be more efficient than re-inserting an existing
-								child, as some widgets may be able to optimize child moves and
-							avoid making unnecessary changes to the DOM.</p>
-							<p><strong>See also:</strong> <a href="menu.html#addchild">addChild</a>, <a href="menu.html#insertchild">insertChild</a></p>
 						</li>
 					</ul>
 				</section>
@@ -1992,7 +1632,7 @@
 							<aside class="tsd-sources">
 								<p>Overwrites Widget.onAfterAttach</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L377">menu.ts:377</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L379">menu.ts:379</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2021,7 +1661,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Widget.onAfterShow</p>
 								<ul>
-									<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:533</li>
+									<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:318</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2052,7 +1692,7 @@
 							<aside class="tsd-sources">
 								<p>Overwrites Widget.onBeforeDetach</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L386">menu.ts:386</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L388">menu.ts:388</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2081,7 +1721,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Widget.onBeforeHide</p>
 								<ul>
-									<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:541</li>
+									<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:326</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2101,173 +1741,6 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
-					<a name="onchildadded" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagProtected">Protected</span> on<wbr>Child<wbr>Added</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">on<wbr>Child<wbr>Added<span class="tsd-signature-symbol">(</span>msg<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ChildMessage</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<p>Inherited from Widget.onChildAdded</p>
-								<ul>
-									<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:455</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>A message handler invoked on a <code>&#39;child-added&#39;</code> message.</p>
-								</div>
-								<h4 id="notes">Notes</h4>
-								<p>The default implementation adds the child node to the widget
-									node at the proper location and dispatches an <code>&#39;after-attach&#39;</code>
-								message if appropriate.</p>
-								<p>Subclasses may reimplement this method to control how the child
-									node is added, but they must dispatch an <code>&#39;after-attach&#39;</code> message
-								if appropriate.</p>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>msg: <span class="tsd-signature-type">ChildMessage</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
-					<a name="onchildhidden" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagProtected">Protected</span> on<wbr>Child<wbr>Hidden</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">on<wbr>Child<wbr>Hidden<span class="tsd-signature-symbol">(</span>msg<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ChildMessage</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<p>Inherited from Widget.onChildHidden</p>
-								<ul>
-									<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:569</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>A message handler invoked on a <code>&#39;child-hidden&#39;</code> message.</p>
-								</div>
-								<p>The default implementation of this handler is a no-op.</p>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>msg: <span class="tsd-signature-type">ChildMessage</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
-					<a name="onchildmoved" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagProtected">Protected</span> on<wbr>Child<wbr>Moved</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">on<wbr>Child<wbr>Moved<span class="tsd-signature-symbol">(</span>msg<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ChildMessage</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<p>Inherited from Widget.onChildMoved</p>
-								<ul>
-									<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:480</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>A message handler invoked on a <code>&#39;child-moved&#39;</code> message.</p>
-								</div>
-								<h4 id="notes">Notes</h4>
-								<p>The default implementation moves the child node to the proper
-									location in the widget node and dispatches a <code>&#39;before-detach&#39;</code>
-								and <code>&#39;after-attach&#39;</code> message if appropriate.</p>
-								<p>Subclasses may reimplement this method to control how the child
-									node is moved, but they must dispatch a <code>&#39;before-detach&#39;</code> and
-								<code>&#39;after-attach&#39;</code> message if appropriate.</p>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>msg: <span class="tsd-signature-type">ChildMessage</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
-					<a name="onchildremoved" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagProtected">Protected</span> on<wbr>Child<wbr>Removed</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">on<wbr>Child<wbr>Removed<span class="tsd-signature-symbol">(</span>msg<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ChildMessage</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<p>Inherited from Widget.onChildRemoved</p>
-								<ul>
-									<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:467</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>A message handler invoked on a <code>&#39;child-removed&#39;</code> message.</p>
-								</div>
-								<h4 id="notes">Notes</h4>
-								<p>The default implementation removes the child node from the widget
-								node and dispatches a <code>&#39;before-detach&#39;</code> message if appropriate.</p>
-								<p>Subclasses may reimplement this method to control how the child
-									node is removed, but they must  dispatch a <code>&#39;before-detach&#39;</code>
-								message if appropriate.</p>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>msg: <span class="tsd-signature-type">ChildMessage</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
-					<a name="onchildshown" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagProtected">Protected</span> on<wbr>Child<wbr>Shown</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">on<wbr>Child<wbr>Shown<span class="tsd-signature-symbol">(</span>msg<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ChildMessage</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<p>Inherited from Widget.onChildShown</p>
-								<ul>
-									<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:563</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>A message handler invoked on a <code>&#39;child-shown&#39;</code> message.</p>
-								</div>
-								<p>The default implementation of this handler is a no-op.</p>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>msg: <span class="tsd-signature-type">ChildMessage</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external">
 					<a name="oncloserequest" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> on<wbr>Close<wbr>Request</h3>
@@ -2279,7 +1752,7 @@
 							<aside class="tsd-sources">
 								<p>Overwrites Widget.onCloseRequest</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L459">menu.ts:459</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L438">menu.ts:438</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2329,37 +1802,6 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
-					<a name="onlayoutrequest" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagProtected">Protected</span> on<wbr>Layout<wbr>Request</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">on<wbr>Layout<wbr>Request<span class="tsd-signature-symbol">(</span>msg<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Message</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<p>Inherited from Widget.onLayoutRequest</p>
-								<ul>
-									<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:525</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>A message handler invoked on a <code>&#39;layout-request&#39;</code> message.</p>
-								</div>
-								<p>The default implementation of this handler is a no-op.</p>
-								<p><strong>See also:</strong> <a href="menu.html#msglayoutrequest">MsgLayoutRequest</a></p>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>msg: <span class="tsd-signature-type">Message</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external">
 					<a name="onopenitem" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> on<wbr>Open<wbr>Item</h3>
@@ -2403,19 +1845,14 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Widget.onResize</p>
 								<ul>
-									<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:492</li>
+									<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:302</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>A message handler invoked on a <code>&#39;resize&#39;</code> message.</p>
 								</div>
-								<h4 id="notes">Notes</h4>
-								<p>The default implementation of this handler sends an [[UnknownSize]]
-									resize message to each child. This ensures that the resize messages
-								propagate through all widgets in the hierarchy.</p>
-								<p>Subclasses may reimplement this method as needed, but they must
-								dispatch <code>&#39;resize&#39;</code> messages to their children as appropriate.</p>
+								<p>The default implementation of this handler is a no-op.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -2438,7 +1875,7 @@
 							<aside class="tsd-sources">
 								<p>Overwrites <a href="menubase.html">MenuBase</a>.<a href="menubase.html#ontriggeritem">onTriggerItem</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L368">menu.ts:368</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L370">menu.ts:370</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2470,7 +1907,7 @@
 							<aside class="tsd-sources">
 								<p>Overwrites Widget.onUpdateRequest</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L398">menu.ts:398</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L400">menu.ts:400</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2498,7 +1935,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L296">menu.ts:296</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L297">menu.ts:297</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2583,7 +2020,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L262">menu.ts:262</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L264">menu.ts:264</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2597,7 +2034,7 @@
 								<p>When the menu is opened as a popup menu, it will handle all key
 									events related to menu navigation as well as closing the menu
 									when the mouse is pressed outside of the menu hierarchy. To
-								prevent these actions, use the &#39;open&#39; method instead.</p>
+								prevent these actions, use the <code>open</code> method instead.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -2642,7 +2079,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Widget.processMessage</p>
 								<ul>
-									<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:424</li>
+									<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:267</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2666,76 +2103,6 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-					<a name="removechild" class="tsd-anchor"></a>
-					<h3>remove<wbr>Child</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">remove<wbr>Child<span class="tsd-signature-symbol">(</span>child<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Widget</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<p>Inherited from Widget.removeChild</p>
-								<ul>
-									<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:385</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Remove a specific child widget from this widget.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>child: <span class="tsd-signature-type">Widget</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The child widget of interest.</p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
-							<p>The index which the child occupied, or <code>-1</code> if the
-							child is not a child of this widget.</p>
-							<p><strong>See also:</strong> <a href="menu.html#removechildat">removeChildAt</a>, <a href="menu.html#clearchildren">clearChildren</a></p>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-					<a name="removechildat" class="tsd-anchor"></a>
-					<h3>remove<wbr>Child<wbr>At</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">remove<wbr>Child<wbr>At<span class="tsd-signature-symbol">(</span>index<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Widget</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<p>Inherited from Widget.removeChildAt</p>
-								<ul>
-									<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:374</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Remove the child widget at a specific index.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>index: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The index of the child of interest.</p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Widget</span></h4>
-							<p>The removed child widget, or <code>undefined</code> if the index
-							is out of range.</p>
-							<p><strong>See also:</strong> <a href="menu.html#removechild">removeChild</a>, <a href="menu.html#clearchildren">clearChildren</a></p>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 					<a name="removeclass" class="tsd-anchor"></a>
 					<h3>remove<wbr>Class</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
@@ -2746,7 +2113,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from NodeWrapper.removeClass</p>
 								<ul>
-									<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/node_modules/phosphor-nodewrapper/lib/index.d.ts:55</li>
+									<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-nodewrapper/lib/index.d.ts:55</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2780,7 +2147,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from NodeWrapper.toggleClass</p>
 								<ul>
-									<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/node_modules/phosphor-nodewrapper/lib/index.d.ts:67</li>
+									<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-nodewrapper/lib/index.d.ts:67</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2840,32 +2207,24 @@
 					<a name="update" class="tsd-anchor"></a>
 					<h3>update</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">update<span class="tsd-signature-symbol">(</span>immediate<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">update<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from Widget.update</p>
 								<ul>
-									<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:406</li>
+									<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:249</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Dispatch an <code>&#39;update-request&#39;</code> message to the widget.</p>
+									<p>Post an <code>&#39;update-request&#39;</code> message to the widget.</p>
 								</div>
+								<h4 id="notes">Notes</h4>
+								<p>This is a simple convenience method for posting the message.</p>
+								<p><strong>See also:</strong> <a href="menu.html#msgupdaterequest">MsgUpdateRequest</a>, <a href="menu.html#onupdaterequest">onUpdateRequest</a></p>
 							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> immediate: <span class="tsd-signature-type">boolean</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>Whether to dispatch the message immediately
-										(<code>true</code>) or in the future (<code>false</code>). The default is <code>false</code>.</p>
-										<p><strong>See also:</strong> <a href="menu.html#msgupdaterequest">MsgUpdateRequest</a>, <a href="menu.html#onupdaterequest">onUpdateRequest</a></p>
-									</div>
-								</li>
-							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -2881,7 +2240,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Widget.attach</p>
 								<ul>
-									<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:120</li>
+									<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:106</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2930,7 +2289,7 @@
 							<aside class="tsd-sources">
 								<p>Overwrites NodeWrapper.createNode</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L138">menu.ts:138</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L133">menu.ts:133</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2953,7 +2312,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Widget.detach</p>
 								<ul>
-									<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:134</li>
+									<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:120</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2994,7 +2353,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L158">menu.ts:158</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L148">menu.ts:148</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -3013,10 +2372,6 @@
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="menu.html" class="tsd-signature-type">Menu</a></h4>
 							<p>A new menu created from the menu item templates.</p>
-							<h4 id="notes">Notes</h4>
-							<p>Submenu templates will be recursively created using the
-								<code>Menu.fromTemplate</code> method. If custom menus or menu items
-							are required, use the relevant constructors directly.</p>
 						</li>
 					</ul>
 				</section>
@@ -3050,16 +2405,13 @@
 								<a href="menu.html#_closetimerid" class="tsd-kind-icon">_close<wbr>Timer<wbr>Id</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external">
+								<a href="menu.html#_nodes" class="tsd-kind-icon">_nodes</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external">
 								<a href="menu.html#_opentimerid" class="tsd-kind-icon">_open<wbr>Timer<wbr>Id</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external">
 								<a href="menu.html#_parentmenu" class="tsd-kind-icon">_parent<wbr>Menu</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-								<a href="menu.html#childcount" class="tsd-kind-icon">child<wbr>Count</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-								<a href="menu.html#children" class="tsd-kind-icon">children</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 								<a href="menu.html#disposed" class="tsd-kind-icon">disposed</a>
@@ -3104,9 +2456,6 @@
 								<a href="menu.html#msgcloserequest" class="tsd-kind-icon">Msg<wbr>Close<wbr>Request</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static tsd-is-external">
-								<a href="menu.html#msglayoutrequest" class="tsd-kind-icon">Msg<wbr>Layout<wbr>Request</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static tsd-is-external">
 								<a href="menu.html#msgupdaterequest" class="tsd-kind-icon">Msg<wbr>Update<wbr>Request</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static tsd-is-external">
@@ -3132,6 +2481,9 @@
 							</li>
 							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-external">
 								<a href="menu.html#closed" class="tsd-kind-icon">closed</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-external">
+								<a href="menu.html#contentnode" class="tsd-kind-icon">content<wbr>Node</a>
 							</li>
 							<li class=" tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 								<a href="menu.html#items" class="tsd-kind-icon">items</a>
@@ -3176,12 +2528,6 @@
 								<a href="menu.html#_evtmouseup" class="tsd-kind-icon">_evt<wbr>Mouse<wbr>Up</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external">
-								<a href="menu.html#_itemnodeat" class="tsd-kind-icon">_item<wbr>Node<wbr>At</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external">
-								<a href="menu.html#_itemnodeindex" class="tsd-kind-icon">_item<wbr>Node<wbr>Index</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external">
 								<a href="menu.html#_openchildmenu" class="tsd-kind-icon">_open<wbr>Child<wbr>Menu</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external">
@@ -3200,19 +2546,7 @@
 								<a href="menu.html#activatepreviousitem" class="tsd-kind-icon">activate<wbr>Previous<wbr>Item</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-								<a href="menu.html#addchild" class="tsd-kind-icon">add<wbr>Child</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 								<a href="menu.html#addclass" class="tsd-kind-icon">add<wbr>Class</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-								<a href="menu.html#childat" class="tsd-kind-icon">child<wbr>At</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-								<a href="menu.html#childindex" class="tsd-kind-icon">child<wbr>Index</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-								<a href="menu.html#clearchildren" class="tsd-kind-icon">clear<wbr>Children</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 								<a href="menu.html#close" class="tsd-kind-icon">close</a>
@@ -3232,12 +2566,6 @@
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 								<a href="menu.html#hasclass" class="tsd-kind-icon">has<wbr>Class</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-								<a href="menu.html#insertchild" class="tsd-kind-icon">insert<wbr>Child</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-								<a href="menu.html#movechild" class="tsd-kind-icon">move<wbr>Child</a>
-							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external">
 								<a href="menu.html#onactiveindexchanged" class="tsd-kind-icon">on<wbr>Active<wbr>Index<wbr>Changed</a>
 							</li>
@@ -3253,29 +2581,11 @@
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
 								<a href="menu.html#onbeforehide" class="tsd-kind-icon">on<wbr>Before<wbr>Hide</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
-								<a href="menu.html#onchildadded" class="tsd-kind-icon">on<wbr>Child<wbr>Added</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
-								<a href="menu.html#onchildhidden" class="tsd-kind-icon">on<wbr>Child<wbr>Hidden</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
-								<a href="menu.html#onchildmoved" class="tsd-kind-icon">on<wbr>Child<wbr>Moved</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
-								<a href="menu.html#onchildremoved" class="tsd-kind-icon">on<wbr>Child<wbr>Removed</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
-								<a href="menu.html#onchildshown" class="tsd-kind-icon">on<wbr>Child<wbr>Shown</a>
-							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external">
 								<a href="menu.html#oncloserequest" class="tsd-kind-icon">on<wbr>Close<wbr>Request</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external">
 								<a href="menu.html#onitemschanged" class="tsd-kind-icon">on<wbr>Items<wbr>Changed</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
-								<a href="menu.html#onlayoutrequest" class="tsd-kind-icon">on<wbr>Layout<wbr>Request</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external">
 								<a href="menu.html#onopenitem" class="tsd-kind-icon">on<wbr>Open<wbr>Item</a>
@@ -3300,12 +2610,6 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 								<a href="menu.html#processmessage" class="tsd-kind-icon">process<wbr>Message</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-								<a href="menu.html#removechild" class="tsd-kind-icon">remove<wbr>Child</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-								<a href="menu.html#removechildat" class="tsd-kind-icon">remove<wbr>Child<wbr>At</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 								<a href="menu.html#removeclass" class="tsd-kind-icon">remove<wbr>Class</a>
@@ -3352,6 +2656,12 @@
 					</li>
 					<li class=" tsd-kind-interface tsd-is-external">
 						<a href="../interfaces/imenuitemtemplate.html" class="tsd-kind-icon">IMenu<wbr>Item<wbr>Template</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-is-external">
+						<a href="../globals.html#handler" class="tsd-kind-icon">Handler</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="../globals.html#collapseseparators" class="tsd-kind-icon">collapse<wbr>Separators</a>
 					</li>
 				</ul>
 			</nav>
