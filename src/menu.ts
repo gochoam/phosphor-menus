@@ -418,7 +418,7 @@ class Menu extends MenuBase {
       node.addEventListener('mouseenter', this);
     }
 
-    // Update the node state to match the menu item.
+    // Update the node state to match the menu items.
     for (let i = 0, n = items.length; i < n; ++i) {
       updateItemNode(items[i], nodes[i]);
       if (i === index) {
