@@ -210,16 +210,14 @@ describe('phosphor-menus', () => {
 
     describe('#closed', () => {
 
-      it('should be emitted when the menu item is closed', (done) => {
+      it('should be emitted when the menu is closed', () => {
         let menu = Menu.fromTemplate(MENU_TEMPLATE);
         let called = false;
         menu.closed.connect(() => { called = true; });
         menu.popup(0, 0);
         menu.close();
-        setTimeout(() => {
-          expect(called).to.be(true);
-          done();
-        }, 0);
+        expect(called).to.be(true);
+        menu.dispose();
       });
 
     });
@@ -228,7 +226,7 @@ describe('phosphor-menus', () => {
 
       it('should get the parent menu of the menu', () => {
         let menu = Menu.fromTemplate(MENU_TEMPLATE);
-        menu.open(0, 0);
+        menu.popup(0, 0);
         menu.activeIndex = 10;
         menu.openActiveItem();
         expect(menu.items[10].submenu.parentMenu).to.be(menu);
@@ -246,7 +244,7 @@ describe('phosphor-menus', () => {
 
       it('should get the child menu of the menu', () => {
         let menu = Menu.fromTemplate(MENU_TEMPLATE);
-        menu.open(0, 0);
+        menu.popup(0, 0);
         menu.activeIndex = 10;
         menu.openActiveItem();
         expect(menu.childMenu).to.be(menu.items[10].submenu);
@@ -264,6 +262,7 @@ describe('phosphor-menus', () => {
 
       it('should find the root menu of this menu hierarchy', () => {
         let menu = Menu.fromTemplate(MENU_TEMPLATE);
+        menu.popup(0, 0);
         expect(menu.rootMenu).to.be(menu);
         menu.activeIndex = 10;
         menu.openActiveItem();
@@ -277,6 +276,7 @@ describe('phosphor-menus', () => {
 
       it('should find the root menu of this menu hierarchy', () => {
         let menu = Menu.fromTemplate(MENU_TEMPLATE);
+        menu.popup(0, 0);
         expect(menu.leafMenu).to.be(menu);
         menu.activeIndex = 10;
         menu.openActiveItem();
@@ -386,6 +386,7 @@ describe('phosphor-menus', () => {
         expect(menu.isAttached).to.be(true);
         menu.items = [];
         expect(menu.isAttached).to.be(false);
+        menu.dispose();
       });
 
     });
@@ -427,18 +428,22 @@ describe('phosphor-menus', () => {
 
       it('should close the root menu', () => {
         let menu = Menu.fromTemplate(MENU_TEMPLATE);
+        menu.popup(0, 0);
         menu.activeIndex = 10;
         menu.openActiveItem();
         menu.childMenu.triggerActiveItem();
         expect(menu.isAttached).to.be(false);
+        menu.dispose();
       });
 
       it('should call the item handler', () => {
         let called = false;
         let menu = Menu.fromTemplate([{ handler: () => { called = true; } }]);
+        menu.popup(0, 0);
         menu.activateNextItem();
         menu.triggerActiveItem();
         expect(called).to.be(true);
+        menu.dispose();
       });
 
     });
@@ -461,34 +466,31 @@ describe('phosphor-menus', () => {
 
       it('should generate the menu content', () => {
         let menu = Menu.fromTemplate(MENU_TEMPLATE);
-        expect(menu.node.firstChild.childNodes.length).to.be(0);
+        expect(menu.contentNode.childNodes.length).to.be(0);
         menu.popup(0, 0);
-        expect(menu.node.firstChild.childNodes.length).to.be(13);
+        expect(menu.contentNode.childNodes.length).to.be(13);
+        menu.dispose();
       });
 
     });
 
     describe('#onCloseRequest()', () => {
 
-      it('should be invoked when a menu is closed', (done) => {
+      it('should be invoked when a menu is closed', () => {
         let menu = new LogMenu();
         menu.popup(0, 0);
         menu.close();
-        setTimeout(() => {
-          expect(menu.messages.indexOf('onCloseRequest')).to.not.be(-1);
-          done();
-        }, 0);
+        expect(menu.messages.indexOf('onCloseRequest')).to.not.be(-1);
+        menu.dispose();
       });
 
-      it('should detach the widget from the DOM', (done) => {
+      it('should detach the widget from the DOM', () => {
         let menu = new Menu();
         menu.popup(0, 0);
         expect(menu.isAttached).to.be(true);
         menu.close();
-        setTimeout(() => {
-          expect(menu.isAttached).to.be(false);
-          done();
-        }, 0);
+        expect(menu.isAttached).to.be(false);
+        menu.dispose();
       });
 
     });
@@ -565,6 +567,7 @@ describe('phosphor-menus', () => {
         expect(menu.activeIndex).to.be(-1);
         triggerKeyEvent(document.body, 'keypress', { charCode: 84 } );  // 't' key
         expect(menu.activeIndex).to.be(1);
+        menu.dispose();
       });
 
     });
@@ -576,7 +579,7 @@ describe('phosphor-menus', () => {
         menu.popup(0, 0);
         menu.activeIndex = 10;
         menu.openActiveItem();
-        let node = menu.node.firstChild.firstChild as HTMLElement;
+        let node = menu.contentNode.firstChild as HTMLElement;
         triggerMouseEvent(node, 'mouseenter');
         setTimeout(() => {
           expect(menu.childMenu).to.be(null);
@@ -590,8 +593,8 @@ describe('phosphor-menus', () => {
         menu.popup(0, 0);
         menu.activeIndex = 10;
         menu.openActiveItem();
-        let node0 = menu.node.firstChild.firstChild as HTMLElement;
-        let node1 = menu.node.firstChild.childNodes[10] as HTMLElement;
+        let node0 = menu.contentNode.firstChild as HTMLElement;
+        let node1 = menu.contentNode.childNodes[10] as HTMLElement;
         triggerMouseEvent(node0, 'mouseenter');
         triggerMouseEvent(node1, 'mouseenter');
         setTimeout(() => {
@@ -608,9 +611,8 @@ describe('phosphor-menus', () => {
         menu.openActiveItem();
         let called = false;
         menu.childMenu.items[0].handler = () => { called = true; };
-        let node = menu.childMenu.node.firstChild.childNodes[0] as HTMLElement;
+        let node = menu.childMenu.contentNode.childNodes[0] as HTMLElement;
         triggerMouseEvent(node, 'mouseenter');
-        triggerMouseEvent(node, 'mousedown');
         triggerMouseEvent(node, 'mouseup');
         expect(called).to.be(true);
         menu.dispose();
