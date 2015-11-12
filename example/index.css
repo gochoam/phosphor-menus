@@ -98,8 +98,3 @@ body {
   border-right: 1px solid #C0C0C0;
   box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2);
 }
-
-
-.p-MenuBar-item-icon::before {
-  font-family: FontAwesome;
-}
