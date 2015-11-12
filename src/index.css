@@ -9,7 +9,6 @@
   position: absolute;
   top: 0;
   left: 0;
-  margin: 0;
   padding: 3px 0px;
   white-space: nowrap;
   overflow-x: hidden;
@@ -24,6 +23,7 @@
   margin: 0;
   padding: 0;
   border-spacing: 0;
+  list-style-type: none;
 }
 
 
@@ -33,7 +33,7 @@
 
 
 .p-Menu-item.p-mod-hidden,
-.p-Menu-item.p-mod-force-hidden {
+.p-Menu-item.p-mod-collapsed {
   display: none;
 }
 
@@ -90,8 +90,11 @@
 
 
 .p-MenuBar-content {
+  margin: 0;
+  padding: 0;
   display: flex;
   flex-direction: row;
+  list-style-type: none;
 }
 
 
@@ -101,6 +104,6 @@
 
 
 .p-MenuBar-item.p-mod-hidden,
-.p-MenuBar-item.p-mod-force-hidden {
+.p-MenuBar-item.p-mod-collapsed {
   display: none;
 }
