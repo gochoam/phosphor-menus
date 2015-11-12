@@ -21,14 +21,14 @@ const COLLAPSED_CLASS = 'p-mod-collapsed';
 /**
  * Collapse leading, trailing, and consecutive visible separators.
  *
- * This function is **not** part of the public Phosphor API.
+ * This function is **not** part of the public Phosphor API, and can
+ * be removed at any time without warning. We mean it!.
  *
- * @param items - The array of menu items of interest.
+ * @param items - The array of menu items of interest. This should be
+ *   the same length as the `nodes` array.
  *
- * @param nodes - The nodes representing the menu item.
- *
- * #### Notes
- * It is assumed that the arrays are equal length.
+ * @param nodes - The nodes representing the menu item. This should be
+ *   the same length as the `items` array.
  */
 export
 function collapseSeparators(items: MenuItem[], nodes: HTMLElement[]): void {
