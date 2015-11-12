@@ -22,18 +22,14 @@ import {
 } from '../../lib/index';
 
 
-function createMenuItem(template: IMenuItemTemplate): MenuItem {
-  return MenuItem.fromTemplate(template);
-}
-
-
 class LogMenuBar extends MenuBar {
 
   messages: string[] = [];
 
   static fromTemplate(array: IMenuItemTemplate[]): LogMenuBar {
+    let items = array.map(templ => MenuItem.fromTemplate(templ));
     let bar = new LogMenuBar();
-    bar.items = array.map(createMenuItem);
+    bar.items = items;
     return bar;
   }
 
@@ -285,7 +281,7 @@ describe('phosphor-menus', () => {
         bar.activeIndex = 0;
         bar.openActiveItem();
         expect(bar.childMenu).to.be(bar.items[0].submenu);
-        bar.childMenu.close(true);
+        bar.childMenu.close();
       });
 
       it('should null if the menu does not have an open submenu', () => {
@@ -322,7 +318,7 @@ describe('phosphor-menus', () => {
         bar.activateNextItem();
         bar.openActiveItem();
         expect(bar.messages.indexOf('onOpenItem')).to.not.be(-1);
-        bar.childMenu.close(true);
+        bar.childMenu.close();
       });
 
       it('should open the child menu', () => {
@@ -331,7 +327,7 @@ describe('phosphor-menus', () => {
         bar.openActiveItem();
         expect(bar.messages.indexOf('onOpenItem')).to.not.be(-1);
         expect(bar.childMenu).to.be(bar.items[0].submenu);
-        bar.childMenu.close(true);
+        bar.childMenu.close();
       });
 
     });
@@ -344,19 +340,22 @@ describe('phosphor-menus', () => {
         expect(bar.messages.indexOf('onUpdateRequest')).to.not.be(-1);
         let children = bar.node.firstChild.childNodes;
         expect(children.length).to.be(MENU_BAR_TEMPLATE.length);
-        bar.close(true);
+        bar.close();
       });
 
     });
 
     describe('#onCloseRequest()', () => {
 
-      it('should detach the widget from the DOM', () => {
+      it('should detach the widget from the DOM', (done) => {
         let bar = LogMenuBar.fromTemplate(MENU_BAR_TEMPLATE);
         Widget.attach(bar, document.body);
-        bar.close(true);
-        expect(bar.isAttached).to.be(false);
-        expect(bar.messages.indexOf('onCloseRequest')).to.not.be(-1);
+        bar.close();
+        setTimeout(() => {
+          expect(bar.isAttached).to.be(false);
+          expect(bar.messages.indexOf('onCloseRequest')).to.not.be(-1);
+          done();
+        }, 0);
       });
 
     });
@@ -374,7 +373,7 @@ describe('phosphor-menus', () => {
         setTimeout(() => {
           triggerKeyEvent(document.body, 'keydown', { keyCode: 13 });
           expect(called).to.be(true);
-          bar.close(true);
+          bar.close();
           done();
         }, 0);
       });
@@ -388,7 +387,7 @@ describe('phosphor-menus', () => {
         setTimeout(() => {
           triggerKeyEvent(document.body, 'keydown', { keyCode: 27 });
           expect(bar.childMenu).to.be(null);
-          bar.close(true);
+          bar.close();
           done();
         }, 0);
       });
@@ -402,7 +401,7 @@ describe('phosphor-menus', () => {
         setTimeout(() => {
           triggerKeyEvent(document.body, 'keydown', { keyCode: 37 });
           expect(bar.childMenu).to.be(bar.items[5].submenu);
-          bar.close(true);
+          bar.close();
           done();
         });
       });
@@ -417,7 +416,7 @@ describe('phosphor-menus', () => {
         setTimeout(() => {
           triggerKeyEvent(document.body, 'keydown', { keyCode: 37 });
           expect(bar.childMenu.childMenu).to.be(null);
-          bar.close(true);
+          bar.close();
           done();
         });
       });
@@ -431,7 +430,7 @@ describe('phosphor-menus', () => {
         setTimeout(() => {
           triggerKeyEvent(document.body, 'keydown', { keyCode: 38 });
           expect(bar.childMenu.activeIndex).to.be(10);
-          bar.close(true);
+          bar.close();
           done();
         }, 0);
       });
@@ -445,7 +444,7 @@ describe('phosphor-menus', () => {
         setTimeout(() => {
           triggerKeyEvent(document.body, 'keydown', { keyCode: 39 });
           expect(bar.childMenu.childMenu).to.not.be(null);
-          bar.close(true);
+          bar.close();
           done();
         }, 0);
       });
@@ -458,7 +457,7 @@ describe('phosphor-menus', () => {
         setTimeout(() => {
           triggerKeyEvent(document.body, 'keydown', { keyCode: 39 });
           expect(bar.childMenu).to.be(bar.items[1].submenu);
-          bar.close(true);
+          bar.close();
           done();
         }, 0);
       });
@@ -472,7 +471,7 @@ describe('phosphor-menus', () => {
         setTimeout(() => {
           triggerKeyEvent(document.body, 'keydown', { keyCode: 40 });
           expect(bar.childMenu.activeIndex).to.be(1);
-          bar.close(true);
+          bar.close();
           done();
         }, 0);
       });
@@ -485,7 +484,7 @@ describe('phosphor-menus', () => {
         setTimeout(() => {
           triggerKeyEvent(document.body, 'keypress', { charCode: 83 } );  // 's' key
           expect(bar.childMenu.activeIndex).to.be(2);
-          bar.close(true);
+          bar.close();
           done();
         }, 0);
       });
@@ -507,7 +506,7 @@ describe('phosphor-menus', () => {
         triggerMouseEvent(node, 'mousedown');
         triggerMouseEvent(node, 'mouseup');
         expect(checked).to.be(true);
-        bar.close(true);
+        bar.close();
       });
 
       it('should open the submenu', () => {
@@ -519,7 +518,7 @@ describe('phosphor-menus', () => {
         triggerMouseEvent(node, 'mousedown', args);
         expect(bar.activeIndex).to.be(0);
         expect(bar.childMenu).to.be(bar.items[0].submenu);
-        bar.close(true);
+        bar.close();
       });
 
       it('should close the submenu on an external mousedown', (done) => {
@@ -532,7 +531,7 @@ describe('phosphor-menus', () => {
           let args = { clientX: -10, clientY: -10 };
           triggerMouseEvent(document.body, 'mousedown', args);
           expect(bar.childMenu).to.be(null);
-          bar.close(true);
+          bar.close();
           done();
         }, 0);
       });
@@ -550,7 +549,7 @@ describe('phosphor-menus', () => {
           args = { clientX: rect.left + 1, clientY: rect.top + 1 };
           triggerMouseEvent(bar.node, 'mousemove', args);
           expect(bar.childMenu).to.be(bar.items[1].submenu);
-          bar.close(true);
+          bar.close();
           done();
         }, 0);
       });

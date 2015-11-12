@@ -22,18 +22,14 @@ import {
 } from '../../lib/index';
 
 
-function createMenuItem(template: IMenuItemTemplate): MenuItem {
-  return MenuItem.fromTemplate(template);
-}
-
-
 class LogMenu extends Menu {
 
   messages: string[] = [];
 
   static fromTemplate(array: IMenuItemTemplate[]): LogMenu {
+    let items = array.map(templ => MenuItem.fromTemplate(templ));
     let menu = new LogMenu();
-    menu.items = array.map(createMenuItem);
+    menu.items = items;
     return menu;
   }
 
@@ -214,13 +210,16 @@ describe('phosphor-menus', () => {
 
     describe('#closed', () => {
 
-      it('should be emitted when the menu item is closed', () => {
+      it('should be emitted when the menu item is closed', (done) => {
         let menu = Menu.fromTemplate(MENU_TEMPLATE);
         let called = false;
         menu.closed.connect(() => { called = true; });
         menu.popup(0, 0);
-        menu.close(true);
-        expect(called).to.be(true);
+        menu.close();
+        setTimeout(() => {
+          expect(called).to.be(true);
+          done();
+        }, 0);
       });
 
     });
@@ -233,7 +232,7 @@ describe('phosphor-menus', () => {
         menu.activeIndex = 10;
         menu.openActiveItem();
         expect(menu.items[10].submenu.parentMenu).to.be(menu);
-        menu.close(true);
+        menu.dispose();
       });
 
       it('should be null if the menu is not an open submenu', () => {
@@ -251,7 +250,7 @@ describe('phosphor-menus', () => {
         menu.activeIndex = 10;
         menu.openActiveItem();
         expect(menu.childMenu).to.be(menu.items[10].submenu);
-        menu.close(true);
+        menu.dispose();
       });
 
       it('should null if the menu does not have an open submenu', () => {
@@ -269,7 +268,7 @@ describe('phosphor-menus', () => {
         menu.activeIndex = 10;
         menu.openActiveItem();
         expect(menu.items[10].submenu.rootMenu).to.be(menu);
-        menu.close(true);
+        menu.dispose();
       });
 
     });
@@ -282,7 +281,7 @@ describe('phosphor-menus', () => {
         menu.activeIndex = 10;
         menu.openActiveItem();
         expect(menu.leafMenu).to.be(menu.items[10].submenu);
-        menu.close(true);
+        menu.dispose();
       });
 
     });
@@ -295,7 +294,7 @@ describe('phosphor-menus', () => {
         let rect = menu.node.getBoundingClientRect();
         expect(rect.left).to.be(10);
         expect(rect.top).to.be(10);
-        menu.close(true);
+        menu.dispose();
       });
 
       it('should be adjusted to fit naturally on the screen', () => {
@@ -304,7 +303,7 @@ describe('phosphor-menus', () => {
         let rect = menu.node.getBoundingClientRect();
         expect(rect.left).to.be(0);
         expect(rect.top).to.be(0);
-        menu.close(true);
+        menu.dispose();
       });
 
       it('should accept flags to force the location', () => {
@@ -313,7 +312,7 @@ describe('phosphor-menus', () => {
         let rect = menu.node.getBoundingClientRect();
         expect(rect.left).to.be(10000);
         expect(rect.top).to.be(10000);
-        menu.close(true);
+        menu.dispose();
       });
 
       it('should accept mouse and key presses', () => {
@@ -325,7 +324,7 @@ describe('phosphor-menus', () => {
         expect(menu.messages.indexOf('keydown')).to.not.be(-1);
         expect(menu.messages.indexOf('keypress')).to.not.be(-1);
         expect(menu.messages.indexOf('mousedown')).to.not.be(-1);
-        menu.close(true);
+        menu.dispose();
       });
 
     });
@@ -338,7 +337,7 @@ describe('phosphor-menus', () => {
         let rect = menu.node.getBoundingClientRect();
         expect(rect.left).to.be(10);
         expect(rect.top).to.be(10);
-        menu.close(true);
+        menu.dispose();
       });
 
       it('should be adjusted to fit naturally on the screen', () => {
@@ -347,7 +346,7 @@ describe('phosphor-menus', () => {
         let rect = menu.node.getBoundingClientRect();
         expect(rect.left).to.be(0);
         expect(rect.top).to.be(0);
-        menu.close(true);
+        menu.dispose();
       });
 
       it('should accept flags to force the location', () => {
@@ -356,7 +355,7 @@ describe('phosphor-menus', () => {
         let rect = menu.node.getBoundingClientRect();
         expect(rect.left).to.be(10000);
         expect(rect.top).to.be(10000);
-        menu.close(true);
+        menu.dispose();
       });
 
       it('should ignore mouse and key presses', () => {
@@ -368,7 +367,7 @@ describe('phosphor-menus', () => {
         expect(menu.messages.indexOf('keydown')).to.be(-1);
         expect(menu.messages.indexOf('keypress')).to.be(-1);
         expect(menu.messages.indexOf('mousedown')).to.be(-1);
-        menu.close(true);
+        menu.dispose();
       });
 
     });
@@ -409,7 +408,7 @@ describe('phosphor-menus', () => {
         menu.activeIndex = 10;
         menu.openActiveItem();
         expect(menu.messages.indexOf('onOpenItem')).to.not.be(-1);
-        menu.close(true);
+        menu.dispose();
       });
 
       it('should open the child menu and activate the first item', () => {
@@ -419,7 +418,7 @@ describe('phosphor-menus', () => {
         menu.openActiveItem();
         expect(menu.childMenu).to.be(menu.items[10].submenu);
         expect(menu.items[10].submenu.activeIndex).to.be(0);
-        menu.close(true);
+        menu.dispose();
       });
 
     });
@@ -450,14 +449,14 @@ describe('phosphor-menus', () => {
         let menu = new LogMenu();
         menu.open(0, 0);
         expect(menu.messages.indexOf('onUpdateRequest')).to.not.be(-1);
-        menu.close(true);
+        menu.dispose();
       });
 
       it('should be invoked on `popup`', () => {
         let menu = new LogMenu();
         menu.popup(0, 0);
         expect(menu.messages.indexOf('onUpdateRequest')).to.not.be(-1);
-        menu.close(true);
+        menu.dispose();
       });
 
       it('should generate the menu content', () => {
@@ -471,19 +470,25 @@ describe('phosphor-menus', () => {
 
     describe('#onCloseRequest()', () => {
 
-      it('should be invoked when a menu is closed', () => {
+      it('should be invoked when a menu is closed', (done) => {
         let menu = new LogMenu();
         menu.popup(0, 0);
-        menu.close(true);
-        expect(menu.messages.indexOf('onCloseRequest')).to.not.be(-1);
+        menu.close();
+        setTimeout(() => {
+          expect(menu.messages.indexOf('onCloseRequest')).to.not.be(-1);
+          done();
+        }, 0);
       });
 
-      it('should detach the widget from the DOM', () => {
+      it('should detach the widget from the DOM', (done) => {
         let menu = new Menu();
         menu.popup(0, 0);
         expect(menu.isAttached).to.be(true);
-        menu.close(true);
-        expect(menu.isAttached).to.be(false);
+        menu.close();
+        setTimeout(() => {
+          expect(menu.isAttached).to.be(false);
+          done();
+        }, 0);
       });
 
     });
@@ -498,7 +503,7 @@ describe('phosphor-menus', () => {
         menu.activateNextItem();
         triggerKeyEvent(document.body, 'keydown', { keyCode: 13 });
         expect(called).to.be(true);
-        menu.close(true);
+        menu.dispose();
       });
 
       it('should close the leaf menu on `Escape`', () => {
@@ -509,7 +514,7 @@ describe('phosphor-menus', () => {
         expect(menu.childMenu).to.be(menu.items[10].submenu);
         triggerKeyEvent(document.body, 'keydown', { keyCode: 27 });
         expect(menu.childMenu).to.be(null);
-        menu.close(true);
+        menu.dispose();
       });
 
       it('should close the leaf menu on `ArrowLeft` unless root', () => {
@@ -522,7 +527,7 @@ describe('phosphor-menus', () => {
         expect(menu.childMenu).to.be(null);
         triggerKeyEvent(document.body, 'keydown', { keyCode: 37 });
         expect(menu.isAttached).to.be(true);
-        menu.close(true);
+        menu.dispose();
       });
 
       it('should activate the previous item on `ArrowUp`', () => {
@@ -531,7 +536,7 @@ describe('phosphor-menus', () => {
         menu.activeIndex = 1;
         triggerKeyEvent(document.body, 'keydown', { keyCode: 38 });
         expect(menu.activeIndex).to.be(0);
-        menu.close(true);
+        menu.dispose();
       });
 
       it('should open the active item on `ArrowRight`', () => {
@@ -541,7 +546,7 @@ describe('phosphor-menus', () => {
         expect(menu.childMenu).to.be(null);
         triggerKeyEvent(document.body, 'keydown', { keyCode: 39 });
         expect(menu.childMenu).to.be(menu.items[10].submenu);
-        menu.close(true);
+        menu.dispose();
       });
 
       it('should activate the next item on `ArrowDown`', () => {
@@ -551,7 +556,7 @@ describe('phosphor-menus', () => {
         expect(menu.activeIndex).to.be(0);
         triggerKeyEvent(document.body, 'keydown', { keyCode: 40 });
         expect(menu.activeIndex).to.be(1);
-        menu.close(true);
+        menu.dispose();
       });
 
       it('should activate an item based on a mnemonic', () => {
@@ -575,7 +580,7 @@ describe('phosphor-menus', () => {
         triggerMouseEvent(node, 'mouseenter');
         setTimeout(() => {
           expect(menu.childMenu).to.be(null);
-          menu.close(true);
+          menu.dispose();
           done();
         }, 500);
       });
@@ -591,7 +596,7 @@ describe('phosphor-menus', () => {
         triggerMouseEvent(node1, 'mouseenter');
         setTimeout(() => {
           expect(menu.childMenu).to.not.be(null);
-          menu.close(true);
+          menu.dispose();
           done();
         }, 500);
       });
@@ -608,7 +613,7 @@ describe('phosphor-menus', () => {
         triggerMouseEvent(node, 'mousedown');
         triggerMouseEvent(node, 'mouseup');
         expect(called).to.be(true);
-        menu.close(true);
+        menu.dispose();
       });
 
     });
