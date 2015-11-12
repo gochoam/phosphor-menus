@@ -60,6 +60,10 @@ describe('phosphor-menus', () => {
         expect(MenuBase.itemsProperty instanceof Property).to.be(true);
       });
 
+      it('should have the name `items`', () => {
+        expect(MenuBase.itemsProperty.name).to.be('items');
+      });
+
       it('should default a frozen empty list', () => {
         let base = new MenuBase();
         let items = MenuBase.itemsProperty.get(base);
@@ -79,6 +83,10 @@ describe('phosphor-menus', () => {
 
       it('should be a property descriptor', () => {
         expect(MenuBase.activeIndexProperty instanceof Property).to.be(true);
+      });
+
+      it('should have the name `activeIndex`', () => {
+        expect(MenuBase.activeIndexProperty.name).to.be('activeIndex');
       });
 
       it('should default `-1`', () => {
