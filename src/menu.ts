@@ -171,7 +171,7 @@ class Menu extends MenuBase {
    * Dispose of the resources held by the menu.
    */
   dispose(): void {
-    sendMessage(this, Widget.MsgCloseRequest);
+    this.close();
     super.dispose();
   }
 
@@ -340,7 +340,7 @@ class Menu extends MenuBase {
    * A method invoked when the menu items change.
    */
   protected onItemsChanged(old: MenuItem[], items: MenuItem[]): void {
-    sendMessage(this, Widget.MsgCloseRequest);
+    this.close();
   }
 
   /**
@@ -368,7 +368,7 @@ class Menu extends MenuBase {
    * A method invoked when a menu item should be triggered.
    */
   protected onTriggerItem(index: number, item: MenuItem): void {
-    sendMessage(this.rootMenu, Widget.MsgCloseRequest);
+    this.rootMenu.close();
     let handler = item.handler;
     if (handler) handler(item);
   }
@@ -447,7 +447,7 @@ class Menu extends MenuBase {
       this._childMenu = null;
       this._childItem = null;
       childMenu._parentMenu = null;
-      sendMessage(childMenu, Widget.MsgCloseRequest);
+      childMenu.close();
     }
 
     // Remove this menu from any parent.
@@ -655,10 +655,12 @@ class Menu extends MenuBase {
     }
     this._closeTimerId = setTimeout(() => {
       this._closeTimerId = 0;
-      if (this._childMenu) {
-        this._childMenu.close();
+      let childMenu = this._childMenu;
+      if (childMenu) {
         this._childMenu = null;
         this._childItem = null;
+        childMenu._parentMenu = null;
+        childMenu.close();
       }
     }, CLOSE_DELAY);
   }
