@@ -198,7 +198,7 @@ const CONTEXT_MENU_TEMPLATE = [
 ];
 
 
-function main() {
+function main(): void {
   // `fromTemplate` is the simplest API to use to get going quickly.
   // There is also a rich imperative API for low-level manipulation.
   let menuBar = MenuBar.fromTemplate(MENU_BAR_TEMPLATE);
