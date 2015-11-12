@@ -18,7 +18,6 @@ import {
 import './index.css';
 
 
-
 function logItem(item: MenuItem): void {
   console.log(item.text);
 }
@@ -98,14 +97,14 @@ let MENU_BAR_TEMPLATE = [
     submenu: [
       {
         text: '&Undo',
+        icon: 'fa fa-undo',
         shortcut: 'Ctrl+Z',
-        className: 'undo',
         handler: logItem
       },
       {
         text: '&Repeat',
+        icon: 'fa fa-repeat',
         shortcut: 'Ctrl+Y',
-        className: 'repeat',
         handler: logItem
       },
       {
@@ -113,20 +112,20 @@ let MENU_BAR_TEMPLATE = [
       },
       {
         text: '&Copy',
+        icon: 'fa fa-copy',
         shortcut: 'Ctrl+C',
-        className: 'copy',
         handler: logItem
       },
       {
         text: 'Cu&t',
+        icon: 'fa fa-cut',
         shortcut: 'Ctrl+X',
-        className: 'cut',
         handler: logItem
       },
       {
         text: '&Paste',
+        icon: 'fa fa-paste',
         shortcut: 'Ctrl+V',
-        className: 'paste',
         handler: logItem
       }
     ]
@@ -190,20 +189,20 @@ let MENU_BAR_TEMPLATE = [
 let CONTEXT_MENU_TEMPLATE = [
   {
     text: '&Copy',
+    icon: 'fa fa-copy',
     shortcut: 'Ctrl+C',
-    className: 'copy',
     handler: logItem
   },
   {
     text: 'Cu&t',
+    icon: 'fa fa-cut',
     shortcut: 'Ctrl+X',
-    className: 'cut',
     handler: logItem
   },
   {
     text: '&Paste',
+    icon: 'fa fa-paste',
     shortcut: 'Ctrl+V',
-    className: 'paste',
     handler: logItem
   },
   {
@@ -262,15 +261,15 @@ let CONTEXT_MENU_TEMPLATE = [
   },
   {
     text: 'Close',
-    className: 'close',
+    icon: 'fa fa-close',
     handler: logItem
   }
 ];
 
 
 function main(): void {
-
   let menuBar = MenuBar.fromTemplate(MENU_BAR_TEMPLATE);
+
   let contextMenu = Menu.fromTemplate(CONTEXT_MENU_TEMPLATE);
 
   Widget.attach(menuBar, document.body);
