@@ -10,7 +10,7 @@
 import expect = require('expect.js');
 
 import {
-  Message
+  Message, sendMessage
 } from 'phosphor-messaging';
 
 import {
@@ -278,10 +278,11 @@ describe('phosphor-menus', () => {
 
       it('should get the child menu of the menu', () => {
         let bar = MenuBar.fromTemplate(MENU_BAR_TEMPLATE);
+        Widget.attach(bar, document.body);
         bar.activeIndex = 0;
         bar.openActiveItem();
         expect(bar.childMenu).to.be(bar.items[0].submenu);
-        bar.childMenu.close();
+        bar.dispose();
       });
 
       it('should null if the menu does not have an open submenu', () => {
@@ -315,47 +316,51 @@ describe('phosphor-menus', () => {
 
       it('should be invoked when a menu item should be opened', () => {
         let bar = LogMenuBar.fromTemplate(MENU_BAR_TEMPLATE);
+        Widget.attach(bar, document.body);
         bar.activateNextItem();
         bar.openActiveItem();
         expect(bar.messages.indexOf('onOpenItem')).to.not.be(-1);
-        bar.childMenu.close();
+        bar.dispose();
       });
 
       it('should open the child menu', () => {
         let bar = LogMenuBar.fromTemplate(MENU_BAR_TEMPLATE);
+        Widget.attach(bar, document.body);
         bar.activateNextItem();
         bar.openActiveItem();
         expect(bar.messages.indexOf('onOpenItem')).to.not.be(-1);
         expect(bar.childMenu).to.be(bar.items[0].submenu);
-        bar.childMenu.close();
+        bar.dispose();
       });
 
     });
 
     describe('#onUpdateRequest()', () => {
 
-      it('should create the menu bar', () => {
+      it('should create the menu bar', (done) => {
         let bar = LogMenuBar.fromTemplate(MENU_BAR_TEMPLATE);
         Widget.attach(bar, document.body);
-        expect(bar.messages.indexOf('onUpdateRequest')).to.not.be(-1);
-        let children = bar.node.firstChild.childNodes;
-        expect(children.length).to.be(MENU_BAR_TEMPLATE.length);
-        bar.close();
+        expect(bar.messages.indexOf('onUpdateRequest')).to.be(-1);
+        requestAnimationFrame(() => {
+          expect(bar.messages.indexOf('onUpdateRequest')).to.not.be(-1);
+          let children = bar.contentNode.childNodes;
+          expect(children.length).to.be(MENU_BAR_TEMPLATE.length);
+          bar.dispose();
+          done();
+        });
       });
 
     });
 
     describe('#onCloseRequest()', () => {
 
-      it('should detach the widget from the DOM', (done) => {
+      it('should detach the widget from the DOM', () => {
         let bar = LogMenuBar.fromTemplate(MENU_BAR_TEMPLATE);
         Widget.attach(bar, document.body);
         bar.close();
-        setTimeout(() => {
-          expect(bar.isAttached).to.be(false);
-          expect(bar.messages.indexOf('onCloseRequest')).to.not.be(-1);
-          done();
-        }, 0);
+        expect(bar.messages.indexOf('onCloseRequest')).to.not.be(-1);
+        expect(bar.isAttached).to.be(false);
+        bar.dispose();
       });
 
     });
@@ -496,12 +501,13 @@ describe('phosphor-menus', () => {
       it('should trigger the item on mouse over and click', () => {
         let bar = MenuBar.fromTemplate(MENU_BAR_TEMPLATE);
         Widget.attach(bar, document.body);
+        sendMessage(bar, Widget.MsgUpdateRequest);
         bar.activeIndex = 1;
         bar.openActiveItem();
         bar.childMenu.activeIndex = 0;
         let checked = false;
         bar.childMenu.items[0].handler = () => { checked = true; };
-        let node = bar.childMenu.node.firstChild.firstChild as HTMLElement;
+        let node = bar.childMenu.contentNode.firstChild as HTMLElement;
         triggerMouseEvent(node, 'mouseenter');
         triggerMouseEvent(node, 'mousedown');
         triggerMouseEvent(node, 'mouseup');
@@ -512,18 +518,20 @@ describe('phosphor-menus', () => {
       it('should open the submenu', () => {
         let bar = MenuBar.fromTemplate(MENU_BAR_TEMPLATE);
         Widget.attach(bar, document.body);
-        let node = bar.node.firstChild.firstChild as HTMLElement;
+        sendMessage(bar, Widget.MsgUpdateRequest);
+        let node = bar.contentNode.firstChild as HTMLElement;
         let rect = node.getBoundingClientRect();
         let args = { clientX: rect.left + 1, clientY: rect.top + 1 };
         triggerMouseEvent(node, 'mousedown', args);
         expect(bar.activeIndex).to.be(0);
         expect(bar.childMenu).to.be(bar.items[0].submenu);
-        bar.close();
+        bar.dispose();
       });
 
       it('should close the submenu on an external mousedown', (done) => {
         let bar = MenuBar.fromTemplate(MENU_BAR_TEMPLATE);
         Widget.attach(bar, document.body);
+        sendMessage(bar, Widget.MsgUpdateRequest);
         bar.activeIndex = 0;
         bar.openActiveItem();
         expect(bar.childMenu).to.be(bar.items[0].submenu);
@@ -539,12 +547,13 @@ describe('phosphor-menus', () => {
       it('should open a new submenu', (done) => {
         let bar = MenuBar.fromTemplate(MENU_BAR_TEMPLATE);
         Widget.attach(bar, document.body);
-        let node = bar.node.firstChild.firstChild as HTMLElement;
+        sendMessage(bar, Widget.MsgUpdateRequest);
+        let node = bar.contentNode.firstChild as HTMLElement;
         let rect = node.getBoundingClientRect();
         let args = { clientX: rect.left + 1, clientY: rect.top + 1 };
         triggerMouseEvent(node, 'mousedown', args);
         setTimeout(() => {
-          node = bar.node.firstChild.childNodes[1] as HTMLElement;
+          node = bar.contentNode.childNodes[1] as HTMLElement;
           rect = node.getBoundingClientRect();
           args = { clientX: rect.left + 1, clientY: rect.top + 1 };
           triggerMouseEvent(bar.node, 'mousemove', args);
