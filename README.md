@@ -96,3 +96,121 @@ Usage Examples
 
 **Note:** This module is fully compatible with Node/Babel/ES6/ES5. Simply
 omit the type declarations when using a language other than TypeScript.
+
+```typescript
+import {
+  Menu, MenuBar
+} from 'phosphor-menus';
+
+import {
+  Widget
+} from 'phosphor-widget';
+
+
+const MENU_BAR_TEMPLATE = [
+  {
+    text: 'File',
+    submenu: [
+      {
+        text: 'New File',
+        shortcut: 'Ctrl+N',
+        handler: () => doNew()
+      },
+      {
+        text: 'Open File',
+        shortcut: 'Ctrl+O',
+        handler: () => doOpen()
+      },
+      {
+        text: 'Save As...',
+        shortcut: 'Ctrl+Shift+S',
+        handler: () => doSaveAs()
+      },
+      {
+        type: 'separator'
+      },
+      {
+        text: 'Exit',
+        handler: () => doExit()
+      }
+    ]
+  },
+  {
+    text: 'Edit',
+    submenu: [
+      {
+        text: '&Undo',
+        icon: 'fa fa-undo',
+        shortcut: 'Ctrl+Z',
+        handler: () => doUndo()
+      },
+      {
+        text: '&Repeat',
+        icon: 'fa fa-repeat',
+        shortcut: 'Ctrl+Y',
+        handler: () => doRepeat()
+      },
+      {
+        type: 'separator'
+      },
+      {
+        text: '&Copy',
+        icon: 'fa fa-copy',
+        shortcut: 'Ctrl+C',
+        handler: () => doCopy()
+      },
+      {
+        text: 'Cu&t',
+        icon: 'fa fa-cut',
+        shortcut: 'Ctrl+X',
+        handler: () => doCut()
+      },
+      {
+        text: '&Paste',
+        icon: 'fa fa-paste',
+        shortcut: 'Ctrl+V',
+        handler: () => doPaste()
+      }
+    ]
+  }
+];
+
+
+const CONTEXT_MENU_TEMPLATE = [
+  {
+    text: '&Copy',
+    icon: 'fa fa-copy',
+    shortcut: 'Ctrl+C',
+    handler: () => doCopy()
+  },
+  {
+    text: 'Cu&t',
+    icon: 'fa fa-cut',
+    shortcut: 'Ctrl+X',
+    handler: () => doCut()
+  },
+  {
+    text: '&Paste',
+    icon: 'fa fa-paste',
+    shortcut: 'Ctrl+V',
+    handler: () => doPaste()
+  }
+];
+
+
+function main() {
+  // `fromTemplate` is the simplest API to use to get going quickly.
+  // There is also a rich imperative API for low-level manipulation.
+  let menuBar = MenuBar.fromTemplate(MENU_BAR_TEMPLATE);
+  let contextMenu = Menu.fromTemplate(CONTEXT_MENU_TEMPLATE);
+
+  Widget.attach(menuBar, document.body);
+
+  document.addEventListener('contextmenu', (event: MouseEvent) => {
+    event.preventDefault();
+    let x = event.clientX;
+    let y = event.clientY;
+    contextMenu.popup(x, y);
+  });
+}
+```
