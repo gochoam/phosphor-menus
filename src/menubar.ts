@@ -7,13 +7,6 @@
 |----------------------------------------------------------------------------*/
 'use strict';
 
-import * as arrays
-  from 'phosphor-arrays';
-
-import {
-  IDisposable
-} from 'phosphor-disposable';
-
 import {
   hitTest
 } from 'phosphor-domutil';
@@ -23,16 +16,12 @@ import {
 } from 'phosphor-messaging';
 
 import {
-  NodeWrapper
-} from 'phosphor-nodewrapper';
-
-import {
   IChangedArgs
 } from 'phosphor-properties';
 
 import {
-  clearSignalData
-} from 'phosphor-signaling';
+  collapseSeparators
+} from './helpers';
 
 import {
   Menu
@@ -65,22 +54,22 @@ const MENU_CLASS = 'p-MenuBar-menu';
 /**
  * The class name added to a menu bar item node.
  */
-const ITEM_CLASS = 'p-MenuBarItem';
+const ITEM_CLASS = 'p-MenuBar-item';
 
 /**
  * The class name added to a menu bar item icon cell.
  */
-const ICON_CLASS = 'p-MenuBarItem-icon';
+const ICON_CLASS = 'p-MenuBar-item-icon';
 
 /**
  * The class name added to a menu bar item text cell.
  */
-const TEXT_CLASS = 'p-MenuBarItem-text';
+const TEXT_CLASS = 'p-MenuBar-item-text';
 
 /**
  * The class name added to a separator menu bar item.
  */
-const SEPARATOR_CLASS = 'p-mod-separator';
+const SEPARATOR_TYPE_CLASS = 'p-mod-separator-type';
 
 /**
  * The class name added to an active menu bar and item.
@@ -96,11 +85,6 @@ const DISABLED_CLASS = 'p-mod-disabled';
  * The class name added to a hidden menu bar item.
  */
 const HIDDEN_CLASS = 'p-mod-hidden';
-
-/**
- * The class name added to collapsed separator items.
- */
-const COLLAPSED_CLASS = 'p-mod-collapsed';
 
 
 /**
@@ -139,7 +123,6 @@ class MenuBar extends MenuBase {
   constructor() {
     super();
     this.addClass(MENU_BAR_CLASS);
-    this._collapseCB = () => { collapseSeparators(this._views); };
   }
 
   /**
@@ -147,9 +130,6 @@ class MenuBar extends MenuBase {
    */
   dispose(): void {
     this._reset();
-    this._views.forEach(view => { view.dispose(); });
-    this._views.length = 0;
-    this._collapseCB = null;
     super.dispose();
   }
 
@@ -211,55 +191,35 @@ class MenuBar extends MenuBase {
    * A method invoked when the menu items change.
    */
   protected onItemsChanged(old: MenuItem[], items: MenuItem[]): void {
-    // Reset the menu bar before updating the item views.
+    // Reset the menu bar before updating the items.
     this._reset();
 
-    // Create a temporary copy of the current item views.
-    let prev = this._views.slice();
-
-    // Clear the current array of item views.
-    this._views.length = 0;
-
-    // Create the new item views, reusing a view when possible.
-    for (let i = 0, n = items.length; i < n; ++i) {
-      let view: ItemView;
-      let j = findViewIndex(prev, items[i]);
-      if (j !== -1) {
-        view = arrays.removeAt(prev, j);
-      } else {
-        view = new ItemView(items[i], this._collapseCB);
+    // Disconnect the old item signals.
+    for (let i = 0, n = old.length; i < n; ++i) {
+      if (items.indexOf(old[i]) === -1) {
+        old[i].changed.disconnect(this._onItemChanged, this);
       }
-      this._views.push(view);
     }
 
-    // Collapse the neighboring separators.
-    collapseSeparators(this._views);
-
-    // Dispose of the old item views.
-    prev.forEach(view => { view.dispose(); });
-
-    // Clear the current DOM content.
-    let content = this.contentNode;
-    content.textContent = '';
-
-    // Add the item view nodes to a fragment.
-    let fragment = document.createDocumentFragment();
-    for (let i = 0, n = this._views.length; i < n; ++i) {
-      fragment.appendChild(this._views[i].node);
+    // Connect the new item signals.
+    for (let i = 0, n = items.length; i < n; ++i) {
+      if (old.indexOf(items[i]) === -1) {
+        items[i].changed.connect(this._onItemChanged, this);
+      }
     }
 
-    // Update the current DOM content.
-    content.appendChild(fragment);
+    // Schedulte an update of the DOM content.
+    this.update();
   }
 
   /**
    * A method invoked when the active index changes.
    */
   protected onActiveIndexChanged(old: number, index: number): void {
-    let oldView = this._views[old];
-    let newView = this._views[index];
-    if (oldView) oldView.removeClass(ACTIVE_CLASS);
-    if (newView) newView.addClass(ACTIVE_CLASS);
+    let oldNode = this._nodes[old];
+    let newNode = this._nodes[index];
+    if (oldNode) oldNode.classList.remove(ACTIVE_CLASS);
+    if (newNode) newNode.classList.add(ACTIVE_CLASS);
   }
 
   /**
@@ -267,7 +227,7 @@ class MenuBar extends MenuBase {
    */
   protected onOpenItem(index: number, item: MenuItem): void {
     if (this.isAttached) {
-      let ref = (this._views[index] || this).node;
+      let ref = this._nodes[index] || this.node;
       this._activate();
       this._closeChildMenu();
       this._openChildMenu(item.submenu, ref);
@@ -303,6 +263,43 @@ class MenuBar extends MenuBase {
   }
 
   /**
+   * A handler invoked on an `'update-request'` message.
+   */
+  protected onUpdateRequest(msg: Message): void {
+    // Fetch common variables.
+    let items = this.items;
+    let nodes = this._nodes;
+    let index = this.activeIndex;
+    let content = this.contentNode;
+
+    // Remove any excess item nodes.
+    while (nodes.length > items.length) {
+      let node = nodes.pop();
+      content.removeChild(node);
+    }
+
+    // Add any missing item nodes.
+    while (nodes.length < items.length) {
+      let node = createItemNode();
+      nodes.push(node);
+      content.appendChild(node);
+    }
+
+    // Update the node state to match the menu items.
+    for (let i = 0, n = items.length; i < n; ++i) {
+      updateItemNode(items[i], nodes[i]);
+      if (i === index) {
+        nodes[i].classList.add(ACTIVE_CLASS);
+      } else {
+        nodes[i].classList.remove(ACTIVE_CLASS);
+      }
+    }
+
+    // Collapse the neighboring separators.
+    collapseSeparators(items, nodes);
+  }
+
+  /**
    * Handle the `'mousedown'` event for the menu bar.
    */
   private _evtMouseDown(event: MouseEvent): void {
@@ -317,7 +314,7 @@ class MenuBar extends MenuBase {
     }
 
     // Check if the mouse was pressed on one of the menu items.
-    let i = hitTestViews(this._views, x, y);
+    let i = hitTestNodes(this._nodes, x, y);
 
     // If the bar is active, deactivate it and close the child menu.
     // The active index is updated to reflect the mouse press, which
@@ -351,7 +348,7 @@ class MenuBar extends MenuBase {
     let y = event.clientY;
 
     // Check if the mouse is over one of the menu items.
-    let i = hitTestViews(this._views, x, y);
+    let i = hitTestNodes(this._nodes, x, y);
 
     // Bail early if the active index will not change.
     if (i === this.activeIndex) {
@@ -526,6 +523,13 @@ class MenuBar extends MenuBase {
   }
 
   /**
+   * Handle the `changed` signal from a menu item.
+   */
+  private _onItemChanged(sender: MenuItem, args: IChangedArgs<any>): void {
+    this.update();
+  }
+
+  /**
    * Handle the `closed` signal from the child menu.
    */
   private _onMenuClosed(sender: Menu): void {
@@ -537,125 +541,70 @@ class MenuBar extends MenuBase {
 
   private _active = false;
   private _childMenu: Menu = null;
-  private _views: ItemView[] = [];
-  private _collapseCB: () => void;
+  private _nodes: HTMLElement[] = [];
 }
 
 
 /**
- * An object which manages a menu item node for a menu bar.
+ * Create an uninitialized DOM node for a MenuItem.
  */
-class ItemView extends NodeWrapper implements IDisposable {
-  /**
-   * Create the DOM node for an item view.
-   */
-  static createNode(): HTMLElement {
-    let node = document.createElement('li');
-    let icon = document.createElement('span');
-    let text = document.createElement('span');
-    text.className = TEXT_CLASS;
-    node.appendChild(icon);
-    node.appendChild(text);
-    return node;
-  }
+function createItemNode(): HTMLElement {
+  let node = document.createElement('li');
+  let icon = document.createElement('span');
+  let text = document.createElement('span');
+  text.className = TEXT_CLASS;
+  node.appendChild(icon);
+  node.appendChild(text);
+  return node;
+}
 
-  /**
-   * Create the primary node class name for a MenuItem.
-   */
-  static createNodeClass(item: MenuItem): string {
-    let parts = [ITEM_CLASS];
-    if (item.isSeparatorType) {
-      parts.push(SEPARATOR_CLASS);
-    }
-    if (item.disabled) {
-      parts.push(DISABLED_CLASS);
-    }
-    if (item.hidden) {
-      parts.push(HIDDEN_CLASS);
-    }
-    if (item.className) {
-      parts.push(item.className);
-    }
-    return parts.join(' ');
-  }
 
-  /**
-   * Create the icon node class name for a MenuItem.
-   */
-  static createIconClass(item: MenuItem): string {
-    return item.icon ? (ICON_CLASS + ' ' + item.icon) : ICON_CLASS;
+/**
+ * Create the complete DOM node class name for a MenuItem.
+ */
+function createItemClass(item: MenuItem): string {
+  let parts = [ITEM_CLASS];
+  if (item.isSeparatorType) {
+    parts.push(SEPARATOR_TYPE_CLASS);
   }
-
-  /**
-   * Create the text node content for a MenuItem.
-   */
-  static createTextContent(item: MenuItem): string {
-    return item.isSeparatorType ? '' : item.text.replace(/&/g, '');
+  if (item.disabled) {
+    parts.push(DISABLED_CLASS);
   }
-
-  /**
-   * Construct a new item view.
-   *
-   * @param item - The menu item to associate with the view.
-   *
-   * @param collapseCB - A callback to collapse separator siblings.
-   */
-  constructor(item: MenuItem, collapseCB: () => void) {
-    super();
-    this._item = item;
-    this._collapseCB = collapseCB;
-    this._updateNodeState();
-    item.changed.connect(this._onItemChanged, this);
+  if (item.hidden) {
+    parts.push(HIDDEN_CLASS);
   }
-
-  /**
-   * Dispose of the resources held by the view.
-   */
-  dispose(): void {
-    this._item = null;
-    this._collapseCB = null;
-    clearSignalData(this);
+  if (item.className) {
+    parts.push(item.className);
   }
+  return parts.join(' ');
+}
 
-  /**
-   * Test whether the view is disposed.
-   */
-  get isDisposed(): boolean {
-    return this._item === null;
-  }
 
-  /**
-   * Get the menu item associated with the item view.
-   *
-   * #### Notes
-   * This is a read-only property.
-   */
-  get item(): MenuItem {
-    return this._item;
-  }
+/**
+ * Create the icon node class name for a MenuItem.
+ */
+function createIconClass(item: MenuItem): string {
+  return item.icon ? (ICON_CLASS + ' ' + item.icon) : ICON_CLASS;
+}
 
-  /**
-   * The handler for the menu item `changed` signal.
-   */
-  private _onItemChanged(sender: MenuItem, args: IChangedArgs<any>): void {
-    this._updateNodeState();
-    this._collapseCB.call(void 0);
-  }
 
-  /**
-   * Synchronize the state of the node with the menu item.
-   */
-  private _updateNodeState(): void {
-    let node = this.node;
-    let icon = node.firstChild as HTMLElement;
-    let text = node.lastChild as HTMLElement;
-    node.className = ItemView.createNodeClass(this._item);
-    icon.className = ItemView.createIconClass(this._item);
-    text.textContent = ItemView.createTextContent(this._item);
-  }
+/**
+ * Create the text node content for a MenuItem.
+ */
+function createTextContent(item: MenuItem): string {
+  return item.isSeparatorType ? '' : item.text.replace(/&/g, '');
+}
 
-  private _item: MenuItem;
-  private _collapseCB: () => void;
+
+/**
+ * Update the node state for a MenuItem.
+ */
+function updateItemNode(item: MenuItem, node: HTMLElement): void {
+  let icon = node.firstChild as HTMLElement;
+  let text = node.lastChild as HTMLElement;
+  node.className = createItemClass(item);
+  icon.className = createIconClass(item);
+  text.textContent = createTextContent(item);
 }
 
 
@@ -669,11 +618,11 @@ function activeHasMenu(menu: Menu): boolean {
 
 
 /**
- * Get the index of the item view node at a client position, or `-1`.
+ * Get the index of the node at a client position, or `-1`.
  */
-function hitTestViews(views: ItemView[], x: number, y: number): number {
-  for (let i = 0, n = views.length; i < n; ++i) {
-    if (hitTest(views[i].node, x, y)) return i;
+function hitTestNodes(nodes: HTMLElement[], x: number, y: number): number {
+  for (let i = 0, n = nodes.length; i < n; ++i) {
+    if (hitTest(nodes[i], x, y)) return i;
   }
   return -1;
 }
@@ -690,70 +639,4 @@ function hitTestMenus(menu: Menu, x: number, y: number): boolean {
     menu = menu.childMenu;
   }
   return false;
-}
-
-
-/**
- * Find the index of the view which contains the given item, or `-1`.
- */
-function findViewIndex(views: ItemView[], item: MenuItem): number {
-  for (let i = 0, n = views.length; i < n; ++i) {
-    if (views[i].item === item) return i;
-  }
-  return -1;
-}
-
-
-/**
- * Collapse leading, trailing, and consecutive visible separators.
- */
-function collapseSeparators(views: ItemView[]): void {
-  // Collapse the leading visible separators.
-  let k1: number;
-  for (k1 = 0; k1 < views.length; ++k1) {
-    let view = views[k1];
-    let item = view.item;
-    if (item.hidden) {
-      view.removeClass(COLLAPSED_CLASS);
-      continue;
-    }
-    if (!item.isSeparatorType) {
-      view.removeClass(COLLAPSED_CLASS);
-      break;
-    }
-    view.addClass(COLLAPSED_CLASS);
-  }
-
-  // Collapse the trailing visible separators.
-  let k2: number;
-  for (k2 = views.length - 1; k2 >= 0; --k2) {
-    let view = views[k2];
-    let item = view.item;
-    if (item.hidden) {
-      view.removeClass(COLLAPSED_CLASS);
-      continue;
-    }
-    if (!item.isSeparatorType) {
-      view.removeClass(COLLAPSED_CLASS);
-      break;
-    }
-    view.addClass(COLLAPSED_CLASS);
-  }
-
-  // Collapse the remaining consecutive visible separators.
-  let collapse = false;
-  while (++k1 < k2) {
-    let view = views[k1];
-    let item = view.item;
-    if (item.hidden) {
-      view.removeClass(COLLAPSED_CLASS);
-      continue;
-    }
-    if (collapse && item.isSeparatorType) {
-      view.addClass(COLLAPSED_CLASS);
-    } else {
-      view.removeClass(COLLAPSED_CLASS);
-      collapse = item.isSeparatorType;
-    }
-  }
 }
