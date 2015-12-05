@@ -24,11 +24,7 @@ import {
 } from 'phosphor-widget';
 
 import {
-  collapseSeparators
-} from './helpers';
-
-import {
-  MenuBase
+  MenuBase, collapseSeparators
 } from './menubase';
 
 import {

@@ -20,15 +20,11 @@ import {
 } from 'phosphor-properties';
 
 import {
-  collapseSeparators
-} from './helpers';
-
-import {
   Menu
 } from './menu';
 
 import {
-  MenuBase
+  MenuBase, collapseSeparators
 } from './menubase';
 
 import {
