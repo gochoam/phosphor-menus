@@ -19,7 +19,7 @@ import {
 } from 'phosphor-widget';
 
 import {
-  MenuItem
+  MenuItem, MenuItemType
 } from './menuitem';
 
 
@@ -114,7 +114,8 @@ class MenuBase extends Widget {
   activateNextItem(): void {
     let k = this.activeIndex + 1;
     let i = k >= this.items.length ? 0 : k;
-    this.activeIndex = arrays.findIndex(this.items, isSelectable, i, true);
+    let pred = (item: MenuItem) => this.isSelectable(item);
+    this.activeIndex = arrays.findIndex(this.items, pred, i, true);
   }
 
   /**
@@ -128,7 +129,8 @@ class MenuBase extends Widget {
   activatePreviousItem(): void {
     let k = this.activeIndex;
     let i = k <= 0 ? this.items.length - 1 : k - 1;
-    this.activeIndex = arrays.rfindIndex(this.items, isSelectable, i, true);
+    let pred = (item: MenuItem) => this.isSelectable(item);
+    this.activeIndex = arrays.rfindIndex(this.items, pred, i, true);
   }
 
   /**
@@ -145,7 +147,7 @@ class MenuBase extends Widget {
     let k = this.activeIndex + 1;
     let i = k >= this.items.length ? 0 : k;
     this.activeIndex = arrays.findIndex(this.items, item => {
-      if (!isSelectable(item)) {
+      if (!this.isSelectable(item)) {
         return false;
       }
       let match = item.text.match(/&\w/);
@@ -189,6 +191,22 @@ class MenuBase extends Widget {
   }
 
   /**
+   * Test whether an item is selectable.
+   *
+   * @param item - The menu item of interest.
+   *
+   * @returns `true` if the item is selectable, `false` otherwise.
+   *
+   * #### Notes
+   * Subclasses may reimplement this method as needed.
+   *
+   * The default implementation of this method ignores separators.
+   */
+  protected isSelectable(item: MenuItem): boolean {
+    return item.type !== MenuItemType.Separator;
+  }
+
+  /**
    * The coerce handler for the [[activeIndexProperty]].
    *
    * #### Notes
@@ -197,7 +215,7 @@ class MenuBase extends Widget {
   protected coerceActiveIndex(index: number): number {
     let i = index | 0;
     let item = this.items[i];
-    return (item && isSelectable(item)) ? i : -1;
+    return (item && this.isSelectable(item)) ? i : -1;
   }
 
   /**
@@ -231,7 +249,7 @@ class MenuBase extends Widget {
 
 
 /**
- * Collapse leading, trailing, and consecutive visible separators.
+ * Collapse leading, trailing, and consecutive separators.
  *
  * @param items - The array of menu items of interest. This should be
  *   the same length as the `nodes` array.
@@ -241,60 +259,40 @@ class MenuBase extends Widget {
  */
 export
 function collapseSeparators(items: MenuItem[], nodes: HTMLElement[]): void {
-  // Collapse the leading visible separators.
+  // Collapse the leading separators.
   let k1: number;
   for (k1 = 0; k1 < items.length; ++k1) {
     let item = items[k1];
     let node = nodes[k1];
-    if (item.hidden) {
-      node.classList.remove(COLLAPSED_CLASS);
-      continue;
-    }
-    if (!item.isSeparatorType) {
+    if (item.type !== MenuItemType.Separator) {
       node.classList.remove(COLLAPSED_CLASS);
       break;
     }
     node.classList.add(COLLAPSED_CLASS);
   }
 
-  // Collapse the trailing visible separators.
+  // Collapse the trailing separators.
   let k2: number;
   for (k2 = items.length - 1; k2 >= 0; --k2) {
     let item = items[k2];
     let node = nodes[k2];
-    if (item.hidden) {
-      node.classList.remove(COLLAPSED_CLASS);
-      continue;
-    }
-    if (!item.isSeparatorType) {
+    if (item.type !== MenuItemType.Separator) {
       node.classList.remove(COLLAPSED_CLASS);
       break;
     }
     node.classList.add(COLLAPSED_CLASS);
   }
 
-  // Collapse the remaining consecutive visible separators.
+  // Collapse the remaining consecutive separators.
   let collapse = false;
   while (++k1 < k2) {
     let item = items[k1];
     let node = nodes[k1];
-    if (item.hidden) {
-      node.classList.remove(COLLAPSED_CLASS);
-      continue;
-    }
-    if (collapse && item.isSeparatorType) {
+    if (collapse && item.type === MenuItemType.Separator) {
       node.classList.add(COLLAPSED_CLASS);
     } else {
       node.classList.remove(COLLAPSED_CLASS);
-      collapse = item.isSeparatorType;
+      collapse = item.type === MenuItemType.Separator;
     }
   }
-}
-
-
-/**
- * Test whether a menu item is selectable.
- */
-function isSelectable(item: MenuItem): boolean {
-  return !item.hidden && !item.disabled && !item.isSeparatorType;
 }

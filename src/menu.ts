@@ -28,7 +28,7 @@ import {
 } from './menubase';
 
 import {
-  IMenuItemTemplate, MenuItem
+  MenuItem, MenuItemType
 } from './menuitem';
 
 
@@ -88,11 +88,6 @@ const ACTIVE_CLASS = 'p-mod-active';
 const DISABLED_CLASS = 'p-mod-disabled';
 
 /**
- * The class name added to a hidden menu item.
- */
-const HIDDEN_CLASS = 'p-mod-hidden';
-
-/**
  * The class name added to a checked menu item.
  */
 const CHECKED_CLASS = 'p-mod-checked';
@@ -132,20 +127,6 @@ class Menu extends MenuBase {
     content.className = CONTENT_CLASS;
     node.appendChild(content);
     return node;
-  }
-
-  /**
-   * A convenience method to create a menu from a template.
-   *
-   * @param array - The menu item templates for the menu.
-   *
-   * @returns A new menu created from the menu item templates.
-   */
-  static fromTemplate(array: IMenuItemTemplate[]): Menu {
-    let items = array.map(tmpl => MenuItem.fromTemplate(tmpl));
-    let menu = new Menu();
-    menu.items = items;
-    return menu;
   }
 
   /**
@@ -333,6 +314,16 @@ class Menu extends MenuBase {
   }
 
   /**
+   * Test whether a menu item is selectable.
+   */
+  protected isSelectable(item: MenuItem): boolean {
+    if (item.type === MenuItemType.Separator) {
+      return false;
+    }
+    return item.command ? item.command.isEnabled() : false;
+  }
+
+  /**
    * A method invoked when the menu items change.
    */
   protected onItemsChanged(old: MenuItem[], items: MenuItem[]): void {
@@ -365,8 +356,9 @@ class Menu extends MenuBase {
    */
   protected onTriggerItem(index: number, item: MenuItem): void {
     this.rootMenu.close();
-    let handler = item.handler;
-    if (handler) handler(item);
+    let cmd = item.command;
+    let args = item.commandArgs;
+    if (cmd && cmd.isEnabled()) cmd.execute(args);
   }
 
   /**
@@ -715,25 +707,24 @@ function createItemNode(): HTMLElement {
  */
 function createItemClass(item: MenuItem): string {
   let parts = [ITEM_CLASS];
-  if (item.isCheckType) {
-    parts.push(CHECK_TYPE_CLASS);
-  } else if (item.isSeparatorType) {
-    parts.push(SEPARATOR_TYPE_CLASS);
+  if (item.className) {
+    parts.push(item.className);
   }
-  if (item.checked) {
+  if (item.type === MenuItemType.Separator) {
+    parts.push(SEPARATOR_TYPE_CLASS);
+    return parts.join(' ');
+  }
+  if (item.type === MenuItemType.Check) {
+    parts.push(CHECK_TYPE_CLASS);
+  }
+  if (item.command && item.command.isChecked()) {
     parts.push(CHECKED_CLASS);
   }
-  if (item.disabled) {
+  if (!item.command || !item.command.isEnabled()) {
     parts.push(DISABLED_CLASS);
-  }
-  if (item.hidden) {
-    parts.push(HIDDEN_CLASS);
   }
   if (item.submenu) {
     parts.push(HAS_SUBMENU_CLASS);
-  }
-  if (item.className) {
-    parts.push(item.className);
   }
   return parts.join(' ');
 }
@@ -751,7 +742,8 @@ function createIconClass(item: MenuItem): string {
  * Create the text node content for a MenuItem.
  */
 function createTextContent(item: MenuItem): string {
-  return item.isSeparatorType ? '' : item.text.replace(/&/g, '');
+  let sep = item.type === MenuItemType.Separator;
+  return sep ? '' : item.text.replace(/&/g, '');
 }
 
 
@@ -759,7 +751,8 @@ function createTextContent(item: MenuItem): string {
  * Create the shortcut text for a MenuItem.
  */
 function createShortcutText(item: MenuItem): string {
-  return item.isSeparatorType ? '' : item.shortcut;
+  let sep = item.type === MenuItemType.Separator;
+  return sep ? '' : item.shortcut;
 }
 
 

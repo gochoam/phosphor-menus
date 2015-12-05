@@ -28,7 +28,7 @@ import {
 } from './menubase';
 
 import {
-  IMenuItemTemplate, MenuItem
+  MenuItem, MenuItemType
 } from './menuitem';
 
 
@@ -72,16 +72,6 @@ const SEPARATOR_TYPE_CLASS = 'p-mod-separator-type';
  */
 const ACTIVE_CLASS = 'p-mod-active';
 
-/**
- * The class name added to a disabled menu bar item.
- */
-const DISABLED_CLASS = 'p-mod-disabled';
-
-/**
- * The class name added to a hidden menu bar item.
- */
-const HIDDEN_CLASS = 'p-mod-hidden';
-
 
 /**
  * A widget which displays menu items as a menu bar.
@@ -97,20 +87,6 @@ class MenuBar extends MenuBase {
     content.className = CONTENT_CLASS;
     node.appendChild(content);
     return node;
-  }
-
-  /**
-   * A convenience method to create a menu bar from a template.
-   *
-   * @param array - The menu item templates for the menu bar.
-   *
-   * @returns A new menu bar created from the menu item templates.
-   */
-  static fromTemplate(array: IMenuItemTemplate[]): MenuBar {
-    let items = array.map(tmpl => MenuItem.fromTemplate(tmpl));
-    let bar = new MenuBar();
-    bar.items = items;
-    return bar;
   }
 
   /**
@@ -560,17 +536,11 @@ function createItemNode(): HTMLElement {
  */
 function createItemClass(item: MenuItem): string {
   let parts = [ITEM_CLASS];
-  if (item.isSeparatorType) {
-    parts.push(SEPARATOR_TYPE_CLASS);
-  }
-  if (item.disabled) {
-    parts.push(DISABLED_CLASS);
-  }
-  if (item.hidden) {
-    parts.push(HIDDEN_CLASS);
-  }
   if (item.className) {
     parts.push(item.className);
+  }
+  if (item.type === MenuItemType.Separator) {
+    parts.push(SEPARATOR_TYPE_CLASS);
   }
   return parts.join(' ');
 }
@@ -588,7 +558,8 @@ function createIconClass(item: MenuItem): string {
  * Create the text node content for a MenuItem.
  */
 function createTextContent(item: MenuItem): string {
-  return item.isSeparatorType ? '' : item.text.replace(/&/g, '');
+  let sep = item.type === MenuItemType.Separator;
+  return sep ? '' : item.text.replace(/&/g, '');
 }
 
 

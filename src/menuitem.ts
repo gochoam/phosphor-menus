@@ -8,6 +8,10 @@
 'use strict';
 
 import {
+  ICommand
+} from 'phosphor-command';
+
+import {
   IChangedArgs, Property
 } from 'phosphor-properties';
 
@@ -21,25 +25,38 @@ import {
 
 
 /**
- * A type alias for a menu item handler function.
+ * An enum of the supported menu item types.
  */
 export
-type Handler = (item: MenuItem) => void;
+enum MenuItemType {
+  /**
+   * A normal non-checkable menu item.
+   */
+  Normal,
+
+  /**
+   * A checkable menu item.
+   */
+  Check,
+
+  /**
+   * A separator menu item.
+   */
+  Separator,
+}
 
 
 /**
- * An options object which holds common menu item options.
- *
- * **See also:** [[IMenuItemTemplate]], [[IMenuItemOptions]]
+ * An options object for initializing a menu item.
  */
 export
-interface IMenuItemCommon {
+interface IMenuItemOptions {
   /**
    * The type of the menu item.
    *
    * **See also:** [[typeProperty]]
    */
-  type?: string;
+  type?: MenuItemType;
 
   /**
    * The text for the menu item.
@@ -63,27 +80,6 @@ interface IMenuItemCommon {
   shortcut?: string;
 
   /**
-   * Whether the menu item is disabled.
-   *
-   * **See also:** [[disabledProperty]]
-   */
-  disabled?: boolean;
-
-  /**
-   * Whether the menu item is hidden.
-   *
-   * **See also:** [[hiddenProperty]]
-   */
-  hidden?: boolean;
-
-  /**
-   * Whether a `'check'` type menu item is checked.
-   *
-   * **See also:** [[checkedProperty]]
-   */
-  checked?: boolean;
-
-  /**
    * The extra class name to associate with the menu item.
    *
    * **See also:** [[classNameProperty]]
@@ -91,33 +87,19 @@ interface IMenuItemCommon {
   className?: string;
 
   /**
-   * The handler function for the menu item.
+   * The command for the menu item.
    *
-   * **See also:** [[handlerProperty]]
+   * **See also:** [[commandProperty]]
    */
-  handler?: Handler;
-}
+  command?: ICommand;
 
-
-/**
- * An options object for building a menu item from a template.
- */
-export
-interface IMenuItemTemplate extends IMenuItemCommon {
   /**
-   * The template objects for the menu item submenu.
+   * The args object for the menu item command.
    *
-   * **See also:** [[fromTemplate]]
+   * **See also:** [[commandArgsProperty]]
    */
-  submenu?: IMenuItemTemplate[];
-}
+  commandArgs?: any;
 
-
-/**
- * An options object used to initialize a menu item.
- */
-export
-interface IMenuItemOptions extends IMenuItemCommon {
   /**
    * The submenu for the menu item.
    *
@@ -133,24 +115,6 @@ interface IMenuItemOptions extends IMenuItemCommon {
 export
 class MenuItem {
   /**
-   * Create a menu item from a template.
-   *
-   * @param template - The template object for the menu item.
-   *
-   * @returns A new menu item created from the template.
-   *
-   * #### Notes
-   * If a submenu template is provided, the submenu will be created
-   * by calling `Menu.fromTemplate`. If a custom menu is necessary,
-   * use the `MenuItem` constructor directly.
-   */
-  static fromTemplate(template: IMenuItemTemplate): MenuItem {
-    let item = new MenuItem();
-    initFromTemplate(item, template);
-    return item;
-  }
-
-  /**
    * A signal emitted when the menu item state changes.
    *
    * **See also:** [[changed]].
@@ -160,31 +124,21 @@ class MenuItem {
   /**
    * The property descriptor for the menu item type.
    *
-   * Valid types are: `'normal'`, `'check'`, and `'separator'`.
-   *
    * #### Notes
-   * If an invalid type is provided, a warning will be logged and a
-   * `'normal'` type will be used instead.
-   *
-   * The default value is `'normal'`.
-   *
-   * Using a string for this value instead of an enum makes it easier
-   * to create menu items from a JSON specification. For the type-safe
-   * crowd, read-only getters are provided to assert the item type.
+   * The default value is `MenuItemType.Normal`.
    *
    * **See also:** [[type]]
    */
-  static typeProperty = new Property<MenuItem, string>({
+  static typeProperty = new Property<MenuItem, MenuItemType>({
     name: 'type',
-    value: 'normal',
-    coerce: coerceMenuItemType,
-    changed: owner => { MenuItem.checkedProperty.coerce(owner); },
+    value: MenuItemType.Normal,
     notify: MenuItem.changedSignal,
   });
 
   /**
    * The property descriptor for the menu item text.
    *
+   * #### Notes
    * The text may have an ampersand `&` before the character to use
    * as the mnemonic for the menu item.
    *
@@ -199,6 +153,7 @@ class MenuItem {
   /**
    * The property descriptor for the menu item icon class.
    *
+   * #### Notes
    * This will be added to the class name of the menu item icon node.
    *
    * Multiple class names can be separated with whitespace.
@@ -214,6 +169,11 @@ class MenuItem {
   /**
    * The property descriptor for the menu item shortcut.
    *
+   * #### Notes
+   * This shortcut is for display purposes only, it does not perform
+   * any actual keyboard event handling. Mapping a keyboard shortcut
+   * to a command must be handled by external code.
+   *
    * **See also:** [[shortcut]]
    */
   static shortcutProperty = new Property<MenuItem, string>({
@@ -223,45 +183,9 @@ class MenuItem {
   });
 
   /**
-   * The property descriptor controlling the menu item disabled state.
-   *
-   * **See also:** [[disabled]]
-   */
-  static disabledProperty = new Property<MenuItem, boolean>({
-    name: 'disabled',
-    value: false,
-    notify: MenuItem.changedSignal,
-  });
-
-  /**
-   * The property descriptor controlling the menu item hidden state.
-   *
-   * **See also:** [[hidden]]
-   */
-  static hiddenProperty = new Property<MenuItem, boolean>({
-    name: 'hidden',
-    value: false,
-    notify: MenuItem.changedSignal,
-  });
-
-  /**
-   * The property descriptor controlling the menu item checked state.
-   *
-   * #### Notes
-   * Only a `'check'` type menu item can be checked.
-   *
-   * **See also:** [[checked]]
-   */
-  static checkedProperty = new Property<MenuItem, boolean>({
-    name: 'checked',
-    value: false,
-    coerce: (owner, val) => owner.type === 'check' ? val : false,
-    notify: MenuItem.changedSignal,
-  });
-
-  /**
    * The property descriptor for the menu item class name.
    *
+   * #### Notes
    * This will be added to the class name of the menu item node.
    *
    * Multiple class names can be separated with whitespace.
@@ -275,14 +199,32 @@ class MenuItem {
   });
 
   /**
-   * The property descriptor for the item handler.
+   * The property descriptor for the item command.
    *
-   * This callback will be invoked when the menu item is triggered.
+   * #### Notes
+   * This command will be executed when the menu item is clicked. The
+   * command also controls the checked and enabled state of the item.
    *
-   * **See also:** [[handler]]
+   * **See also:** [[command]]
    */
-  static handlerProperty = new Property<MenuItem, Handler>({
-    name: 'handler',
+  static commandProperty = new Property<MenuItem, ICommand>({
+    name: 'command',
+    value: null,
+    coerce: (owner, value) => value || null,
+    notify: MenuItem.changedSignal,
+  });
+
+  /**
+   * The property descriptor for the item command arguments.
+   *
+   * #### Notes
+   * This args object will be passed to the `execute` method of the
+   * menu item's `command` when the menu item is clicked.
+   *
+   * **See also:** [[commandArgs]]
+   */
+  static commandArgsProperty = new Property<MenuItem, any>({
+    name: 'commandArgs',
     value: null,
     coerce: (owner, value) => value || null,
     notify: MenuItem.changedSignal,
@@ -306,7 +248,7 @@ class MenuItem {
    * @param options - The initialization options for the menu item.
    */
   constructor(options?: IMenuItemOptions) {
-    if (options) initFromOptions(this, options);
+    if (options) initFrom(this, options);
   }
 
   /**
@@ -324,10 +266,8 @@ class MenuItem {
    *
    * #### Notes
    * This is a pure delegate to the [[typeProperty]].
-   *
-   * **See also:** [[isNormalType]], [[isCheckType]], [[isSeparatorType]]
    */
-  get type(): string {
+  get type(): MenuItemType {
     return MenuItem.typeProperty.get(this);
   }
 
@@ -337,7 +277,7 @@ class MenuItem {
    * #### Notes
    * This is a pure delegate to the [[typeProperty]].
    */
-  set type(value: string) {
+  set type(value: MenuItemType) {
     MenuItem.typeProperty.set(this, value);
   }
 
@@ -382,9 +322,11 @@ class MenuItem {
   }
 
   /**
-   * Get the shortcut key for the menu item (decoration only).
+   * Get the shortcut key for the menu item.
    *
    * #### Notes
+   * The shortcut string is for decoration only.
+   *
    * This is a pure delegate to the [[shortcutProperty]].
    */
   get shortcut(): string {
@@ -392,73 +334,15 @@ class MenuItem {
   }
 
   /**
-   * Set the shortcut key for the menu item (decoration only).
+   * Set the shortcut key for the menu item.
    *
    * #### Notes
+   * The shortcut string is for decoration only.
+   *
    * This is a pure delegate to the [[shortcutProperty]].
    */
   set shortcut(value: string) {
     MenuItem.shortcutProperty.set(this, value);
-  }
-
-  /**
-   * Get whether the menu item is disabled.
-   *
-   * #### Notes
-   * This is a pure delegate to the [[disabledProperty]].
-   */
-  get disabled(): boolean {
-    return MenuItem.disabledProperty.get(this);
-  }
-
-  /**
-   * Set whether the menu item is disabled.
-   *
-   * #### Notes
-   * This is a pure delegate to the [[disabledProperty]].
-   */
-  set disabled(value: boolean) {
-    MenuItem.disabledProperty.set(this, value);
-  }
-
-  /**
-   * Get whether the menu item is hidden.
-   *
-   * #### Notes
-   * This is a pure delegate to the [[hiddenProperty]].
-   */
-  get hidden(): boolean {
-    return MenuItem.hiddenProperty.get(this);
-  }
-
-  /**
-   * Set whether the menu item is hidden.
-   *
-   * #### Notes
-   * This is a pure delegate to the [[hiddenProperty]].
-   */
-  set hidden(value: boolean) {
-    MenuItem.hiddenProperty.set(this, value);
-  }
-
-  /**
-   * Get whether the menu item is checked.
-   *
-   * #### Notes
-   * This is a pure delegate to the [[checkedProperty]].
-   */
-  get checked(): boolean {
-    return MenuItem.checkedProperty.get(this);
-  }
-
-  /**
-   * Set whether the menu item is checked.
-   *
-   * #### Notes
-   * This is a pure delegate to the [[checkedProperty]].
-   */
-  set checked(value: boolean) {
-    MenuItem.checkedProperty.set(this, value);
   }
 
   /**
@@ -482,23 +366,43 @@ class MenuItem {
   }
 
   /**
-   * Get the handler for the menu item.
+   * Get the command for the menu item.
    *
    * #### Notes
-   * This is a pure delegate to the [[handlerProperty]].
+   * This is a pure delegate to the [[commandProperty]].
    */
-  get handler(): Handler {
-    return MenuItem.handlerProperty.get(this);
+  get command(): ICommand {
+    return MenuItem.commandProperty.get(this);
   }
 
   /**
-   * Set the handler for the menu item.
+   * Set the command for the menu item.
    *
    * #### Notes
-   * This is a pure delegate to the [[handlerProperty]].
+   * This is a pure delegate to the [[commandProperty]].
    */
-  set handler(value: Handler) {
-    MenuItem.handlerProperty.set(this, value);
+  set command(value: ICommand) {
+    MenuItem.commandProperty.set(this, value);
+  }
+
+  /**
+   * Get the command args for the menu item.
+   *
+   * #### Notes
+   * This is a pure delegate to the [[commandArgsProperty]].
+   */
+  get commandArgs(): any {
+    return MenuItem.commandArgsProperty.get(this);
+  }
+
+  /**
+   * Set the command args for the menu item.
+   *
+   * #### Notes
+   * This is a pure delegate to the [[commandArgsProperty]].
+   */
+  set commandArgs(value: any) {
+    MenuItem.commandArgsProperty.set(this, value);
   }
 
   /**
@@ -520,108 +424,35 @@ class MenuItem {
   set submenu(value: Menu) {
     MenuItem.submenuProperty.set(this, value);
   }
-
-  /**
-   * Test whether the menu item is a `'normal'` type.
-   *
-   * #### Notes
-   * This is a read-only property.
-   *
-   * **See also:** [[type]], [[isCheckType]], [[isSeparatorType]]
-   */
-  get isNormalType(): boolean {
-    return this.type === 'normal';
-  }
-
-  /**
-   * Test whether the menu item is a `'check'` type.
-   *
-   * #### Notes
-   * This is a read-only property.
-   *
-   * **See also:** [[type]], [[isNormalType]], [[isSeparatorType]]
-   */
-  get isCheckType(): boolean {
-    return this.type === 'check';
-  }
-
-  /**
-   * Test whether the menu item is a `'separator'` type.
-   *
-   * #### Notes
-   * This is a read-only property.
-   *
-   * **See also:** [[type]], [[isNormalType]], [[isCheckType]]
-   */
-  get isSeparatorType(): boolean {
-    return this.type === 'separator';
-  }
-}
-
-
-/**
- * Initialize a menu item from a common options object.
- */
-function initFromCommon(item: MenuItem, common: IMenuItemCommon): void {
-  if (common.type !== void 0) {
-    item.type = common.type;
-  }
-  if (common.text !== void 0) {
-    item.text = common.text;
-  }
-  if (common.icon !== void 0) {
-    item.icon = common.icon;
-  }
-  if (common.shortcut !== void 0) {
-    item.shortcut = common.shortcut;
-  }
-  if (common.disabled !== void 0) {
-    item.disabled = common.disabled;
-  }
-  if (common.hidden !== void 0) {
-    item.hidden = common.hidden;
-  }
-  if (common.checked !== void 0) {
-    item.checked = common.checked;
-  }
-  if (common.className !== void 0) {
-    item.className = common.className;
-  }
-  if (common.handler !== void 0) {
-    item.handler = common.handler;
-  }
-}
-
-
-/**
- * Initialize a menu item from a template object.
- */
-function initFromTemplate(item: MenuItem, template: IMenuItemTemplate): void {
-  initFromCommon(item, template);
-  if (template.submenu !== void 0) {
-    item.submenu = Menu.fromTemplate(template.submenu);
-  }
 }
 
 
 /**
  * Initialize a menu item from an options object.
  */
-function initFromOptions(item: MenuItem, options: IMenuItemOptions): void {
-  initFromCommon(item, options);
+function initFrom(item: MenuItem, options: IMenuItemOptions): void {
+  if (options.type !== void 0) {
+    item.type = options.type;
+  }
+  if (options.text !== void 0) {
+    item.text = options.text;
+  }
+  if (options.icon !== void 0) {
+    item.icon = options.icon;
+  }
+  if (options.shortcut !== void 0) {
+    item.shortcut = options.shortcut;
+  }
+  if (options.className !== void 0) {
+    item.className = options.className;
+  }
+  if (options.command !== void 0) {
+    item.command = options.command;
+  }
+  if (options.commandArgs !== void 0) {
+    item.commandArgs = options.commandArgs;
+  }
   if (options.submenu !== void 0) {
     item.submenu = options.submenu;
   }
-}
-
-
-/**
- * The coerce handler for the menu item type.
- */
-function coerceMenuItemType(owner: MenuItem, value: string): string {
-  if (value === 'normal' || value === 'check' || value === 'separator') {
-    return value;
-  }
-  console.warn('invalid menu item type:', value);
-  return 'normal';
 }
