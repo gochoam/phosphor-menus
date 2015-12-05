@@ -205,7 +205,7 @@ class Menu extends MenuBase {
    * Find the root menu of this menu hierarchy.
    */
   get rootMenu(): Menu {
-    let menu = this;
+    let menu: Menu = this;
     while (menu._parentMenu) {
       menu = menu._parentMenu;
     }
@@ -216,7 +216,7 @@ class Menu extends MenuBase {
    * Find the leaf menu of this menu hierarchy.
    */
   get leafMenu(): Menu {
-    let menu = this;
+    let menu: Menu = this;
     while (menu._childMenu) {
       menu = menu._childMenu;
     }
@@ -526,7 +526,7 @@ class Menu extends MenuBase {
    * This event listener is attached to the document for a popup menu.
    */
   private _evtMouseDown(event: MouseEvent): void {
-    let menu = this;
+    let menu: Menu = this;
     let hit = false;
     let x = event.clientX;
     let y = event.clientY;
