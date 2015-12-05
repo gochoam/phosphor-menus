@@ -92,9 +92,10 @@ class MenuBar extends MenuBase {
   /**
    * Construct a new menu bar.
    */
-  constructor() {
+  constructor(items?: MenuItem[]) {
     super();
     this.addClass(MENU_BAR_CLASS);
+    if (items) this.items = items;
   }
 
   /**

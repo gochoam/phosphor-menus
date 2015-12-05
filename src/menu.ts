@@ -139,9 +139,10 @@ class Menu extends MenuBase {
   /**
    * Construct a new menu.
    */
-  constructor() {
+  constructor(items?: MenuItem[]) {
     super();
     this.addClass(MENU_CLASS);
+    if (items) this.items = items;
   }
 
   /**
