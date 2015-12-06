@@ -321,7 +321,13 @@ class Menu extends MenuBase {
     if (item.type === MenuItemType.Separator) {
       return false;
     }
-    return item.command ? item.command.isEnabled() : false;
+    if (item.submenu) {
+      return true;
+    }
+    if (!item.command) {
+      return false;
+    }
+    return item.command.isEnabled();
   }
 
   /**
@@ -715,17 +721,18 @@ function createItemClass(item: MenuItem): string {
     parts.push(SEPARATOR_TYPE_CLASS);
     return parts.join(' ');
   }
+  if (item.submenu) {
+    parts.push(HAS_SUBMENU_CLASS);
+    return parts.join(' ');
+  }
   if (item.type === MenuItemType.Check) {
     parts.push(CHECK_TYPE_CLASS);
-  }
-  if (item.command && item.command.isChecked()) {
-    parts.push(CHECKED_CLASS);
+    if (item.command && item.command.isChecked()) {
+      parts.push(CHECKED_CLASS);
+    }
   }
   if (!item.command || !item.command.isEnabled()) {
     parts.push(DISABLED_CLASS);
-  }
-  if (item.submenu) {
-    parts.push(HAS_SUBMENU_CLASS);
   }
   return parts.join(' ');
 }
