@@ -168,7 +168,7 @@ class MenuBase extends Widget {
   openActiveItem(): void {
     let i = this.activeIndex;
     let item = this.items[i];
-    if (item && item.submenu) {
+    if (item && item.type === MenuItem.Submenu) {
       this.onOpenItem(i, item);
     }
   }
@@ -183,9 +183,9 @@ class MenuBase extends Widget {
   triggerActiveItem(): void {
     let i = this.activeIndex;
     let item = this.items[i];
-    if (item && item.submenu) {
+    if (item && item.type === MenuItem.Submenu) {
       this.onOpenItem(i, item);
-    } else if (item) {
+    } else if (item && item.type !== MenuItem.Separator) {
       this.onTriggerItem(i, item);
     }
   }

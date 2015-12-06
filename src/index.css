@@ -19,6 +19,7 @@
 }
 
 
+.p-MenuBar-item.p-mod-hidden,
 .p-MenuBar-item.p-mod-collapsed {
   display: none;
 }

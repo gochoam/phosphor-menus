@@ -78,6 +78,11 @@ const CHECK_TYPE_CLASS = 'p-mod-check-type';
 const SEPARATOR_TYPE_CLASS = 'p-mod-separator-type';
 
 /**
+ * The class name added to a submenu type menu item.
+ */
+const SUBMENU_TYPE_CLASS = 'p-mod-submenu-type';
+
+/**
  * The class name added to active menu items.
  */
 const ACTIVE_CLASS = 'p-mod-active';
@@ -91,11 +96,6 @@ const DISABLED_CLASS = 'p-mod-disabled';
  * The class name added to a checked menu item.
  */
 const CHECKED_CLASS = 'p-mod-checked';
-
-/**
- * The class name added to a menu item with a submenu.
- */
-const HAS_SUBMENU_CLASS = 'p-mod-has-submenu';
 
 /**
  * The ms delay for opening a submenu.
@@ -138,6 +138,12 @@ class Menu extends MenuBase {
 
   /**
    * Construct a new menu.
+   *
+   * @param items - Optional menu items to initialize the menu.
+   *
+   * #### Notes
+   * Subclasses should not pass menu items to `super`. The subclass
+   * should set its own items after it has been fully initialized.
    */
   constructor(items?: MenuItem[]) {
     super();
@@ -303,7 +309,8 @@ class Menu extends MenuBase {
       this._evtMouseUp(event as MouseEvent);
       break;
     case 'contextmenu':
-      this._evtContextMenu(event as MouseEvent);
+      event.preventDefault();
+      event.stopPropagation();
       break;
     case 'keydown':
       this._evtKeyDown(event as KeyboardEvent);
@@ -316,18 +323,18 @@ class Menu extends MenuBase {
 
   /**
    * Test whether a menu item is selectable.
+   *
+   * #### Notes
+   * This is a reimplementation of the base class method.
    */
   protected isSelectable(item: MenuItem): boolean {
     if (item.type === MenuItem.Separator) {
       return false;
     }
-    if (item.submenu) {
+    if (item.type === MenuItem.Submenu) {
       return true;
     }
-    if (!item.command) {
-      return false;
-    }
-    return item.command.isEnabled();
+    return item.command ? item.command.isEnabled() : false;
   }
 
   /**
@@ -351,7 +358,7 @@ class Menu extends MenuBase {
    * A method invoked when a menu item should be opened.
    */
   protected onOpenItem(index: number, item: MenuItem): void {
-    if (this.isAttached) {
+    if (this.isAttached && item.submenu) {
       let ref = this._nodes[index] || this.node;
       this._openChildMenu(item, ref, false);
       this._childMenu.activateNextItem();
@@ -396,7 +403,6 @@ class Menu extends MenuBase {
     // Fetch common variables.
     let items = this.items;
     let nodes = this._nodes;
-    let index = this.activeIndex;
     let content = this.contentNode;
 
     // Remove any excess item nodes.
@@ -416,12 +422,11 @@ class Menu extends MenuBase {
     // Update the node state to match the menu items.
     for (let i = 0, n = items.length; i < n; ++i) {
       updateItemNode(items[i], nodes[i]);
-      if (i === index) {
-        nodes[i].classList.add(ACTIVE_CLASS);
-      } else {
-        nodes[i].classList.remove(ACTIVE_CLASS);
-      }
     }
+
+    // Update the active item node.
+    let active = nodes[this.activeIndex];
+    if (active) active.classList.add(ACTIVE_CLASS);
 
     // Collapse the neighboring separators.
     collapseSeparators(items, nodes);
@@ -512,17 +517,12 @@ class Menu extends MenuBase {
   }
 
   /**
-   * Handle the `'contextmenu'` event for the menu bar.
-   */
-  private _evtContextMenu(event: Event): void {
-    event.preventDefault();
-    event.stopPropagation();
-  }
-
-  /**
    * Handle the `'mousedown'` event for the menu.
    *
    * This event listener is attached to the document for a popup menu.
+   *
+   * This allows the event to propagate so the element under the mouse
+   * can be focused without requiring a second click.
    */
   private _evtMouseDown(event: MouseEvent): void {
     let menu: Menu = this;
@@ -721,8 +721,8 @@ function createItemClass(item: MenuItem): string {
     parts.push(SEPARATOR_TYPE_CLASS);
     return parts.join(' ');
   }
-  if (item.submenu) {
-    parts.push(HAS_SUBMENU_CLASS);
+  if (item.type === MenuItem.Submenu) {
+    parts.push(SUBMENU_TYPE_CLASS);
     return parts.join(' ');
   }
   if (item.type === MenuItem.Check) {
@@ -750,8 +750,10 @@ function createIconClass(item: MenuItem): string {
  * Create the text node content for a MenuItem.
  */
 function createTextContent(item: MenuItem): string {
-  let sep = item.type === MenuItem.Separator;
-  return sep ? '' : item.text.replace(/&/g, '');
+  if (item.type === MenuItem.Separator) {
+    return '';
+  }
+  return item.text.replace(/&/g, '');
 }
 
 
@@ -759,8 +761,10 @@ function createTextContent(item: MenuItem): string {
  * Create the shortcut text for a MenuItem.
  */
 function createShortcutText(item: MenuItem): string {
-  let sep = item.type === MenuItem.Separator;
-  return sep ? '' : item.shortcut;
+  if (item.type === MenuItem.Separator || item.type === MenuItem.Submenu) {
+    return '';
+  }
+  return item.shortcut;
 }
 
 

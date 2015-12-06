@@ -72,6 +72,11 @@ const SEPARATOR_TYPE_CLASS = 'p-mod-separator-type';
  */
 const ACTIVE_CLASS = 'p-mod-active';
 
+/**
+ * The class name added to hidden menu bar items.
+ */
+const HIDDEN_CLASS = 'p-mod-hidden';
+
 
 /**
  * A widget which displays menu items as a menu bar.
@@ -91,6 +96,12 @@ class MenuBar extends MenuBase {
 
   /**
    * Construct a new menu bar.
+   *
+   * @param items - Optional menu items to initialize the menu bar.
+   *
+   * #### Notes
+   * Subclasses should not pass menu items to `super`. The subclass
+   * should set its own items after it has been fully initialized.
    */
   constructor(items?: MenuItem[]) {
     super();
@@ -149,7 +160,8 @@ class MenuBar extends MenuBase {
       this._evtMouseLeave(event as MouseEvent);
       break;
     case 'contextmenu':
-      this._evtContextMenu(event as MouseEvent);
+      event.preventDefault();
+      event.stopPropagation();
       break;
     case 'keydown':
       this._evtKeyDown(event as KeyboardEvent);
@@ -158,6 +170,16 @@ class MenuBar extends MenuBase {
       this._evtKeyPress(event as KeyboardEvent);
       break;
     }
+  }
+
+  /**
+   * Test whether a menu item is selectable.
+   *
+   * #### Notes
+   * This is a reimplementation of the base class method.
+   */
+  protected isSelectable(item: MenuItem): boolean {
+    return item.type === MenuItem.Submenu;
   }
 
   /**
@@ -199,7 +221,7 @@ class MenuBar extends MenuBase {
    * A method invoked when a menu item should be opened.
    */
   protected onOpenItem(index: number, item: MenuItem): void {
-    if (this.isAttached) {
+    if (this.isAttached && item.submenu) {
       let ref = this._nodes[index] || this.node;
       this._activate();
       this._closeChildMenu();
@@ -242,7 +264,6 @@ class MenuBar extends MenuBase {
     // Fetch common variables.
     let items = this.items;
     let nodes = this._nodes;
-    let index = this.activeIndex;
     let content = this.contentNode;
 
     // Remove any excess item nodes.
@@ -261,12 +282,11 @@ class MenuBar extends MenuBase {
     // Update the node state to match the menu items.
     for (let i = 0, n = items.length; i < n; ++i) {
       updateItemNode(items[i], nodes[i]);
-      if (i === index) {
-        nodes[i].classList.add(ACTIVE_CLASS);
-      } else {
-        nodes[i].classList.remove(ACTIVE_CLASS);
-      }
     }
+
+    // Update the active item node.
+    let active = nodes[this.activeIndex];
+    if (active) active.classList.add(ACTIVE_CLASS);
 
     // Collapse the neighboring separators.
     collapseSeparators(items, nodes);
@@ -353,14 +373,6 @@ class MenuBar extends MenuBase {
    */
   private _evtMouseLeave(event: MouseEvent): void {
     if (!this._active) this.activeIndex = -1;
-  }
-
-  /**
-   * Handle the `'contextmenu'` event for the menu bar.
-   */
-  private _evtContextMenu(event: Event): void {
-    event.preventDefault();
-    event.stopPropagation();
   }
 
   /**
@@ -499,6 +511,7 @@ class MenuBar extends MenuBase {
    * Handle the `changed` signal from a menu item.
    */
   private _onItemChanged(sender: MenuItem, args: IChangedArgs<any>): void {
+    this._reset();
     this.update();
   }
 
@@ -542,6 +555,8 @@ function createItemClass(item: MenuItem): string {
   }
   if (item.type === MenuItem.Separator) {
     parts.push(SEPARATOR_TYPE_CLASS);
+  } else if (item.type !== MenuItem.Submenu) {
+    parts.push(HIDDEN_CLASS);
   }
   return parts.join(' ');
 }
