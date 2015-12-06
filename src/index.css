@@ -5,6 +5,25 @@
 |
 | The full license is in the file LICENSE, distributed with this software.
 |----------------------------------------------------------------------------*/
+.p-MenuBar-content {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  list-style-type: none;
+}
+
+
+.p-MenuBar-item {
+  box-sizing: border-box;
+}
+
+
+.p-MenuBar-item.p-mod-collapsed {
+  display: none;
+}
+
+
 .p-Menu {
   position: absolute;
   top: 0;
@@ -32,7 +51,6 @@
 }
 
 
-.p-Menu-item.p-mod-hidden,
 .p-Menu-item.p-mod-collapsed {
   display: none;
 }
@@ -86,24 +104,4 @@
   display: block;
   position: relative;
   top: 4px;
-}
-
-
-.p-MenuBar-content {
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: row;
-  list-style-type: none;
-}
-
-
-.p-MenuBar-item {
-  box-sizing: border-box;
-}
-
-
-.p-MenuBar-item.p-mod-hidden,
-.p-MenuBar-item.p-mod-collapsed {
-  display: none;
 }
