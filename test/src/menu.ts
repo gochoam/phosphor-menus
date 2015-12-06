@@ -152,14 +152,20 @@ function createMenu(): LogMenu {
 }
 
 
-function triggerMouseEvent(node: HTMLElement, eventType: string, options: any={}) {
-  options.bubbles = true;
-  let clickEvent = new MouseEvent(eventType, options);
-  node.dispatchEvent(clickEvent);
+function triggerMouseEvent(node: HTMLElement, eventType: string, options: any = {}) {
+  let event = document.createEvent('MouseEvent');
+  event.initMouseEvent(
+    eventType, true, true, window, 0, 0, 0,
+    options.clientX || 0, options.clientY || 0,
+    options.ctrlKey || false, options.altKey || false,
+    options.shiftKey || false, options.metaKey || false,
+    options.button || 0, options.relatedTarget || null
+  );
+  node.dispatchEvent(event);
 }
 
 
-function triggerKeyEvent(node: HTMLElement, eventType: string, options: any={}) {
+function triggerKeyEvent(node: HTMLElement, eventType: string, options: any = {}) {
   // cannot use KeyboardEvent in Chrome because it sets keyCode = 0
   let event = document.createEvent('Event');
   event.initEvent(eventType, true, true);
