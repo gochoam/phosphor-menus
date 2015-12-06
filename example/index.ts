@@ -24,15 +24,15 @@ import './index.css';
 
 function main() {
 
-  let logCmd = new DelegateCommand('log-cmd', args => {
+  let logCmd = new DelegateCommand(args => {
     var node = document.getElementById('log-span');
     node.textContent = args;
   });
 
-  let disabledCmd = new DelegateCommand('disabled', () => { });
+  let disabledCmd = new DelegateCommand(() => { });
   disabledCmd.enabled = false;
 
-  let saveOnExitCmd = new DelegateCommand('save-on-exit', () => {
+  let saveOnExitCmd = new DelegateCommand(() => {
     logCmd.execute('Save On Exit');
     saveOnExitCmd.checked = !saveOnExitCmd.checked;
   });
