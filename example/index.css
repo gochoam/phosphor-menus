@@ -38,6 +38,11 @@ body {
 }
 
 
+.p-MenuBar-item.p-mod-disabled {
+  color: rgba(0, 0, 0, 0.26);
+}
+
+
 .p-MenuBar-item.p-mod-separator-type {
   margin: 2px;
   padding: 0;

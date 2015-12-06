@@ -216,6 +216,10 @@ function main() {
       submenu: findMenu
     }),
     new MenuItem({
+      text: 'View',
+      type: MenuItem.Submenu
+    }),
+    new MenuItem({
       type: MenuItem.Separator
     }),
     new MenuItem({
