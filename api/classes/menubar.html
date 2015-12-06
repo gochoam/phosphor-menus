@@ -146,7 +146,6 @@
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external"><a href="menubar.html#_activate" class="tsd-kind-icon">_activate</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external"><a href="menubar.html#_closechildmenu" class="tsd-kind-icon">_close<wbr>Child<wbr>Menu</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external"><a href="menubar.html#_deactivate" class="tsd-kind-icon">_deactivate</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external"><a href="menubar.html#_evtcontextmenu" class="tsd-kind-icon">_evt<wbr>Context<wbr>Menu</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external"><a href="menubar.html#_evtkeydown" class="tsd-kind-icon">_evt<wbr>Key<wbr>Down</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external"><a href="menubar.html#_evtkeypress" class="tsd-kind-icon">_evt<wbr>Key<wbr>Press</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external"><a href="menubar.html#_evtmousedown" class="tsd-kind-icon">_evt<wbr>Mouse<wbr>Down</a></li>
@@ -166,6 +165,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-external"><a href="menubar.html#dispose" class="tsd-kind-icon">dispose</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-external"><a href="menubar.html#handleevent" class="tsd-kind-icon">handle<wbr>Event</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menubar.html#hasclass" class="tsd-kind-icon">has<wbr>Class</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external"><a href="menubar.html#isselectable" class="tsd-kind-icon">is<wbr>Selectable</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external"><a href="menubar.html#onactiveindexchanged" class="tsd-kind-icon">on<wbr>Active<wbr>Index<wbr>Changed</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external"><a href="menubar.html#onafterattach" class="tsd-kind-icon">on<wbr>After<wbr>Attach</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external"><a href="menubar.html#onaftershow" class="tsd-kind-icon">on<wbr>After<wbr>Show</a></li>
@@ -186,7 +186,6 @@
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static tsd-is-external"><a href="menubar.html#attach" class="tsd-kind-icon">attach</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-static tsd-is-external"><a href="menubar.html#createnode" class="tsd-kind-icon">create<wbr>Node</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static tsd-is-external"><a href="menubar.html#detach" class="tsd-kind-icon">detach</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static tsd-is-external"><a href="menubar.html#fromtemplate" class="tsd-kind-icon">from<wbr>Template</a></li>
 							</ul>
 						</section>
 					</div>
@@ -198,14 +197,14 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Menu<wbr>Bar<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="menubar.html" class="tsd-signature-type">MenuBar</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Menu<wbr>Bar<span class="tsd-signature-symbol">(</span>items<span class="tsd-signature-symbol">?: </span><a href="menuitem.html" class="tsd-signature-type">MenuItem</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="menubar.html" class="tsd-signature-type">MenuBar</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Overwrites Widget.__constructor</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubar.ts#L114">menubar.ts:114</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubar.ts#L100">menubar.ts:100</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -213,6 +212,20 @@
 									<p>Construct a new menu bar.</p>
 								</div>
 							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> items: <a href="menuitem.html" class="tsd-signature-type">MenuItem</a><span class="tsd-signature-symbol">[]</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>Optional menu items to initialize the menu bar.</p>
+											<h4 id="notes">Notes</h4>
+											<p>Subclasses should not pass menu items to <code>super</code>. The subclass
+											should set its own items after it has been fully initialized.</p>
+										</div>
+									</div>
+								</li>
+							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="menubar.html" class="tsd-signature-type">MenuBar</a></h4>
 						</li>
 					</ul>
@@ -226,7 +239,7 @@
 					<div class="tsd-signature tsd-kind-icon">_active<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubar.ts#L538">menubar.ts:538</a></li>
+							<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubar.ts#L533">menubar.ts:533</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -236,7 +249,7 @@
 					<div class="tsd-signature tsd-kind-icon">_child<wbr>Menu<span class="tsd-signature-symbol">:</span> <a href="menu.html" class="tsd-signature-type">Menu</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubar.ts#L539">menubar.ts:539</a></li>
+							<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubar.ts#L534">menubar.ts:534</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -246,7 +259,7 @@
 					<div class="tsd-signature tsd-kind-icon">_nodes<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">HTMLElement</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubar.ts#L540">menubar.ts:540</a></li>
+							<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubar.ts#L535">menubar.ts:535</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -687,7 +700,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubar.ts#L138">menubar.ts:138</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubar.ts#L131">menubar.ts:131</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -711,7 +724,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubar.ts#L149">menubar.ts:149</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubar.ts#L142">menubar.ts:142</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -787,7 +800,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubar.ts#L478">menubar.ts:478</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubar.ts#L472">menubar.ts:472</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -811,7 +824,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubar.ts#L462">menubar.ts:462</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubar.ts#L456">menubar.ts:456</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -833,7 +846,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubar.ts#L498">menubar.ts:498</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubar.ts#L492">menubar.ts:492</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -848,34 +861,6 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external">
-					<a name="_evtcontextmenu" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _evt<wbr>Context<wbr>Menu</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">_evt<wbr>Context<wbr>Menu<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Event</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubar.ts#L384">menubar.ts:384</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Handle the <code>&#39;contextmenu&#39;</code> event for the menu bar.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>event: <span class="tsd-signature-type">Event</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external">
 					<a name="_evtkeydown" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _evt<wbr>Key<wbr>Down</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external">
@@ -885,7 +870,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubar.ts#L392">menubar.ts:392</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubar.ts#L386">menubar.ts:386</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -913,7 +898,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubar.ts#L439">menubar.ts:439</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubar.ts#L433">menubar.ts:433</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -941,7 +926,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubar.ts#L301">menubar.ts:301</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubar.ts#L303">menubar.ts:303</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -969,7 +954,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubar.ts#L377">menubar.ts:377</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubar.ts#L379">menubar.ts:379</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -997,7 +982,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubar.ts#L342">menubar.ts:342</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubar.ts#L344">menubar.ts:344</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1025,7 +1010,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubar.ts#L524">menubar.ts:524</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubar.ts#L518">menubar.ts:518</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1056,7 +1041,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubar.ts#L531">menubar.ts:531</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubar.ts#L526">menubar.ts:526</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1084,7 +1069,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubar.ts#L451">menubar.ts:451</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubar.ts#L445">menubar.ts:445</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1115,7 +1100,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubar.ts#L515">menubar.ts:515</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubar.ts#L509">menubar.ts:509</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1138,7 +1123,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="menubase.html">MenuBase</a>.<a href="menubase.html#activatemnemonicitem">activateMnemonicItem</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubase.ts#L143">menubase.ts:143</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubase.ts#L145">menubase.ts:145</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1199,7 +1184,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="menubase.html">MenuBase</a>.<a href="menubase.html#activatepreviousitem">activatePreviousItem</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubase.ts#L128">menubase.ts:128</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubase.ts#L129">menubase.ts:129</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1286,7 +1271,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="menubase.html">MenuBase</a>.<a href="menubase.html#coerceactiveindex">coerceActiveIndex</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubase.ts#L197">menubase.ts:197</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubase.ts#L215">menubase.ts:215</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1361,7 +1346,7 @@
 							<aside class="tsd-sources">
 								<p>Overwrites Widget.dispose</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubar.ts#L127">menubar.ts:127</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubar.ts#L120">menubar.ts:120</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1383,7 +1368,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubar.ts#L163">menubar.ts:163</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubar.ts#L156">menubar.ts:156</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1442,6 +1427,37 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external">
+					<a name="isselectable" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> is<wbr>Selectable</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external">
+						<li class="tsd-signature tsd-kind-icon">is<wbr>Selectable<span class="tsd-signature-symbol">(</span>item<span class="tsd-signature-symbol">: </span><a href="menuitem.html" class="tsd-signature-type">MenuItem</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Overwrites <a href="menubase.html">MenuBase</a>.<a href="menubase.html#isselectable">isSelectable</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubar.ts#L186">menubar.ts:186</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Test whether a menu item is selectable.</p>
+								</div>
+								<h4 id="notes">Notes</h4>
+								<p>This is a reimplementation of the base class method.</p>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>item: <a href="menuitem.html" class="tsd-signature-type">MenuItem</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external">
 					<a name="onactiveindexchanged" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> on<wbr>Active<wbr>Index<wbr>Changed</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external">
@@ -1452,7 +1468,7 @@
 							<aside class="tsd-sources">
 								<p>Overwrites <a href="menubase.html">MenuBase</a>.<a href="menubase.html#onactiveindexchanged">onActiveIndexChanged</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubar.ts#L214">menubar.ts:214</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubar.ts#L218">menubar.ts:218</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1484,7 +1500,7 @@
 							<aside class="tsd-sources">
 								<p>Overwrites Widget.onAfterAttach</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubar.ts#L244">menubar.ts:244</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubar.ts#L248">menubar.ts:248</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1544,7 +1560,7 @@
 							<aside class="tsd-sources">
 								<p>Overwrites Widget.onBeforeDetach</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubar.ts#L254">menubar.ts:254</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubar.ts#L258">menubar.ts:258</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1604,7 +1620,7 @@
 							<aside class="tsd-sources">
 								<p>Overwrites Widget.onCloseRequest</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubar.ts#L236">menubar.ts:236</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubar.ts#L240">menubar.ts:240</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1633,7 +1649,7 @@
 							<aside class="tsd-sources">
 								<p>Overwrites <a href="menubase.html">MenuBase</a>.<a href="menubase.html#onitemschanged">onItemsChanged</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubar.ts#L189">menubar.ts:189</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubar.ts#L193">menubar.ts:193</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1665,7 +1681,7 @@
 							<aside class="tsd-sources">
 								<p>Overwrites <a href="menubase.html">MenuBase</a>.<a href="menubase.html#onopenitem">onOpenItem</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubar.ts#L224">menubar.ts:224</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubar.ts#L228">menubar.ts:228</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1727,7 +1743,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="menubase.html">MenuBase</a>.<a href="menubase.html#ontriggeritem">onTriggerItem</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubase.ts#L229">menubase.ts:229</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubase.ts#L247">menubase.ts:247</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1760,7 +1776,7 @@
 							<aside class="tsd-sources">
 								<p>Overwrites Widget.onUpdateRequest</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubar.ts#L264">menubar.ts:264</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubar.ts#L268">menubar.ts:268</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1789,7 +1805,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="menubase.html">MenuBase</a>.<a href="menubase.html#openactiveitem">openActiveItem</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubase.ts#L166">menubase.ts:166</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubase.ts#L168">menubase.ts:168</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1924,7 +1940,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="menubase.html">MenuBase</a>.<a href="menubase.html#triggeractiveitem">triggerActiveItem</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubase.ts#L181">menubase.ts:181</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubase.ts#L183">menubase.ts:183</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2079,38 +2095,6 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static tsd-is-external">
-					<a name="fromtemplate" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> from<wbr>Template</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">from<wbr>Template<span class="tsd-signature-symbol">(</span>array<span class="tsd-signature-symbol">: </span><a href="../interfaces/imenuitemtemplate.html" class="tsd-signature-type">IMenuItemTemplate</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="menubar.html" class="tsd-signature-type">MenuBar</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menubar.ts#L109">menubar.ts:109</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>A convenience method to create a menu bar from a template.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>array: <a href="../interfaces/imenuitemtemplate.html" class="tsd-signature-type">IMenuItemTemplate</a><span class="tsd-signature-symbol">[]</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The menu item templates for the menu bar.</p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="menubar.html" class="tsd-signature-type">MenuBar</a></h4>
-							<p>A new menu bar created from the menu item templates.</p>
-						</li>
-					</ul>
-				</section>
 			</section>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
@@ -2123,6 +2107,9 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-enum tsd-is-external">
+						<a href="../enums/menuitemtype.html" class="tsd-kind-icon">Menu<wbr>Item<wbr>Type</a>
+					</li>
 					<li class=" tsd-kind-class tsd-is-external">
 						<a href="menu.html" class="tsd-kind-icon">Menu</a>
 					</li>
@@ -2222,9 +2209,6 @@
 								<a href="menubar.html#_deactivate" class="tsd-kind-icon">_deactivate</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external">
-								<a href="menubar.html#_evtcontextmenu" class="tsd-kind-icon">_evt<wbr>Context<wbr>Menu</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external">
 								<a href="menubar.html#_evtkeydown" class="tsd-kind-icon">_evt<wbr>Key<wbr>Down</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external">
@@ -2280,6 +2264,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 								<a href="menubar.html#hasclass" class="tsd-kind-icon">has<wbr>Class</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external">
+								<a href="menubar.html#isselectable" class="tsd-kind-icon">is<wbr>Selectable</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external">
 								<a href="menubar.html#onactiveindexchanged" class="tsd-kind-icon">on<wbr>Active<wbr>Index<wbr>Changed</a>
@@ -2341,9 +2328,6 @@
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static tsd-is-external">
 								<a href="menubar.html#detach" class="tsd-kind-icon">detach</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static tsd-is-external">
-								<a href="menubar.html#fromtemplate" class="tsd-kind-icon">from<wbr>Template</a>
-							</li>
 						</ul>
 					</li>
 				</ul>
@@ -2355,16 +2339,7 @@
 						<a href="menuitem.html" class="tsd-kind-icon">Menu<wbr>Item</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-is-external">
-						<a href="../interfaces/imenuitemcommon.html" class="tsd-kind-icon">IMenu<wbr>Item<wbr>Common</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-is-external">
 						<a href="../interfaces/imenuitemoptions.html" class="tsd-kind-icon">IMenu<wbr>Item<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-is-external">
-						<a href="../interfaces/imenuitemtemplate.html" class="tsd-kind-icon">IMenu<wbr>Item<wbr>Template</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-is-external">
-						<a href="../globals.html#handler" class="tsd-kind-icon">Handler</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="../globals.html#collapseseparators" class="tsd-kind-icon">collapse<wbr>Separators</a>
