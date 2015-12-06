@@ -10,6 +10,10 @@
 import expect = require('expect.js');
 
 import {
+  DelegateCommand
+} from 'phosphor-command';
+
+import {
   IChangedArgs, Property
 } from 'phosphor-properties';
 
@@ -18,7 +22,7 @@ import {
 } from 'phosphor-signaling';
 
 import {
-  Menu, MenuItem
+  Menu, MenuItem, MenuItemType
 } from '../../lib/index';
 
 
@@ -26,19 +30,34 @@ describe('phosphor-menus', () => {
 
   describe('MenuItem', () => {
 
-    describe('.fromTemplate', () => {
+    describe('.Normal', () => {
 
-      it('should create a menu item from a template', () => {
-        let item = MenuItem.fromTemplate({
-          text: 'foo',
-          submenu: [{ text: 'bar' }, { text: 'baz' }],
-        });
-        expect(item instanceof MenuItem).to.be(true);
-        expect(item.text).to.be('foo');
-        expect(item.submenu instanceof Menu).to.be(true);
-        expect(item.submenu.items.length).to.be(2);
-        expect(item.submenu.items[0].text).to.be('bar');
-        expect(item.submenu.items[1].text).to.be('baz');
+      it('should be an alias of the `Normal` MenuItemType', () => {
+          expect(MenuItem.Normal).to.be(MenuItemType.Normal);
+      });
+
+    });
+
+    describe('.Check', () => {
+
+      it('should be an alias of the `Check` MenuItemType', () => {
+          expect(MenuItem.Check).to.be(MenuItemType.Check);
+      });
+
+    });
+
+    describe('.Separator', () => {
+
+      it('should be an alias of the `Separator` MenuItemType', () => {
+          expect(MenuItem.Separator).to.be(MenuItemType.Separator);
+      });
+
+    });
+
+    describe('.Submenu', () => {
+
+      it('should be an alias of the `Submenu` MenuItemType', () => {
+          expect(MenuItem.Submenu).to.be(MenuItemType.Submenu);
       });
 
     });
@@ -65,35 +84,16 @@ describe('phosphor-menus', () => {
         expect(MenuItem.typeProperty.notify).to.be(MenuItem.changedSignal);
       });
 
-      it('should default `normal`', () => {
+      it('should default `Normal`', () => {
         let item = new MenuItem();
-        expect(MenuItem.typeProperty.get(item)).to.be('normal');
+        expect(MenuItem.typeProperty.get(item)).to.be(MenuItem.Normal);
       });
 
-      it('should allow `normal`, `check`, and `separator` types', () => {
+      it('should coerce to `Submenu` if the item has a submenu', () => {
         let item = new MenuItem();
-        MenuItem.typeProperty.set(item, 'check');
-        expect(MenuItem.typeProperty.get(item)).to.be('check');
-        MenuItem.typeProperty.set(item, 'separator');
-        expect(MenuItem.typeProperty.get(item)).to.be('separator');
-        MenuItem.typeProperty.set(item, 'normal');
-        expect(MenuItem.typeProperty.get(item)).to.be('normal');
-      });
-
-      it('should revert to `normal` if an invalid type is given', () => {
-        let item = new MenuItem();
-        MenuItem.typeProperty.set(item, 'check');
-        expect(MenuItem.typeProperty.get(item)).to.be('check');
-        MenuItem.typeProperty.set(item, 'foo');
-        expect(MenuItem.typeProperty.get(item)).to.be('normal');
-      });
-
-      it('should coerced the `checked` property', () => {
-        let item = new MenuItem({ type: 'check', checked: true });
-        expect(MenuItem.typeProperty.get(item)).to.be('check');
-        expect(MenuItem.checkedProperty.get(item)).to.be(true);
-        MenuItem.typeProperty.set(item, 'normal');
-        expect(MenuItem.checkedProperty.get(item)).to.be(false);
+        item.submenu = new Menu();
+        item.type = MenuItem.Check;
+        expect(item.type).to.be(MenuItem.Submenu);
       });
 
     });
@@ -161,75 +161,6 @@ describe('phosphor-menus', () => {
 
     });
 
-    describe('.disabledProperty', () => {
-
-      it('should be a property descriptor', () => {
-        expect(MenuItem.disabledProperty instanceof Property).to.be(true);
-      });
-
-      it('should have the name `disabled`', () => {
-        expect(MenuItem.disabledProperty.name).to.be('disabled');
-      });
-
-      it('should notify using the changed signal', () => {
-        expect(MenuItem.disabledProperty.notify).to.be(MenuItem.changedSignal);
-      });
-
-      it('should default to `false`', () => {
-        let item = new MenuItem();
-        expect(MenuItem.disabledProperty.get(item)).to.be(false);
-      });
-
-    });
-
-    describe('.hiddenProperty', () => {
-
-      it('should be a property descriptor', () => {
-        expect(MenuItem.hiddenProperty instanceof Property).to.be(true);
-      });
-
-      it('should have the name `hidden`', () => {
-        expect(MenuItem.hiddenProperty.name).to.be('hidden');
-      });
-
-      it('should notify using the changed signal', () => {
-        expect(MenuItem.hiddenProperty.notify).to.be(MenuItem.changedSignal);
-      });
-
-      it('should default to `false`', () => {
-        let item = new MenuItem();
-        expect(MenuItem.hiddenProperty.get(item)).to.be(false);
-      });
-
-    });
-
-    describe('.checkedProperty', () => {
-
-      it('should be a property descriptor', () => {
-        expect(MenuItem.checkedProperty instanceof Property).to.be(true);
-      });
-
-      it('should have the name `checked`', () => {
-        expect(MenuItem.checkedProperty.name).to.be('checked');
-      });
-
-      it('should notify using the changed signal', () => {
-        expect(MenuItem.checkedProperty.notify).to.be(MenuItem.changedSignal);
-      });
-
-      it('should default to `false`', () => {
-        let item = new MenuItem();
-        expect(MenuItem.checkedProperty.get(item)).to.be(false);
-      });
-
-      it('should coerce to `false` if the type is not `check`', () => {
-        let item = new MenuItem({ type: 'normal' });
-        MenuItem.checkedProperty.set(item, true);
-        expect(MenuItem.checkedProperty.get(item)).to.be(false);
-      });
-
-    });
-
     describe('.classNameProperty', () => {
 
       it('should be a property descriptor', () => {
@@ -251,23 +182,44 @@ describe('phosphor-menus', () => {
 
     });
 
-    describe('.handlerProperty', () => {
+    describe('.commandProperty', () => {
 
       it('should be a property descriptor', () => {
-        expect(MenuItem.handlerProperty instanceof Property).to.be(true);
+        expect(MenuItem.commandProperty instanceof Property).to.be(true);
       });
 
-      it('should have the name `handler`', () => {
-        expect(MenuItem.handlerProperty.name).to.be('handler');
+      it('should have the name `command`', () => {
+        expect(MenuItem.commandProperty.name).to.be('command');
       });
 
       it('should notify using the changed signal', () => {
-        expect(MenuItem.handlerProperty.notify).to.be(MenuItem.changedSignal);
+        expect(MenuItem.commandProperty.notify).to.be(MenuItem.changedSignal);
       });
 
       it('should default to `null`', () => {
         let item = new MenuItem();
-        expect(MenuItem.handlerProperty.get(item)).to.be(null);
+        expect(MenuItem.commandProperty.get(item)).to.be(null);
+      });
+
+    });
+
+    describe('.commandArgsProperty', () => {
+
+      it('should be a property descriptor', () => {
+        expect(MenuItem.commandArgsProperty instanceof Property).to.be(true);
+      });
+
+      it('should have the name `command`', () => {
+        expect(MenuItem.commandArgsProperty.name).to.be('commandArgs');
+      });
+
+      it('should notify using the changed signal', () => {
+        expect(MenuItem.commandArgsProperty.notify).to.be(MenuItem.changedSignal);
+      });
+
+      it('should default to `null`', () => {
+        let item = new MenuItem();
+        expect(MenuItem.commandArgsProperty.get(item)).to.be(null);
       });
 
     });
@@ -289,6 +241,14 @@ describe('phosphor-menus', () => {
       it('should default to `null`', () => {
         let item = new MenuItem();
         expect(MenuItem.submenuProperty.get(item)).to.be(null);
+      });
+
+      it('should coerce the `type` to `Submenu`', () => {
+        let item = new MenuItem();
+        item.type = MenuItem.Check;
+        expect(item.type).to.be(MenuItem.Check);
+        item.submenu = new Menu();
+        expect(item.type).to.be(MenuItem.Submenu);
       });
 
     });
@@ -322,32 +282,32 @@ describe('phosphor-menus', () => {
 
       it('should get the type of the menu item', () => {
         let item = new MenuItem();
-        expect(item.type).to.be('normal');
+        expect(item.type).to.be(MenuItem.Normal);
       });
 
       it('should set the type of the menu item', () => {
         let item = new MenuItem();
-        item.type = 'check';
-        expect(item.type).to.be('check');
+        item.type = MenuItem.Check;
+        expect(item.type).to.be(MenuItem.Check);
       });
 
       it('should a pure delegate to the typeProperty', () => {
         let item = new MenuItem();
-        MenuItem.typeProperty.set(item, 'separator');
-        expect(item.type).to.be('separator');
-        item.type = 'normal';
-        expect(MenuItem.typeProperty.get(item)).to.be('normal');
+        MenuItem.typeProperty.set(item, MenuItem.Separator);
+        expect(item.type).to.be(MenuItem.Separator);
+        item.type = MenuItem.Normal;
+        expect(MenuItem.typeProperty.get(item)).to.be(MenuItem.Normal);
       });
 
       it('should emit the changed signal', () => {
         let item = new MenuItem();
         let args: IChangedArgs<any> = null;
         item.changed.connect((s, a) => { args = a; });
-        item.type = 'separator';
+        item.type = MenuItem.Separator;
         expect(args).to.eql({
           name: 'type',
-          oldValue: 'normal',
-          newValue: 'separator',
+          oldValue: MenuItem.Normal,
+          newValue: MenuItem.Separator,
         });
       });
 
@@ -458,112 +418,6 @@ describe('phosphor-menus', () => {
 
     });
 
-    describe('#disabled', () => {
-
-      it('should get whether the menu item is disabled', () => {
-        let item = new MenuItem();
-        expect(item.disabled).to.be(false);
-      });
-
-      it('should set whether the menu item is disabled', () => {
-        let item = new MenuItem();
-        item.disabled = true;
-        expect(item.disabled).to.be(true);
-      });
-
-      it('should a pure delegate to the disabledProperty', () => {
-        let item = new MenuItem();
-        MenuItem.disabledProperty.set(item, true);
-        expect(item.disabled).to.be(true);
-        item.disabled = false;
-        expect(MenuItem.disabledProperty.get(item)).to.be(false);
-      });
-
-      it('should emit the changed signal', () => {
-        let item = new MenuItem();
-        let args: IChangedArgs<any> = null;
-        item.changed.connect((s, a) => { args = a; });
-        item.disabled = true;
-        expect(args).to.eql({
-          name: 'disabled',
-          oldValue: false,
-          newValue: true,
-        });
-      });
-
-    });
-
-    describe('#hidden', () => {
-
-      it('should get whether the menu item is hidden', () => {
-        let item = new MenuItem();
-        expect(item.hidden).to.be(false);
-      });
-
-      it('should set whether the menu item is hidden', () => {
-        let item = new MenuItem();
-        item.hidden = true;
-        expect(item.hidden).to.be(true);
-      });
-
-      it('should a pure delegate to the hiddenProperty', () => {
-        let item = new MenuItem();
-        MenuItem.hiddenProperty.set(item, true);
-        expect(item.hidden).to.be(true);
-        item.hidden = false;
-        expect(MenuItem.hiddenProperty.get(item)).to.be(false);
-      });
-
-      it('should emit the changed signal', () => {
-        let item = new MenuItem();
-        let args: IChangedArgs<any> = null;
-        item.changed.connect((s, a) => { args = a; });
-        item.hidden = true;
-        expect(args).to.eql({
-          name: 'hidden',
-          oldValue: false,
-          newValue: true,
-        });
-      });
-
-    });
-
-    describe('#checked', () => {
-
-      it('should get whether the menu item is checked', () => {
-        let item = new MenuItem();
-        expect(item.checked).to.be(false);
-      });
-
-      it('should set whether the menu item is checked', () => {
-        let item = new MenuItem({ type: 'check' });
-        item.checked = true;
-        expect(item.checked).to.be(true);
-      });
-
-      it('should a pure delegate to the checkedProperty', () => {
-        let item = new MenuItem({ type: 'check' });
-        MenuItem.checkedProperty.set(item, true);
-        expect(item.checked).to.be(true);
-        item.checked = false;
-        expect(MenuItem.checkedProperty.get(item)).to.be(false);
-      });
-
-      it('should emit the changed signal', () => {
-        let item = new MenuItem();
-        let args: IChangedArgs<any> = null;
-        item.type = 'check';
-        item.changed.connect((s, a) => { args = a; });
-        item.checked = true;
-        expect(args).to.eql({
-          name: 'checked',
-          oldValue: false,
-          newValue: true,
-        });
-      });
-
-    });
-
     describe('#className', () => {
 
       it('should get the extra class name for the menu item', () => {
@@ -599,39 +453,76 @@ describe('phosphor-menus', () => {
 
     });
 
-    describe('#handler', () => {
+    describe('#command', () => {
 
-      it('should get the handler for the menu item', () => {
+      it('should get the command for the menu item', () => {
         let item = new MenuItem();
-        expect(item.handler).to.be(null);
+        expect(item.command).to.be(null);
       });
 
-      it('should set the handler for the menu item', () => {
+      it('should set the command for the menu item', () => {
         let item = new MenuItem();
-        let handler = (item: MenuItem) => { };
-        item.handler = handler;
-        expect(item.handler).to.be(handler);
+        let command = new DelegateCommand(() => { });
+        item.command = command;
+        expect(item.command).to.be(command);
       });
 
-      it('should a pure delegate to the handlerProperty', () => {
+      it('should a pure delegate to the commandProperty', () => {
         let item = new MenuItem();
-        let handler = (item: MenuItem) => { };
-        MenuItem.handlerProperty.set(item, handler);
-        expect(item.handler).to.be(handler);
-        item.handler = null;
-        expect(MenuItem.handlerProperty.get(item)).to.be(null);
+        let command = new DelegateCommand(() => { });
+        MenuItem.commandProperty.set(item, command);
+        expect(item.command).to.be(command);
+        item.command = null;
+        expect(MenuItem.commandProperty.get(item)).to.be(null);
       });
 
       it('should emit the changed signal', () => {
         let item = new MenuItem();
-        let handler = (item: MenuItem) => { };
+        let command = new DelegateCommand(() => { });
         let args: IChangedArgs<any> = null;
         item.changed.connect((s, a) => { args = a; });
-        item.handler = handler;
+        item.command = command;
         expect(args).to.eql({
-          name: 'handler',
+          name: 'command',
           oldValue: null,
-          newValue: handler,
+          newValue: command,
+        });
+      });
+
+    });
+
+    describe('#commandArgs', () => {
+
+      it('should get the command args for the menu item', () => {
+        let item = new MenuItem();
+        expect(item.command).to.be(null);
+      });
+
+      it('should set the command args for the menu item', () => {
+        let item = new MenuItem();
+        let args = {};
+        item.commandArgs = args;
+        expect(item.commandArgs).to.be(args);
+      });
+
+      it('should a pure delegate to the commandArgsProperty', () => {
+        let item = new MenuItem();
+        let args = {};
+        MenuItem.commandArgsProperty.set(item, args);
+        expect(item.commandArgs).to.be(args);
+        item.commandArgs = null;
+        expect(MenuItem.commandArgsProperty.get(item)).to.be(null);
+      });
+
+      it('should emit the changed signal', () => {
+        let item = new MenuItem();
+        let args: IChangedArgs<any> = null;
+        item.changed.connect((s, a) => { args = a; });
+        item.commandArgs = {};
+        expect(args).to.eql({
+          name: 'commandArgs',
+          oldValue: null,
+          newValue: {},
         });
       });
 
@@ -671,62 +562,6 @@ describe('phosphor-menus', () => {
           oldValue: null,
           newValue: submenu,
         });
-      });
-
-    });
-
-    describe('#isNormalType', () => {
-
-      it('should test whether the menu item is a `"normal"` type', () => {
-        let item = new MenuItem();
-        expect(item.isNormalType).to.be(true);
-        item.type = 'check';
-        expect(item.isNormalType).to.be(false);
-        item.type = 'separator';
-        expect(item.isNormalType).to.be(false);
-        item.type = 'foo';
-        expect(item.isNormalType).to.be(true);
-      });
-
-      it('should be read-only', () => {
-        let item = new MenuItem();
-        expect(() => { item.isNormalType = false; } ).to.throwError();
-      });
-
-    });
-
-    describe('#isCheckType', () => {
-
-      it('should test whether the menu item is a `"check"` type', () => {
-        let item = new MenuItem();
-        expect(item.isCheckType).to.be(false);
-        item.type = 'check';
-        expect(item.isCheckType).to.be(true);
-        item.type = 'separator';
-        expect(item.isCheckType).to.be(false);
-      });
-
-      it('should be read-only', () => {
-        let item = new MenuItem();
-        expect(() => { item.isCheckType = false; } ).to.throwError();
-      });
-
-    });
-
-    describe('#isSeparatorType', () => {
-
-      it('should test whether the menu item is a `"separator"` type', () => {
-        let item = new MenuItem();
-        expect(item.isSeparatorType).to.be(false);
-        item.type = 'check';
-        expect(item.isSeparatorType).to.be(false);
-        item.type = 'separator';
-        expect(item.isSeparatorType).to.be(true);
-      });
-
-      it('should be read-only', () => {
-        let item = new MenuItem();
-        expect(() => { item.isSeparatorType = false; } ).to.throwError();
       });
 
     });
