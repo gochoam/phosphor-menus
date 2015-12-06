@@ -73,7 +73,12 @@ const SEPARATOR_TYPE_CLASS = 'p-mod-separator-type';
 const ACTIVE_CLASS = 'p-mod-active';
 
 /**
- * The class name added to hidden menu bar items.
+ * The class name added to a disabled menu bar item.
+ */
+const DISABLED_CLASS = 'p-mod-disabled';
+
+/**
+ * The class name added to a hidden menu bar item.
  */
 const HIDDEN_CLASS = 'p-mod-hidden';
 
@@ -179,7 +184,7 @@ class MenuBar extends MenuBase {
    * This is a reimplementation of the base class method.
    */
   protected isSelectable(item: MenuItem): boolean {
-    return item.type === MenuItem.Submenu;
+    return !!item.submenu;
   }
 
   /**
@@ -557,6 +562,8 @@ function createItemClass(item: MenuItem): string {
     parts.push(SEPARATOR_TYPE_CLASS);
   } else if (item.type !== MenuItem.Submenu) {
     parts.push(HIDDEN_CLASS);
+  } else if (!item.submenu) {
+    parts.push(DISABLED_CLASS);
   }
   return parts.join(' ');
 }
