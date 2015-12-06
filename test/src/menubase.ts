@@ -22,6 +22,11 @@ class LogMenuBase extends MenuBase {
 
   messages: string[] = [];
 
+  constructor(items?: MenuItem[]) {
+    super();
+    if (items) this.items = items;
+  }
+
   protected coerceActiveIndex(index: number): number {
     let i = super.coerceActiveIndex(index);
     this.messages.push('coerceActiveIndex');
@@ -96,7 +101,7 @@ describe('phosphor-menus', () => {
 
       it('should coerce the index to an appropriate value', () => {
         let base = new MenuBase();
-        base.items = [new MenuItem(), new MenuItem({ type: 'separator' })];
+        base.items = [new MenuItem(), new MenuItem({ type: MenuItem.Separator })];
         MenuBase.activeIndexProperty.set(base, 0);
         expect(MenuBase.activeIndexProperty.get(base)).to.be(0);
         MenuBase.activeIndexProperty.set(base, 1);
@@ -182,7 +187,7 @@ describe('phosphor-menus', () => {
 
       it('should activate the next selectable menu item', () => {
         let base = new MenuBase();
-        base.items = [new MenuItem({ disabled: true }), new MenuItem()];
+        base.items = [new MenuItem({ type: MenuItem.Separator }), new MenuItem()];
         base.activateNextItem();
         expect(base.activeIndex).to.be(1);
       });
@@ -239,7 +244,7 @@ describe('phosphor-menus', () => {
         let base = new MenuBase();
         base.items = [
           new MenuItem({ text: '&foo' }),
-          new MenuItem({ type: 'separator' }),
+          new MenuItem({ type: MenuItem.Separator }),
           new MenuItem({ text: '&bar' }),
           new MenuItem({ text: 'ba&z' }),
           new MenuItem({ text: '&zazzy'}),
@@ -258,7 +263,7 @@ describe('phosphor-menus', () => {
         let base = new MenuBase();
         base.items = [
           new MenuItem({ text: '&foo' }),
-          new MenuItem({ type: 'separator' }),
+          new MenuItem({ type: MenuItem.Separator }),
           new MenuItem({ text: '&bar' }),
           new MenuItem({ text: 'ba&z' }),
           new MenuItem({ text: '&zazzy'}),
@@ -272,7 +277,7 @@ describe('phosphor-menus', () => {
         let base = new MenuBase();
         base.items = [
           new MenuItem({ text: '&foo' }),
-          new MenuItem({ type: 'separator' }),
+          new MenuItem({ type: MenuItem.Separator }),
           new MenuItem({ text: '&bar' }),
           new MenuItem({ text: 'ba&z' }),
           new MenuItem({ text: '&zazzy'}),
@@ -291,7 +296,7 @@ describe('phosphor-menus', () => {
         let base = new MenuBase();
         base.items = [
           new MenuItem({ text: '&foo' }),
-          new MenuItem({ type: 'separator' }),
+          new MenuItem({ type: MenuItem.Separator }),
           new MenuItem({ text: '&bar' }),
           new MenuItem({ text: 'ba&z' }),
           new MenuItem({ text: '&zazzy'}),

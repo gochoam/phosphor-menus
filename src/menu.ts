@@ -28,7 +28,7 @@ import {
 } from './menubase';
 
 import {
-  IMenuItemTemplate, MenuItem
+  MenuItem
 } from './menuitem';
 
 
@@ -78,6 +78,11 @@ const CHECK_TYPE_CLASS = 'p-mod-check-type';
 const SEPARATOR_TYPE_CLASS = 'p-mod-separator-type';
 
 /**
+ * The class name added to a submenu type menu item.
+ */
+const SUBMENU_TYPE_CLASS = 'p-mod-submenu-type';
+
+/**
  * The class name added to active menu items.
  */
 const ACTIVE_CLASS = 'p-mod-active';
@@ -88,19 +93,9 @@ const ACTIVE_CLASS = 'p-mod-active';
 const DISABLED_CLASS = 'p-mod-disabled';
 
 /**
- * The class name added to a hidden menu item.
- */
-const HIDDEN_CLASS = 'p-mod-hidden';
-
-/**
  * The class name added to a checked menu item.
  */
 const CHECKED_CLASS = 'p-mod-checked';
-
-/**
- * The class name added to a menu item with a submenu.
- */
-const HAS_SUBMENU_CLASS = 'p-mod-has-submenu';
 
 /**
  * The ms delay for opening a submenu.
@@ -135,20 +130,6 @@ class Menu extends MenuBase {
   }
 
   /**
-   * A convenience method to create a menu from a template.
-   *
-   * @param array - The menu item templates for the menu.
-   *
-   * @returns A new menu created from the menu item templates.
-   */
-  static fromTemplate(array: IMenuItemTemplate[]): Menu {
-    let items = array.map(tmpl => MenuItem.fromTemplate(tmpl));
-    let menu = new Menu();
-    menu.items = items;
-    return menu;
-  }
-
-  /**
    * A signal emitted when the menu is closed.
    *
    * **See also:** [[closed]]
@@ -157,10 +138,17 @@ class Menu extends MenuBase {
 
   /**
    * Construct a new menu.
+   *
+   * @param items - Optional menu items to initialize the menu.
+   *
+   * #### Notes
+   * Subclasses should not pass menu items to `super`. The subclass
+   * should set its own items after it has been fully initialized.
    */
-  constructor() {
+  constructor(items?: MenuItem[]) {
     super();
     this.addClass(MENU_CLASS);
+    if (items) this.items = items;
   }
 
   /**
@@ -321,7 +309,8 @@ class Menu extends MenuBase {
       this._evtMouseUp(event as MouseEvent);
       break;
     case 'contextmenu':
-      this._evtContextMenu(event as MouseEvent);
+      event.preventDefault();
+      event.stopPropagation();
       break;
     case 'keydown':
       this._evtKeyDown(event as KeyboardEvent);
@@ -330,6 +319,22 @@ class Menu extends MenuBase {
       this._evtKeyPress(event as KeyboardEvent);
       break;
     }
+  }
+
+  /**
+   * Test whether a menu item is selectable.
+   *
+   * #### Notes
+   * This is a reimplementation of the base class method.
+   */
+  protected isSelectable(item: MenuItem): boolean {
+    if (item.type === MenuItem.Separator) {
+      return false;
+    }
+    if (item.type === MenuItem.Submenu) {
+      return true;
+    }
+    return item.command ? item.command.isEnabled() : false;
   }
 
   /**
@@ -353,7 +358,7 @@ class Menu extends MenuBase {
    * A method invoked when a menu item should be opened.
    */
   protected onOpenItem(index: number, item: MenuItem): void {
-    if (this.isAttached) {
+    if (this.isAttached && item.submenu) {
       let ref = this._nodes[index] || this.node;
       this._openChildMenu(item, ref, false);
       this._childMenu.activateNextItem();
@@ -365,8 +370,9 @@ class Menu extends MenuBase {
    */
   protected onTriggerItem(index: number, item: MenuItem): void {
     this.rootMenu.close();
-    let handler = item.handler;
-    if (handler) handler(item);
+    let cmd = item.command;
+    let args = item.commandArgs;
+    if (cmd && cmd.isEnabled()) cmd.execute(args);
   }
 
   /**
@@ -397,7 +403,6 @@ class Menu extends MenuBase {
     // Fetch common variables.
     let items = this.items;
     let nodes = this._nodes;
-    let index = this.activeIndex;
     let content = this.contentNode;
 
     // Remove any excess item nodes.
@@ -417,12 +422,11 @@ class Menu extends MenuBase {
     // Update the node state to match the menu items.
     for (let i = 0, n = items.length; i < n; ++i) {
       updateItemNode(items[i], nodes[i]);
-      if (i === index) {
-        nodes[i].classList.add(ACTIVE_CLASS);
-      } else {
-        nodes[i].classList.remove(ACTIVE_CLASS);
-      }
     }
+
+    // Update the active item node.
+    let active = nodes[this.activeIndex];
+    if (active) active.classList.add(ACTIVE_CLASS);
 
     // Collapse the neighboring separators.
     collapseSeparators(items, nodes);
@@ -513,17 +517,12 @@ class Menu extends MenuBase {
   }
 
   /**
-   * Handle the `'contextmenu'` event for the menu bar.
-   */
-  private _evtContextMenu(event: Event): void {
-    event.preventDefault();
-    event.stopPropagation();
-  }
-
-  /**
    * Handle the `'mousedown'` event for the menu.
    *
    * This event listener is attached to the document for a popup menu.
+   *
+   * This allows the event to propagate so the element under the mouse
+   * can be focused without requiring a second click.
    */
   private _evtMouseDown(event: MouseEvent): void {
     let menu: Menu = this;
@@ -715,25 +714,25 @@ function createItemNode(): HTMLElement {
  */
 function createItemClass(item: MenuItem): string {
   let parts = [ITEM_CLASS];
-  if (item.isCheckType) {
-    parts.push(CHECK_TYPE_CLASS);
-  } else if (item.isSeparatorType) {
-    parts.push(SEPARATOR_TYPE_CLASS);
-  }
-  if (item.checked) {
-    parts.push(CHECKED_CLASS);
-  }
-  if (item.disabled) {
-    parts.push(DISABLED_CLASS);
-  }
-  if (item.hidden) {
-    parts.push(HIDDEN_CLASS);
-  }
-  if (item.submenu) {
-    parts.push(HAS_SUBMENU_CLASS);
-  }
   if (item.className) {
     parts.push(item.className);
+  }
+  if (item.type === MenuItem.Separator) {
+    parts.push(SEPARATOR_TYPE_CLASS);
+    return parts.join(' ');
+  }
+  if (item.type === MenuItem.Submenu) {
+    parts.push(SUBMENU_TYPE_CLASS);
+    return parts.join(' ');
+  }
+  if (item.type === MenuItem.Check) {
+    parts.push(CHECK_TYPE_CLASS);
+    if (item.command && item.command.isChecked()) {
+      parts.push(CHECKED_CLASS);
+    }
+  }
+  if (!item.command || !item.command.isEnabled()) {
+    parts.push(DISABLED_CLASS);
   }
   return parts.join(' ');
 }
@@ -751,7 +750,10 @@ function createIconClass(item: MenuItem): string {
  * Create the text node content for a MenuItem.
  */
 function createTextContent(item: MenuItem): string {
-  return item.isSeparatorType ? '' : item.text.replace(/&/g, '');
+  if (item.type === MenuItem.Separator) {
+    return '';
+  }
+  return item.text.replace(/&/g, '');
 }
 
 
@@ -759,7 +761,10 @@ function createTextContent(item: MenuItem): string {
  * Create the shortcut text for a MenuItem.
  */
 function createShortcutText(item: MenuItem): string {
-  return item.isSeparatorType ? '' : item.shortcut;
+  if (item.type === MenuItem.Separator || item.type === MenuItem.Submenu) {
+    return '';
+  }
+  return item.shortcut;
 }
 
 
