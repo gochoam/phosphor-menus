@@ -28,7 +28,7 @@ import {
 } from './menubase';
 
 import {
-  MenuItem, MenuItemType
+  MenuItem
 } from './menuitem';
 
 
@@ -540,7 +540,7 @@ function createItemClass(item: MenuItem): string {
   if (item.className) {
     parts.push(item.className);
   }
-  if (item.type === MenuItemType.Separator) {
+  if (item.type === MenuItem.Separator) {
     parts.push(SEPARATOR_TYPE_CLASS);
   }
   return parts.join(' ');
@@ -559,7 +559,7 @@ function createIconClass(item: MenuItem): string {
  * Create the text node content for a MenuItem.
  */
 function createTextContent(item: MenuItem): string {
-  let sep = item.type === MenuItemType.Separator;
+  let sep = item.type === MenuItem.Separator;
   return sep ? '' : item.text.replace(/&/g, '');
 }
 

@@ -19,7 +19,7 @@ import {
 } from 'phosphor-widget';
 
 import {
-  MenuItem, MenuItemType
+  MenuItem
 } from './menuitem';
 
 
@@ -203,7 +203,7 @@ class MenuBase extends Widget {
    * The default implementation of this method ignores separators.
    */
   protected isSelectable(item: MenuItem): boolean {
-    return item.type !== MenuItemType.Separator;
+    return item.type !== MenuItem.Separator;
   }
 
   /**
@@ -264,7 +264,7 @@ function collapseSeparators(items: MenuItem[], nodes: HTMLElement[]): void {
   for (k1 = 0; k1 < items.length; ++k1) {
     let item = items[k1];
     let node = nodes[k1];
-    if (item.type !== MenuItemType.Separator) {
+    if (item.type !== MenuItem.Separator) {
       node.classList.remove(COLLAPSED_CLASS);
       break;
     }
@@ -276,7 +276,7 @@ function collapseSeparators(items: MenuItem[], nodes: HTMLElement[]): void {
   for (k2 = items.length - 1; k2 >= 0; --k2) {
     let item = items[k2];
     let node = nodes[k2];
-    if (item.type !== MenuItemType.Separator) {
+    if (item.type !== MenuItem.Separator) {
       node.classList.remove(COLLAPSED_CLASS);
       break;
     }
@@ -288,11 +288,11 @@ function collapseSeparators(items: MenuItem[], nodes: HTMLElement[]): void {
   while (++k1 < k2) {
     let item = items[k1];
     let node = nodes[k1];
-    if (collapse && item.type === MenuItemType.Separator) {
+    if (collapse && item.type === MenuItem.Separator) {
       node.classList.add(COLLAPSED_CLASS);
     } else {
       node.classList.remove(COLLAPSED_CLASS);
-      collapse = item.type === MenuItemType.Separator;
+      collapse = item.type === MenuItem.Separator;
     }
   }
 }

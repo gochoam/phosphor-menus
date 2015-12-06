@@ -115,6 +115,21 @@ interface IMenuItemOptions {
 export
 class MenuItem {
   /**
+   * A convenience alias of the `Normal` [[MenuItemType]].
+   */
+  static Normal = MenuItemType.Normal;
+
+  /**
+   * A convenience alias of the `Check` [[MenuItemType]].
+   */
+  static Check = MenuItemType.Check;
+
+  /**
+   * A convenience alias of the `Separator` [[MenuItemType]].
+   */
+  static Separator = MenuItemType.Separator;
+
+  /**
    * A signal emitted when the menu item state changes.
    *
    * **See also:** [[changed]].

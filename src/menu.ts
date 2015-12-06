@@ -28,7 +28,7 @@ import {
 } from './menubase';
 
 import {
-  MenuItem, MenuItemType
+  MenuItem
 } from './menuitem';
 
 
@@ -318,7 +318,7 @@ class Menu extends MenuBase {
    * Test whether a menu item is selectable.
    */
   protected isSelectable(item: MenuItem): boolean {
-    if (item.type === MenuItemType.Separator) {
+    if (item.type === MenuItem.Separator) {
       return false;
     }
     if (item.submenu) {
@@ -717,7 +717,7 @@ function createItemClass(item: MenuItem): string {
   if (item.className) {
     parts.push(item.className);
   }
-  if (item.type === MenuItemType.Separator) {
+  if (item.type === MenuItem.Separator) {
     parts.push(SEPARATOR_TYPE_CLASS);
     return parts.join(' ');
   }
@@ -725,7 +725,7 @@ function createItemClass(item: MenuItem): string {
     parts.push(HAS_SUBMENU_CLASS);
     return parts.join(' ');
   }
-  if (item.type === MenuItemType.Check) {
+  if (item.type === MenuItem.Check) {
     parts.push(CHECK_TYPE_CLASS);
     if (item.command && item.command.isChecked()) {
       parts.push(CHECKED_CLASS);
@@ -750,7 +750,7 @@ function createIconClass(item: MenuItem): string {
  * Create the text node content for a MenuItem.
  */
 function createTextContent(item: MenuItem): string {
-  let sep = item.type === MenuItemType.Separator;
+  let sep = item.type === MenuItem.Separator;
   return sep ? '' : item.text.replace(/&/g, '');
 }
 
@@ -759,7 +759,7 @@ function createTextContent(item: MenuItem): string {
  * Create the shortcut text for a MenuItem.
  */
 function createShortcutText(item: MenuItem): string {
-  let sep = item.type === MenuItemType.Separator;
+  let sep = item.type === MenuItem.Separator;
   return sep ? '' : item.shortcut;
 }
 
