@@ -43,6 +43,11 @@ enum MenuItemType {
    * A separator menu item.
    */
   Separator,
+
+  /**
+   * A submenu menu item.
+   */
+  Submenu,
 }
 
 
@@ -130,6 +135,11 @@ class MenuItem {
   static Separator = MenuItemType.Separator;
 
   /**
+   * A convenience alias of the `Submenu` [[MenuItemType]].
+   */
+  static Submenu = MenuItemType.Submenu;
+
+  /**
    * A signal emitted when the menu item state changes.
    *
    * **See also:** [[changed]].
@@ -142,11 +152,15 @@ class MenuItem {
    * #### Notes
    * The default value is `MenuItemType.Normal`.
    *
+   * If a [[submenu]] is specified, the type will be automatically set
+   * to the `Submenu` [[MenuItemType]].
+   *
    * **See also:** [[type]]
    */
   static typeProperty = new Property<MenuItem, MenuItemType>({
     name: 'type',
     value: MenuItemType.Normal,
+    coerce: (owner, value) => owner.submenu ? MenuItemType.Submenu : value,
     notify: MenuItem.changedSignal,
   });
 
@@ -248,12 +262,17 @@ class MenuItem {
   /**
    * The property descriptor for the menu item submenu.
    *
+   * #### Notes
+   * If a [[submenu]] is specified, the type will be automatically set
+   * to the `Submenu` [[MenuItemType]].
+   *
    * **See also:** [[submenu]]
    */
   static submenuProperty = new Property<MenuItem, Menu>({
     name: 'submenu',
     value: null,
     coerce: (owner, value) => value || null,
+    changed: owner => { MenuItem.typeProperty.coerce(owner); },
     notify: MenuItem.changedSignal,
   });
 
