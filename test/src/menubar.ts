@@ -296,7 +296,7 @@ describe('phosphor-menus', () => {
 
       it('should get the child menu of the menu', () => {
         let bar = createMenuBar();
-        Widget.attach(bar, document.body);
+        bar.attach(document.body);
         bar.activeIndex = 0;
         bar.openActiveItem();
         expect(bar.childMenu).to.be(bar.items[0].submenu);
@@ -334,7 +334,7 @@ describe('phosphor-menus', () => {
 
       it('should be invoked when a menu item should be opened', () => {
         let bar = createMenuBar();
-        Widget.attach(bar, document.body);
+        bar.attach(document.body);
         bar.activateNextItem();
         bar.openActiveItem();
         expect(bar.messages.indexOf('onOpenItem')).to.not.be(-1);
@@ -343,7 +343,7 @@ describe('phosphor-menus', () => {
 
       it('should open the child menu', () => {
         let bar = createMenuBar();
-        Widget.attach(bar, document.body);
+        bar.attach(document.body);
         bar.activateNextItem();
         bar.openActiveItem();
         expect(bar.messages.indexOf('onOpenItem')).to.not.be(-1);
@@ -357,7 +357,7 @@ describe('phosphor-menus', () => {
 
       it('should create the menu bar', (done) => {
         let bar = createMenuBar();
-        Widget.attach(bar, document.body);
+        bar.attach(document.body);
         expect(bar.messages.indexOf('onUpdateRequest')).to.be(-1);
         requestAnimationFrame(() => {
           expect(bar.messages.indexOf('onUpdateRequest')).to.not.be(-1);
@@ -374,7 +374,7 @@ describe('phosphor-menus', () => {
 
       it('should detach the widget from the DOM', () => {
         let bar = createMenuBar();
-        Widget.attach(bar, document.body);
+        bar.attach(document.body);
         bar.close();
         expect(bar.messages.indexOf('onCloseRequest')).to.not.be(-1);
         expect(bar.isAttached).to.be(false);
@@ -387,7 +387,7 @@ describe('phosphor-menus', () => {
 
       it('should trigger the active item on `Enter`', (done) => {
         let bar = createMenuBar();
-        Widget.attach(bar, document.body);
+        bar.attach(document.body);
         bar.activateNextItem();
         bar.openActiveItem();
         let called = false;
@@ -404,7 +404,7 @@ describe('phosphor-menus', () => {
 
       it('should close the leaf menu on `Escape`', (done) => {
         let bar = createMenuBar();
-        Widget.attach(bar, document.body);
+        bar.attach(document.body);
         bar.activateNextItem();
         bar.openActiveItem();
         bar.childMenu.activateNextItem();
@@ -418,7 +418,7 @@ describe('phosphor-menus', () => {
 
       it('should open the previous menu on `ArrowLeft`', (done) => {
         let bar = createMenuBar();
-        Widget.attach(bar, document.body);
+        bar.attach(document.body);
         bar.activateNextItem();
         bar.openActiveItem();
         bar.childMenu.activateNextItem();
@@ -432,7 +432,7 @@ describe('phosphor-menus', () => {
 
       it('should close a sub menu on `ArrowLeft`', (done) => {
         let bar = createMenuBar();
-        Widget.attach(bar, document.body);
+        bar.attach(document.body);
         bar.activeIndex = 0;
         bar.openActiveItem();
         bar.childMenu.activeIndex = 8;
@@ -447,7 +447,7 @@ describe('phosphor-menus', () => {
 
       it('should activate the previous menu item on `ArrowUp`', (done) => {
         let bar = createMenuBar();
-        Widget.attach(bar, document.body);
+        bar.attach(document.body);
         bar.activateNextItem();
         bar.openActiveItem();
         bar.childMenu.activateNextItem();
@@ -461,7 +461,7 @@ describe('phosphor-menus', () => {
 
       it('should open a sub menu on `ArrowRight`', (done) => {
         let bar = createMenuBar();
-        Widget.attach(bar, document.body);
+        bar.attach(document.body);
         bar.activeIndex = 0;
         bar.openActiveItem();
         bar.childMenu.leafMenu.activeIndex = 8;
@@ -475,7 +475,7 @@ describe('phosphor-menus', () => {
 
       it('should open next menu on `ArrowRight`', (done) => {
         let bar = createMenuBar();
-        Widget.attach(bar, document.body);
+        bar.attach(document.body);
         bar.activateNextItem();
         bar.openActiveItem();
         setTimeout(() => {
@@ -488,7 +488,7 @@ describe('phosphor-menus', () => {
 
       it('should activate the next menu item on `ArrowDown`', (done) => {
         let bar = createMenuBar();
-        Widget.attach(bar, document.body);
+        bar.attach(document.body);
         bar.activateNextItem();
         bar.openActiveItem();
         bar.childMenu.activateNextItem();
@@ -502,7 +502,7 @@ describe('phosphor-menus', () => {
 
       it('should activate an item based on mnemonic', (done) => {
         let bar = createMenuBar();
-        Widget.attach(bar, document.body);
+        bar.attach(document.body);
         bar.activeIndex = 0;
         bar.openActiveItem();
         setTimeout(() => {
@@ -519,7 +519,7 @@ describe('phosphor-menus', () => {
 
       it('should trigger the item on mouse over and click', () => {
         let bar = createMenuBar();
-        Widget.attach(bar, document.body);
+        bar.attach(document.body);
         sendMessage(bar, Widget.MsgUpdateRequest);
         bar.activeIndex = 1;
         bar.openActiveItem();
@@ -537,7 +537,7 @@ describe('phosphor-menus', () => {
 
       it('should open the submenu', () => {
         let bar = createMenuBar();
-        Widget.attach(bar, document.body);
+        bar.attach(document.body);
         sendMessage(bar, Widget.MsgUpdateRequest);
         let node = bar.contentNode.firstChild as HTMLElement;
         let rect = node.getBoundingClientRect();
@@ -550,7 +550,7 @@ describe('phosphor-menus', () => {
 
       it('should close the submenu on an external mousedown', (done) => {
         let bar = createMenuBar();
-        Widget.attach(bar, document.body);
+        bar.attach(document.body);
         sendMessage(bar, Widget.MsgUpdateRequest);
         bar.activeIndex = 0;
         bar.openActiveItem();
@@ -566,7 +566,7 @@ describe('phosphor-menus', () => {
 
       it('should open a new submenu', (done) => {
         let bar = createMenuBar();
-        Widget.attach(bar, document.body);
+        bar.attach(document.body);
         sendMessage(bar, Widget.MsgUpdateRequest);
         let node = bar.contentNode.firstChild as HTMLElement;
         let rect = node.getBoundingClientRect();

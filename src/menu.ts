@@ -462,10 +462,10 @@ class Menu extends MenuBase {
 
     // Ensure this menu is detached.
     if (this.parent) {
-      this.parent = null;
+      this.remove();
       this.closed.emit(void 0);
     } else if (this.isAttached) {
-      Widget.detach(this);
+      this.detach();
       this.closed.emit(void 0);
     }
   }
@@ -822,7 +822,7 @@ function mountAndMeasure(menu: Menu, maxHeight: number): Size {
   style.height = '';
   style.visibility = 'hidden';
   style.maxHeight = maxHeight + 'px';
-  Widget.attach(menu, document.body);
+  menu.attach(document.body);
   if (node.scrollHeight > maxHeight) {
     style.width = 2 * node.offsetWidth - node.clientWidth + 'px';
   }
