@@ -12,10 +12,6 @@ import {
 } from 'phosphor-command';
 
 import {
-  Widget
-} from 'phosphor-widget';
-
-import {
   Menu, MenuBar, MenuItem
 } from '../lib/index';
 
@@ -314,7 +310,7 @@ function main() {
     })
   ]);
 
-  Widget.attach(menuBar, document.getElementById('menubar-host'));
+  menuBar.attach(document.getElementById('menubar-host'));
 
   document.addEventListener('contextmenu', (event: MouseEvent) => {
     event.preventDefault();
