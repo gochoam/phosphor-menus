@@ -99,112 +99,123 @@ omit the type declarations when using a language other than TypeScript.
 
 ```typescript
 import {
-  Menu, MenuBar
-} from 'phosphor-menus';
+  DelegateCommand
+} from 'phosphor-command';
 
 import {
-  Widget
-} from 'phosphor-widget';
-
-
-const MENU_BAR_TEMPLATE = [
-  {
-    text: 'File',
-    submenu: [
-      {
-        text: 'New File',
-        shortcut: 'Ctrl+N',
-        handler: () => doNew()
-      },
-      {
-        text: 'Open File',
-        shortcut: 'Ctrl+O',
-        handler: () => doOpen()
-      },
-      {
-        text: 'Save As...',
-        shortcut: 'Ctrl+Shift+S',
-        handler: () => doSaveAs()
-      },
-      {
-        type: 'separator'
-      },
-      {
-        text: 'Exit',
-        handler: () => doExit()
-      }
-    ]
-  },
-  {
-    text: 'Edit',
-    submenu: [
-      {
-        text: '&Undo',
-        icon: 'fa fa-undo',
-        shortcut: 'Ctrl+Z',
-        handler: () => doUndo()
-      },
-      {
-        text: '&Repeat',
-        icon: 'fa fa-repeat',
-        shortcut: 'Ctrl+Y',
-        handler: () => doRepeat()
-      },
-      {
-        type: 'separator'
-      },
-      {
-        text: '&Copy',
-        icon: 'fa fa-copy',
-        shortcut: 'Ctrl+C',
-        handler: () => doCopy()
-      },
-      {
-        text: 'Cu&t',
-        icon: 'fa fa-cut',
-        shortcut: 'Ctrl+X',
-        handler: () => doCut()
-      },
-      {
-        text: '&Paste',
-        icon: 'fa fa-paste',
-        shortcut: 'Ctrl+V',
-        handler: () => doPaste()
-      }
-    ]
-  }
-];
-
-
-const CONTEXT_MENU_TEMPLATE = [
-  {
-    text: '&Copy',
-    icon: 'fa fa-copy',
-    shortcut: 'Ctrl+C',
-    handler: () => doCopy()
-  },
-  {
-    text: 'Cu&t',
-    icon: 'fa fa-cut',
-    shortcut: 'Ctrl+X',
-    handler: () => doCut()
-  },
-  {
-    text: '&Paste',
-    icon: 'fa fa-paste',
-    shortcut: 'Ctrl+V',
-    handler: () => doPaste()
-  }
-];
+  Menu, MenuBar, MenuItem
+} from 'phosphor-menus';
 
 
 function main(): void {
-  // `fromTemplate` is the simplest API to use to get going quickly.
-  // There is also a rich imperative API for low-level manipulation.
-  let menuBar = MenuBar.fromTemplate(MENU_BAR_TEMPLATE);
-  let contextMenu = Menu.fromTemplate(CONTEXT_MENU_TEMPLATE);
 
-  Widget.attach(menuBar, document.body);
+  // A menu item takes an `ICommand` to execute its action when clicked.
+  // A `DelegateCommand` is the simplest way to define a command, but an
+  // application is free to define its own command implementations.
+  let newCmd = new DelegateCommand(...);
+  let openCmd = new DelegateCommand(...);
+  let saveCmd = new DelegateCommand(...);
+  let exitCmd = new DelegateCommand(...);
+  let undoCmd = new DelegateCommand(...);
+  let repeatCmd = new DelegateCommand(...);
+  let copyCmd = new DelegateCommand(...);
+  let cutCmd = new DelegateCommand(...);
+  let pasteCmd = new DelegateCommand(...);
+
+  let fileMenu = new Menu([
+    new MenuItem({
+      text: 'New File',
+      shortcut: 'Ctrl+N',
+      command: newCmd
+    }),
+    new MenuItem({
+      text: 'Open File',
+      shortcut: 'Ctrl+O',
+      command: openCmd
+    }),
+    new MenuItem({
+      text: 'Save As...',
+      shortcut: 'Ctrl+Shift+S',
+      command: saveCmd
+    }),
+    new MenuItem({
+      type: MenuItem.Separator
+    }),
+    new MenuItem({
+      text: 'Exit',
+      command: exitCmd
+    })
+  ]);
+
+  let editMenu = new Menu([
+    new MenuItem({
+      text: '&Undo',
+      icon: 'fa fa-undo',
+      shortcut: 'Ctrl+Z',
+      command: undoCmd
+    }),
+    new MenuItem({
+      text: '&Repeat',
+      icon: 'fa fa-repeat',
+      shortcut: 'Ctrl+Y',
+      command: repeatCmd
+    }),
+    new MenuItem({
+      type: MenuItem.Separator
+    }),
+    new MenuItem({
+      text: '&Copy',
+      icon: 'fa fa-copy',
+      shortcut: 'Ctrl+C',
+      command: copyCmd
+    }),
+    new MenuItem({
+      text: 'Cu&t',
+      icon: 'fa fa-cut',
+      shortcut: 'Ctrl+X',
+      command: cutCmd
+    }),
+    new MenuItem({
+      text: '&Paste',
+      icon: 'fa fa-paste',
+      shortcut: 'Ctrl+V',
+      command: pasteCmd
+    })
+  ]);
+
+  let contextMenu = new Menu([
+    new MenuItem({
+      text: '&Copy',
+      icon: 'fa fa-copy',
+      shortcut: 'Ctrl+C',
+      command: copyCmd
+    }),
+    new MenuItem({
+      text: 'Cu&t',
+      icon: 'fa fa-cut',
+      shortcut: 'Ctrl+X',
+      command: cutCmd
+    }),
+    new MenuItem({
+      text: '&Paste',
+      icon: 'fa fa-paste',
+      shortcut: 'Ctrl+V',
+      command: pastCmd
+    })
+  ]);
+
+  let menuBar = new MenuBar([
+    new MenuItem({
+      text: 'File',
+      submenu: fileMenu
+    }),
+    new MenuItem({
+      text: 'Edit',
+      submenu: editMenu
+    })
+  ]);
+
+  menuBar.attach(document.body);
 
   document.addEventListener('contextmenu', (event: MouseEvent) => {
     event.preventDefault();
