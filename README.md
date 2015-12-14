@@ -200,7 +200,7 @@ function main(): void {
       text: '&Paste',
       icon: 'fa fa-paste',
       shortcut: 'Ctrl+V',
-      command: pastCmd
+      command: pasteCmd
     })
   ]);
 
