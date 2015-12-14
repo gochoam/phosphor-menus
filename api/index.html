@@ -137,15 +137,15 @@ browserify myapp.js -o mybundle.js
   <span class="hljs-comment">// A menu item takes an `ICommand` to execute its action when clicked.</span>
   <span class="hljs-comment">// A `DelegateCommand` is the simplest way to define a command, but an</span>
   <span class="hljs-comment">// application is free to define its own command implementations.</span>
-  <span class="hljs-keyword">let</span> newCmd = <span class="hljs-keyword">new</span> DelegateCommand(...);
-  <span class="hljs-keyword">let</span> openCmd = <span class="hljs-keyword">new</span> DelegateCommand(...);
-  <span class="hljs-keyword">let</span> saveCmd = <span class="hljs-keyword">new</span> DelegateCommand(...);
-  <span class="hljs-keyword">let</span> exitCmd = <span class="hljs-keyword">new</span> DelegateCommand(...);
-  <span class="hljs-keyword">let</span> undoCmd = <span class="hljs-keyword">new</span> DelegateCommand(...);
-  <span class="hljs-keyword">let</span> repeatCmd = <span class="hljs-keyword">new</span> DelegateCommand(...);
-  <span class="hljs-keyword">let</span> copyCmd = <span class="hljs-keyword">new</span> DelegateCommand(...);
-  <span class="hljs-keyword">let</span> cutCmd = <span class="hljs-keyword">new</span> DelegateCommand(...);
-  <span class="hljs-keyword">let</span> pasteCmd = <span class="hljs-keyword">new</span> DelegateCommand(...);
+  <span class="hljs-keyword">let</span> newCmd = <span class="hljs-keyword">new</span> DelegateCommand(() =&gt; { <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'new'</span>); });
+  <span class="hljs-keyword">let</span> openCmd = <span class="hljs-keyword">new</span> DelegateCommand(() =&gt; { <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'open'</span>); });
+  <span class="hljs-keyword">let</span> saveCmd = <span class="hljs-keyword">new</span> DelegateCommand(() =&gt; { <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'save'</span>); });
+  <span class="hljs-keyword">let</span> exitCmd = <span class="hljs-keyword">new</span> DelegateCommand(() =&gt; { <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'exit'</span>); });
+  <span class="hljs-keyword">let</span> undoCmd = <span class="hljs-keyword">new</span> DelegateCommand(() =&gt; { <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'undo'</span>); });
+  <span class="hljs-keyword">let</span> repeatCmd = <span class="hljs-keyword">new</span> DelegateCommand(() =&gt; { <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'repeat'</span>); });
+  <span class="hljs-keyword">let</span> copyCmd = <span class="hljs-keyword">new</span> DelegateCommand(() =&gt; { <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'copy'</span>); });
+  <span class="hljs-keyword">let</span> cutCmd = <span class="hljs-keyword">new</span> DelegateCommand(() =&gt; { <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'cut'</span>); });
+  <span class="hljs-keyword">let</span> pasteCmd = <span class="hljs-keyword">new</span> DelegateCommand(() =&gt; { <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'paste'</span>); });
 
   <span class="hljs-keyword">let</span> fileMenu = <span class="hljs-keyword">new</span> Menu([
     <span class="hljs-keyword">new</span> MenuItem({
