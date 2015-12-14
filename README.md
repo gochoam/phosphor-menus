@@ -112,15 +112,15 @@ function main(): void {
   // A menu item takes an `ICommand` to execute its action when clicked.
   // A `DelegateCommand` is the simplest way to define a command, but an
   // application is free to define its own command implementations.
-  let newCmd = new DelegateCommand(...);
-  let openCmd = new DelegateCommand(...);
-  let saveCmd = new DelegateCommand(...);
-  let exitCmd = new DelegateCommand(...);
-  let undoCmd = new DelegateCommand(...);
-  let repeatCmd = new DelegateCommand(...);
-  let copyCmd = new DelegateCommand(...);
-  let cutCmd = new DelegateCommand(...);
-  let pasteCmd = new DelegateCommand(...);
+  let newCmd = new DelegateCommand(() => { console.log('new'); });
+  let openCmd = new DelegateCommand(() => { console.log('open'); });
+  let saveCmd = new DelegateCommand(() => { console.log('save'); });
+  let exitCmd = new DelegateCommand(() => { console.log('exit'); });
+  let undoCmd = new DelegateCommand(() => { console.log('undo'); });
+  let repeatCmd = new DelegateCommand(() => { console.log('repeat'); });
+  let copyCmd = new DelegateCommand(() => { console.log('copy'); });
+  let cutCmd = new DelegateCommand(() => { console.log('cut'); });
+  let pasteCmd = new DelegateCommand(() => { console.log('paste'); });
 
   let fileMenu = new Menu([
     new MenuItem({
