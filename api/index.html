@@ -124,112 +124,123 @@ browserify myapp.js -o mybundle.js
 				<p><strong>Note:</strong> This module is fully compatible with Node/Babel/ES6/ES5. Simply
 				omit the type declarations when using a language other than TypeScript.</p>
 				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> {
-  Menu, MenuBar
-} from <span class="hljs-string">'phosphor-menus'</span>;
+  DelegateCommand
+} from <span class="hljs-string">'phosphor-command'</span>;
 
 <span class="hljs-keyword">import</span> {
-  Widget
-} from <span class="hljs-string">'phosphor-widget'</span>;
-
-
-<span class="hljs-keyword">const</span> MENU_BAR_TEMPLATE = [
-  {
-    text: <span class="hljs-string">'File'</span>,
-    submenu: [
-      {
-        text: <span class="hljs-string">'New File'</span>,
-        shortcut: <span class="hljs-string">'Ctrl+N'</span>,
-        handler: () =&gt; doNew()
-      },
-      {
-        text: <span class="hljs-string">'Open File'</span>,
-        shortcut: <span class="hljs-string">'Ctrl+O'</span>,
-        handler: () =&gt; doOpen()
-      },
-      {
-        text: <span class="hljs-string">'Save As...'</span>,
-        shortcut: <span class="hljs-string">'Ctrl+Shift+S'</span>,
-        handler: () =&gt; doSaveAs()
-      },
-      {
-        <span class="hljs-keyword">type</span>: <span class="hljs-string">'separator'</span>
-      },
-      {
-        text: <span class="hljs-string">'Exit'</span>,
-        handler: () =&gt; doExit()
-      }
-    ]
-  },
-  {
-    text: <span class="hljs-string">'Edit'</span>,
-    submenu: [
-      {
-        text: <span class="hljs-string">'&amp;Undo'</span>,
-        icon: <span class="hljs-string">'fa fa-undo'</span>,
-        shortcut: <span class="hljs-string">'Ctrl+Z'</span>,
-        handler: () =&gt; doUndo()
-      },
-      {
-        text: <span class="hljs-string">'&amp;Repeat'</span>,
-        icon: <span class="hljs-string">'fa fa-repeat'</span>,
-        shortcut: <span class="hljs-string">'Ctrl+Y'</span>,
-        handler: () =&gt; doRepeat()
-      },
-      {
-        <span class="hljs-keyword">type</span>: <span class="hljs-string">'separator'</span>
-      },
-      {
-        text: <span class="hljs-string">'&amp;Copy'</span>,
-        icon: <span class="hljs-string">'fa fa-copy'</span>,
-        shortcut: <span class="hljs-string">'Ctrl+C'</span>,
-        handler: () =&gt; doCopy()
-      },
-      {
-        text: <span class="hljs-string">'Cu&amp;t'</span>,
-        icon: <span class="hljs-string">'fa fa-cut'</span>,
-        shortcut: <span class="hljs-string">'Ctrl+X'</span>,
-        handler: () =&gt; doCut()
-      },
-      {
-        text: <span class="hljs-string">'&amp;Paste'</span>,
-        icon: <span class="hljs-string">'fa fa-paste'</span>,
-        shortcut: <span class="hljs-string">'Ctrl+V'</span>,
-        handler: () =&gt; doPaste()
-      }
-    ]
-  }
-];
-
-
-<span class="hljs-keyword">const</span> CONTEXT_MENU_TEMPLATE = [
-  {
-    text: <span class="hljs-string">'&amp;Copy'</span>,
-    icon: <span class="hljs-string">'fa fa-copy'</span>,
-    shortcut: <span class="hljs-string">'Ctrl+C'</span>,
-    handler: () =&gt; doCopy()
-  },
-  {
-    text: <span class="hljs-string">'Cu&amp;t'</span>,
-    icon: <span class="hljs-string">'fa fa-cut'</span>,
-    shortcut: <span class="hljs-string">'Ctrl+X'</span>,
-    handler: () =&gt; doCut()
-  },
-  {
-    text: <span class="hljs-string">'&amp;Paste'</span>,
-    icon: <span class="hljs-string">'fa fa-paste'</span>,
-    shortcut: <span class="hljs-string">'Ctrl+V'</span>,
-    handler: () =&gt; doPaste()
-  }
-];
+  Menu, MenuBar, MenuItem
+} from <span class="hljs-string">'phosphor-menus'</span>;
 
 
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">main</span>(<span class="hljs-params"></span>): <span class="hljs-title">void</span> </span>{
-  <span class="hljs-comment">// `fromTemplate` is the simplest API to use to get going quickly.</span>
-  <span class="hljs-comment">// There is also a rich imperative API for low-level manipulation.</span>
-  <span class="hljs-keyword">let</span> menuBar = MenuBar.fromTemplate(MENU_BAR_TEMPLATE);
-  <span class="hljs-keyword">let</span> contextMenu = Menu.fromTemplate(CONTEXT_MENU_TEMPLATE);
 
-  Widget.attach(menuBar, <span class="hljs-built_in">document</span>.body);
+  <span class="hljs-comment">// A menu item takes an `ICommand` to execute its action when clicked.</span>
+  <span class="hljs-comment">// A `DelegateCommand` is the simplest way to define a command, but an</span>
+  <span class="hljs-comment">// application is free to define its own command implementations.</span>
+  <span class="hljs-keyword">let</span> newCmd = <span class="hljs-keyword">new</span> DelegateCommand(...);
+  <span class="hljs-keyword">let</span> openCmd = <span class="hljs-keyword">new</span> DelegateCommand(...);
+  <span class="hljs-keyword">let</span> saveCmd = <span class="hljs-keyword">new</span> DelegateCommand(...);
+  <span class="hljs-keyword">let</span> exitCmd = <span class="hljs-keyword">new</span> DelegateCommand(...);
+  <span class="hljs-keyword">let</span> undoCmd = <span class="hljs-keyword">new</span> DelegateCommand(...);
+  <span class="hljs-keyword">let</span> repeatCmd = <span class="hljs-keyword">new</span> DelegateCommand(...);
+  <span class="hljs-keyword">let</span> copyCmd = <span class="hljs-keyword">new</span> DelegateCommand(...);
+  <span class="hljs-keyword">let</span> cutCmd = <span class="hljs-keyword">new</span> DelegateCommand(...);
+  <span class="hljs-keyword">let</span> pasteCmd = <span class="hljs-keyword">new</span> DelegateCommand(...);
+
+  <span class="hljs-keyword">let</span> fileMenu = <span class="hljs-keyword">new</span> Menu([
+    <span class="hljs-keyword">new</span> MenuItem({
+      text: <span class="hljs-string">'New File'</span>,
+      shortcut: <span class="hljs-string">'Ctrl+N'</span>,
+      command: newCmd
+    }),
+    <span class="hljs-keyword">new</span> MenuItem({
+      text: <span class="hljs-string">'Open File'</span>,
+      shortcut: <span class="hljs-string">'Ctrl+O'</span>,
+      command: openCmd
+    }),
+    <span class="hljs-keyword">new</span> MenuItem({
+      text: <span class="hljs-string">'Save As...'</span>,
+      shortcut: <span class="hljs-string">'Ctrl+Shift+S'</span>,
+      command: saveCmd
+    }),
+    <span class="hljs-keyword">new</span> MenuItem({
+      <span class="hljs-keyword">type</span>: MenuItem.Separator
+    }),
+    <span class="hljs-keyword">new</span> MenuItem({
+      text: <span class="hljs-string">'Exit'</span>,
+      command: exitCmd
+    })
+  ]);
+
+  <span class="hljs-keyword">let</span> editMenu = <span class="hljs-keyword">new</span> Menu([
+    <span class="hljs-keyword">new</span> MenuItem({
+      text: <span class="hljs-string">'&amp;Undo'</span>,
+      icon: <span class="hljs-string">'fa fa-undo'</span>,
+      shortcut: <span class="hljs-string">'Ctrl+Z'</span>,
+      command: undoCmd
+    }),
+    <span class="hljs-keyword">new</span> MenuItem({
+      text: <span class="hljs-string">'&amp;Repeat'</span>,
+      icon: <span class="hljs-string">'fa fa-repeat'</span>,
+      shortcut: <span class="hljs-string">'Ctrl+Y'</span>,
+      command: repeatCmd
+    }),
+    <span class="hljs-keyword">new</span> MenuItem({
+      <span class="hljs-keyword">type</span>: MenuItem.Separator
+    }),
+    <span class="hljs-keyword">new</span> MenuItem({
+      text: <span class="hljs-string">'&amp;Copy'</span>,
+      icon: <span class="hljs-string">'fa fa-copy'</span>,
+      shortcut: <span class="hljs-string">'Ctrl+C'</span>,
+      command: copyCmd
+    }),
+    <span class="hljs-keyword">new</span> MenuItem({
+      text: <span class="hljs-string">'Cu&amp;t'</span>,
+      icon: <span class="hljs-string">'fa fa-cut'</span>,
+      shortcut: <span class="hljs-string">'Ctrl+X'</span>,
+      command: cutCmd
+    }),
+    <span class="hljs-keyword">new</span> MenuItem({
+      text: <span class="hljs-string">'&amp;Paste'</span>,
+      icon: <span class="hljs-string">'fa fa-paste'</span>,
+      shortcut: <span class="hljs-string">'Ctrl+V'</span>,
+      command: pasteCmd
+    })
+  ]);
+
+  <span class="hljs-keyword">let</span> contextMenu = <span class="hljs-keyword">new</span> Menu([
+    <span class="hljs-keyword">new</span> MenuItem({
+      text: <span class="hljs-string">'&amp;Copy'</span>,
+      icon: <span class="hljs-string">'fa fa-copy'</span>,
+      shortcut: <span class="hljs-string">'Ctrl+C'</span>,
+      command: copyCmd
+    }),
+    <span class="hljs-keyword">new</span> MenuItem({
+      text: <span class="hljs-string">'Cu&amp;t'</span>,
+      icon: <span class="hljs-string">'fa fa-cut'</span>,
+      shortcut: <span class="hljs-string">'Ctrl+X'</span>,
+      command: cutCmd
+    }),
+    <span class="hljs-keyword">new</span> MenuItem({
+      text: <span class="hljs-string">'&amp;Paste'</span>,
+      icon: <span class="hljs-string">'fa fa-paste'</span>,
+      shortcut: <span class="hljs-string">'Ctrl+V'</span>,
+      command: pastCmd
+    })
+  ]);
+
+  <span class="hljs-keyword">let</span> menuBar = <span class="hljs-keyword">new</span> MenuBar([
+    <span class="hljs-keyword">new</span> MenuItem({
+      text: <span class="hljs-string">'File'</span>,
+      submenu: fileMenu
+    }),
+    <span class="hljs-keyword">new</span> MenuItem({
+      text: <span class="hljs-string">'Edit'</span>,
+      submenu: editMenu
+    })
+  ]);
+
+  menuBar.attach(<span class="hljs-built_in">document</span>.body);
 
   <span class="hljs-built_in">document</span>.addEventListener(<span class="hljs-string">'contextmenu'</span>, (event: MouseEvent) =&gt; {
     event.preventDefault();
