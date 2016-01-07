@@ -19,7 +19,7 @@
     "browserify-istanbul": "^0.2.1",
     "coveralls": "^2.11.4",
     "expect.js": "^0.3.1",
-    "glob-copy": "^0.1.0",
+    "fs-extra": "^0.26.4",
     "karma": "^0.13.9",
     "karma-browserify": "^4.3.0",
     "karma-chrome-launcher": "^0.2.0",
@@ -69,7 +69,8 @@
     "menubar",
     "menuitem",
     "menus",
-    "ui"
+    "ui",
+    "widget"
   ],
   "author": "S. Chris Colbert <sccolbert@gmail.com>",
   "license": "BSD-3-Clause",
