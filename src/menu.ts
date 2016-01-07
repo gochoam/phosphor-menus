@@ -7,6 +7,9 @@
 |----------------------------------------------------------------------------*/
 'use strict';
 
+import * as arrays
+  from 'phosphor-arrays';
+
 import {
   boxSizing, hitTest
 } from 'phosphor-domutil';
@@ -24,8 +27,8 @@ import {
 } from 'phosphor-widget';
 
 import {
-  MenuBase, collapseSeparators
-} from './menubase';
+  AbstractMenu
+} from './base';
 
 import {
   MenuItem
@@ -50,37 +53,37 @@ const ITEM_CLASS = 'p-Menu-item';
 /**
  * The class name added to a menu item icon cell.
  */
-const ICON_CLASS = 'p-Menu-item-icon';
+const ICON_CLASS = 'p-Menu-itemIcon';
 
 /**
  * The class name added to a menu item text cell.
  */
-const TEXT_CLASS = 'p-Menu-item-text';
+const TEXT_CLASS = 'p-Menu-itemText';
 
 /**
  * The class name added to a menu item shortcut cell.
  */
-const SHORTCUT_CLASS = 'p-Menu-item-shortcut';
+const SHORTCUT_CLASS = 'p-Menu-itemShortcut';
 
 /**
- * The class name added to a menu item submenu cell.
+ * The class name added to a menu item submenu icon cell.
  */
-const SUBMENU_CLASS = 'p-Menu-item-submenu';
+const SUBMENU_CLASS = 'p-Menu-itemSubmenuIcon';
 
 /**
  * The class name added to a check type menu item.
  */
-const CHECK_TYPE_CLASS = 'p-mod-check-type';
+const CHECK_TYPE_CLASS = 'p-type-check';
 
 /**
  * The class name added to a separator type menu item.
  */
-const SEPARATOR_TYPE_CLASS = 'p-mod-separator-type';
+const SEPARATOR_TYPE_CLASS = 'p-type-separator';
 
 /**
  * The class name added to a submenu type menu item.
  */
-const SUBMENU_TYPE_CLASS = 'p-mod-submenu-type';
+const SUBMENU_TYPE_CLASS = 'p-type-submenu';
 
 /**
  * The class name added to active menu items.
@@ -96,6 +99,11 @@ const DISABLED_CLASS = 'p-mod-disabled';
  * The class name added to a checked menu item.
  */
 const CHECKED_CLASS = 'p-mod-checked';
+
+/**
+ * The class name added to a hidden menu item.
+ */
+const HIDDEN_CLASS = 'p-mod-hidden';
 
 /**
  * The ms delay for opening a submenu.
@@ -117,7 +125,7 @@ const SUBMENU_OVERLAP = 3;
  * A widget which displays menu items as a popup menu.
  */
 export
-class Menu extends MenuBase {
+class Menu extends AbstractMenu {
   /**
    * Create the DOM node for a menu.
    */
@@ -130,11 +138,55 @@ class Menu extends MenuBase {
   }
 
   /**
-   * A signal emitted when the menu is closed.
+   * Create a new item node for a menu.
    *
-   * **See also:** [[closed]]
+   * @returns A new DOM node to use as an item in a menu.
+   *
+   * #### Notes
+   * This method may be reimplemented to create custom items.
    */
-  static closedSignal = new Signal<Menu, void>();
+  static createItemNode(): HTMLElement {
+    let node = document.createElement('li');
+    let icon = document.createElement('span');
+    let text = document.createElement('span');
+    let shortcut = document.createElement('span');
+    let submenu = document.createElement('span');
+    node.className = ITEM_CLASS;
+    text.className = TEXT_CLASS;
+    shortcut.className = SHORTCUT_CLASS;
+    submenu.className = SUBMENU_CLASS;
+    node.appendChild(icon);
+    node.appendChild(text);
+    node.appendChild(shortcut);
+    node.appendChild(submenu);
+    return node;
+  }
+
+  /**
+   * Update an item node to reflect the current state of a menu item.
+   *
+   * @param node - A node created by a call to [[createItemNode]].
+   *
+   * @param item - The menu item to use for the item state.
+   *
+   * #### Notes
+   * This is called automatically when the item should be updated.
+   *
+   * If the [[createItemNode]] method is reimplemented, this method
+   * should also be reimplemented so that the item state is properly
+   * updated.
+   */
+  static updateItemNode(node: HTMLElement, item: MenuItem): void {
+    let sep = item.type === MenuItem.Separator;
+    let sub = item.type === MenuItem.Submenu;
+    let icon = node.firstChild as HTMLElement;
+    let text = icon.nextSibling as HTMLElement;
+    let shortcut = text.nextSibling as HTMLElement;
+    node.className = MenuPrivate.createItemClass(item);
+    icon.className = ICON_CLASS + (item.icon ? ' ' + item.icon : '');
+    text.textContent = sep ? '' : item.text.replace(/&/g, '');
+    shortcut.textContent = (sep || sub) ? '' : item.shortcut;
+  }
 
   /**
    * Construct a new menu.
@@ -161,19 +213,18 @@ class Menu extends MenuBase {
 
   /**
    * A signal emitted when the menu item is closed.
-   *
-   * #### Notes
-   * This is a pure delegate to the [[closedSignal]].
    */
   get closed(): ISignal<Menu, void> {
-    return Menu.closedSignal.bind(this);
+    return MenuPrivate.closedSignal.bind(this);
   }
 
   /**
    * Get the parent menu of the menu.
    *
    * #### Notes
-   * This will be null if the menu is not an open submenu.
+   * This will be `null` if the menu is not an open submenu.
+   *
+   * This is a read-only property.
    */
   get parentMenu(): Menu {
     return this._parentMenu;
@@ -183,7 +234,9 @@ class Menu extends MenuBase {
    * Get the child menu of the menu.
    *
    * #### Notes
-   * This will be null if the menu does not have an open submenu.
+   * This will be `null` if the menu does not have an open submenu.
+   *
+   * This is a read-only property.
    */
   get childMenu(): Menu {
     return this._childMenu;
@@ -191,6 +244,9 @@ class Menu extends MenuBase {
 
   /**
    * Find the root menu of this menu hierarchy.
+   *
+   * #### Notes
+   * This is a read-only property.
    */
   get rootMenu(): Menu {
     let menu: Menu = this;
@@ -202,6 +258,9 @@ class Menu extends MenuBase {
 
   /**
    * Find the leaf menu of this menu hierarchy.
+   *
+   * #### Notes
+   * This is a read-only property.
    */
   get leafMenu(): Menu {
     let menu: Menu = this;
@@ -215,11 +274,67 @@ class Menu extends MenuBase {
    * Get the menu content node.
    *
    * #### Notes
-   * This is the node which holds the menu item nodes. Modifying the
-   * content of this node without care can lead to undesired behavior.
+   * This is the node which holds the menu item nodes.
+   *
+   * Modifying this node directly can lead to undefined behavior.
+   *
+   * This is a read-only property.
    */
   get contentNode(): HTMLElement {
     return this.node.getElementsByClassName(CONTENT_CLASS)[0] as HTMLElement;
+  }
+
+  /**
+   * Open the submenu of the active item, if possible.
+   *
+   * #### Notes
+   * This is a no-op if the menu is not visible, if there is no
+   * active item, or if the active item does not have a submenu.
+   */
+  openActiveItem(): void {
+    if (!this.isVisible) {
+      return;
+    }
+    let index = this.activeIndex;
+    if (index === -1) {
+      return;
+    }
+    let item = this.items[index];
+    if (item.submenu === null) {
+      return;
+    }
+    this._openChildMenu(item, this._nodes[index], false);
+    this._childMenu.activateNextItem();
+  }
+
+  /**
+   * Trigger the command of the active item, if possible.
+   *
+   * #### Notes
+   * This is a no-op if the menu is not visible, if there is no
+   * active item, or if the active item cannot be triggered.
+   */
+  triggerActiveItem(): void {
+    if (!this.isVisible) {
+      return;
+    }
+    let index = this.activeIndex;
+    if (index === -1) {
+      return;
+    }
+    let item = this.items[index];
+    if (item.submenu !== null) {
+      this._openChildMenu(item, this._nodes[index], false);
+      this._childMenu.activateNextItem();
+      return;
+    }
+    let cmd = item.command;
+    let args = item.commandArgs;
+    if (!cmd || !cmd.isEnabled()) {
+      return;
+    }
+    this.rootMenu.close();
+    cmd.execute(args);
   }
 
   /**
@@ -233,7 +348,7 @@ class Menu extends MenuBase {
    * When the menu is opened as a popup menu, it will handle all key
    * events related to menu navigation as well as closing the menu
    * when the mouse is pressed outside of the menu hierarchy. To
-   * prevent these actions, use the `open` method instead.
+   * prevent these actions, use the [[open]] method instead.
    *
    * @param x - The client X coordinate of the popup location.
    *
@@ -243,6 +358,9 @@ class Menu extends MenuBase {
    *
    * @param forceY - Whether the Y coordinate must be obeyed.
    *
+   * #### Notes
+   * This is a no-op if the menu is already attached to the DOM.
+   *
    * **See also:** [[open]]
    */
   popup(x: number, y: number, forceX = false, forceY = false): void {
@@ -250,7 +368,7 @@ class Menu extends MenuBase {
       document.addEventListener('keydown', this, true);
       document.addEventListener('keypress', this, true);
       document.addEventListener('mousedown', this, true);
-      openRootMenu(this, x, y, forceX, forceY);
+      MenuPrivate.openRootMenu(this, x, y, forceX, forceY);
     }
   }
 
@@ -265,8 +383,8 @@ class Menu extends MenuBase {
    * When the menu is opened with this method, it will not handle key
    * events for navigation, nor will it close itself when the mouse is
    * pressed outside the menu hierarchy. This is useful when using the
-   * menu from a menubar, where this menubar should handle these tasks.
-   * Use the `popup` method for the alternative behavior.
+   * menu from a menubar, where the menubar should handle these tasks.
+   * Use the [[popup]] method for the alternative behavior.
    *
    * @param x - The client X coordinate of the popup location.
    *
@@ -276,11 +394,14 @@ class Menu extends MenuBase {
    *
    * @param forceY - Whether the Y coordinate must be obeyed.
    *
+   * #### Notes
+   * This is a no-op if the menu is already attached to the DOM.
+   *
    * **See also:** [[popup]]
    */
   open(x: number, y: number, forceX = false, forceY = false): void {
     if (!this.isAttached) {
-      openRootMenu(this, x, y, forceX, forceY);
+      MenuPrivate.openRootMenu(this, x, y, forceX, forceY);
     }
   }
 
@@ -296,8 +417,8 @@ class Menu extends MenuBase {
    */
   handleEvent(event: Event): void {
     switch (event.type) {
-    case 'mouseenter':
-      this._evtMouseEnter(event as MouseEvent);
+    case 'mousemove':
+      this._evtMouseMove(event as MouseEvent);
       break;
     case 'mouseleave':
       this._evtMouseLeave(event as MouseEvent);
@@ -308,24 +429,25 @@ class Menu extends MenuBase {
     case 'mouseup':
       this._evtMouseUp(event as MouseEvent);
       break;
-    case 'contextmenu':
-      event.preventDefault();
-      event.stopPropagation();
-      break;
     case 'keydown':
       this._evtKeyDown(event as KeyboardEvent);
       break;
     case 'keypress':
       this._evtKeyPress(event as KeyboardEvent);
       break;
+    case 'contextmenu':
+      event.preventDefault();
+      event.stopPropagation();
+      break;
     }
   }
 
   /**
-   * Test whether a menu item is selectable.
+   * A method invoked to test whether an item is selectable.
    *
-   * #### Notes
-   * This is a reimplementation of the base class method.
+   * @param item - The menu item of interest.
+   *
+   * @returns `true` if the item is selectable, `false` otherwise.
    */
   protected isSelectable(item: MenuItem): boolean {
     if (item.type === MenuItem.Separator) {
@@ -339,97 +461,49 @@ class Menu extends MenuBase {
 
   /**
    * A method invoked when the menu items change.
+   *
+   * @param oldItems - The old menu items.
+   *
+   * @param newItems - The new menu items.
    */
-  protected onItemsChanged(old: MenuItem[], items: MenuItem[]): void {
+  protected onItemsChanged(oldItems: MenuItem[], newItems: MenuItem[]): void {
+    // Reset the menu before changing the items.
     this.close();
-  }
 
-  /**
-   * A method invoked when the active index changes.
-   */
-  protected onActiveIndexChanged(old: number, index: number): void {
-    let oldNode = this._nodes[old];
-    let newNode = this._nodes[index];
-    if (oldNode) oldNode.classList.remove(ACTIVE_CLASS);
-    if (newNode) newNode.classList.add(ACTIVE_CLASS);
-  }
-
-  /**
-   * A method invoked when a menu item should be opened.
-   */
-  protected onOpenItem(index: number, item: MenuItem): void {
-    if (this.isAttached && item.submenu) {
-      let ref = this._nodes[index] || this.node;
-      this._openChildMenu(item, ref, false);
-      this._childMenu.activateNextItem();
-    }
-  }
-
-  /**
-   * A method invoked when a menu item should be triggered.
-   */
-  protected onTriggerItem(index: number, item: MenuItem): void {
-    this.rootMenu.close();
-    let cmd = item.command;
-    let args = item.commandArgs;
-    if (cmd && cmd.isEnabled()) cmd.execute(args);
-  }
-
-  /**
-   * A message handler invoked on an `'after-attach'` message.
-   */
-  protected onAfterAttach(msg: Message): void {
-    this.node.addEventListener('mouseup', this);
-    this.node.addEventListener('mouseleave', this);
-    this.node.addEventListener('contextmenu', this);
-  }
-
-  /**
-   * A message handler invoked on a `'before-detach'` message.
-   */
-  protected onBeforeDetach(msg: Message): void {
-    this.node.removeEventListener('mouseup', this);
-    this.node.removeEventListener('mouseleave', this);
-    this.node.removeEventListener('contextmenu', this);
-    document.removeEventListener('keydown', this, true);
-    document.removeEventListener('keypress', this, true);
-    document.removeEventListener('mousedown', this, true);
-  }
-
-  /**
-   * A handler invoked on an `'update-request'` message.
-   */
-  protected onUpdateRequest(msg: Message): void {
     // Fetch common variables.
-    let items = this.items;
     let nodes = this._nodes;
     let content = this.contentNode;
+    let constructor = this.constructor as typeof Menu;
 
     // Remove any excess item nodes.
-    while (nodes.length > items.length) {
+    while (nodes.length > newItems.length) {
       let node = nodes.pop();
       content.removeChild(node);
     }
 
     // Add any missing item nodes.
-    while (nodes.length < items.length) {
-      let node = createItemNode();
-      nodes.push(node);
+    while (nodes.length < newItems.length) {
+      let node = constructor.createItemNode();
       content.appendChild(node);
-      node.addEventListener('mouseenter', this);
+      nodes.push(node);
     }
 
-    // Update the node state to match the menu items.
-    for (let i = 0, n = items.length; i < n; ++i) {
-      updateItemNode(items[i], nodes[i]);
-    }
+    // An update is performed just before opening the menu, which
+    // removes the need to connect the menu item `changed` signal.
+  }
 
-    // Update the active item node.
-    let active = nodes[this.activeIndex];
-    if (active) active.classList.add(ACTIVE_CLASS);
-
-    // Collapse the neighboring separators.
-    collapseSeparators(items, nodes);
+  /**
+   * A method invoked when the active index changes.
+   *
+   * @param oldIndex - The old active index.
+   *
+   * @param newIndex - The new active index.
+   */
+  protected onActiveIndexChanged(oldIndex: number, newIndex: number): void {
+    let oldNode = this._nodes[oldIndex];
+    let newNode = this._nodes[newIndex];
+    if (oldNode) oldNode.classList.remove(ACTIVE_CLASS);
+    if (newNode) newNode.classList.add(ACTIVE_CLASS);
   }
 
   /**
@@ -462,7 +536,7 @@ class Menu extends MenuBase {
 
     // Ensure this menu is detached.
     if (this.parent) {
-      this.remove();
+      this.parent = null;
       this.closed.emit(void 0);
     } else if (this.isAttached) {
       this.detach();
@@ -471,20 +545,70 @@ class Menu extends MenuBase {
   }
 
   /**
-   * Handle the `'mouseenter'` event for a menu item.
+   * A handler invoked on an `'update-request'` message.
    */
-  private _evtMouseEnter(event: MouseEvent): void {
+  protected onUpdateRequest(msg: Message): void {
+    // Fetch common variables.
+    let items = this.items;
+    let nodes = this._nodes;
+    let constructor = this.constructor as typeof Menu;
+
+    // Update the state of the item nodes.
+    for (let i = 0, n = items.length; i < n; ++i) {
+      constructor.updateItemNode(nodes[i], items[i]);
+    }
+
+    // Restore the active node class.
+    let active = nodes[this.activeIndex];
+    if (active) active.classList.add(ACTIVE_CLASS);
+
+    // Hide the redundant and useless menu item nodes.
+    MenuPrivate.hideUselessItems(nodes, items);
+  }
+
+  /**
+   * A message handler invoked on an `'after-attach'` message.
+   */
+  protected onAfterAttach(msg: Message): void {
+    this.node.addEventListener('mouseup', this);
+    this.node.addEventListener('mousemove', this);
+    this.node.addEventListener('mouseleave', this);
+    this.node.addEventListener('contextmenu', this);
+  }
+
+  /**
+   * A message handler invoked on a `'before-detach'` message.
+   */
+  protected onBeforeDetach(msg: Message): void {
+    this.node.removeEventListener('mouseup', this);
+    this.node.removeEventListener('mousemove', this);
+    this.node.removeEventListener('mouseleave', this);
+    this.node.removeEventListener('contextmenu', this);
+    document.removeEventListener('keydown', this, true);
+    document.removeEventListener('keypress', this, true);
+    document.removeEventListener('mousedown', this, true);
+  }
+
+  /**
+   * Handle the `'mousemove'` event for the menu.
+   */
+  private _evtMouseMove(event: MouseEvent): void {
+    let x = event.clientX;
+    let y = event.clientY;
+    let i = arrays.findIndex(this._nodes, node => hitTest(node, x, y));
+    if (i === this.activeIndex) {
+      return;
+    }
+    this.activeIndex = i;
     this._syncAncestors();
     this._closeChildMenu();
     this._cancelPendingOpen();
-    let node = event.currentTarget as HTMLElement;
-    this.activeIndex = this._nodes.indexOf(node);
-    let item = this.items[this.activeIndex];
+    let item = this.items[i];
     if (item && item.submenu) {
       if (item === this._childItem) {
         this._cancelPendingClose();
       } else {
-        this._openChildMenu(item, node, true);
+        this._openChildMenu(item, this._nodes[i], true);
       }
     }
   }
@@ -494,25 +618,12 @@ class Menu extends MenuBase {
    */
   private _evtMouseLeave(event: MouseEvent): void {
     this._cancelPendingOpen();
+    let x = event.clientX;
+    let y = event.clientY;
     let child = this._childMenu;
-    if (!child || !hitTest(child.node, event.clientX, event.clientY)) {
+    if (!child || !hitTest(child.node, x, y)) {
       this.activeIndex = -1;
       this._closeChildMenu();
-    }
-  }
-
-  /**
-   * Handle the `'mouseup'` event for the menu.
-   */
-  private _evtMouseUp(event: MouseEvent): void {
-    event.preventDefault();
-    event.stopPropagation();
-    if (event.button !== 0) {
-      return;
-    }
-    let node = this._nodes[this.activeIndex];
-    if (node && node.contains(event.target as HTMLElement)) {
-      this.triggerActiveItem();
     }
   }
 
@@ -534,6 +645,21 @@ class Menu extends MenuBase {
       menu = menu._childMenu;
     }
     if (!hit) this.close();
+  }
+
+  /**
+   * Handle the `'mouseup'` event for the menu.
+   */
+  private _evtMouseUp(event: MouseEvent): void {
+    if (event.button !== 0) {
+      return;
+    }
+    event.preventDefault();
+    event.stopPropagation();
+    let node = this._nodes[this.activeIndex];
+    if (node && node.contains(event.target as HTMLElement)) {
+      this.triggerActiveItem();
+    }
   }
 
   /**
@@ -628,14 +754,14 @@ class Menu extends MenuBase {
         this._childItem = item;
         this._childMenu = menu;
         menu._parentMenu = this;
-        openSubmenu(menu, node);
+        MenuPrivate.openSubmenu(menu, node);
       }, OPEN_DELAY);
     } else {
       let menu = item.submenu;
       this._childItem = item;
       this._childMenu = menu;
       menu._parentMenu = this;
-      openSubmenu(menu, node);
+      MenuPrivate.openSubmenu(menu, node);
     }
   }
 
@@ -690,195 +816,172 @@ class Menu extends MenuBase {
 
 
 /**
- * Create an uninitialized DOM node for a MenuItem.
+ * The namespace for the menu private data.
  */
-function createItemNode(): HTMLElement {
-  let node = document.createElement('li');
-  let icon = document.createElement('span');
-  let text = document.createElement('span');
-  let shortcut = document.createElement('span');
-  let submenu = document.createElement('span');
-  text.className = TEXT_CLASS;
-  shortcut.className = SHORTCUT_CLASS;
-  submenu.className = SUBMENU_CLASS;
-  node.appendChild(icon);
-  node.appendChild(text);
-  node.appendChild(shortcut);
-  node.appendChild(submenu);
-  return node;
-}
+namespace MenuPrivate {
+  /**
+   * A signal emitted when the menu is closed.
+   */
+  export
+  const closedSignal = new Signal<Menu, void>();
 
+  /**
+   * Create the class name for a menu item.
+   */
+  export
+  function createItemClass(item: MenuItem): string {
+    let name = ITEM_CLASS;
+    if (item.className) {
+      name += ' ' + item.className;
+    }
+    if (item.type === MenuItem.Separator) {
+      return name + ' ' + SEPARATOR_TYPE_CLASS;
+    }
+    if (item.type === MenuItem.Submenu) {
+      return name + ' ' + SUBMENU_TYPE_CLASS;
+    }
+    if (item.type === MenuItem.Check) {
+      name += ' ' + CHECK_TYPE_CLASS;
+      if (item.command && item.command.isChecked()) {
+        name += ' ' + CHECKED_CLASS;
+      }
+    }
+    if (!item.command || !item.command.isEnabled()) {
+      name += ' ' + DISABLED_CLASS;
+    }
+    return name;
+  }
 
-/**
- * Create the complete DOM node class name for a MenuItem.
- */
-function createItemClass(item: MenuItem): string {
-  let parts = [ITEM_CLASS];
-  if (item.className) {
-    parts.push(item.className);
-  }
-  if (item.type === MenuItem.Separator) {
-    parts.push(SEPARATOR_TYPE_CLASS);
-    return parts.join(' ');
-  }
-  if (item.type === MenuItem.Submenu) {
-    parts.push(SUBMENU_TYPE_CLASS);
-    return parts.join(' ');
-  }
-  if (item.type === MenuItem.Check) {
-    parts.push(CHECK_TYPE_CLASS);
-    if (item.command && item.command.isChecked()) {
-      parts.push(CHECKED_CLASS);
+  /**
+   * Hide the irrelevant item nodes for a menu bar.
+   */
+  export
+  function hideUselessItems(nodes: HTMLElement[], items: MenuItem[]): void {
+    // Hide the leading separators.
+    let k1: number;
+    for (k1 = 0; k1 < items.length; ++k1) {
+      if (items[k1].type !== MenuItem.Separator) {
+        break;
+      }
+      nodes[k1].classList.add(HIDDEN_CLASS);
+    }
+
+    // Hide the trailing separators.
+    let k2: number;
+    for (k2 = items.length - 1; k2 >= 0; --k2) {
+      if (items[k2].type !== MenuItem.Separator) {
+        break;
+      }
+      nodes[k2].classList.add(HIDDEN_CLASS);
+    }
+
+    // Hide the remaining consecutive separators.
+    let hide = false;
+    while (++k1 < k2) {
+      if (items[k1].type !== MenuItem.Separator) {
+        hide = false;
+      } else if (hide) {
+        nodes[k1].classList.add(HIDDEN_CLASS);
+      } else {
+        hide = true;
+      }
     }
   }
-  if (!item.command || !item.command.isEnabled()) {
-    parts.push(DISABLED_CLASS);
-  }
-  return parts.join(' ');
-}
 
-
-/**
- * Create the icon node class name for a MenuItem.
- */
-function createIconClass(item: MenuItem): string {
-  return item.icon ? (ICON_CLASS + ' ' + item.icon) : ICON_CLASS;
-}
-
-
-/**
- * Create the text node content for a MenuItem.
- */
-function createTextContent(item: MenuItem): string {
-  if (item.type === MenuItem.Separator) {
-    return '';
-  }
-  return item.text.replace(/&/g, '');
-}
-
-
-/**
- * Create the shortcut text for a MenuItem.
- */
-function createShortcutText(item: MenuItem): string {
-  if (item.type === MenuItem.Separator || item.type === MenuItem.Submenu) {
-    return '';
-  }
-  return item.shortcut;
-}
-
-
-/**
- * Update the node state for a MenuItem.
- */
-function updateItemNode(item: MenuItem, node: HTMLElement): void {
-  let icon = node.children[0];
-  let text = node.children[1];
-  let shortcut = node.children[2];
-  node.className = createItemClass(item);
-  icon.className = createIconClass(item);
-  text.textContent = createTextContent(item);
-  shortcut.textContent = createShortcutText(item);
-}
-
-
-/**
- * A type alias for a simple rect.
- */
-type Rect = { x: number, y: number, width: number, height: number };
-
-
-/**
- * A type alias for a simple size.
- */
-type Size = { width: number, height: number };
-
-
-/**
- * Get the currently visible viewport rect in page coordinates.
- */
-function clientViewportRect(): Rect {
-  let elem = document.documentElement;
-  let x = window.pageXOffset;
-  let y = window.pageYOffset;
-  let width = elem.clientWidth;
-  let height = elem.clientHeight;
-  return { x: x, y: y, width: width, height: height };
-}
-
-
-/**
- * Mount the menu as hidden and compute its optimal size.
- *
- * If the vertical scrollbar becomes visible, the menu will be expanded
- * by the scrollbar width to prevent clipping the contents of the menu.
- */
-function mountAndMeasure(menu: Menu, maxHeight: number): Size {
-  let node = menu.node;
-  let style = node.style;
-  style.top = '';
-  style.left = '';
-  style.width = '';
-  style.height = '';
-  style.visibility = 'hidden';
-  style.maxHeight = maxHeight + 'px';
-  menu.attach(document.body);
-  if (node.scrollHeight > maxHeight) {
-    style.width = 2 * node.offsetWidth - node.clientWidth + 'px';
-  }
-  let rect = node.getBoundingClientRect();
-  return { width: rect.width, height: rect.height };
-}
-
-
-/**
- * Show the menu at the specified position.
- */
-function showMenu(menu: Menu, x: number, y: number): void {
-  let style = menu.node.style;
-  style.top = Math.max(0, y) + 'px';
-  style.left = Math.max(0, x) + 'px';
-  style.visibility = '';
-}
-
-
-/**
- * Open the menu as a root menu at the target location.
- */
-function openRootMenu(menu: Menu, x: number, y: number, forceX: boolean, forceY: boolean): void {
-  sendMessage(menu, Widget.MsgUpdateRequest);
-  let rect = clientViewportRect();
-  let size = mountAndMeasure(menu, rect.height - (forceY ? y : 0));
-  if (!forceX && (x + size.width > rect.x + rect.width)) {
-    x = rect.x + rect.width - size.width;
-  }
-  if (!forceY && (y + size.height > rect.y + rect.height)) {
-    if (y > rect.y + rect.height) {
-      y = rect.y + rect.height - size.height;
-    } else {
-      y = y - size.height;
+  /**
+   * Open the menu as a root menu at the target location.
+   */
+  export
+  function openRootMenu(menu: Menu, x: number, y: number, forceX: boolean, forceY: boolean): void {
+    sendMessage(menu, Widget.MsgUpdateRequest);
+    let rect = clientViewportRect();
+    let size = mountAndMeasure(menu, rect.height - (forceY ? y : 0));
+    if (!forceX && (x + size.width > rect.x + rect.width)) {
+      x = rect.x + rect.width - size.width;
     }
+    if (!forceY && (y + size.height > rect.y + rect.height)) {
+      if (y > rect.y + rect.height) {
+        y = rect.y + rect.height - size.height;
+      } else {
+        y = y - size.height;
+      }
+    }
+    showMenu(menu, x, y);
   }
-  showMenu(menu, x, y);
-}
 
+  /**
+   * Open a the menu as a submenu using the item node for positioning.
+   */
+  export
+  function openSubmenu(menu: Menu, item: HTMLElement): void {
+    sendMessage(menu, Widget.MsgUpdateRequest);
+    let rect = clientViewportRect();
+    let size = mountAndMeasure(menu, rect.height);
+    let box = boxSizing(menu.node);
+    let itemRect = item.getBoundingClientRect();
+    let x = itemRect.right - SUBMENU_OVERLAP;
+    let y = itemRect.top - box.borderTop - box.paddingTop;
+    if (x + size.width > rect.x + rect.width) {
+      x = itemRect.left + SUBMENU_OVERLAP - size.width;
+    }
+    if (y + size.height > rect.y + rect.height) {
+      y = itemRect.bottom + box.borderBottom + box.paddingBottom - size.height;
+    }
+    showMenu(menu, x, y);
+  }
 
-/**
- * Open a the menu as a submenu using the item node for positioning.
- */
-function openSubmenu(menu: Menu, item: HTMLElement): void {
-  sendMessage(menu, Widget.MsgUpdateRequest);
-  let rect = clientViewportRect();
-  let size = mountAndMeasure(menu, rect.height);
-  let box = boxSizing(menu.node);
-  let itemRect = item.getBoundingClientRect();
-  let x = itemRect.right - SUBMENU_OVERLAP;
-  let y = itemRect.top - box.borderTop - box.paddingTop;
-  if (x + size.width > rect.x + rect.width) {
-    x = itemRect.left + SUBMENU_OVERLAP - size.width;
+  /**
+   * A type alias for a simple size.
+   */
+  type Size = { width: number, height: number };
+
+  /**
+   * A type alias for a simple rect.
+   */
+  type Rect = { x: number, y: number, width: number, height: number };
+
+  /**
+   * Get the currently visible viewport rect in page coordinates.
+   */
+  function clientViewportRect(): Rect {
+    let elem = document.documentElement;
+    let x = window.pageXOffset;
+    let y = window.pageYOffset;
+    let width = elem.clientWidth;
+    let height = elem.clientHeight;
+    return { x: x, y: y, width: width, height: height };
   }
-  if (y + size.height > rect.y + rect.height) {
-    y = itemRect.bottom + box.borderBottom + box.paddingBottom - size.height;
+
+  /**
+   * Mount the menu as hidden and compute its optimal size.
+   *
+   * If the vertical scrollbar becomes visible, the menu will be expanded
+   * by the scrollbar width to prevent clipping the contents of the menu.
+   */
+  function mountAndMeasure(menu: Menu, maxHeight: number): Size {
+    let node = menu.node;
+    let style = node.style;
+    style.top = '';
+    style.left = '';
+    style.width = '';
+    style.height = '';
+    style.visibility = 'hidden';
+    style.maxHeight = `${maxHeight}px`;
+    menu.attach(document.body);
+    if (node.scrollHeight > maxHeight) {
+      style.width = `${2 * node.offsetWidth - node.clientWidth}px`;
+    }
+    let rect = node.getBoundingClientRect();
+    return { width: rect.width, height: rect.height };
   }
-  showMenu(menu, x, y);
+
+  /**
+   * Show the menu at the specified position.
+   */
+  function showMenu(menu: Menu, x: number, y: number): void {
+    let style = menu.node.style;
+    style.top = `${Math.max(0, y)}px`;
+    style.left = `${Math.max(0, x)}px`;
+    style.visibility = '';
+  }
 }

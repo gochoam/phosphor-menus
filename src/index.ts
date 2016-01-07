@@ -7,9 +7,9 @@
 |----------------------------------------------------------------------------*/
 'use strict';
 
+export * from './base';
 export * from './menu';
 export * from './menubar';
-export * from './menubase';
 export * from './menuitem';
 
 import './index.css';
