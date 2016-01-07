@@ -133,11 +133,10 @@ class MenuBar extends AbstractMenu {
    * updated.
    */
   static updateItemNode(node: HTMLElement, item: MenuItem): void {
-    let extra = MenuBarPrivate.extraItemClass(item);
     let sep = item.type === MenuItem.Separator;
     let icon = node.firstChild as HTMLElement;
     let text = node.lastChild as HTMLElement;
-    node.className = ITEM_CLASS + (extra ? ' ' + extra : '');
+    node.className = MenuBarPrivate.createItemClass(item);
     icon.className = ICON_CLASS + (item.icon ? ' ' + item.icon : '');
     text.textContent = sep ? '' : item.text.replace(/&/g, '');
   }
@@ -607,15 +606,19 @@ class MenuBar extends AbstractMenu {
  */
 namespace MenuBarPrivate {
   /**
-   * Create the extra class name for a menu bar item.
+   * Create the class name for a menu bar item.
    */
   export
-  function extraItemClass(item: MenuItem): string {
-    let name = item.className;
+  function createItemClass(item: MenuItem): string {
+    let name = ITEM_CLASS;
+    if (item.className) {
+      name += ' ' + item.className;
+    }
     if (item.type === MenuItem.Separator) {
-      name += ' ' + SEPARATOR_TYPE_CLASS;
-    } else if (item.type === MenuItem.Submenu && !item.submenu) {
-      name += ' ' + DISABLED_CLASS;
+      return name + ' ' + SEPARATOR_TYPE_CLASS;
+    }
+    if (item.type === MenuItem.Submenu && !item.submenu) {
+      return name + ' ' + DISABLED_CLASS;
     }
     return name;
   }
