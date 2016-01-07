@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Menu | phosphor-menus</title>
+	<title>AbstractMenu | phosphor-menus</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -57,10 +57,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="menu.html">Menu</a>
+					<a href="abstractmenu.html">AbstractMenu</a>
 				</li>
 			</ul>
-			<h1>Class Menu</h1>
+			<h1>Class AbstractMenu</h1>
 		</div>
 	</div>
 </header>
@@ -70,18 +70,28 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>A widget which displays menu items as a popup menu.</p>
+						<p>An abstract base class for implementing menu widgets.</p>
 					</div>
+					<h4 id="notes">Notes</h4>
+					<p>This class must be subclassed to create a useful menu.</p>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="abstractmenu.html" class="tsd-signature-type">AbstractMenu</a>
+						<span class="tsd-signature-type">Widget</span>
 						<ul class="tsd-hierarchy">
 							<li>
-								<span class="target">Menu</span>
+								<span class="target">AbstractMenu</span>
+								<ul class="tsd-hierarchy">
+									<li>
+										<a href="menu.html" class="tsd-signature-type">Menu</a>
+									</li>
+									<li>
+										<a href="menubar.html" class="tsd-signature-type">MenuBar</a>
+									</li>
+								</ul>
 							</li>
 						</ul>
 					</li>
@@ -99,145 +109,109 @@
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section tsd-is-external">
+							<h3>Modules</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-module tsd-parent-kind-class tsd-is-external"><a href="../modules/abstractmenu.widget.html" class="tsd-kind-icon">Widget</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section tsd-is-inherited tsd-is-external">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite tsd-is-external"><a href="menu.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external"><a href="abstractmenu.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-external">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external"><a href="menu.html#_childitem" class="tsd-kind-icon">_child<wbr>Item</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external"><a href="menu.html#_childmenu" class="tsd-kind-icon">_child<wbr>Menu</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external"><a href="menu.html#_closetimerid" class="tsd-kind-icon">_close<wbr>Timer<wbr>Id</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external"><a href="menu.html#_nodes" class="tsd-kind-icon">_nodes</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external"><a href="menu.html#_opentimerid" class="tsd-kind-icon">_open<wbr>Timer<wbr>Id</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external"><a href="menu.html#_parentmenu" class="tsd-kind-icon">_parent<wbr>Menu</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#disposed" class="tsd-kind-icon">disposed</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#id" class="tsd-kind-icon">id</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#isattached" class="tsd-kind-icon">is<wbr>Attached</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#isdisposed" class="tsd-kind-icon">is<wbr>Disposed</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#ishidden" class="tsd-kind-icon">is<wbr>Hidden</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#isvisible" class="tsd-kind-icon">is<wbr>Visible</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#layout" class="tsd-kind-icon">layout</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#node" class="tsd-kind-icon">node</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#parent" class="tsd-kind-icon">parent</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#title" class="tsd-kind-icon">title</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external"><a href="abstractmenu.html#_activeindex" class="tsd-kind-icon">_active<wbr>Index</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external"><a href="abstractmenu.html#_items" class="tsd-kind-icon">_items</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="abstractmenu.html#disposed" class="tsd-kind-icon">disposed</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="abstractmenu.html#id" class="tsd-kind-icon">id</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="abstractmenu.html#isattached" class="tsd-kind-icon">is<wbr>Attached</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="abstractmenu.html#isdisposed" class="tsd-kind-icon">is<wbr>Disposed</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="abstractmenu.html#ishidden" class="tsd-kind-icon">is<wbr>Hidden</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="abstractmenu.html#isvisible" class="tsd-kind-icon">is<wbr>Visible</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="abstractmenu.html#layout" class="tsd-kind-icon">layout</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="abstractmenu.html#node" class="tsd-kind-icon">node</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="abstractmenu.html#parent" class="tsd-kind-icon">parent</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="abstractmenu.html#title" class="tsd-kind-icon">title</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-external">
 							<h3>Accessors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#activeindex" class="tsd-kind-icon">active<wbr>Index</a></li>
-								<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#activeitem" class="tsd-kind-icon">active<wbr>Item</a></li>
-								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-external"><a href="menu.html#childmenu" class="tsd-kind-icon">child<wbr>Menu</a></li>
-								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-external"><a href="menu.html#closed" class="tsd-kind-icon">closed</a></li>
-								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-external"><a href="menu.html#contentnode" class="tsd-kind-icon">content<wbr>Node</a></li>
-								<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#items" class="tsd-kind-icon">items</a></li>
-								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-external"><a href="menu.html#leafmenu" class="tsd-kind-icon">leaf<wbr>Menu</a></li>
-								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-external"><a href="menu.html#parentmenu" class="tsd-kind-icon">parent<wbr>Menu</a></li>
-								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-external"><a href="menu.html#rootmenu" class="tsd-kind-icon">root<wbr>Menu</a></li>
+								<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-external"><a href="abstractmenu.html#activeindex" class="tsd-kind-icon">active<wbr>Index</a></li>
+								<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-external"><a href="abstractmenu.html#activeitem" class="tsd-kind-icon">active<wbr>Item</a></li>
+								<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-external"><a href="abstractmenu.html#items" class="tsd-kind-icon">items</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-external">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external"><a href="menu.html#_cancelpendingclose" class="tsd-kind-icon">_cancel<wbr>Pending<wbr>Close</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external"><a href="menu.html#_cancelpendingopen" class="tsd-kind-icon">_cancel<wbr>Pending<wbr>Open</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external"><a href="menu.html#_closechildmenu" class="tsd-kind-icon">_close<wbr>Child<wbr>Menu</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external"><a href="menu.html#_evtkeydown" class="tsd-kind-icon">_evt<wbr>Key<wbr>Down</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external"><a href="menu.html#_evtkeypress" class="tsd-kind-icon">_evt<wbr>Key<wbr>Press</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external"><a href="menu.html#_evtmousedown" class="tsd-kind-icon">_evt<wbr>Mouse<wbr>Down</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external"><a href="menu.html#_evtmouseleave" class="tsd-kind-icon">_evt<wbr>Mouse<wbr>Leave</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external"><a href="menu.html#_evtmousemove" class="tsd-kind-icon">_evt<wbr>Mouse<wbr>Move</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external"><a href="menu.html#_evtmouseup" class="tsd-kind-icon">_evt<wbr>Mouse<wbr>Up</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external"><a href="menu.html#_openchildmenu" class="tsd-kind-icon">_open<wbr>Child<wbr>Menu</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external"><a href="menu.html#_syncancestors" class="tsd-kind-icon">_sync<wbr>Ancestors</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external"><a href="menu.html#_syncchilditem" class="tsd-kind-icon">_sync<wbr>Child<wbr>Item</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#activatemnemonicitem" class="tsd-kind-icon">activate<wbr>Mnemonic<wbr>Item</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#activatenextitem" class="tsd-kind-icon">activate<wbr>Next<wbr>Item</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#activatepreviousitem" class="tsd-kind-icon">activate<wbr>Previous<wbr>Item</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#addclass" class="tsd-kind-icon">add<wbr>Class</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#attach" class="tsd-kind-icon">attach</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#clearflag" class="tsd-kind-icon">clear<wbr>Flag</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#close" class="tsd-kind-icon">close</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#compressmessage" class="tsd-kind-icon">compress<wbr>Message</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#contains" class="tsd-kind-icon">contains</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#detach" class="tsd-kind-icon">detach</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-external"><a href="menu.html#dispose" class="tsd-kind-icon">dispose</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#fit" class="tsd-kind-icon">fit</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-external"><a href="menu.html#handleevent" class="tsd-kind-icon">handle<wbr>Event</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#hasclass" class="tsd-kind-icon">has<wbr>Class</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#hide" class="tsd-kind-icon">hide</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external"><a href="menu.html#isselectable" class="tsd-kind-icon">is<wbr>Selectable</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external"><a href="menu.html#notifylayout" class="tsd-kind-icon">notify<wbr>Layout</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external"><a href="menu.html#onactiveindexchanged" class="tsd-kind-icon">on<wbr>Active<wbr>Index<wbr>Changed</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external"><a href="menu.html#onafterattach" class="tsd-kind-icon">on<wbr>After<wbr>Attach</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external"><a href="menu.html#onaftershow" class="tsd-kind-icon">on<wbr>After<wbr>Show</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external"><a href="menu.html#onbeforedetach" class="tsd-kind-icon">on<wbr>Before<wbr>Detach</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external"><a href="menu.html#onbeforehide" class="tsd-kind-icon">on<wbr>Before<wbr>Hide</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external"><a href="menu.html#onchildadded" class="tsd-kind-icon">on<wbr>Child<wbr>Added</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external"><a href="menu.html#onchildremoved" class="tsd-kind-icon">on<wbr>Child<wbr>Removed</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external"><a href="menu.html#oncloserequest" class="tsd-kind-icon">on<wbr>Close<wbr>Request</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external"><a href="menu.html#onitemschanged" class="tsd-kind-icon">on<wbr>Items<wbr>Changed</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external"><a href="menu.html#onresize" class="tsd-kind-icon">on<wbr>Resize</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external"><a href="menu.html#onupdaterequest" class="tsd-kind-icon">on<wbr>Update<wbr>Request</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-external"><a href="menu.html#open" class="tsd-kind-icon">open</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-external"><a href="menu.html#openactiveitem" class="tsd-kind-icon">open<wbr>Active<wbr>Item</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-external"><a href="menu.html#popup" class="tsd-kind-icon">popup</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#processmessage" class="tsd-kind-icon">process<wbr>Message</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#removeclass" class="tsd-kind-icon">remove<wbr>Class</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#setflag" class="tsd-kind-icon">set<wbr>Flag</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#sethidden" class="tsd-kind-icon">set<wbr>Hidden</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#show" class="tsd-kind-icon">show</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#testflag" class="tsd-kind-icon">test<wbr>Flag</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#toggleclass" class="tsd-kind-icon">toggle<wbr>Class</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-external"><a href="menu.html#triggeractiveitem" class="tsd-kind-icon">trigger<wbr>Active<wbr>Item</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="menu.html#update" class="tsd-kind-icon">update</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static tsd-is-external"><a href="menu.html#createitemnode" class="tsd-kind-icon">create<wbr>Item<wbr>Node</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-static tsd-is-external"><a href="menu.html#createnode" class="tsd-kind-icon">create<wbr>Node</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static tsd-is-external"><a href="menu.html#updateitemnode" class="tsd-kind-icon">update<wbr>Item<wbr>Node</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-external"><a href="abstractmenu.html#activatemnemonicitem" class="tsd-kind-icon">activate<wbr>Mnemonic<wbr>Item</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-external"><a href="abstractmenu.html#activatenextitem" class="tsd-kind-icon">activate<wbr>Next<wbr>Item</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-external"><a href="abstractmenu.html#activatepreviousitem" class="tsd-kind-icon">activate<wbr>Previous<wbr>Item</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="abstractmenu.html#addclass" class="tsd-kind-icon">add<wbr>Class</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="abstractmenu.html#attach" class="tsd-kind-icon">attach</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="abstractmenu.html#clearflag" class="tsd-kind-icon">clear<wbr>Flag</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="abstractmenu.html#close" class="tsd-kind-icon">close</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="abstractmenu.html#compressmessage" class="tsd-kind-icon">compress<wbr>Message</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="abstractmenu.html#contains" class="tsd-kind-icon">contains</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="abstractmenu.html#detach" class="tsd-kind-icon">detach</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="abstractmenu.html#dispose" class="tsd-kind-icon">dispose</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="abstractmenu.html#fit" class="tsd-kind-icon">fit</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="abstractmenu.html#hasclass" class="tsd-kind-icon">has<wbr>Class</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="abstractmenu.html#hide" class="tsd-kind-icon">hide</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-external"><a href="abstractmenu.html#isselectable" class="tsd-kind-icon">is<wbr>Selectable</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external"><a href="abstractmenu.html#notifylayout" class="tsd-kind-icon">notify<wbr>Layout</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-external"><a href="abstractmenu.html#onactiveindexchanged" class="tsd-kind-icon">on<wbr>Active<wbr>Index<wbr>Changed</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external"><a href="abstractmenu.html#onafterattach" class="tsd-kind-icon">on<wbr>After<wbr>Attach</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external"><a href="abstractmenu.html#onaftershow" class="tsd-kind-icon">on<wbr>After<wbr>Show</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external"><a href="abstractmenu.html#onbeforedetach" class="tsd-kind-icon">on<wbr>Before<wbr>Detach</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external"><a href="abstractmenu.html#onbeforehide" class="tsd-kind-icon">on<wbr>Before<wbr>Hide</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external"><a href="abstractmenu.html#onchildadded" class="tsd-kind-icon">on<wbr>Child<wbr>Added</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external"><a href="abstractmenu.html#onchildremoved" class="tsd-kind-icon">on<wbr>Child<wbr>Removed</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external"><a href="abstractmenu.html#oncloserequest" class="tsd-kind-icon">on<wbr>Close<wbr>Request</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-external"><a href="abstractmenu.html#onitemschanged" class="tsd-kind-icon">on<wbr>Items<wbr>Changed</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external"><a href="abstractmenu.html#onresize" class="tsd-kind-icon">on<wbr>Resize</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external"><a href="abstractmenu.html#onupdaterequest" class="tsd-kind-icon">on<wbr>Update<wbr>Request</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="abstractmenu.html#processmessage" class="tsd-kind-icon">process<wbr>Message</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="abstractmenu.html#removeclass" class="tsd-kind-icon">remove<wbr>Class</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="abstractmenu.html#setflag" class="tsd-kind-icon">set<wbr>Flag</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="abstractmenu.html#sethidden" class="tsd-kind-icon">set<wbr>Hidden</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="abstractmenu.html#show" class="tsd-kind-icon">show</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="abstractmenu.html#testflag" class="tsd-kind-icon">test<wbr>Flag</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="abstractmenu.html#toggleclass" class="tsd-kind-icon">toggle<wbr>Class</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="abstractmenu.html#update" class="tsd-kind-icon">update</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static tsd-is-external"><a href="abstractmenu.html#createnode" class="tsd-kind-icon">create<wbr>Node</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group tsd-is-external">
+			<section class="tsd-panel-group tsd-member-group tsd-is-inherited tsd-is-external">
 				<h2>Constructors</h2>
-				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite tsd-is-external">
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external">
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
-					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Menu<span class="tsd-signature-symbol">(</span>items<span class="tsd-signature-symbol">?: </span><a href="menuitem.html" class="tsd-signature-type">MenuItem</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="menu.html" class="tsd-signature-type">Menu</a></li>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Abstract<wbr>Menu<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="abstractmenu.html" class="tsd-signature-type">AbstractMenu</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overwrites Widget.__constructor</p>
+								<p>Inherited from Widget.__constructor</p>
+								<p>Overwrites NodeWrapper.__constructor</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L189">menu.ts:189</a></li>
+									<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:17</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Construct a new menu.</p>
+									<p>Construct a new widget.</p>
 								</div>
 							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> items: <a href="menuitem.html" class="tsd-signature-type">MenuItem</a><span class="tsd-signature-symbol">[]</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<div class="lead">
-											<p>Optional menu items to initialize the menu.</p>
-											<h4 id="notes">Notes</h4>
-											<p>Subclasses should not pass menu items to <code>super</code>. The subclass
-											should set its own items after it has been fully initialized.</p>
-										</div>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="menu.html" class="tsd-signature-type">Menu</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="abstractmenu.html" class="tsd-signature-type">AbstractMenu</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -245,62 +219,22 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-external">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external">
-					<a name="_childitem" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _child<wbr>Item</h3>
-					<div class="tsd-signature tsd-kind-icon">_child<wbr>Item<span class="tsd-signature-symbol">:</span> <a href="menuitem.html" class="tsd-signature-type">MenuItem</a></div>
+					<a name="_activeindex" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _active<wbr>Index</h3>
+					<div class="tsd-signature tsd-kind-icon">_active<wbr>Index<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L813">menu.ts:813</a></li>
+							<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/base.ts#L207">base.ts:207</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external">
-					<a name="_childmenu" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _child<wbr>Menu</h3>
-					<div class="tsd-signature tsd-kind-icon">_child<wbr>Menu<span class="tsd-signature-symbol">:</span> <a href="menu.html" class="tsd-signature-type">Menu</a></div>
+					<a name="_items" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _items</h3>
+					<div class="tsd-signature tsd-kind-icon">_items<span class="tsd-signature-symbol">:</span> <a href="menuitem.html" class="tsd-signature-type">MenuItem</a><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L812">menu.ts:812</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external">
-					<a name="_closetimerid" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _close<wbr>Timer<wbr>Id</h3>
-					<div class="tsd-signature tsd-kind-icon">_close<wbr>Timer<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L810">menu.ts:810</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external">
-					<a name="_nodes" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _nodes</h3>
-					<div class="tsd-signature tsd-kind-icon">_nodes<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">HTMLElement</span><span class="tsd-signature-symbol">[]</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L814">menu.ts:814</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external">
-					<a name="_opentimerid" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _open<wbr>Timer<wbr>Id</h3>
-					<div class="tsd-signature tsd-kind-icon">_open<wbr>Timer<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L809">menu.ts:809</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external">
-					<a name="_parentmenu" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _parent<wbr>Menu</h3>
-					<div class="tsd-signature tsd-kind-icon">_parent<wbr>Menu<span class="tsd-signature-symbol">:</span> <a href="menu.html" class="tsd-signature-type">Menu</a></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L811">menu.ts:811</a></li>
+							<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/base.ts#L208">base.ts:208</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -318,7 +252,7 @@
 						<div class="lead">
 							<p>A signal emitted when the widget is disposed.</p>
 						</div>
-						<p><strong>See also:</strong> <a href="menu.html#dispose">dispose</a>, <a href="menu.html#disposed">disposed</a></p>
+						<p><strong>See also:</strong> <a href="abstractmenu.html#dispose">dispose</a>, <a href="abstractmenu.html#disposed">disposed</a></p>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
@@ -353,7 +287,7 @@
 						</div>
 						<h4 id="notes">Notes</h4>
 						<p>This is a read-only property.</p>
-						<p><strong>See also:</strong> <a href="menu.html#attach">attach</a>, <a href="menu.html#detach">detach</a></p>
+						<p><strong>See also:</strong> <a href="abstractmenu.html#attach">attach</a>, <a href="abstractmenu.html#detach">detach</a></p>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
@@ -372,7 +306,7 @@
 						</div>
 						<h4 id="notes">Notes</h4>
 						<p>This is a read-only property.</p>
-						<p><strong>See also:</strong> <a href="menu.html#dispose">dispose</a>, <a href="menu.html#disposed">disposed</a></p>
+						<p><strong>See also:</strong> <a href="abstractmenu.html#dispose">dispose</a>, <a href="abstractmenu.html#disposed">disposed</a></p>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
@@ -391,7 +325,7 @@
 						</div>
 						<h4 id="notes">Notes</h4>
 						<p>This is a read-only property.</p>
-						<p><strong>See also:</strong> <a href="menu.html#isvisible">isVisible</a>, <a href="menu.html#hide">hide</a>, <a href="menu.html#show">show</a></p>
+						<p><strong>See also:</strong> <a href="abstractmenu.html#isvisible">isVisible</a>, <a href="abstractmenu.html#hide">hide</a>, <a href="abstractmenu.html#show">show</a></p>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
@@ -412,7 +346,7 @@
 						<p>A widget is visible when it is attached to the DOM, is not
 						explicitly hidden, and has no explicitly hidden ancestors.</p>
 						<p>This is a read-only property.</p>
-						<p><strong>See also:</strong> <a href="menu.html#ishidden">isHidden</a>, <a href="menu.html#hide">hide</a>, <a href="menu.html#show">show</a></p>
+						<p><strong>See also:</strong> <a href="abstractmenu.html#ishidden">isHidden</a>, <a href="abstractmenu.html#hide">hide</a>, <a href="abstractmenu.html#show">show</a></p>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
@@ -496,17 +430,16 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group tsd-is-external">
 				<h2>Accessors</h2>
-				<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+				<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-external">
 					<a name="activeindex" class="tsd-anchor"></a>
 					<h3>active<wbr>Index</h3>
-					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-external">
 						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> activeIndex<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
 						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> activeIndex<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="abstractmenu.html">AbstractMenu</a>.<a href="abstractmenu.html#activeindex">activeIndex</a></p>
 								<ul>
 									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/base.ts#L102">base.ts:102</a></li>
 								</ul>
@@ -522,7 +455,6 @@
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="abstractmenu.html">AbstractMenu</a>.<a href="abstractmenu.html#activeindex">activeIndex</a></p>
 								<ul>
 									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/base.ts#L115">base.ts:115</a></li>
 								</ul>
@@ -546,17 +478,16 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+				<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-external">
 					<a name="activeitem" class="tsd-anchor"></a>
 					<h3>active<wbr>Item</h3>
-					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-external">
 						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> activeItem<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="menuitem.html" class="tsd-signature-type">MenuItem</a></li>
 						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> activeItem<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="menuitem.html" class="tsd-signature-type">MenuItem</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="abstractmenu.html">AbstractMenu</a>.<a href="abstractmenu.html#activeitem">activeItem</a></p>
 								<ul>
 									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/base.ts#L135">base.ts:135</a></li>
 								</ul>
@@ -572,7 +503,6 @@
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="abstractmenu.html">AbstractMenu</a>.<a href="abstractmenu.html#activeitem">activeItem</a></p>
 								<ul>
 									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/base.ts#L148">base.ts:148</a></li>
 								</ul>
@@ -596,90 +526,16 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-external">
-					<a name="childmenu" class="tsd-anchor"></a>
-					<h3>child<wbr>Menu</h3>
-					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> childMenu<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="menu.html" class="tsd-signature-type">Menu</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L241">menu.ts:241</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Get the child menu of the menu.</p>
-								</div>
-								<h4 id="notes">Notes</h4>
-								<p>This will be <code>null</code> if the menu does not have an open submenu.</p>
-								<p>This is a read-only property.</p>
-							</div>
-							<h4 class="tsd-returns-title">Returns <a href="menu.html" class="tsd-signature-type">Menu</a></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-external">
-					<a name="closed" class="tsd-anchor"></a>
-					<h3>closed</h3>
-					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> closed<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ISignal</span><span class="tsd-signature-symbol">&lt;</span><a href="menu.html" class="tsd-signature-type">Menu</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L217">menu.ts:217</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>A signal emitted when the menu item is closed.</p>
-								</div>
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">ISignal</span><span class="tsd-signature-symbol">&lt;</span><a href="menu.html" class="tsd-signature-type">Menu</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-external">
-					<a name="contentnode" class="tsd-anchor"></a>
-					<h3>content<wbr>Node</h3>
-					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> contentNode<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HTMLElement</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L283">menu.ts:283</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Get the menu content node.</p>
-								</div>
-								<h4 id="notes">Notes</h4>
-								<p>This is the node which holds the menu item nodes.</p>
-								<p>Modifying this node directly can lead to undefined behavior.</p>
-								<p>This is a read-only property.</p>
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">HTMLElement</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+				<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-external">
 					<a name="items" class="tsd-anchor"></a>
 					<h3>items</h3>
-					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-external">
 						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> items<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="menuitem.html" class="tsd-signature-type">MenuItem</a><span class="tsd-signature-symbol">[]</span></li>
 						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> items<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="menuitem.html" class="tsd-signature-type">MenuItem</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="abstractmenu.html">AbstractMenu</a>.<a href="abstractmenu.html#items">items</a></p>
 								<ul>
 									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/base.ts#L76">base.ts:76</a></li>
 								</ul>
@@ -695,7 +551,6 @@
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="abstractmenu.html">AbstractMenu</a>.<a href="abstractmenu.html#items">items</a></p>
 								<ul>
 									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/base.ts#L86">base.ts:86</a></li>
 								</ul>
@@ -717,416 +572,18 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-external">
-					<a name="leafmenu" class="tsd-anchor"></a>
-					<h3>leaf<wbr>Menu</h3>
-					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> leafMenu<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="menu.html" class="tsd-signature-type">Menu</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L265">menu.ts:265</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Find the leaf menu of this menu hierarchy.</p>
-								</div>
-								<h4 id="notes">Notes</h4>
-								<p>This is a read-only property.</p>
-							</div>
-							<h4 class="tsd-returns-title">Returns <a href="menu.html" class="tsd-signature-type">Menu</a></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-external">
-					<a name="parentmenu" class="tsd-anchor"></a>
-					<h3>parent<wbr>Menu</h3>
-					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> parentMenu<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="menu.html" class="tsd-signature-type">Menu</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L229">menu.ts:229</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Get the parent menu of the menu.</p>
-								</div>
-								<h4 id="notes">Notes</h4>
-								<p>This will be <code>null</code> if the menu is not an open submenu.</p>
-								<p>This is a read-only property.</p>
-							</div>
-							<h4 class="tsd-returns-title">Returns <a href="menu.html" class="tsd-signature-type">Menu</a></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-external">
-					<a name="rootmenu" class="tsd-anchor"></a>
-					<h3>root<wbr>Menu</h3>
-					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> rootMenu<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="menu.html" class="tsd-signature-type">Menu</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L251">menu.ts:251</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Find the root menu of this menu hierarchy.</p>
-								</div>
-								<h4 id="notes">Notes</h4>
-								<p>This is a read-only property.</p>
-							</div>
-							<h4 class="tsd-returns-title">Returns <a href="menu.html" class="tsd-signature-type">Menu</a></h4>
-						</li>
-					</ul>
-				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group tsd-is-external">
 				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external">
-					<a name="_cancelpendingclose" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _cancel<wbr>Pending<wbr>Close</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">_cancel<wbr>Pending<wbr>Close<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L802">menu.ts:802</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Cancel any pending child menu close task.</p>
-								</div>
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external">
-					<a name="_cancelpendingopen" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _cancel<wbr>Pending<wbr>Open</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">_cancel<wbr>Pending<wbr>Open<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L792">menu.ts:792</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Cancel any pending child menu open task.</p>
-								</div>
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external">
-					<a name="_closechildmenu" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _close<wbr>Child<wbr>Menu</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">_close<wbr>Child<wbr>Menu<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L773">menu.ts:773</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Close the currently open child menu using a delayed task.</p>
-								</div>
-								<p>If a task is pending or if there is no child menu, this is a no-op.</p>
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external">
-					<a name="_evtkeydown" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _evt<wbr>Key<wbr>Down</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">_evt<wbr>Key<wbr>Down<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">KeyboardEvent</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L670">menu.ts:670</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Handle the <code>&#39;keydown&#39;</code> event for the menu.</p>
-								</div>
-								<p>This event listener is attached to the document for a popup menu.</p>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>event: <span class="tsd-signature-type">KeyboardEvent</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external">
-					<a name="_evtkeypress" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _evt<wbr>Key<wbr>Press</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">_evt<wbr>Key<wbr>Press<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">KeyboardEvent</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L706">menu.ts:706</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Handle the <code>&#39;keypress&#39;</code> event for the menu.</p>
-								</div>
-								<p>This event listener is attached to the document for a popup menu.</p>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>event: <span class="tsd-signature-type">KeyboardEvent</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external">
-					<a name="_evtmousedown" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _evt<wbr>Mouse<wbr>Down</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">_evt<wbr>Mouse<wbr>Down<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MouseEvent</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L638">menu.ts:638</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Handle the <code>&#39;mousedown&#39;</code> event for the menu.</p>
-								</div>
-								<p>This event listener is attached to the document for a popup menu.</p>
-								<p>This allows the event to propagate so the element under the mouse
-								can be focused without requiring a second click.</p>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>event: <span class="tsd-signature-type">MouseEvent</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external">
-					<a name="_evtmouseleave" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _evt<wbr>Mouse<wbr>Leave</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">_evt<wbr>Mouse<wbr>Leave<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MouseEvent</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L619">menu.ts:619</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Handle the <code>&#39;mouseleave&#39;</code> event for the menu.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>event: <span class="tsd-signature-type">MouseEvent</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external">
-					<a name="_evtmousemove" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _evt<wbr>Mouse<wbr>Move</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">_evt<wbr>Mouse<wbr>Move<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MouseEvent</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L595">menu.ts:595</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Handle the <code>&#39;mousemove&#39;</code> event for the menu.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>event: <span class="tsd-signature-type">MouseEvent</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external">
-					<a name="_evtmouseup" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _evt<wbr>Mouse<wbr>Up</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">_evt<wbr>Mouse<wbr>Up<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MouseEvent</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L653">menu.ts:653</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Handle the <code>&#39;mouseup&#39;</code> event for the menu.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>event: <span class="tsd-signature-type">MouseEvent</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external">
-					<a name="_openchildmenu" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _open<wbr>Child<wbr>Menu</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">_open<wbr>Child<wbr>Menu<span class="tsd-signature-symbol">(</span>item<span class="tsd-signature-symbol">: </span><a href="menuitem.html" class="tsd-signature-type">MenuItem</a>, node<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HTMLElement</span>, delayed<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L745">menu.ts:745</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Open the menu item&#39;s submenu using the node for location.</p>
-								</div>
-								<p>If the given item is already open, this is a no-op.</p>
-								<p>Any pending open operation will be canceled before opening the
-								menu or queuing the delayed task to open the menu.</p>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>item: <a href="menuitem.html" class="tsd-signature-type">MenuItem</a></h5>
-								</li>
-								<li>
-									<h5>node: <span class="tsd-signature-type">HTMLElement</span></h5>
-								</li>
-								<li>
-									<h5>delayed: <span class="tsd-signature-type">boolean</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external">
-					<a name="_syncancestors" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _sync<wbr>Ancestors</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">_sync<wbr>Ancestors<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L720">menu.ts:720</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Synchronize the active item hierarchy starting with the parent.</p>
-								</div>
-								<p>This ensures that the proper child items are activated for the
-									ancestor menu hierarchy and that any pending open or close tasks
-								are canceled.</p>
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external">
-					<a name="_syncchilditem" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _sync<wbr>Child<wbr>Item</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">_sync<wbr>Child<wbr>Item<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L731">menu.ts:731</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Synchronize the active index with the current child item.</p>
-								</div>
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-external">
 					<a name="activatemnemonicitem" class="tsd-anchor"></a>
 					<h3>activate<wbr>Mnemonic<wbr>Item</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-external">
 						<li class="tsd-signature tsd-kind-icon">activate<wbr>Mnemonic<wbr>Item<span class="tsd-signature-symbol">(</span>char<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="abstractmenu.html">AbstractMenu</a>.<a href="abstractmenu.html#activatemnemonicitem">activateMnemonicItem</a></p>
 								<ul>
 									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/base.ts#L191">base.ts:191</a></li>
 								</ul>
@@ -1151,16 +608,15 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-external">
 					<a name="activatenextitem" class="tsd-anchor"></a>
 					<h3>activate<wbr>Next<wbr>Item</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-external">
 						<li class="tsd-signature tsd-kind-icon">activate<wbr>Next<wbr>Item<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="abstractmenu.html">AbstractMenu</a>.<a href="abstractmenu.html#activatenextitem">activateNextItem</a></p>
 								<ul>
 									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/base.ts#L160">base.ts:160</a></li>
 								</ul>
@@ -1178,16 +634,15 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-external">
 					<a name="activatepreviousitem" class="tsd-anchor"></a>
 					<h3>activate<wbr>Previous<wbr>Item</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-external">
 						<li class="tsd-signature tsd-kind-icon">activate<wbr>Previous<wbr>Item<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="abstractmenu.html">AbstractMenu</a>.<a href="abstractmenu.html#activatepreviousitem">activatePreviousItem</a></p>
 								<ul>
 									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/base.ts#L175">base.ts:175</a></li>
 								</ul>
@@ -1436,24 +891,27 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-external">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 					<a name="dispose" class="tsd-anchor"></a>
 					<h3>dispose</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-external">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 						<li class="tsd-signature tsd-kind-icon">dispose<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overwrites Widget.dispose</p>
+								<p>Inherited from Widget.dispose</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L209">menu.ts:209</a></li>
+									<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:30</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Dispose of the resources held by the menu.</p>
+									<p>Dispose of the widget and its descendants.</p>
 								</div>
+								<h4 id="notes">Notes</h4>
+								<p>It is generally unsafe to use the widget after it is disposed.</p>
+								<p>All calls made to this method after the first are a no-op.</p>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
@@ -1479,41 +937,6 @@
 								</div>
 								<p><strong>See also:</strong> [[MsgFitRequest]]</p>
 							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-external">
-					<a name="handleevent" class="tsd-anchor"></a>
-					<h3>handle<wbr>Event</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">handle<wbr>Event<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Event</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L418">menu.ts:418</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Handle the DOM events for the menu.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>event: <span class="tsd-signature-type">Event</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The DOM event sent to the menu.</p>
-										<h4 id="notes">Notes</h4>
-										<p>This method implements the DOM <code>EventListener</code> interface and is
-											called in response to events on the menu&#39;s DOM nodes. It should
-										not be called directly by user code.</p>
-									</div>
-								</li>
-							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -1570,24 +993,23 @@
 									<p>Hide the widget and make it hidden to its parent widget.</p>
 								</div>
 								<h4 id="notes">Notes</h4>
-								<p>This causes the <a href="menu.html#ishidden">isHidden</a> property to be <code>true</code>.</p>
+								<p>This causes the <a href="abstractmenu.html#ishidden">isHidden</a> property to be <code>true</code>.</p>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-external">
 					<a name="isselectable" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> is<wbr>Selectable</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-external">
 						<li class="tsd-signature tsd-kind-icon">is<wbr>Selectable<span class="tsd-signature-symbol">(</span>item<span class="tsd-signature-symbol">: </span><a href="menuitem.html" class="tsd-signature-type">MenuItem</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overwrites <a href="abstractmenu.html">AbstractMenu</a>.<a href="abstractmenu.html#isselectable">isSelectable</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L452">menu.ts:452</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/base.ts#L40">base.ts:40</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1606,6 +1028,8 @@
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 							<p><code>true</code> if the item is selectable, <code>false</code> otherwise.</p>
+							<h4 id="notes">Notes</h4>
+							<p>This method must be implemented by a subclass.</p>
 						</li>
 					</ul>
 				</section>
@@ -1643,18 +1067,17 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-external">
 					<a name="onactiveindexchanged" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> on<wbr>Active<wbr>Index<wbr>Changed</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-external">
 						<li class="tsd-signature tsd-kind-icon">on<wbr>Active<wbr>Index<wbr>Changed<span class="tsd-signature-symbol">(</span>oldIndex<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, newIndex<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overwrites <a href="abstractmenu.html">AbstractMenu</a>.<a href="abstractmenu.html#onactiveindexchanged">onActiveIndexChanged</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L502">menu.ts:502</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/base.ts#L68">base.ts:68</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1674,6 +1097,9 @@
 									<h5>newIndex: <span class="tsd-signature-type">number</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>The new active index.</p>
+										<h4 id="notes">Notes</h4>
+										<p>This method must be implemented by a subclass.</p>
+										<p>This method will not be called when the menu items are changed.</p>
 									</div>
 								</li>
 							</ul>
@@ -1681,24 +1107,26 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
 					<a name="onafterattach" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> on<wbr>After<wbr>Attach</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
 						<li class="tsd-signature tsd-kind-icon">on<wbr>After<wbr>Attach<span class="tsd-signature-symbol">(</span>msg<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Message</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overwrites Widget.onAfterAttach</p>
+								<p>Inherited from Widget.onAfterAttach</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L572">menu.ts:572</a></li>
+									<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:285</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>A message handler invoked on an <code>&#39;after-attach&#39;</code> message.</p>
 								</div>
+								<p>The default implementation of this handler is a no-op.</p>
+								<p><strong>See also:</strong> [[MsgAfterAttach]]</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -1741,24 +1169,26 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
 					<a name="onbeforedetach" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> on<wbr>Before<wbr>Detach</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
 						<li class="tsd-signature tsd-kind-icon">on<wbr>Before<wbr>Detach<span class="tsd-signature-symbol">(</span>msg<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Message</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overwrites Widget.onBeforeDetach</p>
+								<p>Inherited from Widget.onBeforeDetach</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L582">menu.ts:582</a></li>
+									<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:293</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>A message handler invoked on a <code>&#39;before-detach&#39;</code> message.</p>
 								</div>
+								<p>The default implementation of this handler is a no-op.</p>
+								<p><strong>See also:</strong> [[MsgBeforeDetach]]</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -1863,24 +1293,27 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
 					<a name="oncloserequest" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> on<wbr>Close<wbr>Request</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
 						<li class="tsd-signature tsd-kind-icon">on<wbr>Close<wbr>Request<span class="tsd-signature-symbol">(</span>msg<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Message</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overwrites Widget.onCloseRequest</p>
+								<p>Inherited from Widget.onCloseRequest</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L512">menu.ts:512</a></li>
+									<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:245</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>A message handler invoked on a <code>&#39;close-request&#39;</code> message.</p>
 								</div>
+								<h4 id="notes">Notes</h4>
+								<p>The default implementation of this handler detaches the widget.</p>
+								<p><strong>See also:</strong> <a href="abstractmenu.html#close">close</a>, [[MsgCloseRequest]]</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -1892,18 +1325,17 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-external">
 					<a name="onitemschanged" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> on<wbr>Items<wbr>Changed</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-external">
 						<li class="tsd-signature tsd-kind-icon">on<wbr>Items<wbr>Changed<span class="tsd-signature-symbol">(</span>oldItems<span class="tsd-signature-symbol">: </span><a href="menuitem.html" class="tsd-signature-type">MenuItem</a><span class="tsd-signature-symbol">[]</span>, newItems<span class="tsd-signature-symbol">: </span><a href="menuitem.html" class="tsd-signature-type">MenuItem</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overwrites <a href="abstractmenu.html">AbstractMenu</a>.<a href="abstractmenu.html#onitemschanged">onItemsChanged</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L469">menu.ts:469</a></li>
+									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/base.ts#L54">base.ts:54</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1923,6 +1355,9 @@
 									<h5>newItems: <a href="menuitem.html" class="tsd-signature-type">MenuItem</a><span class="tsd-signature-symbol">[]</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>The new menu items.</p>
+										<h4 id="notes">Notes</h4>
+										<p>This method must be implemented by a subclass.</p>
+										<p>The active index is reset to <code>-1</code> before this method is called.</p>
 									</div>
 								</li>
 							</ul>
@@ -1961,175 +1396,31 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
 					<a name="onupdaterequest" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> on<wbr>Update<wbr>Request</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
 						<li class="tsd-signature tsd-kind-icon">on<wbr>Update<wbr>Request<span class="tsd-signature-symbol">(</span>msg<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Message</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overwrites Widget.onUpdateRequest</p>
+								<p>Inherited from Widget.onUpdateRequest</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L550">menu.ts:550</a></li>
+									<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/lib/widget.d.ts:261</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>A handler invoked on an <code>&#39;update-request&#39;</code> message.</p>
+									<p>A message handler invoked on an <code>&#39;update-request&#39;</code> message.</p>
 								</div>
+								<p>The default implementation of this handler is a no-op.</p>
+								<p><strong>See also:</strong> <a href="abstractmenu.html#update">update</a>, [[MsgUpdateRequest]]</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>msg: <span class="tsd-signature-type">Message</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-external">
-					<a name="open" class="tsd-anchor"></a>
-					<h3>open</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">open<span class="tsd-signature-symbol">(</span>x<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, y<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, forceX<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span>, forceY<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L402">menu.ts:402</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Open the menu at the specified location.</p>
-								</div>
-								<p>The menu will be opened at the given location unless it will not
-									fully fit on the screen. If it will not fit, it will be adjusted
-									to fit naturally on the screen. The last two optional parameters
-								control whether the provided coordinate value must be obeyed.</p>
-								<p>When the menu is opened with this method, it will not handle key
-									events for navigation, nor will it close itself when the mouse is
-									pressed outside the menu hierarchy. This is useful when using the
-									menu from a menubar, where the menubar should handle these tasks.
-								Use the <a href="menu.html#popup">popup</a> method for the alternative behavior.</p>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>x: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The client X coordinate of the popup location.</p>
-									</div>
-								</li>
-								<li>
-									<h5>y: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The client Y coordinate of the popup location.</p>
-									</div>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> forceX: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>Whether the X coordinate must be obeyed.</p>
-									</div>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> forceY: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>Whether the Y coordinate must be obeyed.</p>
-										<h4 id="notes">Notes</h4>
-										<p>This is a no-op if the menu is already attached to the DOM.</p>
-										<p><strong>See also:</strong> <a href="menu.html#popup">popup</a></p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-external">
-					<a name="openactiveitem" class="tsd-anchor"></a>
-					<h3>open<wbr>Active<wbr>Item</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">open<wbr>Active<wbr>Item<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L294">menu.ts:294</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Open the submenu of the active item, if possible.</p>
-								</div>
-								<h4 id="notes">Notes</h4>
-								<p>This is a no-op if the menu is not visible, if there is no
-								active item, or if the active item does not have a submenu.</p>
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-external">
-					<a name="popup" class="tsd-anchor"></a>
-					<h3>popup</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">popup<span class="tsd-signature-symbol">(</span>x<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, y<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, forceX<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span>, forceY<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L366">menu.ts:366</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Popup the menu at the specified location.</p>
-								</div>
-								<p>The menu will be opened at the given location unless it will not
-									fully fit on the screen. If it will not fit, it will be adjusted
-									to fit naturally on the screen. The last two optional parameters
-								control whether the provided coordinate value must be obeyed.</p>
-								<p>When the menu is opened as a popup menu, it will handle all key
-									events related to menu navigation as well as closing the menu
-									when the mouse is pressed outside of the menu hierarchy. To
-								prevent these actions, use the <a href="menu.html#open">open</a> method instead.</p>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>x: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The client X coordinate of the popup location.</p>
-									</div>
-								</li>
-								<li>
-									<h5>y: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The client Y coordinate of the popup location.</p>
-									</div>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> forceX: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>Whether the X coordinate must be obeyed.</p>
-									</div>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> forceY: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>Whether the Y coordinate must be obeyed.</p>
-										<h4 id="notes">Notes</h4>
-										<p>This is a no-op if the menu is already attached to the DOM.</p>
-										<p><strong>See also:</strong> <a href="menu.html#open">open</a></p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -2289,7 +1580,7 @@
 									<p>Show the widget and make it visible to its parent widget.</p>
 								</div>
 								<h4 id="notes">Notes</h4>
-								<p>This causes the <a href="menu.html#ishidden">isHidden</a> property to be <code>false</code>.</p>
+								<p>This causes the <a href="abstractmenu.html#ishidden">isHidden</a> property to be <code>false</code>.</p>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
@@ -2367,31 +1658,6 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-external">
-					<a name="triggeractiveitem" class="tsd-anchor"></a>
-					<h3>trigger<wbr>Active<wbr>Item</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">trigger<wbr>Active<wbr>Item<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L317">menu.ts:317</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Trigger the command of the active item, if possible.</p>
-								</div>
-								<h4 id="notes">Notes</h4>
-								<p>This is a no-op if the menu is not visible, if there is no
-								active item, or if the active item cannot be triggered.</p>
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 					<a name="update" class="tsd-anchor"></a>
 					<h3>update</h3>
@@ -2416,93 +1682,30 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static tsd-is-external">
-					<a name="createitemnode" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> create<wbr>Item<wbr>Node</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">create<wbr>Item<wbr>Node<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HTMLElement</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L148">menu.ts:148</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Create a new item node for a menu.</p>
-								</div>
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">HTMLElement</span></h4>
-							<p>A new DOM node to use as an item in a menu.</p>
-							<h4 id="notes">Notes</h4>
-							<p>This method may be reimplemented to create custom items.</p>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-static tsd-is-external">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static tsd-is-external">
 					<a name="createnode" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> create<wbr>Node</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-static tsd-is-external">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static tsd-is-external">
 						<li class="tsd-signature tsd-kind-icon">create<wbr>Node<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HTMLElement</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overwrites NodeWrapper.createNode</p>
+								<p>Inherited from NodeWrapper.createNode</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L132">menu.ts:132</a></li>
+									<li>Defined in /home/travis/build/phosphorjs/phosphor-menus/node_modules/phosphor-widget/node_modules/phosphor-nodewrapper/lib/index.d.ts:15</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Create the DOM node for a menu.</p>
+									<p>Create the DOM node for a new node wrapper instance.</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">HTMLElement</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static tsd-is-external">
-					<a name="updateitemnode" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> update<wbr>Item<wbr>Node</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">update<wbr>Item<wbr>Node<span class="tsd-signature-symbol">(</span>node<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HTMLElement</span>, item<span class="tsd-signature-symbol">: </span><a href="menuitem.html" class="tsd-signature-type">MenuItem</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/phosphorjs/phosphor-menus/blob/HEAD/src/menu.ts#L179">menu.ts:179</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Update an item node to reflect the current state of a menu item.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>node: <span class="tsd-signature-type">HTMLElement</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>A node created by a call to <a href="menu.html#createitemnode">createItemNode</a>.</p>
-									</div>
-								</li>
-								<li>
-									<h5>item: <a href="menuitem.html" class="tsd-signature-type">MenuItem</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The menu item to use for the item state.</p>
-										<h4 id="notes">Notes</h4>
-										<p>This is called automatically when the item should be updated.</p>
-										<p>If the <a href="menu.html#createitemnode">createItemNode</a> method is reimplemented, this method
-											should also be reimplemented so that the item state is properly
-										updated.</p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<p>The DOM node to use with the node wrapper instance.</p>
+							<h4 id="notes">Notes</h4>
+							<p>The default implementation creates an empty <code>&lt;div&gt;</code>.</p>
+							<p>This may be reimplemented by a subclass to create a custom node.</p>
 						</li>
 					</ul>
 				</section>
@@ -2521,261 +1724,174 @@
 					<li class=" tsd-kind-enum tsd-is-external">
 						<a href="../enums/menuitemtype.html" class="tsd-kind-icon">Menu<wbr>Item<wbr>Type</a>
 					</li>
-					<li class=" tsd-kind-class tsd-is-external">
-						<a href="abstractmenu.html" class="tsd-kind-icon">Abstract<wbr>Menu</a>
-					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class tsd-is-external">
-						<a href="menu.html" class="tsd-kind-icon">Menu</a>
+						<a href="abstractmenu.html" class="tsd-kind-icon">Abstract<wbr>Menu</a>
 						<ul>
-							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite tsd-is-external">
-								<a href="menu.html#constructor" class="tsd-kind-icon">constructor</a>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-external">
+								<a href="abstractmenu.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external">
-								<a href="menu.html#_childitem" class="tsd-kind-icon">_child<wbr>Item</a>
+								<a href="abstractmenu.html#_activeindex" class="tsd-kind-icon">_active<wbr>Index</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external">
-								<a href="menu.html#_childmenu" class="tsd-kind-icon">_child<wbr>Menu</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external">
-								<a href="menu.html#_closetimerid" class="tsd-kind-icon">_close<wbr>Timer<wbr>Id</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external">
-								<a href="menu.html#_nodes" class="tsd-kind-icon">_nodes</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external">
-								<a href="menu.html#_opentimerid" class="tsd-kind-icon">_open<wbr>Timer<wbr>Id</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external">
-								<a href="menu.html#_parentmenu" class="tsd-kind-icon">_parent<wbr>Menu</a>
+								<a href="abstractmenu.html#_items" class="tsd-kind-icon">_items</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-								<a href="menu.html#disposed" class="tsd-kind-icon">disposed</a>
+								<a href="abstractmenu.html#disposed" class="tsd-kind-icon">disposed</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-								<a href="menu.html#id" class="tsd-kind-icon">id</a>
+								<a href="abstractmenu.html#id" class="tsd-kind-icon">id</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-								<a href="menu.html#isattached" class="tsd-kind-icon">is<wbr>Attached</a>
+								<a href="abstractmenu.html#isattached" class="tsd-kind-icon">is<wbr>Attached</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-								<a href="menu.html#isdisposed" class="tsd-kind-icon">is<wbr>Disposed</a>
+								<a href="abstractmenu.html#isdisposed" class="tsd-kind-icon">is<wbr>Disposed</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-								<a href="menu.html#ishidden" class="tsd-kind-icon">is<wbr>Hidden</a>
+								<a href="abstractmenu.html#ishidden" class="tsd-kind-icon">is<wbr>Hidden</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-								<a href="menu.html#isvisible" class="tsd-kind-icon">is<wbr>Visible</a>
+								<a href="abstractmenu.html#isvisible" class="tsd-kind-icon">is<wbr>Visible</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-								<a href="menu.html#layout" class="tsd-kind-icon">layout</a>
+								<a href="abstractmenu.html#layout" class="tsd-kind-icon">layout</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-								<a href="menu.html#node" class="tsd-kind-icon">node</a>
+								<a href="abstractmenu.html#node" class="tsd-kind-icon">node</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-								<a href="menu.html#parent" class="tsd-kind-icon">parent</a>
+								<a href="abstractmenu.html#parent" class="tsd-kind-icon">parent</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-								<a href="menu.html#title" class="tsd-kind-icon">title</a>
+								<a href="abstractmenu.html#title" class="tsd-kind-icon">title</a>
 							</li>
-							<li class=" tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-								<a href="menu.html#activeindex" class="tsd-kind-icon">active<wbr>Index</a>
+							<li class=" tsd-kind-accessor tsd-parent-kind-class tsd-is-external">
+								<a href="abstractmenu.html#activeindex" class="tsd-kind-icon">active<wbr>Index</a>
 							</li>
-							<li class=" tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-								<a href="menu.html#activeitem" class="tsd-kind-icon">active<wbr>Item</a>
+							<li class=" tsd-kind-accessor tsd-parent-kind-class tsd-is-external">
+								<a href="abstractmenu.html#activeitem" class="tsd-kind-icon">active<wbr>Item</a>
 							</li>
-							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-external">
-								<a href="menu.html#childmenu" class="tsd-kind-icon">child<wbr>Menu</a>
-							</li>
-							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-external">
-								<a href="menu.html#closed" class="tsd-kind-icon">closed</a>
-							</li>
-							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-external">
-								<a href="menu.html#contentnode" class="tsd-kind-icon">content<wbr>Node</a>
-							</li>
-							<li class=" tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-								<a href="menu.html#items" class="tsd-kind-icon">items</a>
-							</li>
-							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-external">
-								<a href="menu.html#leafmenu" class="tsd-kind-icon">leaf<wbr>Menu</a>
-							</li>
-							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-external">
-								<a href="menu.html#parentmenu" class="tsd-kind-icon">parent<wbr>Menu</a>
-							</li>
-							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-external">
-								<a href="menu.html#rootmenu" class="tsd-kind-icon">root<wbr>Menu</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external">
-								<a href="menu.html#_cancelpendingclose" class="tsd-kind-icon">_cancel<wbr>Pending<wbr>Close</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external">
-								<a href="menu.html#_cancelpendingopen" class="tsd-kind-icon">_cancel<wbr>Pending<wbr>Open</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external">
-								<a href="menu.html#_closechildmenu" class="tsd-kind-icon">_close<wbr>Child<wbr>Menu</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external">
-								<a href="menu.html#_evtkeydown" class="tsd-kind-icon">_evt<wbr>Key<wbr>Down</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external">
-								<a href="menu.html#_evtkeypress" class="tsd-kind-icon">_evt<wbr>Key<wbr>Press</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external">
-								<a href="menu.html#_evtmousedown" class="tsd-kind-icon">_evt<wbr>Mouse<wbr>Down</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external">
-								<a href="menu.html#_evtmouseleave" class="tsd-kind-icon">_evt<wbr>Mouse<wbr>Leave</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external">
-								<a href="menu.html#_evtmousemove" class="tsd-kind-icon">_evt<wbr>Mouse<wbr>Move</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external">
-								<a href="menu.html#_evtmouseup" class="tsd-kind-icon">_evt<wbr>Mouse<wbr>Up</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external">
-								<a href="menu.html#_openchildmenu" class="tsd-kind-icon">_open<wbr>Child<wbr>Menu</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external">
-								<a href="menu.html#_syncancestors" class="tsd-kind-icon">_sync<wbr>Ancestors</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-external">
-								<a href="menu.html#_syncchilditem" class="tsd-kind-icon">_sync<wbr>Child<wbr>Item</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-								<a href="menu.html#activatemnemonicitem" class="tsd-kind-icon">activate<wbr>Mnemonic<wbr>Item</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-								<a href="menu.html#activatenextitem" class="tsd-kind-icon">activate<wbr>Next<wbr>Item</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-								<a href="menu.html#activatepreviousitem" class="tsd-kind-icon">activate<wbr>Previous<wbr>Item</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-								<a href="menu.html#addclass" class="tsd-kind-icon">add<wbr>Class</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-								<a href="menu.html#attach" class="tsd-kind-icon">attach</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-								<a href="menu.html#clearflag" class="tsd-kind-icon">clear<wbr>Flag</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-								<a href="menu.html#close" class="tsd-kind-icon">close</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-								<a href="menu.html#compressmessage" class="tsd-kind-icon">compress<wbr>Message</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-								<a href="menu.html#contains" class="tsd-kind-icon">contains</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-								<a href="menu.html#detach" class="tsd-kind-icon">detach</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-external">
-								<a href="menu.html#dispose" class="tsd-kind-icon">dispose</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-								<a href="menu.html#fit" class="tsd-kind-icon">fit</a>
+							<li class=" tsd-kind-accessor tsd-parent-kind-class tsd-is-external">
+								<a href="abstractmenu.html#items" class="tsd-kind-icon">items</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-external">
-								<a href="menu.html#handleevent" class="tsd-kind-icon">handle<wbr>Event</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-								<a href="menu.html#hasclass" class="tsd-kind-icon">has<wbr>Class</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-								<a href="menu.html#hide" class="tsd-kind-icon">hide</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external">
-								<a href="menu.html#isselectable" class="tsd-kind-icon">is<wbr>Selectable</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
-								<a href="menu.html#notifylayout" class="tsd-kind-icon">notify<wbr>Layout</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external">
-								<a href="menu.html#onactiveindexchanged" class="tsd-kind-icon">on<wbr>Active<wbr>Index<wbr>Changed</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external">
-								<a href="menu.html#onafterattach" class="tsd-kind-icon">on<wbr>After<wbr>Attach</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
-								<a href="menu.html#onaftershow" class="tsd-kind-icon">on<wbr>After<wbr>Show</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external">
-								<a href="menu.html#onbeforedetach" class="tsd-kind-icon">on<wbr>Before<wbr>Detach</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
-								<a href="menu.html#onbeforehide" class="tsd-kind-icon">on<wbr>Before<wbr>Hide</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
-								<a href="menu.html#onchildadded" class="tsd-kind-icon">on<wbr>Child<wbr>Added</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
-								<a href="menu.html#onchildremoved" class="tsd-kind-icon">on<wbr>Child<wbr>Removed</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external">
-								<a href="menu.html#oncloserequest" class="tsd-kind-icon">on<wbr>Close<wbr>Request</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external">
-								<a href="menu.html#onitemschanged" class="tsd-kind-icon">on<wbr>Items<wbr>Changed</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
-								<a href="menu.html#onresize" class="tsd-kind-icon">on<wbr>Resize</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected tsd-is-external">
-								<a href="menu.html#onupdaterequest" class="tsd-kind-icon">on<wbr>Update<wbr>Request</a>
+								<a href="abstractmenu.html#activatemnemonicitem" class="tsd-kind-icon">activate<wbr>Mnemonic<wbr>Item</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-external">
-								<a href="menu.html#open" class="tsd-kind-icon">open</a>
+								<a href="abstractmenu.html#activatenextitem" class="tsd-kind-icon">activate<wbr>Next<wbr>Item</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-external">
-								<a href="menu.html#openactiveitem" class="tsd-kind-icon">open<wbr>Active<wbr>Item</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-external">
-								<a href="menu.html#popup" class="tsd-kind-icon">popup</a>
+								<a href="abstractmenu.html#activatepreviousitem" class="tsd-kind-icon">activate<wbr>Previous<wbr>Item</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-								<a href="menu.html#processmessage" class="tsd-kind-icon">process<wbr>Message</a>
+								<a href="abstractmenu.html#addclass" class="tsd-kind-icon">add<wbr>Class</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-								<a href="menu.html#removeclass" class="tsd-kind-icon">remove<wbr>Class</a>
+								<a href="abstractmenu.html#attach" class="tsd-kind-icon">attach</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-								<a href="menu.html#setflag" class="tsd-kind-icon">set<wbr>Flag</a>
+								<a href="abstractmenu.html#clearflag" class="tsd-kind-icon">clear<wbr>Flag</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-								<a href="menu.html#sethidden" class="tsd-kind-icon">set<wbr>Hidden</a>
+								<a href="abstractmenu.html#close" class="tsd-kind-icon">close</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-								<a href="menu.html#show" class="tsd-kind-icon">show</a>
+								<a href="abstractmenu.html#compressmessage" class="tsd-kind-icon">compress<wbr>Message</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-								<a href="menu.html#testflag" class="tsd-kind-icon">test<wbr>Flag</a>
+								<a href="abstractmenu.html#contains" class="tsd-kind-icon">contains</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-								<a href="menu.html#toggleclass" class="tsd-kind-icon">toggle<wbr>Class</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-external">
-								<a href="menu.html#triggeractiveitem" class="tsd-kind-icon">trigger<wbr>Active<wbr>Item</a>
+								<a href="abstractmenu.html#detach" class="tsd-kind-icon">detach</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-								<a href="menu.html#update" class="tsd-kind-icon">update</a>
+								<a href="abstractmenu.html#dispose" class="tsd-kind-icon">dispose</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static tsd-is-external">
-								<a href="menu.html#createitemnode" class="tsd-kind-icon">create<wbr>Item<wbr>Node</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+								<a href="abstractmenu.html#fit" class="tsd-kind-icon">fit</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-static tsd-is-external">
-								<a href="menu.html#createnode" class="tsd-kind-icon">create<wbr>Node</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+								<a href="abstractmenu.html#hasclass" class="tsd-kind-icon">has<wbr>Class</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static tsd-is-external">
-								<a href="menu.html#updateitemnode" class="tsd-kind-icon">update<wbr>Item<wbr>Node</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+								<a href="abstractmenu.html#hide" class="tsd-kind-icon">hide</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-external">
+								<a href="abstractmenu.html#isselectable" class="tsd-kind-icon">is<wbr>Selectable</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
+								<a href="abstractmenu.html#notifylayout" class="tsd-kind-icon">notify<wbr>Layout</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-external">
+								<a href="abstractmenu.html#onactiveindexchanged" class="tsd-kind-icon">on<wbr>Active<wbr>Index<wbr>Changed</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
+								<a href="abstractmenu.html#onafterattach" class="tsd-kind-icon">on<wbr>After<wbr>Attach</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
+								<a href="abstractmenu.html#onaftershow" class="tsd-kind-icon">on<wbr>After<wbr>Show</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
+								<a href="abstractmenu.html#onbeforedetach" class="tsd-kind-icon">on<wbr>Before<wbr>Detach</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
+								<a href="abstractmenu.html#onbeforehide" class="tsd-kind-icon">on<wbr>Before<wbr>Hide</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
+								<a href="abstractmenu.html#onchildadded" class="tsd-kind-icon">on<wbr>Child<wbr>Added</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
+								<a href="abstractmenu.html#onchildremoved" class="tsd-kind-icon">on<wbr>Child<wbr>Removed</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
+								<a href="abstractmenu.html#oncloserequest" class="tsd-kind-icon">on<wbr>Close<wbr>Request</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-external">
+								<a href="abstractmenu.html#onitemschanged" class="tsd-kind-icon">on<wbr>Items<wbr>Changed</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
+								<a href="abstractmenu.html#onresize" class="tsd-kind-icon">on<wbr>Resize</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
+								<a href="abstractmenu.html#onupdaterequest" class="tsd-kind-icon">on<wbr>Update<wbr>Request</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+								<a href="abstractmenu.html#processmessage" class="tsd-kind-icon">process<wbr>Message</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+								<a href="abstractmenu.html#removeclass" class="tsd-kind-icon">remove<wbr>Class</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+								<a href="abstractmenu.html#setflag" class="tsd-kind-icon">set<wbr>Flag</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+								<a href="abstractmenu.html#sethidden" class="tsd-kind-icon">set<wbr>Hidden</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+								<a href="abstractmenu.html#show" class="tsd-kind-icon">show</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+								<a href="abstractmenu.html#testflag" class="tsd-kind-icon">test<wbr>Flag</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+								<a href="abstractmenu.html#toggleclass" class="tsd-kind-icon">toggle<wbr>Class</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+								<a href="abstractmenu.html#update" class="tsd-kind-icon">update</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static tsd-is-external">
+								<a href="abstractmenu.html#createnode" class="tsd-kind-icon">create<wbr>Node</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-class tsd-is-external">
+						<a href="menu.html" class="tsd-kind-icon">Menu</a>
+					</li>
 					<li class=" tsd-kind-class tsd-is-external">
 						<a href="menubar.html" class="tsd-kind-icon">Menu<wbr>Bar</a>
 					</li>
