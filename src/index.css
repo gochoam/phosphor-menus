@@ -19,30 +19,23 @@
 }
 
 
-.p-MenuBar-item.p-mod-hidden,
-.p-MenuBar-item.p-mod-collapsed {
+.p-MenuBar-item.p-mod-hidden {
   display: none;
 }
 
 
 .p-Menu {
   position: absolute;
-  top: 0;
-  left: 0;
-  padding: 3px 0px;
   white-space: nowrap;
   overflow-x: hidden;
   overflow-y: auto;
-  z-index: 100000;
 }
 
 
 .p-Menu-content {
-  display: table;
-  width: 100%;
   margin: 0;
   padding: 0;
-  border-spacing: 0;
+  display: table;
   list-style-type: none;
 }
 
@@ -52,57 +45,25 @@
 }
 
 
-.p-Menu-item.p-mod-collapsed {
+.p-Menu-item.p-mod-hidden {
   display: none;
 }
 
 
-.p-Menu-item > span {
+.p-Menu-itemIcon,
+.p-Menu-itemSubmenuIcon {
   display: table-cell;
-  padding-top: 4px;
-  padding-bottom: 4px;
-}
-
-
-.p-Menu-item-icon {
-  width: 21px;
-  padding-left: 2px;
-  padding-right: 2px;
   text-align: center;
 }
 
 
-.p-Menu-item-text {
-  padding-left: 2px;
-  padding-right: 35px;
+.p-Menu-itemText {
+  display: table-cell;
+  text-align: left;
 }
 
 
-.p-Menu-item-shortcut {
+.p-Menu-itemShortcut {
+  display: table-cell;
   text-align: right;
-}
-
-
-.p-Menu-item-submenu {
-  width: 16px;
-  text-align: center;
-}
-
-
-.p-Menu-item.p-mod-separator-type > span {
-  padding: 0;
-  height: 9px;
-  line-height: 0;
-  text-indent: 100%;
-  overflow: hidden;
-  whitespace: nowrap;
-  vertical-align: top; /* https://bugzilla.mozilla.org/show_bug.cgi?id=634489 */
-}
-
-
-.p-Menu-item.p-mod-separator-type > span::after {
-  content: '';
-  display: block;
-  position: relative;
-  top: 4px;
 }

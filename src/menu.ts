@@ -53,37 +53,37 @@ const ITEM_CLASS = 'p-Menu-item';
 /**
  * The class name added to a menu item icon cell.
  */
-const ICON_CLASS = 'p-Menu-item-icon';
+const ICON_CLASS = 'p-Menu-itemIcon';
 
 /**
  * The class name added to a menu item text cell.
  */
-const TEXT_CLASS = 'p-Menu-item-text';
+const TEXT_CLASS = 'p-Menu-itemText';
 
 /**
  * The class name added to a menu item shortcut cell.
  */
-const SHORTCUT_CLASS = 'p-Menu-item-shortcut';
+const SHORTCUT_CLASS = 'p-Menu-itemShortcut';
 
 /**
- * The class name added to a menu item submenu cell.
+ * The class name added to a menu item submenu icon cell.
  */
-const SUBMENU_CLASS = 'p-Menu-item-submenu';
+const SUBMENU_CLASS = 'p-Menu-itemSubmenuIcon';
 
 /**
  * The class name added to a check type menu item.
  */
-const CHECK_TYPE_CLASS = 'p-mod-check-type';
+const CHECK_TYPE_CLASS = 'p-type-check';
 
 /**
  * The class name added to a separator type menu item.
  */
-const SEPARATOR_TYPE_CLASS = 'p-mod-separator-type';
+const SEPARATOR_TYPE_CLASS = 'p-type-separator';
 
 /**
  * The class name added to a submenu type menu item.
  */
-const SUBMENU_TYPE_CLASS = 'p-mod-submenu-type';
+const SUBMENU_TYPE_CLASS = 'p-type-submenu';
 
 /**
  * The class name added to active menu items.

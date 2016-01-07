@@ -54,17 +54,17 @@ const ITEM_CLASS = 'p-MenuBar-item';
 /**
  * The class name added to a menu bar item icon cell.
  */
-const ICON_CLASS = 'p-MenuBar-item-icon';
+const ICON_CLASS = 'p-MenuBar-itemIcon';
 
 /**
  * The class name added to a menu bar item text cell.
  */
-const TEXT_CLASS = 'p-MenuBar-item-text';
+const TEXT_CLASS = 'p-MenuBar-itemText';
 
 /**
  * The class name added to a separator menu bar item.
  */
-const SEPARATOR_TYPE_CLASS = 'p-mod-separator-type';
+const SEPARATOR_TYPE_CLASS = 'p-type-separator';
 
 /**
  * The class name added to an active menu bar and item.
