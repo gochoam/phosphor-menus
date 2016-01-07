@@ -7,6 +7,9 @@
 |----------------------------------------------------------------------------*/
 'use strict';
 
+import * as arrays
+  from 'phosphor-arrays';
+
 import {
   Widget
 } from 'phosphor-widget';
@@ -25,18 +28,6 @@ import {
 export
 abstract class AbstractMenu extends Widget {
   /**
-   * Trigger the currently active menu item.
-   *
-   * #### Notes
-   * This method must be implemented by a subclass.
-   *
-   * This is a no-op if there is no active menu item.
-   *
-   * This is equivalent to clicking on the active menu item.
-   */
-  abstract triggerActiveItem(): void;
-
-  /**
    * A method invoked to test whether an item is selectable.
    *
    * @param item - The menu item of interest.
@@ -46,7 +37,7 @@ abstract class AbstractMenu extends Widget {
    * #### Notes
    * This method must be implemented by a subclass.
    */
-  abstract protected isSelectable(item: MenuItem): boolean;
+  protected abstract isSelectable(item: MenuItem): boolean;
 
   /**
    * A method invoked when the menu items change.
@@ -60,7 +51,7 @@ abstract class AbstractMenu extends Widget {
    *
    * The active index is reset to `-1` before this method is called.
    */
-  abstract protected onItemsChanged(oldItems: MenuItem[], newItems: MenuItem[]): void;
+  protected abstract onItemsChanged(oldItems: MenuItem[], newItems: MenuItem[]): void;
 
   /**
    * A method invoked when the active index changes.
@@ -74,7 +65,7 @@ abstract class AbstractMenu extends Widget {
    *
    * This method will not be called when the menu items are changed.
    */
-  abstract protected onActiveIndexChanged(oldIndex: number, newIndex: number): void;
+  protected abstract onActiveIndexChanged(oldIndex: number, newIndex: number): void;
 
   /**
    * Get the array of menu items for the menu.
@@ -156,6 +147,61 @@ abstract class AbstractMenu extends Widget {
    */
   set activeItem(value: MenuItem) {
     this.activeIndex = this._items.indexOf(value);
+  }
+
+  /**
+   * Activate the next selectable menu item.
+   *
+   * #### Notes
+   * The search starts with the currently active item, and progresses
+   * forward until the next selectable item is found. The search will
+   * wrap around at the end of the menu.
+   */
+  activateNextItem(): void {
+    let k = this.activeIndex + 1;
+    let i = k >= this.items.length ? 0 : k;
+    let pred = (item: MenuItem) => this.isSelectable(item);
+    this.activeIndex = arrays.findIndex(this.items, pred, i, true);
+  }
+
+  /**
+   * Activate the previous selectable menu item.
+   *
+   * #### Notes
+   * The search starts with the currently active item, and progresses
+   * backward until the next selectable item is found. The search will
+   * wrap around at the front of the menu.
+   */
+  activatePreviousItem(): void {
+    let k = this.activeIndex;
+    let i = k <= 0 ? this.items.length - 1 : k - 1;
+    let pred = (item: MenuItem) => this.isSelectable(item);
+    this.activeIndex = arrays.rfindIndex(this.items, pred, i, true);
+  }
+
+  /**
+   * Activate the next selectable menu item with the given mnemonic.
+   *
+   * #### Notes
+   * The search starts with the currently active item, and progresses
+   * forward until the next selectable item with the given mnemonic is
+   * found. The search will wrap around at the end of the menu, and the
+   * mnemonic matching is case-insensitive.
+   */
+  activateMnemonicItem(char: string): void {
+    let c = char.toUpperCase();
+    let k = this.activeIndex + 1;
+    let i = k >= this.items.length ? 0 : k;
+    this.activeIndex = arrays.findIndex(this.items, item => {
+      if (!this.isSelectable(item)) {
+        return false;
+      }
+      let match = item.text.match(/&\w/);
+      if (!match) {
+        return false;
+      }
+      return match[0][1].toUpperCase() === c;
+    }, i, true);
   }
 
   private _activeIndex = -1;
