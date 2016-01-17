@@ -85,6 +85,11 @@ interface IMenuItemOptions {
   disabled?: boolean;
 
   /**
+   * The checked state for the menu item.
+   */
+  checked?: boolean;
+
+  /**
    * The extra class name to associate with the menu item.
    */
   className?: string;
@@ -229,6 +234,26 @@ class MenuItem {
   }
 
   /**
+   * Get the checked state for the menu item.
+   *
+   * #### Notes
+   * The default value is `false`.
+   */
+  get checked(): boolean {
+    return MenuItemPrivate.checkedProperty.get(this);
+  }
+
+  /**
+   * Set the checked state for the menu item.
+   *
+   * #### Notes
+   * Only a `Check` type menu item can be checked.
+   */
+  set checked(value: boolean) {
+    MenuItemPrivate.checkedProperty.set(this, value);
+  }
+
+  /**
    * Get the extra class name for the menu item.
    *
    * #### Notes
@@ -345,6 +370,7 @@ namespace MenuItemPrivate {
     name: 'type',
     value: MenuItemType.Normal,
     coerce: (owner, value) => owner.submenu ? MenuItemType.Submenu : value,
+    changed: owner => { checkedProperty.coerce(owner); },
     notify: changedSignal,
   });
 
@@ -385,6 +411,17 @@ namespace MenuItemPrivate {
   const disabledProperty = new Property<MenuItem, boolean>({
     name: 'disabled',
     value: false,
+    notify: changedSignal,
+  });
+
+  /**
+   * The property descriptor for the menu item checked state.
+   */
+  export
+  const checkedProperty = new Property<MenuItem, boolean>({
+    name: 'checked',
+    value: false,
+    coerce: (owner, value) => owner.type === MenuItemType.Check ? value : false,
     notify: changedSignal,
   });
 
@@ -440,6 +477,9 @@ namespace MenuItemPrivate {
     }
     if (options.disabled !== void 0) {
       item.disabled = options.disabled;
+    }
+    if (options.checked !== void 0) {
+      item.checked = options.checked;
     }
     if (options.className !== void 0) {
       item.className = options.className;
