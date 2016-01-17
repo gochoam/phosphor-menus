@@ -118,10 +118,10 @@ abstract class AbstractMenu extends Widget {
     if (!item || !this.isSelectable(item)) {
       newIndex = -1;
     }
-    if (this._activeIndex === newIndex) {
+    let oldIndex = this._activeIndex;
+    if (oldIndex === newIndex) {
       return;
     }
-    let oldIndex = this._activeIndex;
     this._activeIndex = newIndex;
     this.onActiveIndexChanged(oldIndex, newIndex);
   }
