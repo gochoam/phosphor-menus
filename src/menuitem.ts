@@ -8,10 +8,6 @@
 'use strict';
 
 import {
-  ICommand
-} from 'phosphor-command';
-
-import {
   IChangedArgs, Property
 } from 'phosphor-properties';
 
@@ -52,6 +48,13 @@ enum MenuItemType {
 
 
 /**
+ * A type alias for a menu item handler function.
+ */
+export
+type MenuItemHandler = (item: MenuItem) => void;
+
+
+/**
  * An options object for initializing a menu item.
  */
 export
@@ -82,14 +85,9 @@ interface IMenuItemOptions {
   className?: string;
 
   /**
-   * The command for the menu item.
+   * The handler function for the menu item.
    */
-  command?: ICommand;
-
-  /**
-   * The args object for the menu item command.
-   */
-  commandArgs?: any;
+  handler?: MenuItemHandler;
 
   /**
    * The submenu for the menu item.
@@ -228,51 +226,25 @@ class MenuItem {
   }
 
   /**
-   * Get the command for the menu item.
+   * Get the handler function for the menu item.
    *
    * #### Notes
    * The default value is null.
    *
-   * This command will be executed when the menu item is clicked. The
-   * command also controls the checked and enabled state of the item.
+   * The handler will be invoked when the menu item is clicked.
    */
-  get command(): ICommand {
-    return MenuItemPrivate.commandProperty.get(this);
+  get handler(): MenuItemHandler {
+    return MenuItemPrivate.handlerProperty.get(this);
   }
 
   /**
-   * Set the command for the menu item.
+   * Set the handler function for the menu item.
    *
    * #### Notes
-   * This command will be executed when the menu item is clicked. The
-   * command also controls the checked and enabled state of the item.
+   * The handler will be invoked when the menu item is clicked.
    */
-  set command(value: ICommand) {
-    MenuItemPrivate.commandProperty.set(this, value);
-  }
-
-  /**
-   * Get the command args for the menu item.
-   *
-   * #### Notes
-   * The default value is null.
-   *
-   * This args object will be passed to the `execute` method of the
-   * menu item's `command` when the menu item is clicked.
-   */
-  get commandArgs(): any {
-    return MenuItemPrivate.commandArgsProperty.get(this);
-  }
-
-  /**
-   * Set the command args for the menu item.
-   *
-   * #### Notes
-   * This args object will be passed to the `execute` method of the
-   * menu item's `command` when the menu item is clicked.
-   */
-  set commandArgs(value: any) {
-    MenuItemPrivate.commandArgsProperty.set(this, value);
+  set handler(value: MenuItemHandler) {
+    MenuItemPrivate.handlerProperty.set(this, value);
   }
 
   /**
@@ -392,22 +364,11 @@ namespace MenuItemPrivate {
   });
 
   /**
-   * The property descriptor for the menu item command.
+   * The property descriptor for the menu item handler.
    */
   export
-  const commandProperty = new Property<MenuItem, ICommand>({
-    name: 'command',
-    value: null,
-    coerce: (owner, value) => value || null,
-    notify: changedSignal,
-  });
-
-  /**
-   * The property descriptor for the menu item command arguments.
-   */
-  export
-  const commandArgsProperty = new Property<MenuItem, any>({
-    name: 'commandArgs',
+  const handlerProperty = new Property<MenuItem, MenuItemHandler>({
+    name: 'handler',
     value: null,
     coerce: (owner, value) => value || null,
     notify: changedSignal,
@@ -445,11 +406,8 @@ namespace MenuItemPrivate {
     if (options.className !== void 0) {
       item.className = options.className;
     }
-    if (options.command !== void 0) {
-      item.command = options.command;
-    }
-    if (options.commandArgs !== void 0) {
-      item.commandArgs = options.commandArgs;
+    if (options.handler !== void 0) {
+      item.handler = options.handler;
     }
     if (options.submenu !== void 0) {
       item.submenu = options.submenu;
