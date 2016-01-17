@@ -80,6 +80,11 @@ interface IMenuItemOptions {
   shortcut?: string;
 
   /**
+   * The disabled state for the menu item.
+   */
+  disabled?: boolean;
+
+  /**
    * The extra class name to associate with the menu item.
    */
   className?: string;
@@ -201,6 +206,26 @@ class MenuItem {
    */
   set shortcut(value: string) {
     MenuItemPrivate.shortcutProperty.set(this, value);
+  }
+
+  /**
+   * Get the disabled state for the menu item.
+   *
+   * #### Notes
+   * The default value is `false`.
+   */
+  get disabled(): boolean {
+    return MenuItemPrivate.disabledProperty.get(this);
+  }
+
+  /**
+   * Set the disabled state for the menu item.
+   *
+   * #### Notes
+   * The handler of a disabled menu item will not be invoked.
+   */
+  set disabled(value: boolean) {
+    MenuItemPrivate.disabledProperty.set(this, value);
   }
 
   /**
@@ -354,6 +379,16 @@ namespace MenuItemPrivate {
   });
 
   /**
+   * The property descriptor for the menu item disabled state.
+   */
+  export
+  const disabledProperty = new Property<MenuItem, boolean>({
+    name: 'disabled',
+    value: false,
+    notify: changedSignal,
+  });
+
+  /**
    * The property descriptor for the menu item class name.
    */
   export
@@ -402,6 +437,9 @@ namespace MenuItemPrivate {
     }
     if (options.shortcut !== void 0) {
       item.shortcut = options.shortcut;
+    }
+    if (options.disabled !== void 0) {
+      item.disabled = options.disabled;
     }
     if (options.className !== void 0) {
       item.className = options.className;
