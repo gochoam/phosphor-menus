@@ -288,8 +288,8 @@ class Menu extends AbstractMenu {
    * Open the submenu of the active item, if possible.
    *
    * #### Notes
-   * This is a no-op if the menu is not visible, if there is no
-   * active item, or if the active item is disabled or has no submenu.
+   * This is a no-op if the menu is not visible, if there is no active
+   * item, or if the active item is disabled or has a null submenu.
    */
   openActiveItem(): void {
     if (!this.isVisible) {
@@ -300,7 +300,7 @@ class Menu extends AbstractMenu {
       return;
     }
     let item = this.items[index];
-    if (item.disabled || item.submenu === null) {
+    if (item.disabled || !item.submenu) {
       return;
     }
     this._openChildMenu(item, this._nodes[index], false);
@@ -326,7 +326,7 @@ class Menu extends AbstractMenu {
     if (item.disabled) {
       return;
     }
-    if (item.submenu !== null) {
+    if (item.submenu) {
       this._openChildMenu(item, this._nodes[index], false);
       this._childMenu.activateNextItem();
       return;
@@ -456,9 +456,9 @@ class Menu extends AbstractMenu {
       return false;
     }
     if (item.type === MenuItem.Submenu) {
-      return true;
+      return !!item.submenu;
     }
-    return item.handler !== null;
+    return !!item.handler;
   }
 
   /**
@@ -841,7 +841,7 @@ namespace MenuPrivate {
     }
     if (item.type === MenuItem.Submenu) {
       name += ' ' + SUBMENU_TYPE_CLASS;
-      if (item.disabled) {
+      if (item.disabled || !item.submenu) {
         name += ' ' + DISABLED_CLASS;
       }
       return name;

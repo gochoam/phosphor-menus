@@ -80,14 +80,14 @@ interface IMenuItemOptions {
   shortcut?: string;
 
   /**
-   * The disabled state for the menu item.
-   */
-  disabled?: boolean;
-
-  /**
    * The checked state for the menu item.
    */
   checked?: boolean;
+
+  /**
+   * The disabled state for the menu item.
+   */
+  disabled?: boolean;
 
   /**
    * The extra class name to associate with the menu item.
@@ -214,26 +214,6 @@ class MenuItem {
   }
 
   /**
-   * Get the disabled state for the menu item.
-   *
-   * #### Notes
-   * The default value is `false`.
-   */
-  get disabled(): boolean {
-    return MenuItemPrivate.disabledProperty.get(this);
-  }
-
-  /**
-   * Set the disabled state for the menu item.
-   *
-   * #### Notes
-   * The handler of a disabled menu item will not be invoked.
-   */
-  set disabled(value: boolean) {
-    MenuItemPrivate.disabledProperty.set(this, value);
-  }
-
-  /**
    * Get the checked state for the menu item.
    *
    * #### Notes
@@ -251,6 +231,26 @@ class MenuItem {
    */
   set checked(value: boolean) {
     MenuItemPrivate.checkedProperty.set(this, value);
+  }
+
+  /**
+   * Get the disabled state for the menu item.
+   *
+   * #### Notes
+   * The default value is `false`.
+   */
+  get disabled(): boolean {
+    return MenuItemPrivate.disabledProperty.get(this);
+  }
+
+  /**
+   * Set the disabled state for the menu item.
+   *
+   * #### Notes
+   * The handler of a disabled menu item will not be invoked.
+   */
+  set disabled(value: boolean) {
+    MenuItemPrivate.disabledProperty.set(this, value);
   }
 
   /**
@@ -279,7 +279,7 @@ class MenuItem {
    * Get the handler function for the menu item.
    *
    * #### Notes
-   * The default value is null.
+   * The default value is `null`.
    *
    * The handler will be invoked when the menu item is clicked.
    */
@@ -405,16 +405,6 @@ namespace MenuItemPrivate {
   });
 
   /**
-   * The property descriptor for the menu item disabled state.
-   */
-  export
-  const disabledProperty = new Property<MenuItem, boolean>({
-    name: 'disabled',
-    value: false,
-    notify: changedSignal,
-  });
-
-  /**
    * The property descriptor for the menu item checked state.
    */
   export
@@ -422,6 +412,16 @@ namespace MenuItemPrivate {
     name: 'checked',
     value: false,
     coerce: (owner, value) => owner.type === MenuItemType.Check ? value : false,
+    notify: changedSignal,
+  });
+
+  /**
+   * The property descriptor for the menu item disabled state.
+   */
+  export
+  const disabledProperty = new Property<MenuItem, boolean>({
+    name: 'disabled',
+    value: false,
     notify: changedSignal,
   });
 
@@ -475,11 +475,11 @@ namespace MenuItemPrivate {
     if (options.shortcut !== void 0) {
       item.shortcut = options.shortcut;
     }
-    if (options.disabled !== void 0) {
-      item.disabled = options.disabled;
-    }
     if (options.checked !== void 0) {
       item.checked = options.checked;
+    }
+    if (options.disabled !== void 0) {
+      item.disabled = options.disabled;
     }
     if (options.className !== void 0) {
       item.className = options.className;

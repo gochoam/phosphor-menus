@@ -206,7 +206,7 @@ class MenuBar extends AbstractMenu {
       return;
     }
     let item = this.items[index];
-    if (item.disabled || item.submenu === null) {
+    if (item.disabled || !item.submenu) {
       return;
     }
     this._activate();
@@ -256,7 +256,7 @@ class MenuBar extends AbstractMenu {
    * @returns `true` if the item is selectable, `false` otherwise.
    */
   protected isSelectable(item: MenuItem): boolean {
-    return !item.disabled && item.submenu !== null;
+    return !item.disabled && !!item.submenu;
   }
 
   /**
