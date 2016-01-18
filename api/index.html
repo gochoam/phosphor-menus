@@ -124,51 +124,38 @@ browserify myapp.js -o mybundle.js
 				<p><strong>Note:</strong> This module is fully compatible with Node/Babel/ES6/ES5. Simply
 				omit the type declarations when using a language other than TypeScript.</p>
 				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> {
-  DelegateCommand
-} from <span class="hljs-string">'phosphor-command'</span>;
-
-<span class="hljs-keyword">import</span> {
   Menu, MenuBar, MenuItem
 } from <span class="hljs-string">'phosphor-menus'</span>;
 
 
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">main</span>(<span class="hljs-params"></span>): <span class="hljs-title">void</span> </span>{
 
-  <span class="hljs-comment">// A menu item takes an `ICommand` to execute its action when clicked.</span>
-  <span class="hljs-comment">// A `DelegateCommand` is the simplest way to define a command, but an</span>
-  <span class="hljs-comment">// application is free to define its own command implementations.</span>
-  <span class="hljs-keyword">let</span> newCmd = <span class="hljs-keyword">new</span> DelegateCommand(() =&gt; { <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'new'</span>); });
-  <span class="hljs-keyword">let</span> openCmd = <span class="hljs-keyword">new</span> DelegateCommand(() =&gt; { <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'open'</span>); });
-  <span class="hljs-keyword">let</span> saveCmd = <span class="hljs-keyword">new</span> DelegateCommand(() =&gt; { <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'save'</span>); });
-  <span class="hljs-keyword">let</span> exitCmd = <span class="hljs-keyword">new</span> DelegateCommand(() =&gt; { <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'exit'</span>); });
-  <span class="hljs-keyword">let</span> undoCmd = <span class="hljs-keyword">new</span> DelegateCommand(() =&gt; { <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'undo'</span>); });
-  <span class="hljs-keyword">let</span> repeatCmd = <span class="hljs-keyword">new</span> DelegateCommand(() =&gt; { <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'repeat'</span>); });
-  <span class="hljs-keyword">let</span> copyCmd = <span class="hljs-keyword">new</span> DelegateCommand(() =&gt; { <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'copy'</span>); });
-  <span class="hljs-keyword">let</span> cutCmd = <span class="hljs-keyword">new</span> DelegateCommand(() =&gt; { <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'cut'</span>); });
-  <span class="hljs-keyword">let</span> pasteCmd = <span class="hljs-keyword">new</span> DelegateCommand(() =&gt; { <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'paste'</span>); });
+  <span class="hljs-keyword">let</span> logHandler = (item: MenuItem) =&gt; {
+    <span class="hljs-built_in">console</span>.log(item.text);
+  };
 
   <span class="hljs-keyword">let</span> fileMenu = <span class="hljs-keyword">new</span> Menu([
     <span class="hljs-keyword">new</span> MenuItem({
       text: <span class="hljs-string">'New File'</span>,
       shortcut: <span class="hljs-string">'Ctrl+N'</span>,
-      command: newCmd
+      handler: logHandler
     }),
     <span class="hljs-keyword">new</span> MenuItem({
       text: <span class="hljs-string">'Open File'</span>,
       shortcut: <span class="hljs-string">'Ctrl+O'</span>,
-      command: openCmd
+      handler: logHandler
     }),
     <span class="hljs-keyword">new</span> MenuItem({
       text: <span class="hljs-string">'Save As...'</span>,
       shortcut: <span class="hljs-string">'Ctrl+Shift+S'</span>,
-      command: saveCmd
+      handler: logHandler
     }),
     <span class="hljs-keyword">new</span> MenuItem({
       <span class="hljs-keyword">type</span>: MenuItem.Separator
     }),
     <span class="hljs-keyword">new</span> MenuItem({
       text: <span class="hljs-string">'Exit'</span>,
-      command: exitCmd
+      handler: logHandler
     })
   ]);
 
@@ -177,13 +164,13 @@ browserify myapp.js -o mybundle.js
       text: <span class="hljs-string">'&amp;Undo'</span>,
       icon: <span class="hljs-string">'fa fa-undo'</span>,
       shortcut: <span class="hljs-string">'Ctrl+Z'</span>,
-      command: undoCmd
+      handler: logHandler
     }),
     <span class="hljs-keyword">new</span> MenuItem({
       text: <span class="hljs-string">'&amp;Repeat'</span>,
       icon: <span class="hljs-string">'fa fa-repeat'</span>,
       shortcut: <span class="hljs-string">'Ctrl+Y'</span>,
-      command: repeatCmd
+      handler: logHandler
     }),
     <span class="hljs-keyword">new</span> MenuItem({
       <span class="hljs-keyword">type</span>: MenuItem.Separator
@@ -192,19 +179,19 @@ browserify myapp.js -o mybundle.js
       text: <span class="hljs-string">'&amp;Copy'</span>,
       icon: <span class="hljs-string">'fa fa-copy'</span>,
       shortcut: <span class="hljs-string">'Ctrl+C'</span>,
-      command: copyCmd
+      handler: logHandler
     }),
     <span class="hljs-keyword">new</span> MenuItem({
       text: <span class="hljs-string">'Cu&amp;t'</span>,
       icon: <span class="hljs-string">'fa fa-cut'</span>,
       shortcut: <span class="hljs-string">'Ctrl+X'</span>,
-      command: cutCmd
+      handler: logHandler
     }),
     <span class="hljs-keyword">new</span> MenuItem({
       text: <span class="hljs-string">'&amp;Paste'</span>,
       icon: <span class="hljs-string">'fa fa-paste'</span>,
       shortcut: <span class="hljs-string">'Ctrl+V'</span>,
-      command: pasteCmd
+      handler: logHandler
     })
   ]);
 
@@ -213,19 +200,19 @@ browserify myapp.js -o mybundle.js
       text: <span class="hljs-string">'&amp;Copy'</span>,
       icon: <span class="hljs-string">'fa fa-copy'</span>,
       shortcut: <span class="hljs-string">'Ctrl+C'</span>,
-      command: copyCmd
+      handler: logHandler
     }),
     <span class="hljs-keyword">new</span> MenuItem({
       text: <span class="hljs-string">'Cu&amp;t'</span>,
       icon: <span class="hljs-string">'fa fa-cut'</span>,
       shortcut: <span class="hljs-string">'Ctrl+X'</span>,
-      command: cutCmd
+      handler: logHandler
     }),
     <span class="hljs-keyword">new</span> MenuItem({
       text: <span class="hljs-string">'&amp;Paste'</span>,
       icon: <span class="hljs-string">'fa fa-paste'</span>,
       shortcut: <span class="hljs-string">'Ctrl+V'</span>,
-      command: pasteCmd
+      handler: logHandler
     })
   ]);
 
@@ -285,6 +272,9 @@ browserify myapp.js -o mybundle.js
 					</li>
 					<li class=" tsd-kind-interface tsd-is-external">
 						<a href="interfaces/imenuitemoptions.html" class="tsd-kind-icon">IMenu<wbr>Item<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-is-external">
+						<a href="globals.html#menuitemhandler" class="tsd-kind-icon">Menu<wbr>Item<wbr>Handler</a>
 					</li>
 				</ul>
 			</nav>
