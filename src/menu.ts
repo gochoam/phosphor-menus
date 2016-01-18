@@ -288,8 +288,8 @@ class Menu extends AbstractMenu {
    * Open the submenu of the active item, if possible.
    *
    * #### Notes
-   * This is a no-op if the menu is not visible, if there is no
-   * active item, or if the active item does not have a submenu.
+   * This is a no-op if the menu is not visible, if there is no active
+   * item, or if the active item is disabled or has a null submenu.
    */
   openActiveItem(): void {
     if (!this.isVisible) {
@@ -300,7 +300,7 @@ class Menu extends AbstractMenu {
       return;
     }
     let item = this.items[index];
-    if (item.submenu === null) {
+    if (item.disabled || !item.submenu) {
       return;
     }
     this._openChildMenu(item, this._nodes[index], false);
@@ -308,11 +308,11 @@ class Menu extends AbstractMenu {
   }
 
   /**
-   * Trigger the command of the active item, if possible.
+   * Trigger the handler of the active item, if possible.
    *
    * #### Notes
    * This is a no-op if the menu is not visible, if there is no
-   * active item, or if the active item cannot be triggered.
+   * active item, or if the active item is disabled.
    */
   triggerActiveItem(): void {
     if (!this.isVisible) {
@@ -323,18 +323,20 @@ class Menu extends AbstractMenu {
       return;
     }
     let item = this.items[index];
-    if (item.submenu !== null) {
+    if (item.disabled) {
+      return;
+    }
+    if (item.submenu) {
       this._openChildMenu(item, this._nodes[index], false);
       this._childMenu.activateNextItem();
       return;
     }
-    let cmd = item.command;
-    let args = item.commandArgs;
-    if (!cmd || !cmd.isEnabled()) {
+    let handler = item.handler;
+    if (!handler) {
       return;
     }
     this.rootMenu.close();
-    cmd.execute(args);
+    handler(item);
   }
 
   /**
@@ -450,13 +452,13 @@ class Menu extends AbstractMenu {
    * @returns `true` if the item is selectable, `false` otherwise.
    */
   protected isSelectable(item: MenuItem): boolean {
-    if (item.type === MenuItem.Separator) {
+    if (item.disabled || item.type === MenuItem.Separator) {
       return false;
     }
     if (item.type === MenuItem.Submenu) {
-      return true;
+      return !!item.submenu;
     }
-    return item.command ? item.command.isEnabled() : false;
+    return !!item.handler;
   }
 
   /**
@@ -603,7 +605,7 @@ class Menu extends AbstractMenu {
     this._syncAncestors();
     this._closeChildMenu();
     this._cancelPendingOpen();
-    let item = this.items[i];
+    let item = this.activeItem;
     if (item && item.submenu) {
       if (item === this._childItem) {
         this._cancelPendingClose();
@@ -838,15 +840,19 @@ namespace MenuPrivate {
       return name + ' ' + SEPARATOR_TYPE_CLASS;
     }
     if (item.type === MenuItem.Submenu) {
-      return name + ' ' + SUBMENU_TYPE_CLASS;
+      name += ' ' + SUBMENU_TYPE_CLASS;
+      if (item.disabled || !item.submenu) {
+        name += ' ' + DISABLED_CLASS;
+      }
+      return name;
     }
     if (item.type === MenuItem.Check) {
       name += ' ' + CHECK_TYPE_CLASS;
-      if (item.command && item.command.isChecked()) {
+      if (item.checked) {
         name += ' ' + CHECKED_CLASS;
       }
     }
-    if (!item.command || !item.command.isEnabled()) {
+    if (item.disabled || !item.handler) {
       name += ' ' + DISABLED_CLASS;
     }
     return name;

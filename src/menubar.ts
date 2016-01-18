@@ -195,7 +195,7 @@ class MenuBar extends AbstractMenu {
    *
    * #### Notes
    * This is a no-op if the menu bar is not visible, if there is no
-   * active item, or if the active item does not have a submenu.
+   * active item, or if the active item is disabled or has no submenu.
    */
   openActiveItem(): void {
     if (!this.isVisible) {
@@ -206,7 +206,7 @@ class MenuBar extends AbstractMenu {
       return;
     }
     let item = this.items[index];
-    if (item.submenu === null) {
+    if (item.disabled || !item.submenu) {
       return;
     }
     this._activate();
@@ -256,7 +256,7 @@ class MenuBar extends AbstractMenu {
    * @returns `true` if the item is selectable, `false` otherwise.
    */
   protected isSelectable(item: MenuItem): boolean {
-    return item.submenu !== null;
+    return !item.disabled && !!item.submenu;
   }
 
   /**
@@ -617,7 +617,7 @@ namespace MenuBarPrivate {
     if (item.type === MenuItem.Separator) {
       return name + ' ' + SEPARATOR_TYPE_CLASS;
     }
-    if (item.type === MenuItem.Submenu && !item.submenu) {
+    if (item.disabled || (item.type === MenuItem.Submenu && !item.submenu)) {
       return name + ' ' + DISABLED_CLASS;
     }
     return name;

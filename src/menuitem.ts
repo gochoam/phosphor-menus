@@ -8,10 +8,6 @@
 'use strict';
 
 import {
-  ICommand
-} from 'phosphor-command';
-
-import {
   IChangedArgs, Property
 } from 'phosphor-properties';
 
@@ -52,6 +48,13 @@ enum MenuItemType {
 
 
 /**
+ * A type alias for a menu item handler function.
+ */
+export
+type MenuItemHandler = (item: MenuItem) => void;
+
+
+/**
  * An options object for initializing a menu item.
  */
 export
@@ -77,19 +80,24 @@ interface IMenuItemOptions {
   shortcut?: string;
 
   /**
+   * The checked state for the menu item.
+   */
+  checked?: boolean;
+
+  /**
+   * The disabled state for the menu item.
+   */
+  disabled?: boolean;
+
+  /**
    * The extra class name to associate with the menu item.
    */
   className?: string;
 
   /**
-   * The command for the menu item.
+   * The handler function for the menu item.
    */
-  command?: ICommand;
-
-  /**
-   * The args object for the menu item command.
-   */
-  commandArgs?: any;
+  handler?: MenuItemHandler;
 
   /**
    * The submenu for the menu item.
@@ -206,6 +214,46 @@ class MenuItem {
   }
 
   /**
+   * Get the checked state for the menu item.
+   *
+   * #### Notes
+   * The default value is `false`.
+   */
+  get checked(): boolean {
+    return MenuItemPrivate.checkedProperty.get(this);
+  }
+
+  /**
+   * Set the checked state for the menu item.
+   *
+   * #### Notes
+   * Only a `Check` type menu item can be checked.
+   */
+  set checked(value: boolean) {
+    MenuItemPrivate.checkedProperty.set(this, value);
+  }
+
+  /**
+   * Get the disabled state for the menu item.
+   *
+   * #### Notes
+   * The default value is `false`.
+   */
+  get disabled(): boolean {
+    return MenuItemPrivate.disabledProperty.get(this);
+  }
+
+  /**
+   * Set the disabled state for the menu item.
+   *
+   * #### Notes
+   * The handler of a disabled menu item will not be invoked.
+   */
+  set disabled(value: boolean) {
+    MenuItemPrivate.disabledProperty.set(this, value);
+  }
+
+  /**
    * Get the extra class name for the menu item.
    *
    * #### Notes
@@ -228,51 +276,25 @@ class MenuItem {
   }
 
   /**
-   * Get the command for the menu item.
+   * Get the handler function for the menu item.
    *
    * #### Notes
-   * The default value is null.
+   * The default value is `null`.
    *
-   * This command will be executed when the menu item is clicked. The
-   * command also controls the checked and enabled state of the item.
+   * The handler will be invoked when the menu item is clicked.
    */
-  get command(): ICommand {
-    return MenuItemPrivate.commandProperty.get(this);
+  get handler(): MenuItemHandler {
+    return MenuItemPrivate.handlerProperty.get(this);
   }
 
   /**
-   * Set the command for the menu item.
+   * Set the handler function for the menu item.
    *
    * #### Notes
-   * This command will be executed when the menu item is clicked. The
-   * command also controls the checked and enabled state of the item.
+   * The handler will be invoked when the menu item is clicked.
    */
-  set command(value: ICommand) {
-    MenuItemPrivate.commandProperty.set(this, value);
-  }
-
-  /**
-   * Get the command args for the menu item.
-   *
-   * #### Notes
-   * The default value is null.
-   *
-   * This args object will be passed to the `execute` method of the
-   * menu item's `command` when the menu item is clicked.
-   */
-  get commandArgs(): any {
-    return MenuItemPrivate.commandArgsProperty.get(this);
-  }
-
-  /**
-   * Set the command args for the menu item.
-   *
-   * #### Notes
-   * This args object will be passed to the `execute` method of the
-   * menu item's `command` when the menu item is clicked.
-   */
-  set commandArgs(value: any) {
-    MenuItemPrivate.commandArgsProperty.set(this, value);
+  set handler(value: MenuItemHandler) {
+    MenuItemPrivate.handlerProperty.set(this, value);
   }
 
   /**
@@ -348,6 +370,7 @@ namespace MenuItemPrivate {
     name: 'type',
     value: MenuItemType.Normal,
     coerce: (owner, value) => owner.submenu ? MenuItemType.Submenu : value,
+    changed: owner => { checkedProperty.coerce(owner); },
     notify: changedSignal,
   });
 
@@ -382,6 +405,27 @@ namespace MenuItemPrivate {
   });
 
   /**
+   * The property descriptor for the menu item checked state.
+   */
+  export
+  const checkedProperty = new Property<MenuItem, boolean>({
+    name: 'checked',
+    value: false,
+    coerce: (owner, value) => owner.type === MenuItemType.Check ? value : false,
+    notify: changedSignal,
+  });
+
+  /**
+   * The property descriptor for the menu item disabled state.
+   */
+  export
+  const disabledProperty = new Property<MenuItem, boolean>({
+    name: 'disabled',
+    value: false,
+    notify: changedSignal,
+  });
+
+  /**
    * The property descriptor for the menu item class name.
    */
   export
@@ -392,22 +436,11 @@ namespace MenuItemPrivate {
   });
 
   /**
-   * The property descriptor for the menu item command.
+   * The property descriptor for the menu item handler.
    */
   export
-  const commandProperty = new Property<MenuItem, ICommand>({
-    name: 'command',
-    value: null,
-    coerce: (owner, value) => value || null,
-    notify: changedSignal,
-  });
-
-  /**
-   * The property descriptor for the menu item command arguments.
-   */
-  export
-  const commandArgsProperty = new Property<MenuItem, any>({
-    name: 'commandArgs',
+  const handlerProperty = new Property<MenuItem, MenuItemHandler>({
+    name: 'handler',
     value: null,
     coerce: (owner, value) => value || null,
     notify: changedSignal,
@@ -442,14 +475,17 @@ namespace MenuItemPrivate {
     if (options.shortcut !== void 0) {
       item.shortcut = options.shortcut;
     }
+    if (options.checked !== void 0) {
+      item.checked = options.checked;
+    }
+    if (options.disabled !== void 0) {
+      item.disabled = options.disabled;
+    }
     if (options.className !== void 0) {
       item.className = options.className;
     }
-    if (options.command !== void 0) {
-      item.command = options.command;
-    }
-    if (options.commandArgs !== void 0) {
-      item.commandArgs = options.commandArgs;
+    if (options.handler !== void 0) {
+      item.handler = options.handler;
     }
     if (options.submenu !== void 0) {
       item.submenu = options.submenu;

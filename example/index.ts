@@ -8,10 +8,6 @@
 'use strict';
 
 import {
-  DelegateCommand
-} from 'phosphor-command';
-
-import {
   Menu, MenuBar, MenuItem
 } from '../lib/index';
 
@@ -20,42 +16,37 @@ import './index.css';
 
 function main() {
 
-  let logCmd = new DelegateCommand(args => {
+  let logHandler = (item: MenuItem) => {
     var node = document.getElementById('log-span');
-    node.textContent = args;
-  });
+    node.textContent = item.text.replace(/&/g, '');
+  };
 
-  let disabledCmd = new DelegateCommand(() => { });
-  disabledCmd.enabled = false;
-
-  let saveOnExitCmd = new DelegateCommand(() => {
-    logCmd.execute('Save On Exit');
-    saveOnExitCmd.checked = !saveOnExitCmd.checked;
-  });
+  let saveOnExitHandler = (item: MenuItem) => {
+    logHandler(item);
+    item.checked = !item.checked;
+  };
 
   let fileMenu = new Menu([
     new MenuItem({
       text: 'New File',
       shortcut: 'Ctrl+N',
-      command: logCmd,
-      commandArgs: 'New File'
+      handler: logHandler,
     }),
     new MenuItem({
       text: 'Open File',
       shortcut: 'Ctrl+O',
-      command: logCmd,
-      commandArgs: 'Open File'
+      handler: logHandler,
     }),
     new MenuItem({
       text: 'Save File',
       shortcut: 'Ctrl+S',
-      command: logCmd,
-      commandArgs: 'Save File'
+      handler: logHandler,
     }),
     new MenuItem({
       text: 'Save As...',
       shortcut: 'Ctrl+Shift+S',
-      command: disabledCmd
+      disabled: true,
+      handler: logHandler,
     }),
     new MenuItem({
       type: MenuItem.Separator
@@ -63,13 +54,11 @@ function main() {
     new MenuItem({
       text: 'Close File',
       shortcut: 'Ctrl+W',
-      command: logCmd,
-      commandArgs: 'Close File'
+      handler: logHandler,
     }),
     new MenuItem({
       text: 'Close All',
-      command: logCmd,
-      commandArgs: 'Close All'
+      handler: logHandler,
     }),
     new MenuItem({
       type: MenuItem.Separator
@@ -79,23 +68,19 @@ function main() {
       submenu: new Menu([
         new MenuItem({
           text: 'One',
-          command: logCmd,
-          commandArgs: 'One'
+          handler: logHandler,
         }),
         new MenuItem({
           text: 'Two',
-          command: logCmd,
-          commandArgs: 'Two'
+          handler: logHandler,
         }),
         new MenuItem({
           text: 'Three',
-          command: logCmd,
-          commandArgs: 'Three'
+          handler: logHandler,
         }),
         new MenuItem({
           text: 'Four',
-          command: logCmd,
-          commandArgs: 'Four'
+          handler: logHandler,
         })
       ])
     }),
@@ -104,8 +89,7 @@ function main() {
     }),
     new MenuItem({
       text: 'Exit',
-      command: logCmd,
-      commandArgs: 'Exit'
+      handler: logHandler,
     })
   ]);
 
@@ -114,14 +98,14 @@ function main() {
       text: '&Undo',
       icon: 'fa fa-undo',
       shortcut: 'Ctrl+Z',
-      command: logCmd,
-      commandArgs: 'Undo'
+      handler: logHandler,
     }),
     new MenuItem({
       text: '&Repeat',
       icon: 'fa fa-repeat',
       shortcut: 'Ctrl+Y',
-      command: disabledCmd
+      disabled: true,
+      handler: logHandler,
     }),
     new MenuItem({
       type: MenuItem.Separator
@@ -130,22 +114,19 @@ function main() {
       text: '&Copy',
       icon: 'fa fa-copy',
       shortcut: 'Ctrl+C',
-      command: logCmd,
-      commandArgs: 'Copy'
+      handler: logHandler,
     }),
     new MenuItem({
       text: 'Cu&t',
       icon: 'fa fa-cut',
       shortcut: 'Ctrl+X',
-      command: logCmd,
-      commandArgs: 'Cut'
+      handler: logHandler,
     }),
     new MenuItem({
       text: '&Paste',
       icon: 'fa fa-paste',
       shortcut: 'Ctrl+V',
-      command: logCmd,
-      commandArgs: 'Paste'
+      handler: logHandler,
     })
   ]);
 
@@ -153,20 +134,17 @@ function main() {
     new MenuItem({
       text: 'Find...',
       shortcut: 'Ctrl+F',
-      command: logCmd,
-      commandArgs: 'Find...'
+      handler: logHandler,
     }),
     new MenuItem({
       text: 'Find Next',
       shortcut: 'F3',
-      command: logCmd,
-      commandArgs: 'Find Next'
+      handler: logHandler,
     }),
     new MenuItem({
       text: 'Find Previous',
       shortcut: 'Shift+F3',
-      command: logCmd,
-      commandArgs: 'Find Previous'
+      handler: logHandler,
     }),
     new MenuItem({
       type: MenuItem.Separator
@@ -174,27 +152,23 @@ function main() {
     new MenuItem({
       text: 'Replace...',
       shortcut: 'Ctrl+H',
-      command: logCmd,
-      commandArgs: 'Replace...'
+      handler: logHandler,
     }),
     new MenuItem({
       text: 'Replace Next',
       shortcut: 'Ctrl+Shift+H',
-      command: logCmd,
-      commandArgs: 'Replace Next'
+      handler: logHandler,
     })
   ]);
 
   let helpMenu = new Menu([
     new MenuItem({
       text: 'Documentation',
-      command: logCmd,
-      commandArgs: 'Documentation'
+      handler: logHandler,
     }),
     new MenuItem({
       text: 'About',
-      command: logCmd,
-      commandArgs: 'About'
+      handler: logHandler,
     })
   ]);
 
@@ -229,47 +203,44 @@ function main() {
       text: '&Copy',
       icon: 'fa fa-copy',
       shortcut: 'Ctrl+C',
-      command: logCmd,
-      commandArgs: 'Copy'
+      handler: logHandler,
     }),
     new MenuItem({
       text: 'Cu&t',
       icon: 'fa fa-cut',
       shortcut: 'Ctrl+X',
-      command: logCmd,
-      commandArgs: 'Cut'
+      handler: logHandler,
     }),
     new MenuItem({
       text: '&Paste',
       icon: 'fa fa-paste',
       shortcut: 'Ctrl+V',
-      command: logCmd,
-      commandArgs: 'Paste'
+      handler: logHandler,
     }),
     new MenuItem({
       type: MenuItem.Separator
     }),
     new MenuItem({
       text: '&New Tab',
-      command: logCmd,
-      commandArgs: 'New Tab'
+      handler: logHandler,
     }),
     new MenuItem({
       text: '&Close Tab',
-      command: logCmd,
-      commandArgs: 'Close Tab'
+      handler: logHandler,
     }),
     new MenuItem({
       type: MenuItem.Check,
+      checked: true,
       text: '&Save On Exit',
-      command: saveOnExitCmd
+      handler: saveOnExitHandler,
     }),
     new MenuItem({
       type: MenuItem.Separator
     }),
     new MenuItem({
       text: 'Task Manager',
-      command: disabledCmd
+      disabled: true,
+      handler: logHandler,
     }),
     new MenuItem({
       type: MenuItem.Separator
@@ -279,23 +250,19 @@ function main() {
       submenu: new Menu([
         new MenuItem({
           text: 'One',
-          command: logCmd,
-          commandArgs: 'One'
+          handler: logHandler,
         }),
         new MenuItem({
           text: 'Two',
-          command: logCmd,
-          commandArgs: 'Two'
+          handler: logHandler,
         }),
         new MenuItem({
           text: 'Three',
-          command: logCmd,
-          commandArgs: 'Three'
+          handler: logHandler,
         }),
         new MenuItem({
           text: 'Four',
-          command: logCmd,
-          commandArgs: 'Four'
+          handler: logHandler,
         })
       ])
     }),
@@ -305,8 +272,7 @@ function main() {
     new MenuItem({
       text: 'Close',
       icon: 'fa fa-close',
-      command: logCmd,
-      commandArgs: 'Close'
+      handler: logHandler,
     })
   ]);
 

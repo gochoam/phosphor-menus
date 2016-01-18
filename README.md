@@ -99,51 +99,38 @@ omit the type declarations when using a language other than TypeScript.
 
 ```typescript
 import {
-  DelegateCommand
-} from 'phosphor-command';
-
-import {
   Menu, MenuBar, MenuItem
 } from 'phosphor-menus';
 
 
 function main(): void {
 
-  // A menu item takes an `ICommand` to execute its action when clicked.
-  // A `DelegateCommand` is the simplest way to define a command, but an
-  // application is free to define its own command implementations.
-  let newCmd = new DelegateCommand(() => { console.log('new'); });
-  let openCmd = new DelegateCommand(() => { console.log('open'); });
-  let saveCmd = new DelegateCommand(() => { console.log('save'); });
-  let exitCmd = new DelegateCommand(() => { console.log('exit'); });
-  let undoCmd = new DelegateCommand(() => { console.log('undo'); });
-  let repeatCmd = new DelegateCommand(() => { console.log('repeat'); });
-  let copyCmd = new DelegateCommand(() => { console.log('copy'); });
-  let cutCmd = new DelegateCommand(() => { console.log('cut'); });
-  let pasteCmd = new DelegateCommand(() => { console.log('paste'); });
+  let logHandler = (item: MenuItem) => {
+    console.log(item.text);
+  };
 
   let fileMenu = new Menu([
     new MenuItem({
       text: 'New File',
       shortcut: 'Ctrl+N',
-      command: newCmd
+      handler: logHandler
     }),
     new MenuItem({
       text: 'Open File',
       shortcut: 'Ctrl+O',
-      command: openCmd
+      handler: logHandler
     }),
     new MenuItem({
       text: 'Save As...',
       shortcut: 'Ctrl+Shift+S',
-      command: saveCmd
+      handler: logHandler
     }),
     new MenuItem({
       type: MenuItem.Separator
     }),
     new MenuItem({
       text: 'Exit',
-      command: exitCmd
+      handler: logHandler
     })
   ]);
 
@@ -152,13 +139,13 @@ function main(): void {
       text: '&Undo',
       icon: 'fa fa-undo',
       shortcut: 'Ctrl+Z',
-      command: undoCmd
+      handler: logHandler
     }),
     new MenuItem({
       text: '&Repeat',
       icon: 'fa fa-repeat',
       shortcut: 'Ctrl+Y',
-      command: repeatCmd
+      handler: logHandler
     }),
     new MenuItem({
       type: MenuItem.Separator
@@ -167,19 +154,19 @@ function main(): void {
       text: '&Copy',
       icon: 'fa fa-copy',
       shortcut: 'Ctrl+C',
-      command: copyCmd
+      handler: logHandler
     }),
     new MenuItem({
       text: 'Cu&t',
       icon: 'fa fa-cut',
       shortcut: 'Ctrl+X',
-      command: cutCmd
+      handler: logHandler
     }),
     new MenuItem({
       text: '&Paste',
       icon: 'fa fa-paste',
       shortcut: 'Ctrl+V',
-      command: pasteCmd
+      handler: logHandler
     })
   ]);
 
@@ -188,19 +175,19 @@ function main(): void {
       text: '&Copy',
       icon: 'fa fa-copy',
       shortcut: 'Ctrl+C',
-      command: copyCmd
+      handler: logHandler
     }),
     new MenuItem({
       text: 'Cu&t',
       icon: 'fa fa-cut',
       shortcut: 'Ctrl+X',
-      command: cutCmd
+      handler: logHandler
     }),
     new MenuItem({
       text: '&Paste',
       icon: 'fa fa-paste',
       shortcut: 'Ctrl+V',
-      command: pasteCmd
+      handler: logHandler
     })
   ]);
 
