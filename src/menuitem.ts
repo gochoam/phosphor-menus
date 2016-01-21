@@ -8,12 +8,8 @@
 'use strict';
 
 import {
-  IChangedArgs, Property
-} from 'phosphor-properties';
-
-import {
-  ISignal, Signal
-} from 'phosphor-signaling';
+  Command
+} from 'phosphor-command';
 
 import {
   Menu
@@ -48,13 +44,6 @@ enum MenuItemType {
 
 
 /**
- * A type alias for a menu item handler function.
- */
-export
-type MenuItemHandler = (item: MenuItem) => void;
-
-
-/**
  * An options object for initializing a menu item.
  */
 export
@@ -65,39 +54,19 @@ interface IMenuItemOptions {
   type?: MenuItemType;
 
   /**
-   * The text for the menu item.
+   * The command for the menu item.
    */
-  text?: string;
+  command?: Command;
 
   /**
-   * The icon class for the menu item.
+   * The arguments for the command.
    */
-  icon?: string;
+  args?: any;
 
   /**
-   * The keyboard shortcut for the menu item.
+   * The shortcut decoration for the menu item.
    */
   shortcut?: string;
-
-  /**
-   * The checked state for the menu item.
-   */
-  checked?: boolean;
-
-  /**
-   * The disabled state for the menu item.
-   */
-  disabled?: boolean;
-
-  /**
-   * The extra class name to associate with the menu item.
-   */
-  className?: string;
-
-  /**
-   * The handler function for the menu item.
-   */
-  handler?: MenuItemHandler;
 
   /**
    * The submenu for the menu item.
@@ -107,217 +76,81 @@ interface IMenuItemOptions {
 
 
 /**
- * An item which can be added to a menu widget.
+ * An item which can be added to a menu.
  */
 export
 class MenuItem {
   /**
    * Construct a new menu item.
    *
-   * @param options - The initialization options for the menu item.
+   * @param options - The options for initializing the menu item.
    */
-  constructor(options?: IMenuItemOptions) {
-    if (options) MenuItemPrivate.initFrom(this, options);
-  }
-
-  /**
-   * A signal emitted when the menu item state changes.
-   */
-  get changed(): ISignal<MenuItem, IChangedArgs<any>> {
-    return MenuItemPrivate.changedSignal.bind(this);
+  constructor(options: IMenuItemOptions) {
+    this._type = options.type || MenuItemType.Normal;
+    this._command = options.command || null;
+    this._args = options.args || null;
+    this._shortcut = options.shortcut || '';
+    this._submenu = options.submenu || null;
+    if (this._submenu) this._type = MenuItemType.Submenu;
   }
 
   /**
    * Get the type of the menu item.
    *
    * #### Notes
-   * The default value is `MenuItemType.Normal`.
+   * If the item has a submenu, the type will always be `Submenu`.
+   *
+   * This is a read-only property.
    */
   get type(): MenuItemType {
-    return MenuItemPrivate.typeProperty.get(this);
+    return this._type;
   }
 
   /**
-   * Set the type of the menu item.
+   * Get the command object for the menu item.
    *
    * #### Notes
-   * Items with submenus are forced to `MenuItemType.Submenu`.
+   * This is a read-only property.
    */
-  set type(value: MenuItemType) {
-    MenuItemPrivate.typeProperty.set(this, value);
+  get command(): Command {
+    return this._command;
   }
 
   /**
-   * Get the text for the menu item.
+   * Get the command arguments for the menu item.
    *
    * #### Notes
-   * The default value is an empty string.
-   *
-   * An ampersand (`&`) before a character denotes the item mnemonic.
+   * This is a read-only property.
    */
-  get text(): string {
-    return MenuItemPrivate.textProperty.get(this);
+  get args(): any {
+    return this._args;
   }
 
   /**
-   * Set the text for the menu item.
+   * Get the shortcut decoration for the menu item.
    *
    * #### Notes
-   * An ampersand (`&`) before a character denotes the item mnemonic.
-   */
-  set text(value: string) {
-    MenuItemPrivate.textProperty.set(this, value);
-  }
-
-  /**
-   * Get the icon class for the menu item.
-   *
-   * #### Notes
-   * The default value is an empty string.
-   *
-   * This is the class name(s) added to a menu item icon node.
-   */
-  get icon(): string {
-    return MenuItemPrivate.iconProperty.get(this);
-  }
-
-  /**
-   * Set the icon class for the menu item.
-   *
-   * #### Notes
-   * Multiple class names can be separated with whitespace.
-   */
-  set icon(value: string) {
-    MenuItemPrivate.iconProperty.set(this, value);
-  }
-
-  /**
-   * Get the shortcut key for the menu item.
-   *
-   * #### Notes
-   * The default value is an empty string.
-   *
-   * The shortcut string is for decoration only.
+   * This is a read-only property.
    */
   get shortcut(): string {
-    return MenuItemPrivate.shortcutProperty.get(this);
-  }
-
-  /**
-   * Set the shortcut key for the menu item.
-   *
-   * #### Notes
-   * The shortcut string is for decoration only.
-   */
-  set shortcut(value: string) {
-    MenuItemPrivate.shortcutProperty.set(this, value);
-  }
-
-  /**
-   * Get the checked state for the menu item.
-   *
-   * #### Notes
-   * The default value is `false`.
-   */
-  get checked(): boolean {
-    return MenuItemPrivate.checkedProperty.get(this);
-  }
-
-  /**
-   * Set the checked state for the menu item.
-   *
-   * #### Notes
-   * Only a `Check` type menu item can be checked.
-   */
-  set checked(value: boolean) {
-    MenuItemPrivate.checkedProperty.set(this, value);
-  }
-
-  /**
-   * Get the disabled state for the menu item.
-   *
-   * #### Notes
-   * The default value is `false`.
-   */
-  get disabled(): boolean {
-    return MenuItemPrivate.disabledProperty.get(this);
-  }
-
-  /**
-   * Set the disabled state for the menu item.
-   *
-   * #### Notes
-   * The handler of a disabled menu item will not be invoked.
-   */
-  set disabled(value: boolean) {
-    MenuItemPrivate.disabledProperty.set(this, value);
-  }
-
-  /**
-   * Get the extra class name for the menu item.
-   *
-   * #### Notes
-   * The default value is an empty string.
-   *
-   * This is the class name(s) added to a menu item node.
-   */
-  get className(): string {
-    return MenuItemPrivate.classNameProperty.get(this);
-  }
-
-  /**
-   * Set the extra class name for the menu item.
-   *
-   * #### Notes
-   * Multiple class names can be separated with whitespace.
-   */
-  set className(value: string) {
-    MenuItemPrivate.classNameProperty.set(this, value);
-  }
-
-  /**
-   * Get the handler function for the menu item.
-   *
-   * #### Notes
-   * The default value is `null`.
-   *
-   * The handler will be invoked when the menu item is clicked.
-   */
-  get handler(): MenuItemHandler {
-    return MenuItemPrivate.handlerProperty.get(this);
-  }
-
-  /**
-   * Set the handler function for the menu item.
-   *
-   * #### Notes
-   * The handler will be invoked when the menu item is clicked.
-   */
-  set handler(value: MenuItemHandler) {
-    MenuItemPrivate.handlerProperty.set(this, value);
+    return this._shortcut;
   }
 
   /**
    * Get the submenu for the menu item.
    *
    * #### Notes
-   * The default value is null.
-   *
-   * An item with a submenu will have type `MenuItemType.Submenu`.
+   * This is a read-only property.
    */
   get submenu(): Menu {
-    return MenuItemPrivate.submenuProperty.get(this);
+    return this._submenu;
   }
 
-  /**
-   * Set the submenu for the menu item.
-   *
-   * #### Notes
-   * The `type` will be automatically set to `MenuItemType.Submenu`.
-   */
-  set submenu(value: Menu) {
-    MenuItemPrivate.submenuProperty.set(this, value);
-  }
+  private _type: MenuItemType;
+  private _command: Command;
+  private _args: any;
+  private _shortcut: string;
+  private _submenu: Menu;
 }
 
 
@@ -349,146 +182,4 @@ namespace MenuItem {
    */
   export
   const Submenu = MenuItemType.Submenu;
-}
-
-
-/**
- * The namespace for the menu item private data.
- */
-namespace MenuItemPrivate {
-  /**
-   * A signal emitted when the menu item state changes.
-   */
-  export
-  const changedSignal = new Signal<MenuItem, IChangedArgs<any>>();
-
-  /**
-   * The property descriptor for the menu item type.
-   */
-  export
-  const typeProperty = new Property<MenuItem, MenuItemType>({
-    name: 'type',
-    value: MenuItemType.Normal,
-    coerce: (owner, value) => owner.submenu ? MenuItemType.Submenu : value,
-    changed: owner => { checkedProperty.coerce(owner); },
-    notify: changedSignal,
-  });
-
-  /**
-   * The property descriptor for the menu item text.
-   */
-  export
-  const textProperty = new Property<MenuItem, string>({
-    name: 'text',
-    value: '',
-    notify: changedSignal,
-  });
-
-  /**
-   * The property descriptor for the menu item icon class.
-   */
-  export
-  const iconProperty = new Property<MenuItem, string>({
-    name: 'icon',
-    value: '',
-    notify: changedSignal,
-  });
-
-  /**
-   * The property descriptor for the menu item shortcut.
-   */
-  export
-  const shortcutProperty = new Property<MenuItem, string>({
-    name: 'shortcut',
-    value: '',
-    notify: changedSignal,
-  });
-
-  /**
-   * The property descriptor for the menu item checked state.
-   */
-  export
-  const checkedProperty = new Property<MenuItem, boolean>({
-    name: 'checked',
-    value: false,
-    coerce: (owner, value) => owner.type === MenuItemType.Check ? value : false,
-    notify: changedSignal,
-  });
-
-  /**
-   * The property descriptor for the menu item disabled state.
-   */
-  export
-  const disabledProperty = new Property<MenuItem, boolean>({
-    name: 'disabled',
-    value: false,
-    notify: changedSignal,
-  });
-
-  /**
-   * The property descriptor for the menu item class name.
-   */
-  export
-  const classNameProperty = new Property<MenuItem, string>({
-    name: 'className',
-    value: '',
-    notify: changedSignal,
-  });
-
-  /**
-   * The property descriptor for the menu item handler.
-   */
-  export
-  const handlerProperty = new Property<MenuItem, MenuItemHandler>({
-    name: 'handler',
-    value: null,
-    coerce: (owner, value) => value || null,
-    notify: changedSignal,
-  });
-
-  /**
-   * The property descriptor for the menu item submenu.
-   */
-  export
-  const submenuProperty = new Property<MenuItem, Menu>({
-    name: 'submenu',
-    value: null,
-    coerce: (owner, value) => value || null,
-    changed: owner => { typeProperty.coerce(owner); },
-    notify: changedSignal,
-  });
-
-  /**
-   * Initialize a menu item from an options object.
-   */
-  export
-  function initFrom(item: MenuItem, options: IMenuItemOptions): void {
-    if (options.type !== void 0) {
-      item.type = options.type;
-    }
-    if (options.text !== void 0) {
-      item.text = options.text;
-    }
-    if (options.icon !== void 0) {
-      item.icon = options.icon;
-    }
-    if (options.shortcut !== void 0) {
-      item.shortcut = options.shortcut;
-    }
-    if (options.checked !== void 0) {
-      item.checked = options.checked;
-    }
-    if (options.disabled !== void 0) {
-      item.disabled = options.disabled;
-    }
-    if (options.className !== void 0) {
-      item.className = options.className;
-    }
-    if (options.handler !== void 0) {
-      item.handler = options.handler;
-    }
-    if (options.submenu !== void 0) {
-      item.submenu = options.submenu;
-    }
-  }
 }

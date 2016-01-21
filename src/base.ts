@@ -109,8 +109,6 @@ abstract class AbstractMenu extends Widget {
    * #### Notes
    * If the index is out of range, or points to a menu item which is
    * not selectable, the index will be set to `-1`.
-   *
-   * Setting the active index has O(1) complexity.
    */
   set activeIndex(value: number) {
     let newIndex = value | 0;
@@ -142,8 +140,6 @@ abstract class AbstractMenu extends Widget {
    * #### Notes
    * If the item is not contained in the menu, or is not a selectable
    * item, the active item will be set to `null`.
-   *
-   * Setting the active item has O(n) complexity.
    */
   set activeItem(value: MenuItem) {
     this.activeIndex = this._items.indexOf(value);
@@ -177,31 +173,6 @@ abstract class AbstractMenu extends Widget {
     let i = k <= 0 ? this.items.length - 1 : k - 1;
     let pred = (item: MenuItem) => this.isSelectable(item);
     this.activeIndex = arrays.rfindIndex(this.items, pred, i, true);
-  }
-
-  /**
-   * Activate the next selectable menu item with the given mnemonic.
-   *
-   * #### Notes
-   * The search starts with the currently active item, and progresses
-   * forward until the next selectable item with the given mnemonic is
-   * found. The search will wrap around at the end of the menu, and the
-   * mnemonic matching is case-insensitive.
-   */
-  activateMnemonicItem(char: string): void {
-    let c = char.toUpperCase();
-    let k = this.activeIndex + 1;
-    let i = k >= this.items.length ? 0 : k;
-    this.activeIndex = arrays.findIndex(this.items, item => {
-      if (!this.isSelectable(item)) {
-        return false;
-      }
-      let match = item.text.match(/&\w/);
-      if (!match) {
-        return false;
-      }
-      return match[0][1].toUpperCase() === c;
-    }, i, true);
   }
 
   private _activeIndex = -1;

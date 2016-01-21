@@ -6,9 +6,9 @@
   "typings": "lib/index.d.ts",
   "dependencies": {
     "phosphor-arrays": "^1.0.6",
+    "phosphor-command": "^0.6.0",
     "phosphor-domutil": "^1.2.0",
     "phosphor-messaging": "^1.0.6",
-    "phosphor-properties": "^2.0.0",
     "phosphor-signaling": "^1.2.0",
     "phosphor-widget": "^1.0.0-rc.0"
   },

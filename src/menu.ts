@@ -11,6 +11,10 @@ import * as arrays
   from 'phosphor-arrays';
 
 import {
+  safeExecute
+} from 'phosphor-command';
+
+import {
   boxSizing, hitTest
 } from 'phosphor-domutil';
 
@@ -177,15 +181,13 @@ class Menu extends AbstractMenu {
    * updated.
    */
   static updateItemNode(node: HTMLElement, item: MenuItem): void {
-    let sep = item.type === MenuItem.Separator;
-    let sub = item.type === MenuItem.Submenu;
     let icon = node.firstChild as HTMLElement;
     let text = icon.nextSibling as HTMLElement;
     let shortcut = text.nextSibling as HTMLElement;
     node.className = MenuPrivate.createItemClass(item);
-    icon.className = ICON_CLASS + (item.icon ? ' ' + item.icon : '');
-    text.textContent = sep ? '' : item.text.replace(/&/g, '');
-    shortcut.textContent = (sep || sub) ? '' : item.shortcut;
+    icon.className = MenuPrivate.createIconClass(item);
+    text.textContent = MenuPrivate.createItemText(item);
+    shortcut.textContent = MenuPrivate.createShortcutText(item);
   }
 
   /**
@@ -243,34 +245,6 @@ class Menu extends AbstractMenu {
   }
 
   /**
-   * Find the root menu of this menu hierarchy.
-   *
-   * #### Notes
-   * This is a read-only property.
-   */
-  get rootMenu(): Menu {
-    let menu: Menu = this;
-    while (menu._parentMenu) {
-      menu = menu._parentMenu;
-    }
-    return menu;
-  }
-
-  /**
-   * Find the leaf menu of this menu hierarchy.
-   *
-   * #### Notes
-   * This is a read-only property.
-   */
-  get leafMenu(): Menu {
-    let menu: Menu = this;
-    while (menu._childMenu) {
-      menu = menu._childMenu;
-    }
-    return menu;
-  }
-
-  /**
    * Get the menu content node.
    *
    * #### Notes
@@ -285,58 +259,77 @@ class Menu extends AbstractMenu {
   }
 
   /**
+   * Find the root menu of this menu hierarchy.
+   */
+  rootMenu(): Menu {
+    let menu: Menu = this;
+    while (menu._parentMenu) {
+      menu = menu._parentMenu;
+    }
+    return menu;
+  }
+
+  /**
+   * Find the leaf menu of this menu hierarchy.
+   */
+  leafMenu(): Menu {
+    let menu: Menu = this;
+    while (menu._childMenu) {
+      menu = menu._childMenu;
+    }
+    return menu;
+  }
+
+  /**
    * Open the submenu of the active item, if possible.
    *
    * #### Notes
-   * This is a no-op if the menu is not visible, if there is no active
-   * item, or if the active item is disabled or has a null submenu.
+   * If the active item has a submenu, the submenu will be opened.
+   *
+   * This is a no-op if the menu is not visible.
    */
   openActiveItem(): void {
     if (!this.isVisible) {
       return;
     }
-    let index = this.activeIndex;
-    if (index === -1) {
+    let item = this.activeItem;
+    if (!item || !item.submenu) {
       return;
     }
-    let item = this.items[index];
-    if (item.disabled || !item.submenu) {
-      return;
-    }
-    this._openChildMenu(item, this._nodes[index], false);
+    let node = this._nodes[this.activeIndex];
+    this._openChildMenu(item, node, false);
     this._childMenu.activateNextItem();
   }
 
   /**
-   * Trigger the handler of the active item, if possible.
+   * Trigger the active item, if possible.
    *
    * #### Notes
-   * This is a no-op if the menu is not visible, if there is no
-   * active item, or if the active item is disabled.
+   * The active item command will be executed if possible.
+   *
+   * This is a no-op if the menu is not visible.
    */
   triggerActiveItem(): void {
     if (!this.isVisible) {
       return;
     }
-    let index = this.activeIndex;
-    if (index === -1) {
+    let item = this.activeItem;
+    if (!item) {
       return;
     }
-    let item = this.items[index];
-    if (item.disabled) {
+    if (item.type === MenuItem.Submenu) {
+      this.openActiveItem();
       return;
     }
-    if (item.submenu) {
-      this._openChildMenu(item, this._nodes[index], false);
-      this._childMenu.activateNextItem();
+    if (item.type === MenuItem.Separator) {
       return;
     }
-    let handler = item.handler;
-    if (!handler) {
+    let { command, args } = item;
+    if (!command || !command.isEnabled(args)) {
       return;
     }
-    this.rootMenu.close();
-    handler(item);
+    this.rootMenu().close();
+    safeExecute(command, args);
   }
 
   /**
@@ -368,7 +361,6 @@ class Menu extends AbstractMenu {
   popup(x: number, y: number, forceX = false, forceY = false): void {
     if (!this.isAttached) {
       document.addEventListener('keydown', this, true);
-      document.addEventListener('keypress', this, true);
       document.addEventListener('mousedown', this, true);
       MenuPrivate.openRootMenu(this, x, y, forceX, forceY);
     }
@@ -434,9 +426,6 @@ class Menu extends AbstractMenu {
     case 'keydown':
       this._evtKeyDown(event as KeyboardEvent);
       break;
-    case 'keypress':
-      this._evtKeyPress(event as KeyboardEvent);
-      break;
     case 'contextmenu':
       event.preventDefault();
       event.stopPropagation();
@@ -452,13 +441,14 @@ class Menu extends AbstractMenu {
    * @returns `true` if the item is selectable, `false` otherwise.
    */
   protected isSelectable(item: MenuItem): boolean {
-    if (item.disabled || item.type === MenuItem.Separator) {
+    if (item.type === MenuItem.Separator) {
       return false;
     }
     if (item.type === MenuItem.Submenu) {
       return !!item.submenu;
     }
-    return !!item.handler;
+    let { command, args } = item;
+    return !!command && command.isEnabled(args) && command.isVisible(args);
   }
 
   /**
@@ -564,8 +554,8 @@ class Menu extends AbstractMenu {
     let active = nodes[this.activeIndex];
     if (active) active.classList.add(ACTIVE_CLASS);
 
-    // Hide the redundant and useless menu item nodes.
-    MenuPrivate.hideUselessItems(nodes, items);
+    // Hide the relevant menu item nodes.
+    MenuPrivate.hideRelevantItems(nodes, items);
   }
 
   /**
@@ -587,7 +577,6 @@ class Menu extends AbstractMenu {
     this.node.removeEventListener('mouseleave', this);
     this.node.removeEventListener('contextmenu', this);
     document.removeEventListener('keydown', this, true);
-    document.removeEventListener('keypress', this, true);
     document.removeEventListener('mousedown', this, true);
   }
 
@@ -670,46 +659,29 @@ class Menu extends AbstractMenu {
    * This event listener is attached to the document for a popup menu.
    */
   private _evtKeyDown(event: KeyboardEvent): void {
+    event.preventDefault();
     event.stopPropagation();
-    let leaf = this.leafMenu;
     switch (event.keyCode) {
     case 13:  // Enter
-      event.preventDefault();
-      leaf.triggerActiveItem();
+      this.leafMenu().triggerActiveItem();
       break;
     case 27:  // Escape
-      event.preventDefault();
-      leaf.close();
+      this.leafMenu().close();
       break;
     case 37:  // Left Arrow
-      event.preventDefault();
+      let leaf = this.leafMenu();
       if (leaf !== this) leaf.close();
       break;
     case 38:  // Up Arrow
-      event.preventDefault();
-      leaf.activatePreviousItem();
+      this.leafMenu().activatePreviousItem();
       break;
     case 39:  // Right Arrow
-      event.preventDefault();
-      leaf.openActiveItem();
+      this.leafMenu().openActiveItem();
       break;
     case 40:  // Down Arrow
-      event.preventDefault();
-      leaf.activateNextItem();
+      this.leafMenu().activateNextItem();
       break;
     }
-  }
-
-  /**
-   * Handle the `'keypress'` event for the menu.
-   *
-   * This event listener is attached to the document for a popup menu.
-   */
-  private _evtKeyPress(event: KeyboardEvent): void {
-    event.preventDefault();
-    event.stopPropagation();
-    let key = String.fromCharCode(event.charCode);
-    this.leafMenu.activateMnemonicItem(key);
   }
 
   /**
@@ -833,63 +805,110 @@ namespace MenuPrivate {
   export
   function createItemClass(item: MenuItem): string {
     let name = ITEM_CLASS;
-    if (item.className) {
-      name += ' ' + item.className;
-    }
-    if (item.type === MenuItem.Separator) {
+    let { type, command, args, submenu } = item;
+
+    if (type === MenuItem.Separator) {
       return name + ' ' + SEPARATOR_TYPE_CLASS;
     }
-    if (item.type === MenuItem.Submenu) {
+
+    if (type === MenuItem.Submenu) {
       name += ' ' + SUBMENU_TYPE_CLASS;
-      if (item.disabled || !item.submenu) {
+      if (!submenu) {
         name += ' ' + DISABLED_CLASS;
       }
       return name;
     }
-    if (item.type === MenuItem.Check) {
+
+    if (type === MenuItem.Check) {
       name += ' ' + CHECK_TYPE_CLASS;
-      if (item.checked) {
-        name += ' ' + CHECKED_CLASS;
-      }
     }
-    if (item.disabled || !item.handler) {
+
+    if (!command) {
+      return name + ' ' + DISABLED_CLASS;
+    }
+
+    if (type === MenuItem.Check && command.isChecked(args)) {
+      name += ' ' + CHECKED_CLASS;
+    }
+
+    if (!command.isEnabled(args)) {
       name += ' ' + DISABLED_CLASS;
     }
+
     return name;
   }
 
   /**
-   * Hide the irrelevant item nodes for a menu bar.
+   * Create the class name for a menu item icon.
    */
   export
-  function hideUselessItems(nodes: HTMLElement[], items: MenuItem[]): void {
-    // Hide the leading separators.
+  function createIconClass(item: MenuItem): string {
+    let { command, args } = item;
+    let extra = command ? command.icon(args) : '';
+    return ICON_CLASS + (extra ? ' ' + extra : '');
+  }
+
+  /**
+   * Create the primary text for a menu item.
+   */
+  export
+  function createItemText(item: MenuItem): string {
+    let { type, command, args } = item;
+    let sep = type === MenuItem.Separator;
+    return sep ? '' : command ? command.text(args) : '';
+  }
+
+  /**
+   * Create the shortcut text for a menu item.
+   */
+  export
+  function createShortcutText(item: MenuItem): string {
+    let sub = item.type === MenuItem.Submenu;
+    let sep = item.type === MenuItem.Separator;
+    return (sub || sep) ? '' : item.shortcut;
+  }
+
+  /**
+   * Hide the relevant item nodes for a menu bar.
+   */
+  export
+  function hideRelevantItems(nodes: HTMLElement[], items: MenuItem[]): void {
+    // Hide the relevant leading extrema.
     let k1: number;
     for (k1 = 0; k1 < items.length; ++k1) {
-      if (items[k1].type !== MenuItem.Separator) {
+      if (isVisibleExtrema(items[k1])) {
         break;
       }
       nodes[k1].classList.add(HIDDEN_CLASS);
     }
 
-    // Hide the trailing separators.
+    // Hide the relevant trailing extrema.
     let k2: number;
     for (k2 = items.length - 1; k2 >= 0; --k2) {
-      if (items[k2].type !== MenuItem.Separator) {
+      if (isVisibleExtrema(items[k2])) {
         break;
       }
       nodes[k2].classList.add(HIDDEN_CLASS);
     }
 
-    // Hide the remaining consecutive separators.
-    let hide = false;
+    // Hide the relevant remaining items.
+    let hideNextSep = false;
     while (++k1 < k2) {
-      if (items[k1].type !== MenuItem.Separator) {
-        hide = false;
-      } else if (hide) {
-        nodes[k1].classList.add(HIDDEN_CLASS);
+      let { type, command, args } = items[k1];
+      if (type === MenuItem.Submenu) {
+        hideNextSep = false;
+      } else if (type === MenuItem.Separator) {
+        if (hideNextSep) {
+          nodes[k1].classList.add(HIDDEN_CLASS);
+        } else {
+          hideNextSep = true;
+        }
       } else {
-        hide = true;
+        if (!command || command.isVisible(args)) {
+          hideNextSep = false;
+        } else {
+          nodes[k1].classList.add(HIDDEN_CLASS);
+        }
       }
     }
   }
@@ -934,6 +953,20 @@ namespace MenuPrivate {
       y = itemRect.bottom + box.borderBottom + box.paddingBottom - size.height;
     }
     showMenu(menu, x, y);
+  }
+
+  /**
+   * Test whether an extrema menu item should be visible.
+   */
+  function isVisibleExtrema(item: MenuItem): boolean {
+    let { type, command, args } = item;
+    if (type === MenuItem.Separator) {
+      return false;
+    }
+    if (type === MenuItem.Submenu) {
+      return true;
+    }
+    return !command ? true : command.isVisible(args);
   }
 
   /**
