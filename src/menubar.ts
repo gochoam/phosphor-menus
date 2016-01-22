@@ -19,16 +19,12 @@ import {
 } from 'phosphor-messaging';
 
 import {
-  AbstractMenu
-} from './base';
+  Title, Widget
+} from 'phosphor-widget';
 
 import {
   Menu
 } from './menu';
-
-import {
-  MenuItem
-} from './menuitem';
 
 
 /**
@@ -40,11 +36,6 @@ const MENU_BAR_CLASS = 'p-MenuBar';
  * The class name added to a menu bar content node.
  */
 const CONTENT_CLASS = 'p-MenuBar-content';
-
-/**
- * The class name added to an open menu bar menu.
- */
-const MENU_CLASS = 'p-MenuBar-menu';
 
 /**
  * The class name added to a menu bar item node.
@@ -62,31 +53,21 @@ const ICON_CLASS = 'p-MenuBar-itemIcon';
 const TEXT_CLASS = 'p-MenuBar-itemText';
 
 /**
- * The class name added to a separator menu bar item.
+ * The class name added to a disabled menu bar item.
  */
-const SEPARATOR_TYPE_CLASS = 'p-type-separator';
+// const DISABLED_CLASS = 'p-mod-disabled';
 
 /**
  * The class name added to an active menu bar and item.
  */
 const ACTIVE_CLASS = 'p-mod-active';
 
-/**
- * The class name added to a disabled menu bar item.
- */
-const DISABLED_CLASS = 'p-mod-disabled';
 
 /**
- * The class name added to a hidden menu bar item.
- */
-const HIDDEN_CLASS = 'p-mod-hidden';
-
-
-/**
- * A widget which displays menu items as a menu bar.
+ * A widget which displays menus as a menu bar.
  */
 export
-class MenuBar extends AbstractMenu {
+class MenuBar extends Widget {
   /**
    * Create the DOM node for a menu bar.
    */
@@ -119,11 +100,11 @@ class MenuBar extends AbstractMenu {
   }
 
   /**
-   * Update an item node to reflect the current state of a menu item.
+   * Update an item node to reflect the current state of a title.
    *
    * @param node - A node created by a call to [[createItemNode]].
    *
-   * @param item - The menu item to use for the item state.
+   * @param title - The title to use for the item state.
    *
    * #### Notes
    * This is called automatically when the item should be updated.
@@ -132,55 +113,131 @@ class MenuBar extends AbstractMenu {
    * should also be reimplemented so that the item state is properly
    * updated.
    */
-  static updateItemNode(node: HTMLElement, item: MenuItem): void {
-    let sep = item.type === MenuItem.Separator;
+  static updateItemNode(node: HTMLElement, title: Title): void {
     let icon = node.firstChild as HTMLElement;
     let text = node.lastChild as HTMLElement;
-    node.className = MenuBarPrivate.createItemClass(item);
-    icon.className = ICON_CLASS + (item.icon ? ' ' + item.icon : '');
-    text.textContent = sep ? '' : item.text.replace(/&/g, '');
+    node.className = MenuBarPrivate.createItemClass(title);
+    icon.className = MenuBarPrivate.createIconClass(title);
+    text.textContent = MenuBarPrivate.createItemText(title);
   }
 
   /**
    * Construct a new menu bar.
    *
-   * @param items - The menu items to initialize the menu bar.
+   * @param menus - The initial menus for the menu bar.
    *
    * #### Notes
-   * Subclasses should not pass menu items to `super`. The subclass
-   * should set its own items after it has been fully initialized.
+   * Subclasses should not pass menus to `super`. A subclass should
+   * add its own initial menus after it has been fully initialized.
    */
-  constructor(items?: MenuItem[]) {
+  constructor(menus?: Menu[]) {
     super();
     this.addClass(MENU_BAR_CLASS);
-    if (items) this.items = items;
+    if (menus) menus.forEach(menu => { this.addMenu(menu); });
   }
 
   /**
    * Dispose of the resources held by the menu bar.
    */
   dispose(): void {
-    this._reset();
+    this.clearMenus();
     super.dispose();
   }
 
   /**
-   * Get the child menu of the menu bar.
+   *
+   */
+  get active(): boolean {
+    return this._active;
+  }
+
+  /**
+   *
+   */
+  set active(value: boolean) {
+    if (this._active === value) {
+      return;
+    }
+    if (value) {
+      this.addClass(ACTIVE_CLASS);
+      this.node.addEventListener('mousemove', this);
+      document.addEventListener('mousedown', this, true);
+      document.addEventListener('keydown', this, true);
+      this._active = true;
+    } else {
+      this.activeIndex = -1;
+      this.removeClass(ACTIVE_CLASS);
+      this.node.removeEventListener('mousemove', this);
+      document.removeEventListener('mousedown', this, true);
+      document.removeEventListener('keydown', this, true);
+      this._active = false;
+    }
+  }
+
+  /**
+   * Get the currently active index.
    *
    * #### Notes
-   * This will be `null` if the menu bar does not have an open menu.
-   *
-   * This is a read-only property.
+   * This will be `-1` if there is no active index.
    */
-  get childMenu(): Menu {
-    return this._childMenu;
+  get activeIndex(): number {
+    return this._activeIndex;
+  }
+
+  /**
+   * Set the currently active index.
+   *
+   * #### Notes
+   * If the index is out of range, or if the menu bar is not active,
+   * the active index will be set to `-1`.
+   */
+  set activeIndex(value: number) {
+    if (!this._active) {
+      return;
+    }
+    let newIndex = value | 0;
+    if (newIndex < 0 || newIndex >= this._nodes.length) {
+      newIndex = -1;
+    }
+    let oldIndex = this._activeIndex;
+    if (oldIndex === newIndex) {
+      return;
+    }
+    // TODO swap active menus
+    // TODO dont select disabled menus
+    this._activeIndex = newIndex;
+    let oldNode = this._nodes[oldIndex];
+    let newNode = this._nodes[newIndex];
+    if (oldNode) oldNode.classList.remove(ACTIVE_CLASS);
+    if (newNode) newNode.classList.add(ACTIVE_CLASS);
+  }
+
+  /**
+   * Get the currently active menu.
+   *
+   * #### Notes
+   * This will be `null` if there is no active menu.
+   */
+  get activeMenu(): Menu {
+    return this._menus[this._activeIndex] || null;
+  }
+
+  /**
+   * Set the currently active menu.
+   *
+   * #### Notes
+   * If the menu is not contained in the menu bar, or if the menu bar
+   * is not active, the active menu will be set to `null`.
+   */
+  set activeMenu(menu: Menu) {
+    this.activeIndex = this._menus.indexOf(menu);
   }
 
   /**
    * Get the menu bar content node.
    *
    * #### Notes
-   * This is the node which holds the menu item nodes.
+   * This is the node which holds the menu nodes.
    *
    * Modifying this node directly can lead to undefined behavior.
    *
@@ -191,27 +248,127 @@ class MenuBar extends AbstractMenu {
   }
 
   /**
-   * Open the submenu of the active item, if possible.
+   * Get an array of the menu bar menus.
+   *
+   * @returns A new array of the current menu bar menus.
+   */
+  menus(): Menu[] {
+    return this._menus.slice();
+  }
+
+  /**
+   * Get the number of menus in the menu bar.
+   *
+   * @returns The number of menus in the menu bar.
+   */
+  menuCount(): number {
+    return this._menus.length;
+  }
+
+  /**
+   * Get the menu at the specified index.
+   *
+   * @param index - The index of the menu of interest.
+   *
+   * @returns The menu at the specified index, or `undefined`.
+   */
+  menuAt(index: number): Menu {
+    return this._menus[index];
+  }
+
+  /**
+   * Get the index of the specified menu
+   *
+   * @param menu - The menu of interest.
+   *
+   * @returns The index of the specified menu, or `-1`.
+   */
+  menuIndex(menu: Menu): number {
+    return this._menus.indexOf(menu);
+  }
+
+  /**
+   * Add a menu to the end of the menu bar.
+   *
+   * @param menu - The menu to add to the menu bar.
    *
    * #### Notes
-   * This is a no-op if the menu bar is not visible, if there is no
-   * active item, or if the active item is disabled or has no submenu.
+   * If the menu is already added to the menu bar, it will be moved.
    */
-  openActiveItem(): void {
-    if (!this.isVisible) {
+  addMenu(menu: Menu): void {
+    this.insertMenu(this.menuCount(), menu);
+  }
+
+  /**
+   * Insert a menu at the specified index.
+   *
+   * @param index - The index at which to insert the menu.
+   *
+   * @param menu - The menu to insert into the menu bar.
+   *
+   * #### Notes
+   * If the menu is already added to the menu bar, it will be moved.
+   */
+  insertMenu(index: number, menu: Menu): void {
+    this.active = false;
+    let n = this._menus.length;
+    let i = this._menus.indexOf(menu);
+    let j = Math.max(0, Math.min(index | 0, n));
+    if (i !== -1) {
+      if (j === n) j--;
+      if (i === j) return;
+      arrays.move(this._menus, i, j);
+      arrays.move(this._nodes, i, j);
+      this.contentNode.insertBefore(this._nodes[j], this._nodes[j + 1]);
+    } else {
+      let constructor = this.constructor as typeof MenuBar;
+      let node = constructor.createItemNode();
+      constructor.updateItemNode(node, menu.title);
+      arrays.insert(this._menus, j, menu);
+      arrays.insert(this._nodes, j, node);
+      this.contentNode.insertBefore(node, this._nodes[j + 1]);
+      menu.title.changed.connect(this._onTitleChanged, this);
+    }
+  }
+
+  /**
+   * Remove the menu at the specified index.
+   *
+   * @param index - The index at which to insert the menu.
+   *
+   * #### Notes
+   * If the index is out of range, this is a no-op.
+   */
+  removeMenuAt(index: number): void {
+    this.active = false;
+    let menu = arrays.removeAt(this._menus, index);
+    if (!menu) {
       return;
     }
-    let index = this.activeIndex;
-    if (index === -1) {
-      return;
+    menu.title.changed.disconnect(this._onTitleChanged, this);
+    this.contentNode.removeChild(arrays.removeAt(this._nodes, index));
+  }
+
+  /**
+   * Remove a menu from the menu bar.
+   *
+   * @param item - The menu to remove from the menu bar.
+   *
+   * #### Notes
+   * If the menu is not in the menu bar, this is a no-op.
+   */
+  removeMenu(menu: Menu): void {
+    let i = this.menuIndex(menu);
+    if (i !== -1) this.removeMenuAt(i);
+  }
+
+  /**
+   * Remove all menus from the menu bar.
+   */
+  clearMenus(): void {
+    while (this.menuCount()) {
+      this.removeMenuAt(this.menuCount() - 1);
     }
-    let item = this.items[index];
-    if (item.disabled || !item.submenu) {
-      return;
-    }
-    this._activate();
-    this._closeChildMenu();
-    this._openChildMenu(item.submenu, this._nodes[index]);
   }
 
   /**
@@ -232,14 +389,8 @@ class MenuBar extends AbstractMenu {
     case 'mousemove':
       this._evtMouseMove(event as MouseEvent);
       break;
-    case 'mouseleave':
-      this._evtMouseLeave(event as MouseEvent);
-      break;
     case 'keydown':
       this._evtKeyDown(event as KeyboardEvent);
-      break;
-    case 'keypress':
-      this._evtKeyPress(event as KeyboardEvent);
       break;
     case 'contextmenu':
       event.preventDefault();
@@ -249,106 +400,10 @@ class MenuBar extends AbstractMenu {
   }
 
   /**
-   * A method invoked to test whether an item is selectable.
-   *
-   * @param item - The menu item of interest.
-   *
-   * @returns `true` if the item is selectable, `false` otherwise.
-   */
-  protected isSelectable(item: MenuItem): boolean {
-    return !item.disabled && !!item.submenu;
-  }
-
-  /**
-   * A method invoked when the menu items change.
-   *
-   * @param oldItems - The old menu items.
-   *
-   * @param newItems - The new menu items.
-   */
-  protected onItemsChanged(oldItems: MenuItem[], newItems: MenuItem[]): void {
-    // Reset the menu bar before updating the items.
-    this._reset();
-
-    // Disconnect the old item signals.
-    for (let item of oldItems) {
-      if (newItems.indexOf(item) === -1) {
-        item.changed.disconnect(this._onItemChanged, this);
-      }
-    }
-
-    // Connect the new item signals.
-    for (let item of newItems) {
-      if (oldItems.indexOf(item) === -1) {
-        item.changed.connect(this._onItemChanged, this);
-      }
-    }
-
-    // Fetch common variables.
-    let nodes = this._nodes;
-    let content = this.contentNode;
-    let constructor = this.constructor as typeof MenuBar;
-
-    // Remove any excess item nodes.
-    while (nodes.length > newItems.length) {
-      let node = nodes.pop();
-      content.removeChild(node);
-    }
-
-    // Add any missing item nodes.
-    while (nodes.length < newItems.length) {
-      let node = constructor.createItemNode();
-      content.appendChild(node);
-      nodes.push(node);
-    }
-
-    // Schedule an update of the item nodes.
-    this.update();
-  }
-
-  /**
-   * A method invoked when the active index changes.
-   *
-   * @param oldIndex - The old active index.
-   *
-   * @param newIndex - The new active index.
-   */
-  protected onActiveIndexChanged(oldIndex: number, newIndex: number): void {
-    let oldNode = this._nodes[oldIndex];
-    let newNode = this._nodes[newIndex];
-    if (oldNode) oldNode.classList.remove(ACTIVE_CLASS);
-    if (newNode) newNode.classList.add(ACTIVE_CLASS);
-  }
-
-  /**
-   * A handler invoked on an `'update-request'` message.
-   */
-  protected onUpdateRequest(msg: Message): void {
-    // Fetch common variables.
-    let items = this.items;
-    let nodes = this._nodes;
-    let constructor = this.constructor as typeof MenuBar;
-
-    // Update the state of the item nodes.
-    for (let i = 0, n = items.length; i < n; ++i) {
-      constructor.updateItemNode(nodes[i], items[i]);
-    }
-
-    // Restore the active node class.
-    let active = nodes[this.activeIndex];
-    if (active) active.classList.add(ACTIVE_CLASS);
-
-    // Hide the redundant and useless menu item nodes.
-    MenuBarPrivate.hideUselessItems(nodes, items);
-  }
-
-  /**
    * A message handler invoked on an `'after-attach'` message.
    */
   protected onAfterAttach(msg: Message): void {
     this.node.addEventListener('mousedown', this);
-    this.node.addEventListener('mousemove', this);
-    this.node.addEventListener('mouseleave', this);
     this.node.addEventListener('contextmenu', this);
   }
 
@@ -357,10 +412,22 @@ class MenuBar extends AbstractMenu {
    */
   protected onBeforeDetach(msg: Message): void {
     this.node.removeEventListener('mousedown', this);
-    this.node.removeEventListener('mousemove', this);
-    this.node.removeEventListener('mouseleave', this);
     this.node.removeEventListener('contextmenu', this);
-    this._reset();
+    this.active = false;
+  }
+
+  /**
+   * A message handler invoked on an `'update-request'` message.
+   */
+  protected onUpdateRequest(msg: Message): void {
+    let nodes = this._nodes;
+    let menus = this._menus;
+    let constructor = this.constructor as typeof MenuBar;
+    for (let i = 0, n = menus.length; i < n; ++i) {
+      constructor.updateItemNode(nodes[i], menus[i].title);
+    }
+    let active = nodes[this._activeIndex];
+    if (active) active.classList.add(ACTIVE_CLASS);
   }
 
   /**
@@ -372,7 +439,7 @@ class MenuBar extends AbstractMenu {
     // menu emits its `closed` signal.
     let x = event.clientX;
     let y = event.clientY;
-    if (this._active && MenuBarPrivate.hitTestMenus(this._childMenu, x, y)) {
+    if (MenuBarPrivate.hitTestMenus(this.activeMenu, x, y)) {
       return;
     }
 
@@ -387,11 +454,9 @@ class MenuBar extends AbstractMenu {
     // Check if the mouse was pressed on one of the menu items.
     let i = arrays.findIndex(this._nodes, node => hitTest(node, x, y));
 
-    // If the press was not on an item, reset the menu bar.
+    // If the press was not on an item, deactivate the menu bar.
     if (i === -1) {
-      this._deactivate();
-      this._closeChildMenu();
-      this.activeIndex = -1;
+      this.active = false;
       return;
     }
 
@@ -400,203 +465,85 @@ class MenuBar extends AbstractMenu {
       return;
     }
 
-    // If the bar is active, deactivate it and close the child menu.
-    if (this._active) {
-      this._deactivate();
-      this._closeChildMenu();
-      this.activeIndex = i;
+    // If the bar is active, deactivate it.
+    if (this.active) {
+      this.active = false;
       return;
     }
 
-    // Otherwise, activate the bar and open the item if possible.
-    this._activate();
+    // Otherwise, activate the bar and indicated item.
+    this.active = true;
     this.activeIndex = i;
-    this.openActiveItem();
   }
 
   /**
    * Handle the `'mousemove'` event for the menu bar.
    */
   private _evtMouseMove(event: MouseEvent): void {
-    // Check if the mouse is over one of the menu items.
+    // Hit test the items for the index under the mouse.
     let x = event.clientX;
     let y = event.clientY;
     let i = arrays.findIndex(this._nodes, node => hitTest(node, x, y));
 
-    // Bail early if the active index will not change.
-    if (i === this.activeIndex) {
+    // Bail if the mouse is not over an item. This allows the leading
+    // and trailing menus to be kept open when the mouse is over the
+    // empty part of the menu bar.
+    if (i === -1) {
       return;
     }
 
-    // Bail early if the bar is active and the mouse is not over an
-    // item. This allows the leading and trailing menus to be kept
-    // open when the mouse is over the empty part of the menu bar.
-    if (i === -1 && this._active) {
-      return;
-    }
-
-    // Update the active index to the hovered item.
+    // Update the active index to the indicated item.
     this.activeIndex = i;
-
-    // If the bar is not active, there's nothing more to do.
-    if (!this._active) {
-      return;
-    }
-
-    // Otherwise, close the current child menu and open the new one.
-    this._closeChildMenu();
-    this.openActiveItem();
-  }
-
-  /**
-   * Handle the `'mouseleave'` event for the menu bar.
-   */
-  private _evtMouseLeave(event: MouseEvent): void {
-    if (!this._active) this.activeIndex = -1;
   }
 
   /**
    * Handle the `'keydown'` event for the menu bar.
    */
   private _evtKeyDown(event: KeyboardEvent): void {
+    event.preventDefault();
     event.stopPropagation();
-    let menu = this._childMenu;
-    let leaf = menu && menu.leafMenu;
+    let menu = this.activeMenu;
+    let leaf = menu && menu.leafMenu();
     switch (event.keyCode) {
     case 13:  // Enter
-      event.preventDefault();
       if (leaf) leaf.triggerActiveItem();
       break;
     case 27:  // Escape
-      event.preventDefault();
       if (leaf) leaf.close();
       break;
     case 37:  // Left Arrow
-      event.preventDefault();
       if (leaf && leaf !== menu) {
         leaf.close();
       } else {
-        this._closeChildMenu();
         this.activatePreviousItem();
-        this.openActiveItem();
       }
       break;
     case 38:  // Up Arrow
-      event.preventDefault();
       if (leaf) leaf.activatePreviousItem();
       break;
     case 39:  // Right Arrow
-      event.preventDefault();
       if (leaf && leaf.activeItem && leaf.activeItem.submenu) {
         leaf.openActiveItem();
       } else {
-        this._closeChildMenu();
         this.activateNextItem();
-        this.openActiveItem();
       }
       break;
     case 40:  // Down Arrow
-      event.preventDefault();
       if (leaf) leaf.activateNextItem();
       break;
     }
   }
 
   /**
-   * Handle the `'keypress'` event for the menu bar.
+   * Handle the `changed` signal of a title object.
    */
-  private _evtKeyPress(event: KeyboardEvent): void {
-    event.preventDefault();
-    event.stopPropagation();
-    let menu = this._childMenu;
-    let leaf = menu && menu.leafMenu;
-    let key = String.fromCharCode(event.charCode);
-    (leaf || this).activateMnemonicItem(key);
-  }
-
-  /**
-   * Activate the menu bar and install the document listeners.
-   */
-  private _activate(): void {
-    if (this._active) {
-      return;
-    }
-    this._active = true;
-    this.addClass(ACTIVE_CLASS);
-    document.addEventListener('mousedown', this, true);
-    document.addEventListener('keydown', this, true);
-    document.addEventListener('keypress', this, true);
-  }
-
-  /**
-   * Deactivate the menu bar and remove the document listeners.
-   */
-  private _deactivate(): void {
-    if (!this._active) {
-      return;
-    }
-    this._active = false;
-    this.removeClass(ACTIVE_CLASS);
-    document.removeEventListener('mousedown', this, true);
-    document.removeEventListener('keydown', this, true);
-    document.removeEventListener('keypress', this, true);
-  }
-
-  /**
-   * Open the child menu using the given item node for location.
-   */
-  private _openChildMenu(menu: Menu, node: HTMLElement): void {
-    let rect = node.getBoundingClientRect();
-    this._childMenu = menu;
-    menu.addClass(MENU_CLASS);
-    menu.open(rect.left, rect.bottom, false, true);
-    menu.closed.connect(this._onMenuClosed, this);
-  }
-
-  /**
-   * Close the current child menu, if one exists.
-   */
-  private _closeChildMenu(): void {
-    let menu = this._childMenu;
-    if (!menu) {
-      return;
-    }
-    this._childMenu = null;
-    menu.closed.disconnect(this._onMenuClosed, this);
-    menu.removeClass(MENU_CLASS);
-    menu.close();
-  }
-
-  /**
-   * Reset the menu bar to its default state.
-   */
-  private _reset(): void {
-    this._deactivate();
-    this._closeChildMenu();
-    this.activeIndex = -1;
-  }
-
-  /**
-   * Handle the `changed` signal from a menu item.
-   */
-  private _onItemChanged(): void {
-    this._reset()
+  private _onTitleChanged(sender: Title): void {
     this.update();
   }
 
-  /**
-   * Handle the `closed` signal from the child menu.
-   */
-  private _onMenuClosed(sender: Menu): void {
-    sender.closed.disconnect(this._onMenuClosed, this);
-    sender.removeClass(MENU_CLASS);
-    this._deactivate();
-    this._childMenu = null;
-    this.activeIndex = -1;
-  }
-
   private _active = false;
-  private _childMenu: Menu = null;
+  private _activeIndex = -1;
+  private _menus: Menu[] = [];
   private _nodes: HTMLElement[] = [];
 }
 
@@ -609,18 +556,25 @@ namespace MenuBarPrivate {
    * Create the class name for a menu bar item.
    */
   export
-  function createItemClass(item: MenuItem): string {
-    let name = ITEM_CLASS;
-    if (item.className) {
-      name += ' ' + item.className;
-    }
-    if (item.type === MenuItem.Separator) {
-      return name + ' ' + SEPARATOR_TYPE_CLASS;
-    }
-    if (item.disabled || (item.type === MenuItem.Submenu && !item.submenu)) {
-      return name + ' ' + DISABLED_CLASS;
-    }
-    return name;
+  function createItemClass(title: Title): string {
+    // TODO handle the disabled state somehow.
+    return ITEM_CLASS + (title.className ? ' ' + title.className : '');
+  }
+
+  /**
+   * Create the class name for a menu bar item icon.
+   */
+  export
+  function createIconClass(title: Title): string {
+    return ICON_CLASS + (title.icon ? ' ' + title.icon : '');
+  }
+
+  /**
+   * Create the text for a menu bar item.
+   */
+  export
+  function createItemText(title: Title): string {
+    return title.text;
   }
 
   /**
@@ -635,43 +589,5 @@ namespace MenuBarPrivate {
       menu = menu.childMenu;
     }
     return false;
-  }
-
-  /**
-   * Hide the irrelevant item nodes for a menu bar.
-   */
-  export
-  function hideUselessItems(nodes: HTMLElement[], items: MenuItem[]): void {
-    // Hide the leading non-submenu items.
-    let k1: number;
-    for (k1 = 0; k1 < items.length; ++k1) {
-      if (items[k1].type === MenuItem.Submenu) {
-        break;
-      }
-      nodes[k1].classList.add(HIDDEN_CLASS);
-    }
-
-    // Hide the trailing separator items.
-    let k2: number;
-    for (k2 = items.length - 1; k2 >= 0; --k2) {
-      if (items[k2].type === MenuItem.Submenu) {
-        break;
-      }
-      nodes[k2].classList.add(HIDDEN_CLASS);
-    }
-
-    // Hide the consecutive separators and other non-submenu items.
-    let hide = false;
-    while (++k1 < k2) {
-      if (items[k1].type === MenuItem.Submenu) {
-        hide = false;
-      } else if (items[k1].type !== MenuItem.Separator) {
-        nodes[k1].classList.add(HIDDEN_CLASS);
-      } else if (hide) {
-        nodes[k1].classList.add(HIDDEN_CLASS);
-      } else {
-        hide = true;
-      }
-    }
   }
 }
