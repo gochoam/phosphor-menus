@@ -38,6 +38,11 @@ const MENU_BAR_CLASS = 'p-MenuBar';
 const CONTENT_CLASS = 'p-MenuBar-content';
 
 /**
+ * The class name added to a menu bar menu.
+ */
+const MENU_CLASS = 'p-MenuBar-menu';
+
+/**
  * The class name added to a menu bar item node.
  */
 const ITEM_CLASS = 'p-MenuBar-item';
@@ -140,19 +145,29 @@ class MenuBar extends Widget {
    * Dispose of the resources held by the menu bar.
    */
   dispose(): void {
-    this.clearMenus();
+    this.active = false;
+    this._menus.length = 0;
+    this._nodes.length = 0;
     super.dispose();
   }
 
   /**
+   * Get the active state of the menu bar.
    *
+   * #### Notes
+   * The menu bar must be active in order to set the active index.
    */
   get active(): boolean {
     return this._active;
   }
 
   /**
+   * Set the active state of the menu bar.
    *
+   * #### Notes
+   * The menu bar must be active in order to set the active index.
+   *
+   * If the menu bar is deactivated, the active index is set to `-1`.
    */
   set active(value: boolean) {
     if (this._active === value) {
@@ -189,27 +204,54 @@ class MenuBar extends Widget {
    *
    * #### Notes
    * If the index is out of range, or if the menu bar is not active,
-   * the active index will be set to `-1`.
+   * the active index will be forced to `-1`.
    */
   set activeIndex(value: number) {
+    // Do nothing if the menu is not active.
     if (!this._active) {
       return;
     }
+
+    // Force the index to -1 if it is out of range or if it points
+    // to an unselectable menu.
     let newIndex = value | 0;
-    if (newIndex < 0 || newIndex >= this._nodes.length) {
+    if (newIndex < 0 ||
+        newIndex >= this._menus.length ||
+        !MenuBarPrivate.isSelectable(this._menus[newIndex])) {
       newIndex = -1;
     }
+
+    // Bail if there is not effective index change.
     let oldIndex = this._activeIndex;
     if (oldIndex === newIndex) {
       return;
     }
-    // TODO swap active menus
-    // TODO dont select disabled menus
+
+    // Update the internal index.
     this._activeIndex = newIndex;
+
+    // Fetch the old and new item nodes and menus.
     let oldNode = this._nodes[oldIndex];
     let newNode = this._nodes[newIndex];
+    let oldMenu = this._menus[oldIndex];
+    let newMenu = this._menus[newIndex];
+
+    // Swap the active class on the item nodes.
     if (oldNode) oldNode.classList.remove(ACTIVE_CLASS);
     if (newNode) newNode.classList.add(ACTIVE_CLASS);
+
+    // Close the old menu.
+    if (oldMenu) {
+      oldMenu.closed.disconnect(this._onMenuClosed, this);
+      oldMenu.close();
+    }
+
+    // Open the new menu.
+    if (newMenu) {
+      let rect = newNode.getBoundingClientRect();
+      newMenu.open(rect.left, rect.bottom, false, true);
+      newMenu.closed.connect(this._onMenuClosed, this);
+    }
   }
 
   /**
@@ -245,6 +287,38 @@ class MenuBar extends Widget {
    */
   get contentNode(): HTMLElement {
     return this.node.getElementsByClassName(CONTENT_CLASS)[0] as HTMLElement;
+  }
+
+  /**
+   * Activate the next selectable menu.
+   *
+   * #### Notes
+   * The search starts with the currently active menu, and progresses
+   * forward until the next selectable menu is found. The search will
+   * wrap around at the end of the menu bar.
+   */
+  activateNext(): void {
+    let menus = this._menus;
+    let k = this._activeIndex + 1;
+    let i = k >= menus.length ? 0 : k;
+    let pred = MenuBarPrivate.isSelectable;
+    this.activeIndex = arrays.findIndex(menus, pred, i, true);
+  }
+
+  /**
+   * Activate the previous selectable menu.
+   *
+   * #### Notes
+   * The search starts with the currently active menu, and progresses
+   * backward until the next selectable menu is found. The search will
+   * wrap around at the front of the menu bar.
+   */
+  activatePrevious(): void {
+    let menus = this._menus;
+    let k = this._activeIndex;
+    let i = k <= 0 ? menus.length - 1 : k - 1;
+    let pred = MenuBarPrivate.isSelectable;
+    this.activeIndex = arrays.rfindIndex(menus, pred, i, true);
   }
 
   /**
@@ -328,6 +402,7 @@ class MenuBar extends Widget {
       arrays.insert(this._nodes, j, node);
       this.contentNode.insertBefore(node, this._nodes[j + 1]);
       menu.title.changed.connect(this._onTitleChanged, this);
+      menu.addClass(MENU_CLASS);
     }
   }
 
@@ -345,6 +420,7 @@ class MenuBar extends Widget {
     if (!menu) {
       return;
     }
+    menu.removeClass(MENU_CLASS);
     menu.title.changed.disconnect(this._onTitleChanged, this);
     this.contentNode.removeChild(arrays.removeAt(this._nodes, index));
   }
@@ -366,8 +442,9 @@ class MenuBar extends Widget {
    * Remove all menus from the menu bar.
    */
   clearMenus(): void {
-    while (this.menuCount()) {
-      this.removeMenuAt(this.menuCount() - 1);
+    let count: number;
+    while (count = this.menuCount()) {
+      this.removeMenuAt(count - 1);
     }
   }
 
@@ -506,7 +583,7 @@ class MenuBar extends Widget {
     let leaf = menu && menu.leafMenu();
     switch (event.keyCode) {
     case 13:  // Enter
-      if (leaf) leaf.triggerActiveItem();
+      if (leaf) leaf.triggerActive();
       break;
     case 27:  // Escape
       if (leaf) leaf.close();
@@ -515,21 +592,22 @@ class MenuBar extends Widget {
       if (leaf && leaf !== menu) {
         leaf.close();
       } else {
-        this.activatePreviousItem();
+        this.activatePrevious();
       }
       break;
     case 38:  // Up Arrow
-      if (leaf) leaf.activatePreviousItem();
+      if (leaf) leaf.activatePrevious();
       break;
     case 39:  // Right Arrow
-      if (leaf && leaf.activeItem && leaf.activeItem.submenu) {
-        leaf.openActiveItem();
+      // TODO - cleanup this if-test
+      if (leaf && leaf.activeItem && leaf.activeItem.menu) {
+        leaf.triggerActive();
       } else {
-        this.activateNextItem();
+        this.activateNext();
       }
       break;
     case 40:  // Down Arrow
-      if (leaf) leaf.activateNextItem();
+      if (leaf) leaf.activateNext();
       break;
     }
   }
@@ -539,6 +617,14 @@ class MenuBar extends Widget {
    */
   private _onTitleChanged(sender: Title): void {
     this.update();
+  }
+
+  /**
+   * Handle the `closed` signal from the active menu.
+   */
+  private _onMenuClosed(sender: Menu): void {
+    sender.closed.disconnect(this._onMenuClosed, this);
+    this.active = false;
   }
 
   private _active = false;
@@ -557,7 +643,7 @@ namespace MenuBarPrivate {
    */
   export
   function createItemClass(title: Title): string {
-    // TODO handle the disabled state somehow.
+    // TODO support disabled state somehow.
     return ITEM_CLASS + (title.className ? ' ' + title.className : '');
   }
 
@@ -575,6 +661,15 @@ namespace MenuBarPrivate {
   export
   function createItemText(title: Title): string {
     return title.text;
+  }
+
+  /**
+   * Test whether a menu is selectable.
+   */
+  export
+  function isSelectable(menu: Menu): boolean {
+    // TODO support disabled state somehow.
+    return true;
   }
 
   /**
