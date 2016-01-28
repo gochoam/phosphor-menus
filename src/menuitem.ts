@@ -8,8 +8,34 @@
 'use strict';
 
 import {
-  Command
+  CommandItem
 } from 'phosphor-command';
+
+import {
+  CommandPalette
+} from 'phosphor-commandpalette';
+
+
+/**
+ * An enum of supported menu item types.
+ */
+export
+enum MenuItemType {
+  /**
+   * The menu item represents a command item.
+   */
+  Command,
+
+  /**
+   * The menu item represents a palette item.
+   */
+  Palette,
+
+  /**
+   * The menu item represents a separator item.
+   */
+  Separator,
+}
 
 
 /**
@@ -18,69 +44,125 @@ import {
 export
 interface IMenuItemOptions {
   /**
-   * The command for the menu item.
+   * The type of the menu item.
    */
-  command: Command;
+  type: MenuItemType;
 
   /**
-   * The arguments for the command.
+   * The command item for a `Command` type menu item.
    */
-  args?: any;
+  command?: CommandItem;
 
   /**
-   * The keyboard shortcut decoration.
+   * The command palette for a `Palette` type menu item.
    */
-  shortcut?: string;
+  palette?: CommandPalette;
 }
 
 
 /**
- * A read-only item which can be added to a menu group.
+ * A read-only object which can be added to a menu.
  */
 export
 class MenuItem {
+  /**
+   * Create a new menu item with the given command item.
+   *
+   * @param command - The command item for the menu item.
+   *
+   * @returns A new `Command` type menu item.
+   */
+  static createCommandItem(command: CommandItem): MenuItem {
+    return new MenuItem({ type: MenuItem.Command, command });
+  }
+
+  /**
+   * Create a new menu item with the given command palette.
+   *
+   * @param palette - The command palette for the menu item.
+   *
+   * @returns A new `Palette` type menu item.
+   */
+  static createPaletteItem(palette: CommandPalette): MenuItem {
+    return new MenuItem({ type: MenuItem.Palette, palette });
+  }
+
+  /**
+   * Create a new separator menu item
+   *
+   * @returns A new `Separator` type menu item.
+   */
+  static createSeparatorItem(): MenuItem {
+    return new MenuItem({ type: MenuItem.Separator });
+  }
+
   /**
    * Construct a new menu item.
    *
    * @param options - The options for initializing the menu item.
    */
   constructor(options: IMenuItemOptions) {
-    this._command = options.command;
-    this._args = options.args || null;
-    this._shortcut = options.shortcut || '';
+    this._type = options.type;
+    this._command = options.command || null;
+    this._palette = options.palette || null;
   }
 
   /**
-   * Get the command for the menu item.
+   * Get the type of the menu item.
    *
    * #### Notes
    * This is a read-only property.
    */
-  get command(): Command {
+  get type(): MenuItemType {
+    return this._type;
+  }
+
+  /**
+   * Get the command item for a `Command` type menu item.
+   *
+   * #### Notes
+   * This is a read-only property.
+   */
+  get command(): CommandItem {
     return this._command;
   }
 
   /**
-   * Get the arguments for the command.
+   * Get the command palette for a `Palette` type menu item.
    *
    * #### Notes
    * This is a read-only property.
    */
-  get args(): any {
-    return this._args;
+  get palette(): CommandPalette {
+    return this._palette;
   }
+
+  private _type: MenuItemType;
+  private _command: CommandItem;
+  private _palette: CommandPalette;
+}
+
+
+/**
+ * The namespace for the `MenuItem` class statics.
+ */
+export
+namespace MenuItem {
+  /**
+   * A convenience alias of the `Command` menu item type.
+   */
+  export
+  const Command = MenuItemType.Command;
 
   /**
-   * Get the keyboard shortcut decoration.
-   *
-   * #### Notes
-   * This is a read-only property.
+   * A convenience alias of the `Palette` menu item type.
    */
-  get shortcut(): string {
-    return this._shortcut;
-  }
+  export
+  const Palette = MenuItemType.Palette;
 
-  private _command: Command;
-  private _args: any;
-  private _shortcut: string;
+  /**
+   * A convenience alias of the `Separator` menu item type.
+   */
+  export
+  const Separator = MenuItemType.Separator;
 }

@@ -9,5 +9,6 @@
 
 export * from './menu';
 export * from './menubar';
+export * from './menuitem';
 
 import './index.css';
