@@ -19,6 +19,14 @@ import {
 } from 'phosphor-commandpalette';
 
 import {
+  Message
+} from 'phosphor-messaging';
+
+import {
+  PanelLayout
+} from 'phosphor-panel';
+
+import {
   ISignal, Signal
 } from 'phosphor-signaling';
 
@@ -36,6 +44,56 @@ import {
  */
 const MENU_CLASS = 'p-Menu';
 
+/**
+ * The class name added to a menu content widget.
+ */
+const CONTENT_CLASS = 'p-Menu-content';
+
+/**
+ * The class name added to a menu item node.
+ */
+const ITEM_CLASS = 'p-Menu-item';
+
+/**
+ * The class name added to a menu item icon cell.
+ */
+const ICON_CLASS = 'p-Menu-itemIcon';
+
+/**
+ * The class name added to a menu item text cell.
+ */
+const TEXT_CLASS = 'p-Menu-itemText';
+
+/**
+ * The class name added to a menu item shortcut cell.
+ */
+const SHORTCUT_CLASS = 'p-Menu-itemShortcut';
+
+/**
+ * The class name added to a command menu item.
+ */
+const COMMAND_TYPE_CLASS = 'p-type-command';
+
+/**
+ * The class name added to a palette menu item.
+ */
+const PALETTE_TYPE_CLASS = 'p-type-palette';
+
+/**
+ * The class name added to a separator menu item.
+ */
+const SEPARATOR_TYPE_CLASS = 'p-type-separator';
+
+/**
+ * The class name added to a disabled menu item.
+ */
+const DISABLED_CLASS = 'p-mod-disabled';
+
+/**
+ * The class name added to a checked menu item.
+ */
+const CHECKED_CLASS = 'p-mod-checked';
+
 
 /**
  * A widget which displays menu items as a popup menu.
@@ -43,11 +101,108 @@ const MENU_CLASS = 'p-Menu';
 export
 class Menu extends Widget {
   /**
+   * Create a new item node for a menu item.
+   *
+   * @returns A new DOM node to use as a menu item node.
+   *
+   * #### Notes
+   * This method may be reimplemented to create custom items.
+   */
+  static createItemNode(): HTMLElement {
+    let node = document.createElement('li');
+    let icon = document.createElement('span');
+    let text = document.createElement('span');
+    let shortcut = document.createElement('span');
+    node.className = ITEM_CLASS;
+    icon.className = ICON_CLASS;
+    text.className = TEXT_CLASS;
+    shortcut.className = SHORTCUT_CLASS;
+    node.appendChild(icon);
+    node.appendChild(text);
+    node.appendChild(shortcut);
+    return node;
+  }
+
+  /**
+   * Update an item node to reflect the current state of a menu item.
+   *
+   * @param node - A node created by a call to [[createItemNode]].
+   *
+   * @param item - The menu item to use for the item state.
+   *
+   * #### Notes
+   * This is called automatically when the item should be updated.
+   *
+   * If the [[createItemNode]] method is reimplemented, this method
+   * should also be reimplemented so that the item state is properly
+   * updated.
+   */
+  static updateItemNode(node: HTMLElement, item: MenuItem): void {
+    let type = '';
+    let text = '';
+    let icon = '';
+    let extra = '';
+    let shortcut = '';
+    let disabled = false;
+    let checked = false;
+
+    switch (item.type) {
+    case MenuItem.Command:
+      let command = item.command;
+      type = COMMAND_TYPE_CLASS;
+      text = command.text;
+      icon = command.icon;
+      extra = command.className;
+      shortcut = command.shortcut;
+      disabled = !command.isEnabled;
+      checked = command.isChecked;
+      break;
+    case MenuItem.Palette:
+      let palette = item.palette;
+      let title = palette.title;
+      type = PALETTE_TYPE_CLASS;
+      text = title.text;
+      icon = title.icon;
+      extra = title.className;
+      // TODO support disabled
+    case MenuItem.Separator:
+      type = SEPARATOR_TYPE_CLASS;
+      break;
+    }
+
+    let itemClass = ITEM_CLASS;
+    let iconClass = ICON_CLASS;
+    if (type) itemClass += ' ' + type;
+    if (extra) itemClass += ' ' + extra;
+    if (disabled) itemClass += ' ' + DISABLED_CLASS;
+    if (checked) itemClass += ' ' + CHECKED_CLASS;
+    if (icon) iconClass += ' ' + icon;
+
+    let iconNode = node.firstChild as HTMLElement;
+    let textNode = iconNode.nextSibling as HTMLElement;
+    let shortcutNode = textNode.nextSibling as HTMLElement;
+
+    node.className = itemClass;
+    iconNode.className = iconClass;
+    textNode.textContent = text;
+    shortcutNode.textContent = shortcut;
+  }
+
+  /**
    * Construct a new menu.
    */
   constructor() {
     super();
     this.addClass(MENU_CLASS);
+
+    let content = new Widget();
+    content.addClass(CONTENT_CLASS);
+
+    let layout = new PanelLayout();
+    layout.addChild(content);
+
+    this._content = content;
+    this.layout = layout;
   }
 
   /**
@@ -111,6 +266,7 @@ class Menu extends Widget {
    * @param item - The menu item to add to the menu.
    */
   addItem(item: MenuItem): void {
+    // TODO handle changes during attach
     this._items.push(item);
   }
 
@@ -122,6 +278,7 @@ class Menu extends Widget {
    * @param item - The menu item to insert into the menu.
    */
   insertItem(index: number, item: MenuItem): void {
+    // TODO handle changes during attach
     arrays.insert(this._items, index, item);
   }
 
@@ -131,6 +288,7 @@ class Menu extends Widget {
    * @param index - The index of the menu item of interest.
    */
   removeItemAt(index: number): void {
+    // TODO handle changes during attach
     arrays.removeAt(this._items, index);
   }
 
@@ -140,6 +298,7 @@ class Menu extends Widget {
    * @param item - The menu item to remove from the menu.
    */
   removeItem(item: MenuItem): void {
+    // TODO handle changes during attach
     arrays.remove(this._items, item);
   }
 
@@ -147,6 +306,7 @@ class Menu extends Widget {
    * Remove all menu items from the menu.
    */
   clearItems(): void {
+    // TODO handle changes during attach
     this._items.length = 0;
   }
 
@@ -226,6 +386,33 @@ class Menu extends Widget {
     return item;
   }
 
+  /**
+   *
+   */
+  open(clientX: number, clientY: number): void {
+
+  }
+
+  /**
+   *
+   */
+  protected onUpdateRequest(msg: Message): void {
+    let items = this._items;
+    let content = this._content.node;
+    let children = content.children;
+    let constructor = this.constructor as typeof Menu;
+    while (children.length > items.length) {
+      content.removeChild(content.lastChild);
+    }
+    while (children.length < items.length) {
+      content.appendChild(constructor.createItemNode());
+    }
+    for (let i = 0, n = items.length; i < n; ++i) {
+      constructor.updateItemNode(children[i] as HTMLElement, items[i]);
+    }
+  }
+
+  private _content: Widget;
   private _items: MenuItem[] = [];
 }
 
