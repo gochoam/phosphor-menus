@@ -19,7 +19,7 @@ import {
 } from 'phosphor-commandpalette';
 
 import {
-  Message
+  Message, sendMessage
 } from 'phosphor-messaging';
 
 import {
@@ -195,7 +195,7 @@ class Menu extends Widget {
     super();
     this.addClass(MENU_CLASS);
 
-    let content = new Widget();
+    let content = new MenuContent();
     content.addClass(CONTENT_CLASS);
 
     let layout = new PanelLayout();
@@ -390,7 +390,16 @@ class Menu extends Widget {
    *
    */
   open(clientX: number, clientY: number): void {
+    if (this.isAttached) {
+      return;
+    }
 
+    sendMessage(this, Widget.MsgUpdateRequest);
+
+    let style = this.node.style;
+    style.top = `${clientY}px`;
+    style.left = `${clientX}px`;
+    this.attach(document.body);
   }
 
   /**
@@ -412,8 +421,21 @@ class Menu extends Widget {
     }
   }
 
-  private _content: Widget;
+  private _content: MenuContent;
   private _items: MenuItem[] = [];
+}
+
+
+/**
+ *
+ */
+class MenuContent extends Widget {
+  /**
+   *
+   */
+  static createNode(): HTMLElement {
+    return document.createElement('ul');
+  }
 }
 
 
