@@ -249,7 +249,7 @@ class MenuBar extends Widget {
     // Open the new menu.
     if (newMenu) {
       let rect = newNode.getBoundingClientRect();
-      newMenu.open(rect.left, rect.bottom, false, true);
+      //newMenu.open(rect.left, rect.bottom, false, true);
       newMenu.closed.connect(this._onMenuClosed, this);
     }
   }
@@ -322,7 +322,7 @@ class MenuBar extends Widget {
   }
 
   /**
-   * Get an array of the menu bar menus.
+   * Get an array of the current menu bar menus.
    *
    * @returns A new array of the current menu bar menus.
    */
@@ -351,7 +351,7 @@ class MenuBar extends Widget {
   }
 
   /**
-   * Get the index of the specified menu
+   * Get the index of the specified menu.
    *
    * @param menu - The menu of interest.
    *
@@ -409,7 +409,7 @@ class MenuBar extends Widget {
   /**
    * Remove the menu at the specified index.
    *
-   * @param index - The index at which to insert the menu.
+   * @param index - The index of the menu of interest.
    *
    * #### Notes
    * If the index is out of range, this is a no-op.
@@ -417,18 +417,20 @@ class MenuBar extends Widget {
   removeMenuAt(index: number): void {
     this.active = false;
     let menu = arrays.removeAt(this._menus, index);
-    if (!menu) {
-      return;
+    let node = arrays.removeAt(this._nodes, index);
+    if (menu) {
+      menu.removeClass(MENU_CLASS);
+      menu.title.changed.disconnect(this._onTitleChanged, this);
     }
-    menu.removeClass(MENU_CLASS);
-    menu.title.changed.disconnect(this._onTitleChanged, this);
-    this.contentNode.removeChild(arrays.removeAt(this._nodes, index));
+    if (node) {
+      this.contentNode.removeChild(node);
+    }
   }
 
   /**
    * Remove a menu from the menu bar.
    *
-   * @param item - The menu to remove from the menu bar.
+   * @param menu - The menu to remove from the menu bar.
    *
    * #### Notes
    * If the menu is not in the menu bar, this is a no-op.
@@ -579,37 +581,37 @@ class MenuBar extends Widget {
   private _evtKeyDown(event: KeyboardEvent): void {
     event.preventDefault();
     event.stopPropagation();
-    let menu = this.activeMenu;
-    let leaf = menu && menu.leafMenu();
-    switch (event.keyCode) {
-    case 13:  // Enter
-      if (leaf) leaf.triggerActive();
-      break;
-    case 27:  // Escape
-      if (leaf) leaf.close();
-      break;
-    case 37:  // Left Arrow
-      if (leaf && leaf !== menu) {
-        leaf.close();
-      } else {
-        this.activatePrevious();
-      }
-      break;
-    case 38:  // Up Arrow
-      if (leaf) leaf.activatePrevious();
-      break;
-    case 39:  // Right Arrow
-      // TODO - cleanup this if-test
-      if (leaf && leaf.activeItem && leaf.activeItem.menu) {
-        leaf.triggerActive();
-      } else {
-        this.activateNext();
-      }
-      break;
-    case 40:  // Down Arrow
-      if (leaf) leaf.activateNext();
-      break;
-    }
+    // let menu = this.activeMenu;
+    // let leaf = menu && menu.leafMenu();
+    // switch (event.keyCode) {
+    // case 13:  // Enter
+    //   if (leaf) leaf.triggerActive();
+    //   break;
+    // case 27:  // Escape
+    //   if (leaf) leaf.close();
+    //   break;
+    // case 37:  // Left Arrow
+    //   if (leaf && leaf !== menu) {
+    //     leaf.close();
+    //   } else {
+    //     this.activatePrevious();
+    //   }
+    //   break;
+    // case 38:  // Up Arrow
+    //   if (leaf) leaf.activatePrevious();
+    //   break;
+    // case 39:  // Right Arrow
+    //   // TODO - cleanup this if-test
+    //   if (leaf && leaf.activeItem && leaf.activeItem.submenu) {
+    //     leaf.triggerActive();
+    //   } else {
+    //     this.activateNext();
+    //   }
+    //   break;
+    // case 40:  // Down Arrow
+    //   if (leaf) leaf.activateNext();
+    //   break;
+    // }
   }
 
   /**
@@ -677,12 +679,12 @@ namespace MenuBarPrivate {
    */
   export
   function hitTestMenus(menu: Menu, x: number, y: number): boolean {
-    while (menu) {
-      if (hitTest(menu.node, x, y)) {
-        return true;
-      }
-      menu = menu.childMenu;
-    }
+    // while (menu) {
+    //   if (hitTest(menu.node, x, y)) {
+    //     return true;
+    //   }
+    //   menu = menu.childMenu;
+    // }
     return false;
   }
 }
