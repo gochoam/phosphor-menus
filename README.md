@@ -111,11 +111,9 @@ a menu item.
 ```typescript
 import {
   Menu, MenuBar, MenuItem
-} from '../lib/index';
+} from 'phosphor-menus';
 
-import './index.css';
-
-// Handlers for the cliicking events
+// Handlers for the clicking events
 let logHandler = (item: MenuItem) => {
   var node = document.getElementById('log-span');
   node.textContent = item.text.replace(/&/g, '');
