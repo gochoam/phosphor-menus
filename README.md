@@ -85,11 +85,8 @@ Bundle for the Browser
 
 Follow the package install instructions first.
 
-```bash
-npm install --save-dev browserify browserify-css
-browserify myapp.js -o mybundle.js
-```
-
+Any bundler that understands how to `require()` files with `.js` and `.css`
+extensions can be used with this package.
 
 Usage Examples
 --------------
@@ -193,9 +190,9 @@ let editMenu = new Menu([
 ]);
 ```
 
-The menus created by the previous snippet can now be grouped into a main bar.
-This is accomplished with the  `menuBar` constructor, which takes as argument a
-list of menu items.
+The menus created in the previous snippet can now be grouped into a main bar.
+This is accomplished with the `menuBar` constructor, a list of menu items is
+passed as argument.
 
 ```typescript
 // Main Menu Bar
